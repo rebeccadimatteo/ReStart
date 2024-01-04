@@ -1,4 +1,4 @@
-import 'package:restart_all_in_one/model/entity/annuncio_di_lavoro_DTO.dart';
+import '../../entity/annuncio_di_lavoro_DTO.dart';
 
 /// Questa classe definisce le operazioni necessarie per gestire gli annunci di lavoro nel database.
 /// Le implementazioni concrete di questa classe devono fornire funzionalità per aggiungere, cercare,
