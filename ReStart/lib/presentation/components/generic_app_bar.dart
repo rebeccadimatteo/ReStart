@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import '../../presentation/screens/utenti/profilo.dart';
+// import '../../presentation/screens/utenti/profilo.dart';
 import '../screens/alloggi_temporanei/alloggi_temporanei.dart';
-import '../screens/annunci_di_lavoro/annuncio_di_lavoro.dart';
-import '../screens/corsi_di_formazione/corso_di_formazione.dart';
+// import '../screens/annunci_di_lavoro/annuncio_di_lavoro.dart';
+// import '../screens/corsi_di_formazione/corso_di_formazione.dart';
 import '../screens/eventi/eventi.dart';
-import '../screens/home/home.dart';
-import '../screens/supporto_medico/supporto_medico.dart';
+// import '../screens/home/home_utente.dart';
+// import '../screens/supporto_medico/supporto_medico.dart';
 
 class GenericAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool showBackButton;
