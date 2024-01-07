@@ -6,20 +6,24 @@ import 'package:http/http.dart' as http;
 
 import '../routes/routes.dart';
 
+/// Classe che implementa la sezione [SupportoMedico]
 class SupportoMedico extends StatefulWidget {
   @override
   _SupportoMedicoState createState() => _SupportoMedicoState();
 }
 
+/// Creazione dello stato di [SupportoMedico], costituito dalla lista dei supporti
 class _SupportoMedicoState extends State<SupportoMedico> {
   List<SupportoMedicoDTO> supporti = [];
 
+  /// Inizializzazione dello stato, con chiamata alla funzione [fetchDataFromServer]
   @override
   void initState() {
     super.initState();
     fetchDataFromServer();
   }
 
+  /// Metodo che permette di inviare la richiesta al server per ottenere la lista di tutti i [SupportoMedicoDTO] presenti nel database
   Future<void> fetchDataFromServer() async {
     final response = await http.post(Uri.parse(
         'http://10.0.2.2:8080/gestioneReintegrazione/visualizzaSupporti'));
@@ -41,6 +45,7 @@ class _SupportoMedicoState extends State<SupportoMedico> {
     }
   }
 
+  /// Build del widget principale della sezione [SupportoMedico], contenente tutta l'interfaccia grafica
   @override
   Widget build(BuildContext context) {
     return Scaffold(

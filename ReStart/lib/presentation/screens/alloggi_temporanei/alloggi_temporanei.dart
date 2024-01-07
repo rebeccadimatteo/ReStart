@@ -1,15 +1,61 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:restart_all_in_one/model/entity/alloggio_temporaneo_DTO.dart';
 import '../../components/generic_app_bar.dart';
+import 'package:http/http.dart' as http;
 
-/// Schermata che mostra una lista di alloggi temporanei disponibili.
-class AlloggiTemporanei extends StatelessWidget {
-  final List<int> alloggiTemporanei = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+import '../routes/routes.dart';
 
-  // findALl -> List<AlloggiTemporanei> alloggiTemporanei
+class AlloggiTemporanei extends StatefulWidget {
+  @override
+  _AlloggiTemporaneiState createState() => _AlloggiTemporaneiState();
+}
+
+class _AlloggiTemporaneiState extends State<AlloggiTemporanei> {
+  List<AlloggioTemporaneoDTO> alloggi = [];
 
   @override
+  void initState() {
+    super.initState();
+    fetchDataFromServer();
+  }
+
+  /// Effettua una richiesta asincrona al server per ottenere dati sugli alloggi.
+  /// Questa funzione esegue una richiesta POST al server specificato,
+  /// interpreta la risposta e aggiorna lo stato dell'oggetto corrente con
+  /// i dati ricevuti, se la risposta è valida (status code 200).
+  ///
+  /// In caso di successo, la lista di [AlloggioTemporaneoDTO] risultante
+  /// viene assegnata alla variabile di stato 'alloggi'. In caso di errori
+  /// nella risposta, vengono stampati messaggi di errore sulla console.
+  Future<void> fetchDataFromServer() async {
+    final response = await http.post(Uri.parse(
+        'http://10.0.2.2:8080/gestioneReintegrazione/visualizzaAlloggi'));
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> responseBody = json.decode(response.body);
+      if (responseBody.containsKey('alloggi')) {
+        final List<AlloggioTemporaneoDTO> data =
+            List<Map<String, dynamic>>.from(responseBody['alloggi'])
+                .map((json) => AlloggioTemporaneoDTO.fromJson(json))
+                .toList();
+        setState(() {
+          alloggi = data;
+        });
+      } else {
+        print('Chiave "alloggi" non trovata nella risposta.');
+      }
+    } else {
+      print('Errore');
+    }
+  }
+
+  /// Costruisce la schermata che visualizza la lista degli alloggi disponibili.
+  /// La lista viene costruita dinamicamente utilizzando i dati presenti nella
+  /// lista 'alloggi'. Ogni elemento della lista visualizza il nome, la
+  /// descrizione e un'immagine di anteprima dell'alloggio.
+  @override
   Widget build(BuildContext context) {
-    /// Restituisce uno scaffold, dove appbar e drawer sono ricavati dal file generic_app_bar.dart.
     return Scaffold(
       appBar: GenericAppBar(
         showBackButton: true,
@@ -37,32 +83,34 @@ class AlloggiTemporanei extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(top: 50),
             child: ListView.builder(
-              itemCount: alloggiTemporanei.length,
+              itemCount: alloggi.length,
               itemBuilder: (context, index) {
+                final alloggio = alloggi[index];
                 return InkWell(
                   onTap: () {
-                    Navigator.push(
+                    Navigator.pushNamed(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) => DetailsAlloggio(alloggiTemporanei),
-                      ),
+                      AppRoutes.dettaglialloggio,
+                      arguments: alloggio,
                     );
                   },
-                  child: const Padding(
-                    padding: EdgeInsets.only(left: 5, bottom: 5, right: 5),
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.only(left: 5, bottom: 5, right: 5),
                     child: ListTile(
-                      visualDensity: VisualDensity(vertical: 4, horizontal: 4),
+                      visualDensity:
+                          const VisualDensity(vertical: 4, horizontal: 4),
                       minVerticalPadding: 50,
                       minLeadingWidth: 80,
                       tileColor: Colors.grey,
-                      leading: CircleAvatar(
+                      leading: const CircleAvatar(
                         radius: 35,
                         backgroundImage: NetworkImage(
                             'https://img.freepik.com/free-photo/real-estate-broker-agent-presenting-consult-customer-decision-making-sign-insurance-form-agreement_1150-15023.jpg?w=996&t=st=1703846100~exp=1703846700~hmac=f81b22dab9dc2a0900a3cc79de365b5f367c1c4442d434f369a5e82f12cde1f9'),
                       ),
-                      title: Text('Alloggio',
-                          style: TextStyle(fontWeight: FontWeight.bold)),
-                      subtitle: Text('Descrizione'),
+                      title: Text(alloggio.nome,
+                          style: const TextStyle(fontWeight: FontWeight.bold)),
+                      subtitle: Text(alloggio.descrizione),
                     ),
                   ),
                 );
@@ -75,13 +123,12 @@ class AlloggiTemporanei extends StatelessWidget {
   }
 }
 
-///Classe che builda il widget per mostrare i dettagli di un alloggio temporaneo selezionato.
+/// visualizza i dettagli di un alloggio
 class DetailsAlloggio extends StatelessWidget {
-  DetailsAlloggio(List<int> alloggioTemporaneo);
-
   @override
   Widget build(BuildContext context) {
-    /// Restituisce uno scaffold, dove appbar e drawer sono ricavati dal file generic_app_bar.dart.
+    final AlloggioTemporaneoDTO alloggio =
+        ModalRoute.of(context)?.settings.arguments as AlloggioTemporaneoDTO;
     return Scaffold(
       appBar: GenericAppBar(
         showBackButton: true,
@@ -105,34 +152,32 @@ class DetailsAlloggio extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 20),
-          const Text(
-            'Nome Alloggio',
-            style: TextStyle(
+          Text(
+            alloggio.nome,
+            style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 30,
             ),
           ),
           const SizedBox(height: 10),
-          const Padding(
-            padding: EdgeInsets.all(10.0),
-            child: Text(
-              'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum, ',
-            ),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Text(alloggio.descrizione),
           ),
           Flexible(
             child: Container(),
           ),
-          const Padding(
-            padding: EdgeInsets.only(bottom: 30),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 30),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Text(
+                const Text(
                   'Contatti',
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                 ),
-                Text('example@example.com'),
-                Text('www.example.com'),
+                Text(alloggio.email),
+                Text(alloggio.sito),
               ],
             ),
           ),
@@ -141,4 +186,3 @@ class DetailsAlloggio extends StatelessWidget {
     );
   }
 }
-

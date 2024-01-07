@@ -1,15 +1,55 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_session_manager/flutter_session_manager.dart';
+import '../../../model/entity/evento_DTO.dart';
+import '../../../utils/jwt_constants.dart';
+import '../../../utils/jwt_utils.dart';
 import '../../components/generic_app_bar.dart';
+import 'package:http/http.dart' as http;
+import '../routes/routes.dart';
 
-/// Classe che builda il widget per mostrare una lista di eventi.
-class CommunityEvents extends StatelessWidget {
-  List<int> eventi = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+/// Classe che implementa la sezione [CommunityEvents]
+class CommunityEvents extends StatefulWidget {
+  @override
+  _CommunityEventsState createState() => _CommunityEventsState();
+}
 
-  // findALl -> List<evento> eventi
+/// Creazione dello stato di [CommunityEvents], costituito dalla lista degli eventi
+class _CommunityEventsState extends State<CommunityEvents> {
+  List<EventoDTO> eventi = [];
 
+  /// Inizializzazione dello stato, con chiamata alla funzione [fetchDataFromServer]
+  @override
+  void initState() {
+    super.initState();
+    fetchDataFromServer();
+  }
+
+  /// Metodo che permette di inviare la richiesta al server per ottenere la lista di tutti i [SupportoMedicoDTO] presenti nel database
+  Future<void> fetchDataFromServer() async {
+    final response = await http.post(Uri.parse(
+        'http://10.0.2.2:8080/gestioneEvento/visualizzaEventi'));
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> responseBody = json.decode(response.body);
+      if (responseBody.containsKey('eventi')) {
+        final List<EventoDTO> data =
+        List<Map<String, dynamic>>.from(responseBody['eventi'])
+            .map((json) => EventoDTO.fromJson(json))
+            .toList();
+        setState(() {
+          eventi = data;
+        });
+      } else {
+        print('Chiave "eventi" non trovata nella risposta.');
+      }
+    } else {
+      print('Errore');
+    }
+  }
+
+  /// Build del widget principale della sezione [CommunityEvents], contenente tutta l'interfaccia grafica
   @override
   Widget build(BuildContext context) {
-    /// Restituisce uno scaffold, dove appbar e drawer sono ricavati dal file generic_app_bar.dart.
     return Scaffold(
       appBar: GenericAppBar(
         showBackButton: true,
@@ -39,30 +79,30 @@ class CommunityEvents extends StatelessWidget {
             child: ListView.builder(
               itemCount: eventi.length,
               itemBuilder: (context, index) {
+                final evento = eventi[index];
                 return InkWell(
                   onTap: () {
-                    Navigator.push(
+                    Navigator.pushNamed(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) => DetailsEvento(eventi),
-                      ),
+                      AppRoutes.dettaglievento,
+                      arguments: evento,
                     );
                   },
-                  child: const Padding(
-                    padding: EdgeInsets.only(left: 5, bottom: 5, right: 5),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 5, bottom: 5, right: 5),
                     child: ListTile(
-                      visualDensity: VisualDensity(vertical: 4, horizontal: 4),
+                      visualDensity: const VisualDensity(vertical: 4, horizontal: 4),
                       minVerticalPadding: 50,
                       minLeadingWidth: 80,
                       tileColor: Colors.grey,
-                      leading: CircleAvatar(
+                      leading: const CircleAvatar(
                         radius: 35,
                         backgroundImage: NetworkImage(
                             'https://img.freepik.com/free-vector/men-success-laptop-relieve-work-from-home-computer-great_10045-646.jpg?size=338&ext=jpg&ga=GA1.1.1546980028.1703635200&semt=ais'),
                       ),
-                      title: Text('Evento',
-                          style: TextStyle(fontWeight: FontWeight.bold)),
-                      subtitle: Text('Descrizione'),
+                      title: Text(evento.nomeEvento,
+                          style: const TextStyle(fontWeight: FontWeight.bold)),
+                      subtitle: Text(evento.descrizione),
                     ),
                   ),
                 );
@@ -75,16 +115,19 @@ class CommunityEvents extends StatelessWidget {
   }
 }
 
-/// Dettagli di un evento selezionato.
+/// Build del widget che viene visualizzato quando viene selezionato un determinato evento dalla sezione [CommunityEvents]
+/// Permette di visualizzare i dettagli dell'evento selezionato
 class DetailsEvento extends StatelessWidget {
-  DetailsEvento(List<int> eventi);
-
   @override
   Widget build(BuildContext context) {
+    final EventoDTO evento = ModalRoute.of(context)?.settings.arguments as EventoDTO;
+    final String data = evento.date.toIso8601String();
+    final String dataBuona = data.substring(0,10);
     return Scaffold(
       appBar: GenericAppBar(
         showBackButton: true,
       ),
+      endDrawer: GenericAppBar.buildDrawer(context),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -104,42 +147,40 @@ class DetailsEvento extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 20),
-          const Text(
-            'Nome Evento',
-            style: TextStyle(
+          Text(
+            evento.nomeEvento,
+            style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 30,
             ),
           ),
           const SizedBox(height: 10),
-          const Padding(
-            padding: EdgeInsets.all(10.0),
-            child: Text(
-              'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum, ',
-            ),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Text(evento.descrizione),
           ),
-          const Expanded(
+          Expanded(
               child: Align(
                   alignment: Alignment.bottomCenter,
                   child: Padding(
-                    padding: EdgeInsets.only(bottom: 30),
+                    padding: const EdgeInsets.only(bottom: 30),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Text(
+                        const Text(
                           'Contatti',
                           style: TextStyle(
                               fontSize: 25, fontWeight: FontWeight.bold),
                         ),
-                        Text('example@example.com'),
-                        Text('www.example.com'),
-                        SizedBox(height: 20),
-                        Text(
+                        Text(evento.email),
+                        Text(evento.sito),
+                        const SizedBox(height: 20),
+                        const Text(
                           'Informazioni',
                           style: TextStyle(
                               fontSize: 25, fontWeight: FontWeight.bold),
                         ),
-                        Text('Data / Ora'),
+                        Text(dataBuona),
                       ],
                     ),
                   )))
