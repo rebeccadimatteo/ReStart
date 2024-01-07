@@ -21,6 +21,14 @@ class _AlloggiTemporaneiState extends State<AlloggiTemporanei> {
     fetchDataFromServer();
   }
 
+  /// Effettua una richiesta asincrona al server per ottenere dati sugli alloggi.
+  /// Questa funzione esegue una richiesta POST al server specificato,
+  /// interpreta la risposta e aggiorna lo stato dell'oggetto corrente con
+  /// i dati ricevuti, se la risposta è valida (status code 200).
+  ///
+  /// In caso di successo, la lista di [AlloggioTemporaneoDTO] risultante
+  /// viene assegnata alla variabile di stato 'alloggi'. In caso di errori
+  /// nella risposta, vengono stampati messaggi di errore sulla console.
   Future<void> fetchDataFromServer() async {
     final response = await http.post(Uri.parse(
         'http://10.0.2.2:8080/gestioneReintegrazione/visualizzaAlloggi'));
@@ -28,9 +36,9 @@ class _AlloggiTemporaneiState extends State<AlloggiTemporanei> {
       final Map<String, dynamic> responseBody = json.decode(response.body);
       if (responseBody.containsKey('alloggi')) {
         final List<AlloggioTemporaneoDTO> data =
-        List<Map<String, dynamic>>.from(responseBody['alloggi'])
-            .map((json) => AlloggioTemporaneoDTO.fromJson(json))
-            .toList();
+            List<Map<String, dynamic>>.from(responseBody['alloggi'])
+                .map((json) => AlloggioTemporaneoDTO.fromJson(json))
+                .toList();
         setState(() {
           alloggi = data;
         });
@@ -42,6 +50,10 @@ class _AlloggiTemporaneiState extends State<AlloggiTemporanei> {
     }
   }
 
+  /// Costruisce la schermata che visualizza la lista degli alloggi disponibili.
+  /// La lista viene costruita dinamicamente utilizzando i dati presenti nella
+  /// lista 'alloggi'. Ogni elemento della lista visualizza il nome, la
+  /// descrizione e un'immagine di anteprima dell'alloggio.
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,10 +96,10 @@ class _AlloggiTemporaneiState extends State<AlloggiTemporanei> {
                   },
                   child: Padding(
                     padding:
-                    const EdgeInsets.only(left: 5, bottom: 5, right: 5),
+                        const EdgeInsets.only(left: 5, bottom: 5, right: 5),
                     child: ListTile(
                       visualDensity:
-                      const VisualDensity(vertical: 4, horizontal: 4),
+                          const VisualDensity(vertical: 4, horizontal: 4),
                       minVerticalPadding: 50,
                       minLeadingWidth: 80,
                       tileColor: Colors.grey,
@@ -111,10 +123,12 @@ class _AlloggiTemporaneiState extends State<AlloggiTemporanei> {
   }
 }
 
+/// visualizza i dettagli di un alloggio
 class DetailsAlloggio extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final AlloggioTemporaneoDTO alloggio = ModalRoute.of(context)?.settings.arguments as AlloggioTemporaneoDTO;
+    final AlloggioTemporaneoDTO alloggio =
+        ModalRoute.of(context)?.settings.arguments as AlloggioTemporaneoDTO;
     return Scaffold(
       appBar: GenericAppBar(
         showBackButton: true,
