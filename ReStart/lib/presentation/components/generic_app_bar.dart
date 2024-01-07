@@ -1,16 +1,11 @@
 import 'package:flutter/material.dart';
-// import '../../presentation/screens/utenti/profilo.dart';
-import '../screens/alloggi_temporanei/alloggi_temporanei.dart';
-// import '../screens/annunci_di_lavoro/annuncio_di_lavoro.dart';
-// import '../screens/corsi_di_formazione/corso_di_formazione.dart';
-import '../screens/eventi/eventi.dart';
-// import '../screens/home/home_utente.dart';
-// import '../screens/supporto_medico/supporto_medico.dart';
+import '../screens/routes/routes.dart';
 
 class GenericAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool showBackButton;
 
   GenericAppBar({super.key, required this.showBackButton});
+
 
   @override
   Widget build(BuildContext context) {
@@ -19,11 +14,9 @@ class GenericAppBar extends StatelessWidget implements PreferredSizeWidget {
       automaticallyImplyLeading: showBackButton,
       title: GestureDetector(
         onTap: () {
-          Navigator.push(
+          Navigator.pushNamed(
             context,
-            MaterialPageRoute(
-              builder: (context) => MyApp(),
-            ),
+            AppRoutes.home,
           );
         },
         child: Image.asset(
@@ -58,11 +51,6 @@ class GenericAppBar extends StatelessWidget implements PreferredSizeWidget {
                           Colors.blue,
                         ],
                       ),
-                      // image: DecorationImage(
-                      //   image: NetworkImage(
-                      //       'https://img.freepik.com/free-vector/men-success-laptop-relieve-work-from-home-computer-great_10045-646.jpg?size=338&ext=jpg&ga=GA1.1.1546980028.1703635200&semt=ais'),
-                      //   fit: BoxFit.fill,
-                      // ),
                     ),
                     child: Align(
                       alignment: Alignment.bottomCenter,
@@ -94,11 +82,10 @@ class GenericAppBar extends StatelessWidget implements PreferredSizeWidget {
                     ),
                   ),
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => CommunityEvents(),
-                        ));
+                    Navigator.pushNamed(
+                      context,
+                      AppRoutes.eventi,
+                    );
                   },
                 ),
                 ListTile(
@@ -110,11 +97,10 @@ class GenericAppBar extends StatelessWidget implements PreferredSizeWidget {
                     ),
                   ),
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => AnnuncioDiLavoro(),
-                        ));
+                    Navigator.pushNamed(
+                      context,
+                      AppRoutes.annunci,
+                    );
                   },
                 ),
                 ListTile(
@@ -126,11 +112,10 @@ class GenericAppBar extends StatelessWidget implements PreferredSizeWidget {
                     ),
                   ),
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => AlloggiTemporanei(),
-                        ));
+                    Navigator.pushNamed(
+                      context,
+                      AppRoutes.alloggi,
+                    );
                   },
                 ),
                 ListTile(
@@ -142,11 +127,10 @@ class GenericAppBar extends StatelessWidget implements PreferredSizeWidget {
                     ),
                   ),
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => SupportoMedico(),
-                        ));
+                    Navigator.pushNamed(
+                      context,
+                      AppRoutes.supporti,
+                    );
                   },
                 ),
                 ListTile(
@@ -158,11 +142,10 @@ class GenericAppBar extends StatelessWidget implements PreferredSizeWidget {
                     ),
                   ),
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => CorsoDiFormazione(),
-                        ));
+                    Navigator.pushNamed(
+                      context,
+                      AppRoutes.corsi,
+                    );
                   },
                 ),
                 ListTile(
@@ -174,11 +157,10 @@ class GenericAppBar extends StatelessWidget implements PreferredSizeWidget {
                     ),
                   ),
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => CommunityEvents(),
-                        ));
+                    Navigator.pushNamed(
+                      context,
+                      AppRoutes.supporti,
+                    );
                   },
                 ),
               ],
@@ -194,11 +176,10 @@ class GenericAppBar extends StatelessWidget implements PreferredSizeWidget {
               ),
             ),
             onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Profilo(),
-                  ));
+              Navigator.pushNamed(
+                context,
+                AppRoutes.profilo,
+              );
             },
           ),
           Container(
@@ -212,11 +193,6 @@ class GenericAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
               ),
               onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => CommunityEvents(),
-                    ));
               },
             ),
           ),
