@@ -1,6 +1,6 @@
 /// Entity class dell'evento
 class EventoDTO {
-  late int? _id;
+  int? _id;
   late String _immagine;
   late String _nomeEvento;
   late String _descrizione;
@@ -14,7 +14,7 @@ class EventoDTO {
 
   /// Costruttore che permette di istanziare un nuovo evento
   EventoDTO({
-    required int? id,
+    int? id,
     required String immagine,
     required String nomeEvento,
     required String descrizione,
@@ -25,7 +25,7 @@ class EventoDTO {
     required String via,
     required String citta,
     required String provincia,
-  })  : _id = id,
+  })  : _id = id ?? null,
         _immagine = immagine,
         _nomeEvento = nomeEvento,
         _descrizione = descrizione,
@@ -38,7 +38,7 @@ class EventoDTO {
         _provincia = provincia;
 
   /// Getter e setter dei vari attributi
-  int get id => _id ?? -1; // -1 valore di default che non può essere un id
+  int? get id => _id ?? null;
 
   String get immagine => _immagine;
 
@@ -102,11 +102,22 @@ class EventoDTO {
 
   /// Mapping di un oggetto json in un oggetto EventoDTO
   factory EventoDTO.fromJson(dynamic json) {
+    var rawData = json['data'];
+    DateTime parsedDate;
+
+    if (rawData is DateTime) {
+      parsedDate = rawData;
+    } else if (rawData is String) {
+      parsedDate = DateTime.parse(rawData);
+    } else {
+      // Puoi gestire altri tipi o scenari a tua discrezione
+      parsedDate = DateTime.now();
+    }
     return EventoDTO(
       id: json['id'],
       nomeEvento: json['nome'].toString().replaceAll('[', '').replaceAll(']', ''),
       descrizione: json['descrizione'].toString().replaceAll('[', '').replaceAll(']', ''),
-      date: DateTime.parse(json['data'].toString().replaceAll('[', '').replaceAll(']', '')),
+      date: parsedDate,
       approvato: json['approvato'],
       email: json['email'].toString().replaceAll('[', '').replaceAll(']', ''),
       sito: json['sito'].toString().replaceAll('[', '').replaceAll(']', ''),
@@ -123,7 +134,7 @@ class EventoDTO {
       'id': id,
       'nome': nomeEvento,
       'descrizione': descrizione,
-      'date': date.toIso8601String(),
+      'data': date.toIso8601String(),
       'approvato': approvato,
       'email': email,
       'sito': sito,
@@ -137,6 +148,6 @@ class EventoDTO {
   /// Metodo che permette una stampa più pulita dell'entity utente
   @override
   String toString() {
-    return 'EventoDTO{id: $_id, immagine: $_immagine, nomeEvento: $_nomeEvento, descrizione: $_descrizione, date: $_date, approvato: $_approvato, email: $_email, sito: $_sito, via: $_via, citta: $_citta, provincia: $_provincia}';
+    return 'EventoDTO{id: $_id, immagine: $_immagine, nomeEvento: $_nomeEvento, descrizione: $_descrizione, data: $_date, approvato: $_approvato, email: $_email, sito: $_sito, via: $_via, citta: $_citta, provincia: $_provincia}';
   }
 }

@@ -121,8 +121,8 @@ class SupportoMedicoDAOImpl implements SupportoMedicoDAO {
       Connection connection = await connector.openConnection();
       var result = await connection.execute(
         Sql.named('SELECT  sm.id, sm.nome, sm.cognome, sm.descrizione, i.immagine, c.email, c.num_telefono, ind.via, ind.citta, ind.provincia '
-                  'FROM public."SupportoMedico" as sm, public."Immagine" as i, public."Contatti" as c, public."Indirizzo" as ind '
-                  'WHERE sm.id = @id AND sm.id = c.id_corso AND sm.id = i.id_corso AND sm.id = ind.id_corso'),
+            'FROM public."SupportoMedico" as sm, public."Immagine" as i, public."Contatti" as c, public."Indirizzo" as ind '
+            'WHERE sm.id = @id AND sm.id = c.id_corso AND sm.id = i.id_corso AND sm.id = ind.id_corso'),
         parameters: {'id': id},
       );
       if (result.isNotEmpty) {
@@ -200,11 +200,11 @@ class SupportoMedicoDAOImpl implements SupportoMedicoDAO {
 
       var result4 = await connection.execute(
           Sql.named('UPDATE public."Immagine" SET immagine = @immagine '
-            'WHERE id_supporto = @id_supporto'),
-        parameters: {
-          'immagine': sm.immagine,
-          'id_supporto': sm.id
-        }
+              'WHERE id_supporto = @id_supporto'),
+          parameters: {
+            'immagine': sm.immagine,
+            'id_supporto': sm.id
+          }
       );
 
       if (result1.affectedRows != 0 && result2.affectedRows != 0 && result3.affectedRows != 0 && result4.affectedRows != 0){

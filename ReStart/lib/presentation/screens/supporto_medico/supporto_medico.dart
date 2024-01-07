@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import '../../../model/entity/supporto_medico_DTO.dart';
 import '../../components/generic_app_bar.dart';
@@ -105,6 +104,83 @@ class _SupportoMedicoState extends State<SupportoMedico> {
               },
             ),
           ),
+        ],
+      ),
+    );
+  }
+}
+
+class DetailsSupporto extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final SupportoMedicoDTO supporto = ModalRoute.of(context)?.settings.arguments as SupportoMedicoDTO;
+    return Scaffold(
+      appBar: GenericAppBar(
+        showBackButton: true,
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              width: 200,
+              height: 200,
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: NetworkImage(
+                      'https://img.freepik.com/free-vector/men-success-laptop-relieve-work-from-home-computer-great_10045-646.jpg?size=338&ext=jpg&ga=GA1.1.1546980028.1703635200&semt=ais'),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 20),
+          Text(
+            supporto.nomeMedico,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 30,
+            ),
+          ),
+          Text(
+            supporto.cognomeMedico,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 30,
+            ),
+          ),
+          const SizedBox(height: 10),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Text(supporto.descrizione),
+          ),
+          Expanded(
+              child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: 30),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        const Text(
+                          'Contatti',
+                          style: TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Text(supporto.email),
+                        const SizedBox(width: 8),
+                        Text(supporto.numTelefono),
+                        const SizedBox(width: 8),
+                        Text(
+                            '${supporto.via}, ${supporto.citta}, ${supporto.provincia}'),
+                      ],
+                    ),
+                  )))
         ],
       ),
     );
