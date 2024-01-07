@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import '../screens/routes/routes.dart';
 
+/// Classe che builda il widget per mostrare una [AppBar].
 class GenericAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool showBackButton;
 
+  /// Costruttore per [GenericAppBar].
   GenericAppBar({super.key, required this.showBackButton});
 
 
@@ -30,6 +32,7 @@ class GenericAppBar extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 
+  /// Costruisce un [Drawer] che contiene varie opzioni di navigazione.
   static Widget buildDrawer(BuildContext context) {
     return Drawer(
       child: Column(
