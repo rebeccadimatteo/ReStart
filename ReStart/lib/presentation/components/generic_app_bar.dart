@@ -195,7 +195,15 @@ class GenericAppBar extends StatelessWidget implements PreferredSizeWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
+              ///metodo onTap gestisce il logout dall'applicazione.
               onTap: () {
+                SessionManager().remove("token");
+                SessionManager().destroy();
+                print("logout riuscito");
+                Navigator.pushNamed(
+                  context,
+                  AppRoutes.start,
+                );
               },
             ),
           ),
