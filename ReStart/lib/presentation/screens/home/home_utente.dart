@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import '../../components/generic_app_bar.dart';
 import '../alloggi_temporanei/alloggi_temporanei.dart';
+import '../corsi_di_formazione/corso_di_formazione.dart';
+import '../eventi/eventi.dart';
+import '../supporto_medico/supporto_medico.dart';
 // import '../annunci_di_lavoro/annuncio_di_lavoro.dart';
 // import '../corsi_di_formazione/corso_di_formazione.dart';
 // import '../eventi/eventi.dart';
