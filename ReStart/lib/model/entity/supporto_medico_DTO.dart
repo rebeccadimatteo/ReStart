@@ -1,28 +1,17 @@
-import 'dart:convert';
-
-/// Questa classe rappresenta l'entity del Supporto Medico
 class SupportoMedicoDTO {
-  ///id univoco di un supporto medico
-  late int? _id;
-  ///immagine associata a un supporto medico
+  int? _id;
   late String _immagine;
-  ///nome del medico
   late String _nomeMedico;
-  ///cognome del medico
   late String _cognomeMedico;
-  ///descrizione del supporto medico offerto
   late String _descrizione;
-  ///contatti del medico di riferimento
   late String _email;
   late String _numTelefono;
-  ///indirizzo dello studio medico
   late String _via;
   late String _citta;
   late String _provincia;
 
-  ///costruttore che permette di istanziare un nuovo supporto medico nel sistema
   SupportoMedicoDTO({
-    required int? id,
+    int? id,
     required String nomeMedico,
     required String cognomeMedico,
     required String descrizione,
@@ -32,7 +21,7 @@ class SupportoMedicoDTO {
     required String via,
     required String citta,
     required String provincia,
-  })  : _id = id,
+  })  : _id = id ?? null,
         _nomeMedico = nomeMedico,
         _cognomeMedico = cognomeMedico,
         _descrizione = descrizione,
@@ -43,8 +32,7 @@ class SupportoMedicoDTO {
         _citta = citta,
         _provincia = provincia;
 
-  ///getters e setters
-  int get id => _id ?? -1; // -1 valore di default che non può essere un id
+  int? get id => _id ?? null;
 
   String get immagine => _immagine;
 
@@ -100,7 +88,7 @@ class SupportoMedicoDTO {
     _provincia = value;
   }
 
-  ///metodo che permette di trasformare un ogetto [json] in un [SupportoMedicoDTO]
+  // Factory method per la creazione del DTO da una mappa (solitamente utilizzato quando si deserializzano dati da JSON).
   factory SupportoMedicoDTO.fromJson(Map<String, dynamic> json) {
     return SupportoMedicoDTO(
       id: json['id'],
@@ -116,7 +104,7 @@ class SupportoMedicoDTO {
     );
   }
 
-  ///metodo che permette di trasformare un ogetto [SupportoMedicoDTO] in un [json]
+  // Metodo per convertire il DTO in una mappa (solitamente utilizzato quando si serializzano dati in JSON).
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -130,6 +118,36 @@ class SupportoMedicoDTO {
       'citta': citta,
       'provincia': provincia
     };
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'nome': nomeMedico,
+      'cognome': cognomeMedico,
+      'descrizione': descrizione,
+      'immagine': immagine,
+      'email': email,
+      'num_telefono': numTelefono,
+      'via': via,
+      'citta': citta,
+      'provincia': provincia
+    };
+  }
+
+  factory SupportoMedicoDTO.fromMap(Map<String, dynamic> map) {
+    return SupportoMedicoDTO(
+      id: map['id'] as int,
+      nomeMedico: map['nomeMedico'] as String,
+      cognomeMedico: map['cognomeMedico'] as String,
+      descrizione: map['descrizione'] as String,
+      immagine: map['immagine'] as String,
+      email: map['email'] as String,
+      numTelefono: map['num_telefono'] as String,
+      via: map['via'] as String,
+      citta: map['citta'] as String,
+      provincia: map['provincia'] as String,
+    );
   }
 
   @override
