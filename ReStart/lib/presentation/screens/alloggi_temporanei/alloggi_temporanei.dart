@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../components/generic_app_bar.dart';
 
+/// Schermata che mostra una lista di alloggi temporanei disponibili.
 class AlloggiTemporanei extends StatelessWidget {
   final List<int> alloggiTemporanei = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
@@ -8,6 +9,7 @@ class AlloggiTemporanei extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    /// Restituisce uno scaffold, dove appbar e drawer sono ricavati dal file generic_app_bar.dart.
     return Scaffold(
       appBar: GenericAppBar(
         showBackButton: true,
@@ -73,11 +75,13 @@ class AlloggiTemporanei extends StatelessWidget {
   }
 }
 
+///Classe che builda il widget per mostrare i dettagli di un alloggio temporaneo selezionato.
 class DetailsAlloggio extends StatelessWidget {
   DetailsAlloggio(List<int> alloggioTemporaneo);
 
   @override
   Widget build(BuildContext context) {
+    /// Restituisce uno scaffold, dove appbar e drawer sono ricavati dal file generic_app_bar.dart.
     return Scaffold(
       appBar: GenericAppBar(
         showBackButton: true,
