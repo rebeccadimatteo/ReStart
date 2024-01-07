@@ -1,0 +1,107 @@
+import 'dart:convert';
+import 'package:flutter/material.dart';
+import '../../../model/entity/corso_di_formazione_DTO.dart';
+import '../../components/generic_app_bar.dart';
+import 'package:http/http.dart' as http;
+
+import '../routes/routes.dart';
+
+class CorsoDiFormazione extends StatefulWidget {
+  @override
+  _CorsoDiFormazioneState createState() => _CorsoDiFormazioneState();
+}
+
+class _CorsoDiFormazioneState extends State<CorsoDiFormazione> {
+  List<CorsoDiFormazioneDTO> corsi = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchDataFromServer();
+  }
+
+  Future<void> fetchDataFromServer() async {
+    final response = await http.post(Uri.parse('http://10.0.2.2:8080/gestioneReintegrazione/visualizzaCorsi'));
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> responseBody = json.decode(response.body);
+      if (responseBody.containsKey('corsi')) {
+        final List<CorsoDiFormazioneDTO> data = List<Map<String, dynamic>>.from(responseBody['corsi'])
+            .map((json) => CorsoDiFormazioneDTO.fromJson(json))
+            .toList();
+        setState(() {
+          corsi = data;
+        });
+      } else {
+        print('Chiave "corsi" non trovata nella risposta.');
+      }
+    } else {
+      print('Errore');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: GenericAppBar(
+        showBackButton: true,
+      ),
+      endDrawer: GenericAppBar.buildDrawer(context),
+      body: Stack(
+        children: [
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              padding: const EdgeInsets.all(10),
+              color: Colors.white,
+              child: const Text(
+                'Corsi di Formazione',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 50),
+            child: ListView.builder(
+              itemCount: corsi.length,
+              itemBuilder: (context, index) {
+                final corso = corsi[index];
+                return InkWell(
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      AppRoutes.dettaglicorso,
+                      arguments: corso,
+                    );
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 5, bottom: 5, right: 5),
+                    child: ListTile(
+                      visualDensity: const VisualDensity(vertical: 4, horizontal: 4),
+                      minVerticalPadding: 50,
+                      minLeadingWidth: 80,
+                      tileColor: Colors.grey,
+                      leading: const CircleAvatar(
+                        radius: 35,
+                        backgroundImage: NetworkImage(
+                            'https://img.freepik.com/free-vector/men-success-laptop-relieve-work-from-home-computer-great_10045-646.jpg?size=338&ext=jpg&ga=GA1.1.1546980028.1703635200&semt=ais'),
+                      ),
+                      title: Text(corso.nomeCorso,
+                          style: const TextStyle(fontWeight: FontWeight.bold)),
+                      subtitle: Text(corso.descrizione),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
