@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../components/generic_app_bar.dart';
 
+/// Classe che builda il widget per mostrare una lista di eventi.
 class CommunityEvents extends StatelessWidget {
   List<int> eventi = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
@@ -8,6 +9,7 @@ class CommunityEvents extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    /// Restituisce uno scaffold, dove appbar e drawer sono ricavati dal file generic_app_bar.dart.
     return Scaffold(
       appBar: GenericAppBar(
         showBackButton: true,
@@ -73,6 +75,7 @@ class CommunityEvents extends StatelessWidget {
   }
 }
 
+/// Dettagli di un evento selezionato.
 class DetailsEvento extends StatelessWidget {
   DetailsEvento(List<int> eventi);
 
