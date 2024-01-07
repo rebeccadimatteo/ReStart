@@ -18,22 +18,22 @@ class CorsoDiFormazioneDAOImpl implements CorsoDiFormazioneDAO {
 
       var result = await connection.execute(
         Sql.named(
-            'INSERT INTO public."CorsoDiFormazione" (nome_corso, nome_responsabile, cognome_responsabile, descrizione, url_corso, immagine) '
-            'VALUES (@nome_corso, @nome_responsabile, @cognome_responsabile, @descrizione, @url_corso, @immagine) RETURNING id'),
+            'INSERT INTO public."CorsoDiFormazione" (nome_corso, nome_responsabile, cognome_responsabile, descrizione, url_corso) '
+                'VALUES (@nome_corso, @nome_responsabile, @cognome_responsabile, @descrizione, @url_corso) RETURNING id'),
         parameters: {
-          'nomeCorso': cf.nomeCorso,
-          'nomeResponsabile': cf.nomeResponsabile,
-          'cognomeResponsabile': cf.cognomeResponsabile,
+          'nome_corso': cf.nomeCorso,
+          'nome_responsabile': cf.nomeResponsabile,
+          'cognome_responsabile': cf.cognomeResponsabile,
           'descrizione': cf.descrizione,
-          'urlCorso': cf.urlCorso,
+          'url_corso': cf.urlCorso,
         },
       );
       var id = result[0][0];
 
       var result1 = await connection.execute(
-          Sql.named('INSERT INTO public."Immagine" (immagine, idCorso) '
-              'VALUES (@immagine, @idCorso)'),
-          parameters: {'immagine': cf.immagine, 'idCorso': id});
+          Sql.named('INSERT INTO public."Immagine" (immagine, id_corso) '
+              'VALUES (@immagine, @id_corso)'),
+          parameters: {'immagine': cf.immagine, 'id_corso': id});
 
 
       await connector.closeConnection();
@@ -45,6 +45,7 @@ class CorsoDiFormazioneDAOImpl implements CorsoDiFormazioneDAO {
       return false;
     } catch (e) {
       developer.log(e.toString());
+      print(e);
       return false;
     } finally {
       await connector.closeConnection();
@@ -82,8 +83,8 @@ class CorsoDiFormazioneDAOImpl implements CorsoDiFormazioneDAO {
       Connection connection = await connector.openConnection();
       var result = await connection.execute(Sql.named(
           'SELECT cf.id, cf.nome_corso, cf.nome_responsabile, cf.cognome_responsabile, cf.descrizione, cf.url_corso, '
-          'i.immagine FROM public."CorsoDiFormazione" as cf, public."Immagine" as i '
-          'WHERE cf.id = i.id_corso'));
+              'i.immagine FROM public."CorsoDiFormazione" as cf, public."Immagine" as i '
+              'WHERE cf.id = i.id_corso'));
       await connector.closeConnection();
 
       // Mappa i risultati della query in oggetti CorsoDiFormazioneDTO
@@ -110,8 +111,8 @@ class CorsoDiFormazioneDAOImpl implements CorsoDiFormazioneDAO {
       var result = await connection.execute(
         Sql.named(
             'SELECT  cf.id, cf.nome_corso, cf.nome_responsabile, cf.cognome_responsabile, cf.descrizione, cf.url_corso, '
-            'c.sito, i.immagine FROM public."CorsoDiFormazione" as cf, public."Immagine" as i '
-            'WHERE cf.id = @id AND cf.id = i.id_corso'),
+                'c.sito, i.immagine FROM public."CorsoDiFormazione" as cf, public."Immagine" as i '
+                'WHERE cf.id = @id AND cf.id = i.id_corso'),
         parameters: {'id': id},
       );
 
@@ -158,9 +159,9 @@ class CorsoDiFormazioneDAOImpl implements CorsoDiFormazioneDAO {
       var result1 = await connection.execute(
         Sql.named(
             'UPDATE public."CorsoDiFormazione" SET nome_corso = @nomeCorso, nome_responsabile = @nomeResponsabile, '
-            'cognome_responsabile = @cognomeResponsabile, descrizione = @descrizione, '
-            'url_corso = @urlCorso'
-            'WHERE id = @id'),
+                'cognome_responsabile = @cognomeResponsabile, descrizione = @descrizione, '
+                'url_corso = @urlCorso'
+                'WHERE id = @id'),
         parameters: {
           'id': cf.id,
           'nomeCorso': cf.nomeCorso,
