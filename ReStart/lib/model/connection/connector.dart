@@ -16,7 +16,7 @@ class Connector {
   Future<Connection> openConnection() async {
     _connection = await Connection.open(
       Endpoint(
-          host: '10.0.2.2',
+          host: 'localhost',
           database: 'ReStart',
           username: 'postgres',
           password: '0000'

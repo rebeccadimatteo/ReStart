@@ -1,13 +1,63 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:restart_all_in_one/model/entity/annuncio_di_lavoro_DTO.dart';
+import '../../../model/entity/evento_DTO.dart';
 import '../../components/generic_app_bar.dart';
 import '../routes/routes.dart';
+import "package:http/http.dart" as http;
 
 /// Classe che builda il widget della schermata di home dell'utente
-class HomeUtente extends StatelessWidget {
-  final List<int> lavori = [1, 2, 3, 4, 5];
-  final List<int> eventi = [1, 2, 3, 4, 5];
+class HomeUtente extends StatefulWidget {
+  @override
+  State<HomeUtente> createState() => _HomeUtenteState();
+}
 
-  HomeUtente({super.key});
+class _HomeUtenteState extends State<HomeUtente> {
+  List<EventoDTO> eventi = [];
+  List<AnnuncioDiLavoroDTO> annunci = [];
+
+  Future<void> fetchEventiFromServer() async {
+    final response = await http.post(
+        Uri.parse('http://10.0.2.2:8080/gestioneEvento/visualizzaEventi'));
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> responseBody = json.decode(response.body);
+      if (responseBody.containsKey('eventi')) {
+        final List<EventoDTO> data =
+            List<Map<String, dynamic>>.from(responseBody['eventi'])
+                .map((json) => EventoDTO.fromJson(json))
+                .toList();
+        setState(() {
+          eventi = data;
+        });
+      } else {
+        print('Chiave "eventi" non trovata nella risposta.');
+      }
+    } else {
+      print('Errore');
+    }
+  }
+
+  Future<void> fetchLavoriFromServer() async {
+    final response = await http.post(Uri.parse(
+        'http://10.0.2.2:8080/gestioneLavoro/visualizzaLavori'));
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> responseBody = json.decode(response.body);
+      if (responseBody.containsKey('annunci')) {
+        final List<AnnuncioDiLavoroDTO> data =
+        List<Map<String, dynamic>>.from(responseBody['annunci'])
+            .map((json) => AnnuncioDiLavoroDTO.fromJson(json))
+            .toList();
+        setState(() {
+          annunci = data;
+        });
+      } else {
+        print('Chiave "annunci" non trovata nella risposta.');
+      }
+    } else {
+      print('Errore');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,13 +87,15 @@ class HomeUtente extends StatelessWidget {
             child: SizedBox(
               height: 150,
               child: PageView.builder(
-                itemCount: lavori.length,
-                itemBuilder: (context, pagePosition) {
+                itemCount: eventi.length,
+                itemBuilder: (context, index) {
+                  EventoDTO evento = eventi[index];
                   return GestureDetector(
                     onTap: () {
                       Navigator.pushNamed(
                         context,
-                        AppRoutes.eventi,
+                        AppRoutes.dettaglievento,
+                        arguments: evento,
                       );
                     },
                     child: Container(
@@ -74,13 +126,15 @@ class HomeUtente extends StatelessWidget {
             child: SizedBox(
               height: 150,
               child: PageView.builder(
-                itemCount: lavori.length,
-                itemBuilder: (context, pagePosition) {
+                itemCount: annunci.length,
+                itemBuilder: (context, index) {
+                  AnnuncioDiLavoroDTO annuncio = annunci[index];
                   return GestureDetector(
                     onTap: () {
                       Navigator.pushNamed(
                         context,
-                        AppRoutes.annunci,
+                        AppRoutes.dettagliannuncio,
+                        arguments: annuncio,
                       );
                     },
                     child: Container(
@@ -200,4 +254,3 @@ class HomeUtente extends StatelessWidget {
     );
   }
 }
-
