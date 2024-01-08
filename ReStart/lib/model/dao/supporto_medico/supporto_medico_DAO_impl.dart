@@ -1,10 +1,9 @@
 import 'package:postgres/postgres.dart';
-
 import 'dart:developer' as developer;
-
 import '../../connection/connector.dart';
 import '../../entity/supporto_medico_DTO.dart';
 import 'supporto_medico_DAO.dart';
+
 
 /// Questa classe rappresenta l'implementazione del dao del Supporto Medico
 class SupportoMedicoDAOImpl implements SupportoMedicoDAO {
@@ -17,12 +16,13 @@ class SupportoMedicoDAOImpl implements SupportoMedicoDAO {
     try {
       Connection connection = await connector.openConnection();
       var result1 = await connection.execute(
-        Sql.named('INSERT INTO public."SupportoMedico" (nome, cognome, descrizione) '
-            'VALUES (@nome, @cognome, @descrizione) RETURNING id'),
+        Sql.named('INSERT INTO public."SupportoMedico" (nome, cognome, descrizione, tipo) '
+            'VALUES (@nome, @cognome, @descrizione, @tipo) RETURNING id'),
         parameters: {
           'nome': sm.nomeMedico,
           'cognome': sm.cognomeMedico,
           'descrizione': sm.descrizione,
+          'tipo': sm.tipo
         },
       );
       var id = result1[0][0];
