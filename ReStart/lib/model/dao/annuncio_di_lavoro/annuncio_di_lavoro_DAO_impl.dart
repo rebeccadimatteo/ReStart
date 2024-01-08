@@ -3,6 +3,9 @@ import 'dart:developer' as developer;
 
 import '../../connection/connector.dart';
 import '../../entity/annuncio_di_lavoro_DTO.dart';
+import '../../entity/ca_DTO.dart';
+import '../autenticazione/CA/ca_DAO.dart';
+import '../autenticazione/CA/ca_DAO_impl.dart';
 import 'annuncio_di_lavoro_DAO.dart';
 
 /// Questa classe, `AnnuncioLavoroDAOImpl`, implementa l'interfaccia `AnnuncioDiLavoroDAO`
@@ -15,9 +18,10 @@ class AnnuncioLavoroDAOImpl implements AnnuncioDiLavoroDAO {
     try {
       Connection connection = await connector.openConnection();
       var result1 = await connection.execute(
-        Sql.named('INSERT INTO public."AnnuncioDiLavoro" (nome, descrizione, approvato) '
-            'VALUES (@nome, @descrizione, @approvato) RETURNING id'),
+        Sql.named('INSERT INTO public."AnnuncioDiLavoro" (id_ca, nome, descrizione, approvato) '
+            'VALUES (@id_ca, @nome, @descrizione, @approvato) RETURNING id'),
         parameters: {
+          'id_ca': annuncio.id_ca,
           'nome': annuncio.nome,
           'descrizione': annuncio.descrizione,
           'approvato': annuncio.approvato,
@@ -67,7 +71,7 @@ class AnnuncioLavoroDAOImpl implements AnnuncioDiLavoroDAO {
   }
   ///metodo `existById` che verifica l'esistenza di un annuncio basato sull'ID
   @override
-  Future<bool> existById(int id) async {
+  Future<bool> existById(int? id) async {
     try {
       Connection connection = await connector.openConnection();
       var result = await connection.execute(
@@ -91,10 +95,10 @@ class AnnuncioLavoroDAOImpl implements AnnuncioDiLavoroDAO {
   Future<List<AnnuncioDiLavoroDTO>> findAll() async {
     try {
       Connection connection = await connector.openConnection();
-      var result = await connection.execute(Sql.named('SELECT adl.nome, adl.descrizione, adl.approvato, ind.via, ind.citta, ind.provincia,'
-          ' i.immagine, c.email, c.num_telefono  FROM public."AnnuncioDiLavoro" as adl, public."Contatti" as c, '
-          ' public."Immagine" as i, public."Indirizzo" as ind '
-          'WHERE adl.id = c.id_annuncio AND adl.id = i.id_annuncio AND adl.id = ind.id_annuncio')); // verificare se funziona
+      var result = await connection.execute(Sql.named('SELECT adl.id, ca.username, adl.nome, adl.descrizione, adl.approvato, ind.via, ind.citta, ind.provincia, '
+          'i.immagine, c.email, c.num_telefono FROM public."AnnuncioDiLavoro" as adl, public."Contatti" as c, '
+          'public."Immagine" as i, public."Indirizzo" as ind, public."CA" as ca '
+          'WHERE adl.id = c.id_annuncio AND adl.id = i.id_annuncio AND adl.id = ind.id_annuncio AND adl.id_ca = ca.id'));
 
       List<AnnuncioDiLavoroDTO> annunci = result.map((row) {
         return AnnuncioDiLavoroDTO.fromJson(row.toColumnMap());
@@ -114,7 +118,7 @@ class AnnuncioLavoroDAOImpl implements AnnuncioDiLavoroDAO {
     try {
       Connection connection = await connector.openConnection();
       var result = await connection.execute(
-        Sql.named('SELECT  adl.id, adl.nome, adl.descrizione, adl.approvato, ind.via, ind.citta, ind.provincia,'
+        Sql.named('SELECT  adl.id, ca.username, adl.nome, adl.descrizione, adl.approvato, ind.via, ind.citta, ind.provincia,'
             ' i.immagine, c.email, c.num_telefono  FROM public."AnnuncioDiLavoro" as adl, public."Contatti" as c,'
             ' public."Immagine" as i, public."Indirizzo" as ind'
             ' WHERE adl.id = @id AND adl.id = c.id_annuncio AND adl.id = i.id_annuncio AND adl.id = ind.id_annuncio'),
@@ -133,7 +137,7 @@ class AnnuncioLavoroDAOImpl implements AnnuncioDiLavoroDAO {
   }
   ///metodo `removeById` che rimuove un annuncio basato sull'ID
   @override
-  Future<bool> removeById(int id) async {
+  Future<bool> removeById(int? id) async {
     try {
       Connection connection = await connector.openConnection();
       var result = await connection.execute(
@@ -157,11 +161,12 @@ class AnnuncioLavoroDAOImpl implements AnnuncioDiLavoroDAO {
     try {
       Connection connection = await connector.openConnection();
       var result1 = await connection.execute (
-        Sql.named('UPDATE public."AnnuncioDiLavoro" SET nome = @nome, descrizione = @descrizione, '
+        Sql.named('UPDATE public."AnnuncioDiLavoro" SET id_ca = @id_ca, nome = @nome, descrizione = @descrizione, '
             'approvato = @approvato '
             'WHERE id = @id'),
         parameters: {
           'id': annuncio.id,
+          'id_ca': annuncio.id_ca,
           'nome': annuncio.nome,
           'descrizione': annuncio.descrizione,
           'approvato': annuncio.approvato
@@ -206,6 +211,64 @@ class AnnuncioLavoroDAOImpl implements AnnuncioDiLavoroDAO {
       developer.log(e.toString());
       return false;
     }finally{
+      await connector.closeConnection();
+    }
+  }
+
+  @override
+  Future<List<AnnuncioDiLavoroDTO>> findByApprovato(String usernameCa) async {
+    try {
+      CaDAO caDAO = CaDAOImpl();
+      Future<CaDTO?> caDTO = caDAO.findByUsername(usernameCa);
+      CaDTO? ca = await caDTO;
+      int? id = ca!.id;
+      Connection connection = await connector.openConnection();
+      var result = await connection.execute(
+        Sql.named(
+            'SELECT  a.id, ca.username, a.nome, a.descrizione, a.data, a.approvato, c.email,'
+                'c.sito, i.immagine, ind.via, ind.citta, ind.provincia, FROM public."AnnuncioDiLavoro" as a, public."Contatti" as c, public."Immagine" as i, '
+                'public."Indirizzo" as ind, public."CA" as ca '
+                'WHERE a.id = c.id_evento AND a.id = i.id_evento AND a.id = ind.id_evento AND a.id_ca = ca.@id AND a.approvato=true '),
+        parameters: {'id': id},
+      );
+      List<AnnuncioDiLavoroDTO> annunci = result.map((row) {
+        return AnnuncioDiLavoroDTO.fromJson(row.toColumnMap());
+      }).toList();
+
+      return annunci;
+    } catch (e) {
+      developer.log(e.toString());
+      return [];
+    } finally {
+      await connector.closeConnection();
+    }
+  }
+
+  @override
+  Future<List<AnnuncioDiLavoroDTO>> findByNotAppovato(String usernameCa) async {
+    try {
+      CaDAO caDAO = CaDAOImpl();
+      Future<CaDTO?> caDTO = caDAO.findByUsername(usernameCa);
+      CaDTO? ca = await caDTO;
+      int? id = ca!.id;
+      Connection connection = await connector.openConnection();
+      var result = await connection.execute(
+        Sql.named(
+            'SELECT  a.id, ca.username, a.nome, a.descrizione, a.data, a.approvato, c.email, '
+                'c.sito, i.immagine, ind.via, ind.citta, ind.provincia, FROM public."AnnuncioDiLavoro" as a, public."Contatti" as c, '
+                'public."Immagine" as i, public."Indirizzo" as ind, public."CA" as ca '
+                'WHERE a.id = c.id_annuncio AND a.id = i.id_annuncio AND a.id = ind.id_annuncio AND a.id_ca = ca.@id AND a.approvato=false '),
+        parameters: {'id': id},
+      );
+      List<AnnuncioDiLavoroDTO> annunci = result.map((row) {
+        return AnnuncioDiLavoroDTO.fromJson(row.toColumnMap());
+      }).toList();
+
+      return annunci;
+    } catch (e) {
+      developer.log(e.toString());
+      return [];
+    } finally {
       await connector.closeConnection();
     }
   }

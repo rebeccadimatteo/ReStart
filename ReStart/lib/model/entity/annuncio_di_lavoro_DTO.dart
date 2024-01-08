@@ -1,7 +1,8 @@
 /// Questa classe rappresenta un oggetto DTO (Data Transfer Object) per un annuncio di lavoro.
 class AnnuncioDiLavoroDTO {
-  late int? _id;
-  late String _nome;
+  int? _id;
+  late String _usernameCa;
+  late String _nomeLavoro;
   late String _descrizione;
   late bool _approvato;
   late String _via;
@@ -12,8 +13,9 @@ class AnnuncioDiLavoroDTO {
   late String _numTelefono;
   /// Costruttore che richiede tutti i parametri necessari per un annuncio di lavoro.
   AnnuncioDiLavoroDTO({
-    required int id,
-    required String nome,
+    int? id,
+    required String usernameCa,
+    required String nomeLavoro,
     required String descrizione,
     required bool approvato,
     required String via,
@@ -23,7 +25,8 @@ class AnnuncioDiLavoroDTO {
     required String email,
     required String numTelefono
   })  : _id = id,
-        _nome = nome,
+        _usernameCa = usernameCa,
+        _nomeLavoro = nomeLavoro,
         _descrizione = descrizione,
         _approvato = approvato,
         _via = via,
@@ -32,9 +35,11 @@ class AnnuncioDiLavoroDTO {
         _immagine = immagine,
         _email = email,
         _numTelefono = numTelefono;
+
   /// Getters e setters per accedere ai membri della classe.
-  int get id => _id ?? -1;
-  String get nome => _nome;
+  int? get id => _id;
+  String get usernameCa => _usernameCa;
+  String get nome => _nomeLavoro;
   String get descrizione => _descrizione;
   bool get approvato => _approvato;
   String get via => _via;
@@ -44,8 +49,11 @@ class AnnuncioDiLavoroDTO {
   String get email => _email;
   String get numTelefono => _numTelefono;
 
+  set usernameCa(String value){
+    _usernameCa = value;
+  }
   set nome(String value) {
-    _nome = value;
+    _nomeLavoro = value;
   }
 
   set descrizione(String value) {
@@ -79,41 +87,12 @@ class AnnuncioDiLavoroDTO {
   set numTelefono(String value){
     _numTelefono = value;
   }
-  /// Metodo per convertire l'oggetto in una mappa.
-  Map<String, dynamic> toMap() {
-    return {
-      'id': _id,
-      'nome': _nome,
-      'descrizione': _descrizione,
-      'approvato': _approvato,
-      'via': _via,
-      'citta': _citta,
-      'provincia': _provincia,
-      'immagine': _immagine,
-      'email': _email,
-      'num_telefono': _numTelefono
-    };
-  }
-  /// Metodo toJson per la serializzazione dell'oggetto in formato JSON.
-  factory AnnuncioDiLavoroDTO.fromMap(Map<String, dynamic> map) {
-    return AnnuncioDiLavoroDTO(
-        id: map['id'] as int,
-        nome: map['nome'] as String,
-        descrizione: map['descrizione'] as String,
-        approvato: map['approvato'] as bool,
-        via: map['via'] as String,
-        citta: map['citta'] as String,
-        provincia: map['provincia'] as String,
-        immagine: map['immagine'] as String,
-        email: map['email'] as String,
-        numTelefono: map['num_telefono'] as String
-    );
-  }
   /// Metodo toJson per la serializzazione dell'oggetto in formato JSON.
   Map<String, dynamic> toJson() {
     return {
       'id': _id,
-      'nome': _nome,
+      'usernameCa': _usernameCa,
+      'nome': _nomeLavoro,
       'descrizione': _descrizione,
       'approvato': _approvato,
       'via': _via,
@@ -127,8 +106,9 @@ class AnnuncioDiLavoroDTO {
   /// Metodo factory per deserializzare un oggetto JSON in un AnnuncioDiLavoroDTO.
   factory AnnuncioDiLavoroDTO.fromJson(Map<String, dynamic> json) {
     return AnnuncioDiLavoroDTO(
-        id: json['id'] as int,
-        nome: json['nome'].toString().replaceAll('[', '').replaceAll(']', ''),
+        id: json['id'],
+        usernameCa: json['usernameCa'].toString().replaceAll('[', '').replaceAll(']', ''),
+        nomeLavoro: json['nome'].toString().replaceAll('[', '').replaceAll(']', ''),
         descrizione: json['descrizione'].toString().replaceAll('[', '').replaceAll(']', ''),
         approvato: json['approvato'] as bool,
         via: json['via'].toString().replaceAll('[', '').replaceAll(']', ''),
@@ -142,6 +122,6 @@ class AnnuncioDiLavoroDTO {
   /// Override del metodo toString per ottenere una rappresentazione testuale dell'oggetto.
   @override
   String toString() {
-    return 'AnnuncioDiLavoroDTO{id: $_id, nome: $_nome, descrizione: $_descrizione, approvato: $_approvato, via: $_via, citta: $_citta, provincia: $_provincia, immagine: $_immagine, email: $_email, numTelefono: $_numTelefono}';
+    return 'AnnuncioDiLavoroDTO{id: $_id, usernameCa: $usernameCa, nome: $_nomeLavoro, descrizione: $_descrizione, approvato: $_approvato, via: $_via, citta: $_citta, provincia: $_provincia, immagine: $_immagine, email: $_email, numTelefono: $_numTelefono}';
   }
 }
