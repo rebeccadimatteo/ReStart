@@ -1,25 +1,62 @@
+import "dart:convert";
 import "package:flutter/material.dart";
+import "package:flutter_session_manager/flutter_session_manager.dart";
+import "../routes/routes.dart";
 import "signup.dart";
-/// Costruttore Stateless per la build del widget di login
-class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+import "package:http/http.dart" as http;
+
+void main() {
+  runApp(LoginPage());
+}
+
+class LoginPage extends StatefulWidget {
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  late bool _viewPassword;
+  final _formKey = GlobalKey<FormState>();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController pswController = TextEditingController();
 
   @override
-  Widget build(BuildContext context) {
-    return (const Login());
+  void initState() {
+    _viewPassword = true;
   }
-}
 
-/// StatefulWidget per il login, con la creazione di uno stato
-class Login extends StatefulWidget {
-  const Login({super.key});
+  void submitForm() async {
+    if (_formKey.currentState!.validate()) {
+      String email = emailController.text;
+      String psw = pswController.text;
+      Map<String, String> data = {
+        'email': email,
+        'password': psw,
+      };
+      String authJson = jsonEncode(data);
+      auth(context, authJson);
+    }
+  }
 
-  @override
-  _LoginDemoState createState() => _LoginDemoState();
-}
+  void auth(BuildContext context, String authJson) async {
+    final response = await http.post(
+      Uri.parse('http://10.0.2.2:8080/autenticazione/login'),
+      body: authJson,
+      headers: {'Content-Type': 'application/json'},
+    );
 
-/// Classe con tutti i widget presenti nella schermata di login
-class _LoginDemoState extends State<Login> {
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> responseBody = json.decode(response.body);
+      var token = responseBody['token'];
+      await SessionManager().set("token", token);
+      Navigator.pushNamed(
+        context,
+        AppRoutes.home,
+      );
+    } else {
+      print("aggiungere la roba di credenziali sbagliate!");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return (Scaffold(
@@ -45,27 +82,50 @@ class _LoginDemoState extends State<Login> {
                 ),
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 30),
-              child: TextField(
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(30)),
+            Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 30),
+                    child: TextFormField(
+                      controller: emailController,
+                      decoration: const InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(30)),
+                          ),
+                          labelText: 'Username',
+                          hintText: 'Inserisci il tuo username...'),
                     ),
-                    labelText: 'Email',
-                    hintText: 'Inserisci la tua email...'),
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-              child: TextField(
-                obscureText: true,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(30)),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 30, vertical: 10),
+                    child: TextFormField(
+                      obscureText: _viewPassword,
+                      controller: pswController,
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(30)),
+                          ),
+                          labelText: 'Password',
+                          hintText: 'Inserisci la tua password...',
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              _viewPassword
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                              color: Colors.blueGrey,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _viewPassword = !_viewPassword;
+                              });
+                            },
+                          )),
                     ),
-                    labelText: 'Password',
-                    hintText: 'Inserisci la tua password...'),
+                  ),
+                ],
               ),
             ),
             Container(
@@ -92,10 +152,7 @@ class _LoginDemoState extends State<Login> {
                   )),
               child: TextButton(
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const LoginPage()));
+                  submitForm();
                 },
                 child: const Text(
                   'ACCEDI',
@@ -114,8 +171,10 @@ class _LoginDemoState extends State<Login> {
             ),
             TextButton(
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const LoginPage()));
+                Navigator.pushNamed(
+                  context,
+                  AppRoutes.login,
+                );
               },
               child: const Text(
                 'Password dimenticata?',
@@ -153,9 +212,9 @@ class _LoginDemoState extends State<Login> {
                   )),
               child: TextButton(
                 onPressed: () {
-                  Navigator.push(
+                  Navigator.pushNamed(
                     context,
-                    MaterialPageRoute(builder: (context) => const SignUpPage()),
+                    AppRoutes.signup,
                   );
                 },
                 child: const Text(

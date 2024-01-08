@@ -1,15 +1,15 @@
 import "package:flutter/material.dart";
+import "../routes/routes.dart";
 import "signup.dart";
 import "login.dart";
 
-/// Metodo per poter eseguire la startpage dell'applicazione, andando a wrappare tutto in un MaterialApp widget
 void main() {
   runApp(MaterialApp(
-    home: Home(),
+    routes: AppRoutes.getRoutes(),
+    initialRoute: AppRoutes.start,
   ));
 }
 
-/// Classe per la build di un widget senza stato, con tutte le componenti presenti nella start page
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -64,7 +64,7 @@ class Home extends StatelessWidget {
             child: TextButton(
               onPressed: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const LoginPage()));
+                    MaterialPageRoute(builder: (context) => LoginPage()));
               },
               child: const Text(
                 'ACCEDI',
