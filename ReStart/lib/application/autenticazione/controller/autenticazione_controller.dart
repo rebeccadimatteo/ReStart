@@ -1,13 +1,14 @@
 import 'dart:convert';
-import 'package:restart_all_in_one/application/autenticazione/service/autenticazione_service.dart';
-import 'package:restart_all_in_one/application/autenticazione/service/autonticazione_service_impl.dart';
-import 'package:restart_all_in_one/model/entity/ads_DTO.dart';
-import 'package:restart_all_in_one/model/entity/ca_DTO.dart';
-import 'package:restart_all_in_one/model/entity/utente_DTO.dart';
-import 'package:restart_all_in_one/utils/jwt_constants.dart';
-import 'package:restart_all_in_one/utils/jwt_utils.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart' as shelf_router;
+
+import '../../../model/entity/ads_DTO.dart';
+import '../../../model/entity/ca_DTO.dart';
+import '../../../model/entity/utente_DTO.dart';
+import '../../../utils/jwt_constants.dart';
+import '../../../utils/jwt_utils.dart';
+import '../service/autenticazione_service.dart';
+import '../service/autonticazione_service_impl.dart';
 
 class AutenticazioneController {
   late final AutenticazioneService _authService;
@@ -22,10 +23,8 @@ class AutenticazioneController {
 
   shelf_router.Router get router => _router;
 
-
   Future<Response> _login(Request request) async {
     try {
-
       String requestBody = await request.readAsString();
 
       Map<String, dynamic> requestData = jsonDecode(requestBody);
@@ -39,14 +38,21 @@ class AutenticazioneController {
       if (user != null) {
         String jwtToken = '';
         if (user is UtenteDTO) {
-          jwtToken = JWTUtils.generateAccessToken(username: username, secretKey: JWTConstants.accessTokenSecretKeyForUtente);
+          jwtToken = JWTUtils.generateAccessToken(
+              username: username,
+              secretKey: JWTConstants.accessTokenSecretKeyForUtente);
         } else if (user is CaDTO) {
-          jwtToken = JWTUtils.generateAccessToken(username: username, secretKey: JWTConstants.accessTokenSecretKeyForCA);
+          jwtToken = JWTUtils.generateAccessToken(
+              username: username,
+              secretKey: JWTConstants.accessTokenSecretKeyForCA);
         } else if (user is AdsDTO) {
-          jwtToken = JWTUtils.generateAccessToken(username: username, secretKey: JWTConstants.accessTokenSecretKeyForADS);
+          jwtToken = JWTUtils.generateAccessToken(
+              username: username,
+              secretKey: JWTConstants.accessTokenSecretKeyForADS);
         }
         final responseBody = jsonEncode({'token': jwtToken});
-        return Response.ok(responseBody, headers: {'Content-Type': 'application/json'});
+        return Response.ok(responseBody,
+            headers: {'Content-Type': 'application/json'});
       } else {
         return Response.forbidden('Credenziali non valide');
       }
@@ -70,7 +76,7 @@ class AutenticazioneController {
             headers: {'Content-Type': 'application/json'});
       } else {
         final responseBody =
-        jsonEncode({'result': 'Eliminazione non effettuata'});
+            jsonEncode({'result': 'Eliminazione non effettuata'});
         return Response.badRequest(
             body: responseBody, headers: {'Content-Type': 'application/json'});
       }

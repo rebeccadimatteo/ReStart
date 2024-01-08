@@ -1,9 +1,9 @@
 import 'dart:convert';
-import 'package:restart_all_in_one/model/entity/alloggio_temporaneo_DTO.dart';
-import 'package:restart_all_in_one/model/entity/corso_di_formazione_DTO.dart';
 import 'package:shelf/shelf.dart';
 
 import 'package:shelf_router/shelf_router.dart' as shelf_router;
+import '../../../model/entity/alloggio_temporaneo_DTO.dart';
+import '../../../model/entity/corso_di_formazione_DTO.dart';
 import '../../../model/entity/supporto_medico_DTO.dart';
 import '../service/reintegrazione/reintegrazione_service_impl.dart';
 
