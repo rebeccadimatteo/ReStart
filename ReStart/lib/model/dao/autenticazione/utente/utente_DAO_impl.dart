@@ -16,7 +16,7 @@ class UtenteDAOImpl implements UtenteDAO {
       var result1 = await connection.execute(
         Sql.named(
             'INSERT INTO public."Utente"  (nome, cognome, cod_fiscale, data_nascita, luogo_nascita, genere, username, password) '
-                'VALUES (@nome, @cognome, @cod_fiscale, @data_nascita, @luogo_nascita, @genere, @username, @password) RETURNING id'),
+            'VALUES (@nome, @cognome, @cod_fiscale, @data_nascita, @luogo_nascita, @genere, @username, @password) RETURNING id'),
         parameters: {
           'nome': u.nome,
           'cognome': u.cognome,
@@ -32,7 +32,7 @@ class UtenteDAOImpl implements UtenteDAO {
       var result2 = await connection.execute(
           Sql.named(
               'INSERT INTO public."Indirizzo" (via, citta, provincia, id_utente) '
-                  'VALUES (@via, @citta, @provincia, @id_utente)'),
+              'VALUES (@via, @citta, @provincia, @id_utente)'),
           parameters: {
             'via': u.via,
             'citta': u.citta,
@@ -43,7 +43,7 @@ class UtenteDAOImpl implements UtenteDAO {
       var result3 = await connection.execute(
           Sql.named(
               'INSERT INTO public."Contatti" (email, num_telefono, id_utente) '
-                  'VALUES (@email, @telefono, @id_utente)'),
+              'VALUES (@email, @telefono, @id_utente)'),
           parameters: {
             'id_utente': id,
             'email': u.email,
@@ -63,6 +63,7 @@ class UtenteDAOImpl implements UtenteDAO {
       await connector.closeConnection();
     }
   }
+
   /// questo metodo dice se esiste un [UtenteDTO] preso in input l'id
   /// se esiste restituisce true, altrimenti false
   @override
@@ -86,6 +87,7 @@ class UtenteDAOImpl implements UtenteDAO {
       await connector.closeConnection();
     }
   }
+
   /// questo metodo dice se esiste un [UtenteDTO] preso in input l'username
   /// se esiste restituisce true, altrimenti false
   @override
@@ -93,7 +95,8 @@ class UtenteDAOImpl implements UtenteDAO {
     try {
       Connection connection = await connector.openConnection();
       var result = await connection.execute(
-        Sql.named('SELECT * FROM public."Utente" u WHERE u.username = @username'),
+        Sql.named(
+            'SELECT * FROM public."Utente" u WHERE u.username = @username'),
         parameters: {'username': username},
       );
       if (result.isNotEmpty) {
@@ -108,15 +111,16 @@ class UtenteDAOImpl implements UtenteDAO {
       await connector.closeConnection();
     }
   }
+
   /// questo metodo restituise la lista di tutti gli [UtenteDTO] sul database
   /// restituisce l'utente generico se esiste, null altrimenti.
   @override
   Future<List<UtenteDTO>> findAll() async {
     try {
       Connection connection = await connector.openConnection();
-      var result = await connection.execute(
-          Sql.named('SELECT u.*, c.email, c.num_telefono, i.via, i.citta, i.provincia FROM public."Utente" u, '
-              'public."Contatti" c, public."Indirizzo" i WHERE u.id = c.id_utente AND u.id = i.id_utente'));
+      var result = await connection.execute(Sql.named(
+          'SELECT u.*, c.email, c.num_telefono, i.via, i.citta, i.provincia FROM public."Utente" u, '
+          'public."Contatti" c, public."Indirizzo" i WHERE u.id = c.id_utente AND u.id = i.id_utente'));
 
       // Mappa i risultati della query in oggetti Utente_DTO
       List<UtenteDTO> ads = result.map((row) {
@@ -141,7 +145,7 @@ class UtenteDAOImpl implements UtenteDAO {
       var result = await connection.execute(
         Sql.named(
             'SELECT u.*, c.email, c.num_telefono, i.via, i.citta, i.provincia FROM public."Utente" u, public."Contatti" c, '
-                'public."Indirizzo" i WHERE u.id = c.id_utente AND u.id = i.id_utente WHERE u.id = @id'),
+            'public."Indirizzo" i WHERE u.id = c.id_utente AND u.id = i.id_utente WHERE u.id = @id'),
         parameters: {'id': id},
       );
       if (result.isNotEmpty) {
@@ -155,6 +159,7 @@ class UtenteDAOImpl implements UtenteDAO {
     }
     return null;
   }
+
   /// rimuove dal database [UtenteDTO] preso in input il suo id
   /// restituisce true se viene rimosso correttamente, false altrimenti.
   @override
@@ -176,6 +181,7 @@ class UtenteDAOImpl implements UtenteDAO {
       await connector.closeConnection();
     }
   }
+
   /// rimuove dal database [UtenteDTO] dato in input il suo username
   /// restituisce true se viene rimosso correttamente, false altrimenti.
   @override
@@ -197,6 +203,7 @@ class UtenteDAOImpl implements UtenteDAO {
       await connector.closeConnection();
     }
   }
+
   /// aggiorna i campi di [UtenteDTO]
   /// restituisce true se è andato a buon fine, false altrimenti.
   @override
@@ -204,7 +211,8 @@ class UtenteDAOImpl implements UtenteDAO {
     try {
       Connection connection = await connector.openConnection();
       var result1 = await connection.execute(
-        Sql.named('UPDATE public."Utente" SET nome = @nome, cognome = @cognome, cod_fiscale = @cod_fiscale, data_nascita = @data_nascita, luogo_nascita = @data_nascita, '
+        Sql.named(
+            'UPDATE public."Utente" SET nome = @nome, cognome = @cognome, cod_fiscale = @cod_fiscale, data_nascita = @data_nascita, luogo_nascita = @data_nascita, '
             'genere = @genere, username = @username, password = @password WHERE id = @id'),
         parameters: {
           'id': u.id,
@@ -220,7 +228,8 @@ class UtenteDAOImpl implements UtenteDAO {
       );
 
       var result2 = await connection.execute(
-        Sql.named('UPDATE public."Contatti" SET email = @email, num_telefono = @num_telefono '
+        Sql.named(
+            'UPDATE public."Contatti" SET email = @email, num_telefono = @num_telefono '
             'WHERE id_utente = @id_utente'),
         parameters: {
           'email': u.email,
@@ -230,7 +239,8 @@ class UtenteDAOImpl implements UtenteDAO {
       );
 
       var result3 = await connection.execute(
-        Sql.named('UPDATE public."Indirizzo" SET via = @via, citta = @citta, provincia = @provincia '
+        Sql.named(
+            'UPDATE public."Indirizzo" SET via = @via, citta = @citta, provincia = @provincia '
             'WHERE id_utente = @id_utente'),
         parameters: {
           'via': u.via,
@@ -252,6 +262,7 @@ class UtenteDAOImpl implements UtenteDAO {
       await connector.closeConnection();
     }
   }
+
   /// restituise un [UtenteDTO] preso in input il suo username
   /// restituisce [UtenteDTO] se esiste, null altrimenti.
   @override
@@ -261,9 +272,9 @@ class UtenteDAOImpl implements UtenteDAO {
       var result = await connection.execute(
         Sql.named(
             'SELECT u.id, u.nome, u.cognome, u.cod_fiscale, u.data_nascita, u.luogo_nascita, u.genere, u.username, u.password, u.lavoro_adatto, '
-                'c.email, c.num_telefono, i.immagine, ind.via, ind.citta, ind.provincia'
-                ' FROM public."Utente" as u, public."Contatti" as c, public."Immagine" as i, public."Indirizzo" as ind '
-                'WHERE u.username = @username'),
+            'c.email, c.num_telefono, i.immagine, ind.via, ind.citta, ind.provincia'
+            ' FROM public."Utente" as u, public."Contatti" as c, public."Immagine" as i, public."Indirizzo" as ind '
+            'WHERE u.username = @username'),
         parameters: {'username': username},
       );
       if (result.isNotEmpty) {

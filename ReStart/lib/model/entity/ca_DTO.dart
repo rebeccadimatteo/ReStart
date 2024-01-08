@@ -1,16 +1,21 @@
 class CaDTO {
   /// identificativo univoco del CA
-  late int? _id;
+  int? _id;
+
   /// nome del CA
   late String _nome;
+
   /// username del CA
   late String _username;
+
   /// password del CA
   late String _password;
+
   ///Contatti del CA
   late String _email;
   late String _num_telefono;
   late String _sito_web;
+
   ///Indirizzo del CA
   late String _via;
   late String _citta;
@@ -18,19 +23,19 @@ class CaDTO {
   late String _immagine;
 
   /// Costruttore che permette di istanziare un nuovo CA
-  CaDTO({
-    required int? id,
-    required String nome,
-    required String username,
-    required String password,
-    required String email,
-    required String num_telefono,
-    required String sito_web,
-    required String via,
-    required String citta,
-    required String provincia,
-    required String immagine
-  })  : _id = id,
+  CaDTO(
+      {int? id,
+      required String nome,
+      required String username,
+      required String password,
+      required String email,
+      required String num_telefono,
+      required String sito_web,
+      required String via,
+      required String citta,
+      required String provincia,
+      required String immagine})
+      : _id = id,
         _nome = nome,
         _username = username,
         _password = password,
@@ -43,7 +48,7 @@ class CaDTO {
         _immagine = immagine;
 
   /// Getter e setter dei vari attributi
-  int get id => _id ?? -1; // -1 valore di default che non può essere un id
+  int? get id => _id ?? null;
 
   String get username => _username;
 
@@ -98,15 +103,22 @@ class CaDTO {
     return CaDTO(
       id: json['id'],
       nome: json['nome'].toString().replaceAll('[', '').replaceAll(']', ''),
-      username: json['username'].toString().replaceAll('[', '').replaceAll(']', ''),
-      password: json['password'].toString().replaceAll('[', '').replaceAll(']', ''),
-      num_telefono: json['num_telefono'].toString().replaceAll('[', '').replaceAll(']', ''),
+      username:
+          json['username'].toString().replaceAll('[', '').replaceAll(']', ''),
+      password:
+          json['password'].toString().replaceAll('[', '').replaceAll(']', ''),
+      num_telefono: json['num_telefono']
+          .toString()
+          .replaceAll('[', '')
+          .replaceAll(']', ''),
       email: json['email'].toString().replaceAll('[', '').replaceAll(']', ''),
       sito_web: json['sito'].toString().replaceAll('[', '').replaceAll(']', ''),
-      immagine: json['immagine'].toString().replaceAll('[', '').replaceAll(']', ''),
+      immagine:
+          json['immagine'].toString().replaceAll('[', '').replaceAll(']', ''),
       citta: json['citta'].toString().replaceAll('[', '').replaceAll(']', ''),
       via: json['via'].toString().replaceAll('[', '').replaceAll(']', ''),
-      provincia: json['provincia'].toString().replaceAll('[', '').replaceAll(']', ''),
+      provincia:
+          json['provincia'].toString().replaceAll('[', '').replaceAll(']', ''),
     );
   }
 

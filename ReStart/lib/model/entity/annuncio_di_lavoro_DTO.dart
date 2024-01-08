@@ -11,20 +11,21 @@ class AnnuncioDiLavoroDTO {
   late String _immagine;
   late String _email;
   late String _numTelefono;
+
   /// Costruttore che richiede tutti i parametri necessari per un annuncio di lavoro.
-  AnnuncioDiLavoroDTO({
-    int? id,
-    required int id_ca,
-    required String nomeLavoro,
-    required String descrizione,
-    required bool approvato,
-    required String via,
-    required String citta,
-    required String provincia,
-    required String immagine,
-    required String email,
-    required String numTelefono
-  })  : _id = id,
+  AnnuncioDiLavoroDTO(
+      {int? id,
+      required int id_ca,
+      required String nomeLavoro,
+      required String descrizione,
+      required bool approvato,
+      required String via,
+      required String citta,
+      required String provincia,
+      required String immagine,
+      required String email,
+      required String numTelefono})
+      : _id = id,
         _id_ca = id_ca,
         _nomeLavoro = nomeLavoro,
         _descrizione = descrizione,
@@ -38,20 +39,31 @@ class AnnuncioDiLavoroDTO {
 
   /// Getters e setters per accedere ai membri della classe.
   int? get id => _id;
+
   int get id_ca => _id_ca;
+
   String get nome => _nomeLavoro;
+
   String get descrizione => _descrizione;
+
   bool get approvato => _approvato;
+
   String get via => _via;
+
   String get citta => _citta;
+
   String get provincia => _provincia;
+
   String get immagine => _immagine;
+
   String get email => _email;
+
   String get numTelefono => _numTelefono;
 
-  set id_ca(int value){
+  set id_ca(int value) {
     _id_ca = value;
   }
+
   set nome(String value) {
     _nomeLavoro = value;
   }
@@ -80,13 +92,14 @@ class AnnuncioDiLavoroDTO {
     _immagine = value;
   }
 
-  set email(String value){
+  set email(String value) {
     _email = value;
   }
 
-  set numTelefono(String value){
+  set numTelefono(String value) {
     _numTelefono = value;
   }
+
   /// Metodo toJson per la serializzazione dell'oggetto in formato JSON.
   Map<String, dynamic> toJson() {
     return {
@@ -103,22 +116,34 @@ class AnnuncioDiLavoroDTO {
       'num_telefono': _numTelefono
     };
   }
+
   /// Metodo factory per deserializzare un oggetto JSON in un AnnuncioDiLavoroDTO.
   factory AnnuncioDiLavoroDTO.fromJson(Map<String, dynamic> json) {
     return AnnuncioDiLavoroDTO(
         id: json['id'],
         id_ca: json['id_ca'],
-        nomeLavoro: json['nome'].toString().replaceAll('[', '').replaceAll(']', ''),
-        descrizione: json['descrizione'].toString().replaceAll('[', '').replaceAll(']', ''),
+        nomeLavoro:
+            json['nome'].toString().replaceAll('[', '').replaceAll(']', ''),
+        descrizione: json['descrizione']
+            .toString()
+            .replaceAll('[', '')
+            .replaceAll(']', ''),
         approvato: json['approvato'] as bool,
         via: json['via'].toString().replaceAll('[', '').replaceAll(']', ''),
         citta: json['citta'].toString().replaceAll('[', '').replaceAll(']', ''),
-        provincia: json['provincia'].toString().replaceAll('[', '').replaceAll(']', ''),
-        immagine: json['immagine'].toString().replaceAll('[', '').replaceAll(']', ''),
+        provincia: json['provincia']
+            .toString()
+            .replaceAll('[', '')
+            .replaceAll(']', ''),
+        immagine:
+            json['immagine'].toString().replaceAll('[', '').replaceAll(']', ''),
         email: json['email'].toString().replaceAll('[', '').replaceAll(']', ''),
-        numTelefono: json['num_telefono'].toString().replaceAll('[', '').replaceAll(']', '')
-    );
+        numTelefono: json['num_telefono']
+            .toString()
+            .replaceAll('[', '')
+            .replaceAll(']', ''));
   }
+
   /// Override del metodo toString per ottenere una rappresentazione testuale dell'oggetto.
   @override
   String toString() {

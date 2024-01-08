@@ -2,13 +2,17 @@
 class AdsDTO {
   /// Identificativo univoco dell'ADS
   late int? _id;
+
   /// username dell'ADS
   late String _username;
+
   /// password dell'ADS
   late String _password;
+
   /// contatti dell'ADS
   late String _email;
   late String _num_telefono;
+
   /// indirizzo dell'ADS
   late String _via;
   late String _citta;
@@ -82,13 +86,19 @@ class AdsDTO {
   factory AdsDTO.fromJson(dynamic json) {
     return AdsDTO(
       id: json['id'],
-      username: json['username'].toString().replaceAll('[', '').replaceAll(']', ''),
-      password: json['password'].toString().replaceAll('[', '').replaceAll(']', ''),
+      username:
+          json['username'].toString().replaceAll('[', '').replaceAll(']', ''),
+      password:
+          json['password'].toString().replaceAll('[', '').replaceAll(']', ''),
       email: json['email'].toString().replaceAll('[', '').replaceAll(']', ''),
-      num_telefono: json['num_telefono'].toString().replaceAll('[', '').replaceAll(']', ''),
+      num_telefono: json['num_telefono']
+          .toString()
+          .replaceAll('[', '')
+          .replaceAll(']', ''),
       citta: json['citta'].toString().replaceAll('[', '').replaceAll(']', ''),
       via: json['via'].toString().replaceAll('[', '').replaceAll(']', ''),
-      provincia: json['provincia'].toString().replaceAll('[', '').replaceAll(']', ''),
+      provincia:
+          json['provincia'].toString().replaceAll('[', '').replaceAll(']', ''),
     );
   }
 
@@ -105,6 +115,7 @@ class AdsDTO {
       'provincia': provincia
     };
   }
+
   /// Metodo che permette una stampa piu pulita dell'entity ads
   @override
   String toString() {

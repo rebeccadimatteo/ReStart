@@ -10,15 +10,14 @@ import 'CA/ca_DAO_impl.dart';
 import 'autenticazione_DAO.dart';
 import 'utente/utente_DAO_impl.dart';
 
-
 class AutenticazioneDAOImpl implements AutenticazioneDAO {
   Connector connector = Connector();
 
   /// Questa funzione restituisce il tipo dell'oggetto preso in input
   Future<String> getTipoDynamic(dynamic ug) async {
-    if(ug.runtimeType == AdsDTO)
+    if (ug.runtimeType == AdsDTO)
       return "ADS";
-    else if(ug.runtimeType == UtenteDTO)
+    else if (ug.runtimeType == UtenteDTO)
       return "Utente";
     else
       return "CA";
@@ -34,9 +33,9 @@ class AutenticazioneDAOImpl implements AutenticazioneDAO {
     bool ca = await caDao.existByUsername(username);
     bool ads = await adsDao.existByUsername(username);
 
-    if(utente != false)
+    if (utente != false)
       return "Utente";
-    else if(ca != false)
+    else if (ca != false)
       return "CA";
     else
       return "ADS";
@@ -71,7 +70,7 @@ class AutenticazioneDAOImpl implements AutenticazioneDAO {
         default:
           return false;
       }
-    }catch (e) {
+    } catch (e) {
       developer.log(e.toString());
       return false;
     } finally {
@@ -105,7 +104,7 @@ class AutenticazioneDAOImpl implements AutenticazioneDAO {
         default:
           return false;
       }
-    }catch (e) {
+    } catch (e) {
       developer.log(e.toString());
       return false;
     } finally {
@@ -149,6 +148,7 @@ class AutenticazioneDAOImpl implements AutenticazioneDAO {
       await connector.closeConnection();
     }
   }
+
   /// questo metodo restituise un utente generico preso in input il suo username
   /// restituisce l'utente generico se esiste, null altrimenti.
   @override
@@ -174,7 +174,7 @@ class AutenticazioneDAOImpl implements AutenticazioneDAO {
         default:
           return null;
       }
-    }catch (e) {
+    } catch (e) {
       developer.log(e.toString());
       return false;
     }

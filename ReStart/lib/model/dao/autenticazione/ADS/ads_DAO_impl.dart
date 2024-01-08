@@ -23,7 +23,8 @@ class AdsDAOImpl implements AdsDAO {
       );
       var id = result[0][0];
       var result1 = await connection.execute(
-          Sql.named('INSERT INTO public."Indirizzo" (via, citta, provincia, id_corso) '
+          Sql.named(
+              'INSERT INTO public."Indirizzo" (via, citta, provincia, id_corso) '
               'VALUES (@via, @citta, @provincia, @id_ads)'),
           parameters: {
             'via': a.via,
@@ -33,7 +34,8 @@ class AdsDAOImpl implements AdsDAO {
           });
 
       var result2 = await connection.execute(
-          Sql.named('INSERT INTO public."Contatti" (email, num_telefono, id_ads) '
+          Sql.named(
+              'INSERT INTO public."Contatti" (email, num_telefono, id_ads) '
               'VALUES (@email, @telefono, @id_ads)'),
           parameters: {
             'email': a.email,
@@ -100,16 +102,17 @@ class AdsDAOImpl implements AdsDAO {
       await connector.closeConnection();
     }
   }
+
   /// questo metodo restituise la lista di tutti gli [AdsDTO] sul database
   /// restituisce l'utente generico se esiste, null altrimenti.
   @override
   Future<List<AdsDTO>> findAll() async {
     try {
       Connection connection = await connector.openConnection();
-      var result = await connection.execute(
-          Sql.named('SELECT a.id, a.username, a.password, c.email, c.num_telefono, ind.citta, ind.via, ind.provincia '
-              ' FROM public."ADS" a, public."Contatti" c, public."Indirizzo" ind '
-              ' WHERE a.id = c.id_ca AND a.id = ind.id_ca'));
+      var result = await connection.execute(Sql.named(
+          'SELECT a.id, a.username, a.password, c.email, c.num_telefono, ind.citta, ind.via, ind.provincia '
+          ' FROM public."ADS" a, public."Contatti" c, public."Indirizzo" ind '
+          ' WHERE a.id = c.id_ca AND a.id = ind.id_ca'));
 
       List<AdsDTO> ads = result.map((row) {
         return AdsDTO.fromJson(row.toColumnMap());
@@ -123,6 +126,7 @@ class AdsDAOImpl implements AdsDAO {
       await connector.closeConnection();
     }
   }
+
   /// questo metodo restituise un [AdsDTO] preso in input il suo id
   /// restituisce l'utente generico se esiste, null altrimenti.
   @override
@@ -132,8 +136,8 @@ class AdsDAOImpl implements AdsDAO {
       var result = await connection.execute(
         Sql.named(
             'SELECT a.id, a.username, a.password, c.email, c.num_telefono, ind.citta, ind.via, ind.provincia '
-                ' FROM public."ADS" a, public."Contatti" c, public."Indirizzo" ind '
-                ' WHERE a.id = c.id_ca AND a.id = ind.id_ca AND a.id = @id'),
+            ' FROM public."ADS" a, public."Contatti" c, public."Indirizzo" ind '
+            ' WHERE a.id = c.id_ca AND a.id = ind.id_ca AND a.id = @id'),
         parameters: {'id': id},
       );
       if (result.isNotEmpty) {
@@ -169,6 +173,7 @@ class AdsDAOImpl implements AdsDAO {
       await connector.closeConnection();
     }
   }
+
   /// rimuove dal database [AdsDTO] dato in input il suo username
   /// restituisce true se viene rimosso correttamente, false altrimenti.
   @override
@@ -190,6 +195,7 @@ class AdsDAOImpl implements AdsDAO {
       await connector.closeConnection();
     }
   }
+
   /// aggiorna i campi di [AdsDTO]
   /// restituisce true se è andato a buon fine, false altrimenti.
   @override
@@ -199,7 +205,7 @@ class AdsDAOImpl implements AdsDAO {
       var result = await connection.execute(
         Sql.named(
             'UPDATE public."ADS" SET username = @username, password = @password '
-                'WHERE id = @id'),
+            'WHERE id = @id'),
         parameters: {
           'id': a.id,
           'username': a.username,
@@ -210,7 +216,7 @@ class AdsDAOImpl implements AdsDAO {
       var result1 = await connection.execute(
         Sql.named(
             'UPDATE public."Contatti" SET email = @email, num_telefono = @num_telefono '
-                'WHERE id_ADS = @id_ADS'),
+            'WHERE id_ADS = @id_ADS'),
         parameters: {
           'email': a.email,
           'num_telefono': a.num_telefono,
@@ -221,7 +227,7 @@ class AdsDAOImpl implements AdsDAO {
       var result2 = await connection.execute(
         Sql.named(
             'UPDATE public."Indirizzo" SET via = @via, citta = @citta, provincia = @provincia '
-                'WHERE id_ADS = @id_ADS'),
+            'WHERE id_ADS = @id_ADS'),
         parameters: {
           'via': a.via,
           'citta': a.citta,
@@ -252,8 +258,8 @@ class AdsDAOImpl implements AdsDAO {
       var result = await connection.execute(
         Sql.named(
             'SELECT a.id, a.username, a.password, c.email, c.num_telefono, ind.citta, ind.via, ind.provincia '
-                ' FROM public."ADS" a, public."Contatti" c, public."Indirizzo" ind '
-                ' WHERE a.username = @username'),
+            ' FROM public."ADS" a, public."Contatti" c, public."Indirizzo" ind '
+            ' WHERE a.username = @username'),
         parameters: {'username': username},
       );
       if (result.isNotEmpty) {
