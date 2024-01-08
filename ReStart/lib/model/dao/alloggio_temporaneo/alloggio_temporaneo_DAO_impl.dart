@@ -12,13 +12,13 @@ class AlloggioTemporaneoDAOImpl implements AlloggioTemporaneoDAO{
     try{
       Connection conn = await connector.openConnection();
       var result1 = await conn.execute(
-        Sql.named('INSERT INTO public."AlloggioTemporaneo" (nome, descrizione, tipo) '
-            'VALUES (@nome, @descrizione, @tipo) RETURNING id'),
-        parameters: {
-          'nome' : at.nome,
-          'descrizione' : at.descrizione,
-          'tipo' : at.tipo
-        });
+          Sql.named('INSERT INTO public."AlloggioTemporaneo" (nome, descrizione, tipo) '
+              'VALUES (@nome, @descrizione, @tipo) RETURNING id'),
+          parameters: {
+            'nome' : at.nome,
+            'descrizione' : at.descrizione,
+            'tipo' : at.tipo
+          });
       var id = result1[0][0];
       var result2 = await conn.execute(
           Sql.named('INSERT INTO public."Indirizzo" (via, citta, provincia, id_alloggio) '
@@ -36,7 +36,7 @@ class AlloggioTemporaneoDAOImpl implements AlloggioTemporaneoDAO{
             'id_alloggio': id,
             'email': at.email,
             'sito': at.sito
-        });
+          });
       var result4 = await conn.execute(
           Sql.named('INSERT INTO public."Immagine" (immagine, id_alloggio) '
               'VALUES (@immagine, @id_alloggio)'),
@@ -84,11 +84,8 @@ class AlloggioTemporaneoDAOImpl implements AlloggioTemporaneoDAO{
     try {
       Connection connection = await connector.openConnection();
 
-      var result = await connection.execute('SELECT  at.id, at.nome, at.descrizione, at.tipo, ind.citta, ind.provincia, ind.via'
-          ', c.email, c.sito, i.immagine FROM public."AlloggioTemporaneo" at, '
-          ' public."Contatti" c, '
-          ' public."Immagine" i, '
-          ' public."Indirizzo" ind '
+      var result = await connection.execute('SELECT  at.id, at.nome, at.descrizione, at.tipo, ind.citta, ind.provincia, ind.via, '
+          'c.email, c.sito, i.immagine FROM public."AlloggioTemporaneo" at, public."Contatti" c, public."Immagine" i, public."Indirizzo" ind '
           'WHERE at.id = c.id_alloggio AND at.id = i.id_alloggio AND at.id = ind.id_alloggio');
 
       List<AlloggioTemporaneoDTO> alloggi = result.map((row) {
@@ -109,9 +106,9 @@ class AlloggioTemporaneoDAOImpl implements AlloggioTemporaneoDAO{
     try {
       Connection connection = await connector.openConnection();
       var result = await connection.execute(
-        Sql.named('SELECT  at.id, at.nome, at.descrizione, at.tipo, ind.citta, ind.provincia, ind.via'
-            ', c.email, c.sito, i.immagine FROM public."AlloggioTemporaneo" at, '
-            'public."Contatti" as c , public."Immagine" as i , public."Indirizzo" as ind '
+        Sql.named('SELECT at.id, at.nome, at.descrizione, at.tipo, ind.citta, ind.provincia, ind.via '
+            'c.email, c.sito, i.immagine FROM public."AlloggioTemporaneo" at, '
+            'public."Contatti" as c, public."Immagine" as i, public."Indirizzo" as ind '
             'WHERE at.id = @id AND at.id = c.id_alloggio AND at.id = i.id_alloggio AND at.id = ind.id_alloggio'),
         parameters: {'id': id},
       );
@@ -204,5 +201,4 @@ class AlloggioTemporaneoDAOImpl implements AlloggioTemporaneoDAO{
       await connector.closeConnection();
     }
   }
-
 }

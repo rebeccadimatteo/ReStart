@@ -1,5 +1,5 @@
 class AlloggioTemporaneoDTO{
-  late int? _id;
+  int? _id;
   late String _nome;
   late String _descrizione;
   late String _tipo;
@@ -11,7 +11,7 @@ class AlloggioTemporaneoDTO{
   late String _immagine;
 
   AlloggioTemporaneoDTO({
-    required int? id,
+    int? id,
     required String nome,
     required String descrizione,
     required String tipo,
@@ -21,16 +21,16 @@ class AlloggioTemporaneoDTO{
     required String email,
     required String sito,
     required String immagine,
-  }) : _id = id,
-       _nome = nome,
-       _descrizione = descrizione,
-       _tipo = tipo,
-       _citta = citta,
-       _provincia = provincia,
-       _via = via,
-       _email = email,
-       _sito = sito,
-       _immagine = immagine;
+  }) : _id = id ?? null,
+        _nome = nome,
+        _descrizione = descrizione,
+        _tipo = tipo,
+        _citta = citta,
+        _provincia = provincia,
+        _via = via,
+        _email = email,
+        _sito = sito,
+        _immagine = immagine;
 
   String get immagine => _immagine;
 
@@ -86,7 +86,7 @@ class AlloggioTemporaneoDTO{
     _nome = value;
   }
 
-  int get id => _id ?? -1;
+  int? get id => _id ?? null;
 
   // Metodo factory per creare un'istanza del DTO da un JSON
   factory AlloggioTemporaneoDTO.fromJson(Map<String, dynamic> json) {
@@ -156,4 +156,3 @@ class AlloggioTemporaneoDTO{
     return 'AlloggioTemporaneoDTO{id: $_id, nome: $_nome, descrizione: $_descrizione, tipo: $_tipo, citta: $_citta, provincia: $_provincia, via: $_via, email: $_email, sito: $_sito, immagine: $_immagine}';
   }
 }
-
