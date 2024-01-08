@@ -23,6 +23,7 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
   final TextEditingController nomeMedicoController = TextEditingController();
   final TextEditingController cognomeMedicoController = TextEditingController();
   final TextEditingController descrizioneController = TextEditingController();
+  final TextEditingController tipoController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController numTelefonoController = TextEditingController();
   final TextEditingController cittaController = TextEditingController();
@@ -71,6 +72,7 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
       String nomeMedico = nomeMedicoController.text;
       String cognomeMedico = cognomeMedicoController.text;
       String descrizione = descrizioneController.text;
+      String tipo = tipoController.text;
       String email = emailController.text;
       String numTelefono = numTelefonoController.text;
       String citta = cittaController.text;
@@ -86,7 +88,7 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
             nomeMedico: nomeMedico,
             cognomeMedico: cognomeMedico,
             descrizione: descrizione,
-            tipo: '',
+            tipo: tipo,
             email: email,
             numTelefono: numTelefono,
             citta: citta,
@@ -195,14 +197,6 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
                               }
                               return null;
                             }),
-                        const SizedBox(height: 40),
-                        const Text(
-                          'Contatti',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
                         const SizedBox(height: 20),
                         TextFormField(
                             controller: descrizioneController,
@@ -214,6 +208,25 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
                               }
                               return null;
                             }),
+                        const SizedBox(height: 20),
+                        TextFormField(
+                            controller: tipoController,
+                            decoration:
+                            const InputDecoration(labelText: 'Tipo'),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Inserisci il tipo del supporto medico offerto';
+                              }
+                              return null;
+                            }),
+                        const SizedBox(height: 40),
+                        const Text(
+                          'Contatti',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                         const SizedBox(height: 20),
                         TextFormField(
                             controller: emailController,
