@@ -1,10 +1,14 @@
 
-import 'package:restart_all_in_one/application/autenticazione/service/autenticazione_service.dart';
-import 'package:restart_all_in_one/model/dao/autenticazione/autenticazione_DAO.dart';
-import 'package:restart_all_in_one/model/dao/autenticazione/autenticazione_DAO_impl.dart';
-import 'package:restart_all_in_one/model/entity/ads_DTO.dart';
-import 'package:restart_all_in_one/model/entity/ca_DTO.dart';
-import 'package:restart_all_in_one/model/entity/utente_DTO.dart';
+
+
+import '../../../model/dao/autenticazione/autenticazione_DAO.dart';
+import '../../../model/dao/autenticazione/autenticazione_DAO_impl.dart';
+import '../../../model/dao/autenticazione/utente/utente_DAO.dart';
+import '../../../model/dao/autenticazione/utente/utente_DAO_impl.dart';
+import '../../../model/entity/ads_DTO.dart';
+import '../../../model/entity/ca_DTO.dart';
+import '../../../model/entity/utente_DTO.dart';
+import 'autenticazione_service.dart';
 
 class AutenticazioneServiceImpl implements AutenticazioneService{
   final AutenticazioneDAO _autenticazioneDAO;
@@ -37,6 +41,13 @@ class AutenticazioneServiceImpl implements AutenticazioneService{
         }
       }
     }
+  }
+
+  @override
+  Future<bool> deleteUtente(String username) {
+
+    final UtenteDAO utenteDAO = UtenteDAOImpl();
+    return utenteDAO.removeByUsername(username);
   }
 
 

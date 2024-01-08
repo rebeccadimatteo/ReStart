@@ -55,6 +55,32 @@ class AutenticazioneController {
     }
   }
 
+  Future<Response> _deleteUtente(Request request) async {
+    try {
+      print('sono in delete utente');
+
+      final String requestBody = await request.readAsString();
+      final Map<String, dynamic> params = jsonDecode(requestBody);
+
+      String username = params['username'] ?? '';
+
+      if (await _authService.deleteUtente(username)) {
+        final responseBody = jsonEncode({'result': "Eliminazione effettuata."});
+        return Response.ok(responseBody,
+            headers: {'Content-Type': 'application/json'});
+      } else {
+        final responseBody =
+        jsonEncode({'result': 'Eliminazione non effettuata'});
+        return Response.badRequest(
+            body: responseBody, headers: {'Content-Type': 'application/json'});
+      }
+    } catch (e) {
+      // Gestione degli errori durante la chiamata al servizio
+      return Response.internalServerError(
+          body: 'Errore durante l\'eliminazione dell\'utente: $e');
+    }
+  }
+
   Future<Response> _notFound(Request request) async {
     return Response.notFound('Endpoint non trovato',
         headers: {'Content-Type': 'text/plain'});
