@@ -6,7 +6,7 @@ abstract class UtenteDAO {
   Future<bool> existById(int id);
   Future<bool> existByUsername(String username);
   Future<List<UtenteDTO>> findAll();
-  Future<UtenteDTO?> findById(int id);
+  Future<UtenteDTO?> findById(int? id);
   Future<UtenteDTO?> findByUsername(String username);
   Future<bool> removeById(int id);
   Future<bool> removeByUsername(String username);

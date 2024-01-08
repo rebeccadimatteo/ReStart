@@ -4,6 +4,7 @@ class SupportoMedicoDTO {
   late String _nomeMedico;
   late String _cognomeMedico;
   late String _descrizione;
+  late String _tipo;
   late String _email;
   late String _numTelefono;
   late String _via;
@@ -15,16 +16,18 @@ class SupportoMedicoDTO {
     required String nomeMedico,
     required String cognomeMedico,
     required String descrizione,
+    required String tipo,
     required String immagine,
     required String email,
     required String numTelefono,
     required String via,
     required String citta,
     required String provincia,
-  })  : _id = id ?? null,
+  })  : _id = id,
         _nomeMedico = nomeMedico,
         _cognomeMedico = cognomeMedico,
         _descrizione = descrizione,
+        _tipo = tipo,
         _immagine = immagine,
         _email = email,
         _numTelefono = numTelefono,
@@ -32,7 +35,7 @@ class SupportoMedicoDTO {
         _citta = citta,
         _provincia = provincia;
 
-  int? get id => _id ?? null;
+  int? get id => _id;
 
   String get immagine => _immagine;
 
@@ -56,6 +59,12 @@ class SupportoMedicoDTO {
 
   set descrizione(String value) {
     _descrizione = value;
+  }
+
+  String get tipo => _tipo;
+
+  set tipo(String value) {
+    _tipo = value;
   }
 
   String get email => _email;
@@ -92,15 +101,26 @@ class SupportoMedicoDTO {
   factory SupportoMedicoDTO.fromJson(Map<String, dynamic> json) {
     return SupportoMedicoDTO(
       id: json['id'],
-      nomeMedico: json['nome'].toString().replaceAll('[', '').replaceAll(']', ''),
-      cognomeMedico: json['cognome'].toString().replaceAll('[', '').replaceAll(']', ''),
-      descrizione: json['descrizione'].toString().replaceAll('[', '').replaceAll(']', ''),
-      immagine: json['immagine'].toString().replaceAll('[', '').replaceAll(']', ''),
+      nomeMedico:
+      json['nome'].toString().replaceAll('[', '').replaceAll(']', ''),
+      cognomeMedico:
+      json['cognome'].toString().replaceAll('[', '').replaceAll(']', ''),
+      descrizione: json['descrizione']
+          .toString()
+          .replaceAll('[', '')
+          .replaceAll(']', ''),
+      tipo: json['tipo'].toString().replaceAll('[', ''.replaceAll(']', '')),
+      immagine:
+      json['immagine'].toString().replaceAll('[', '').replaceAll(']', ''),
       email: json['email'].toString().replaceAll('[', '').replaceAll(']', ''),
-      numTelefono: json['num_telefono'].toString().replaceAll('[', '').replaceAll(']', ''),
-      via : json['via'].toString().replaceAll('[', '').replaceAll(']', ''),
-      citta : json['citta'].toString().replaceAll('[', '').replaceAll(']', ''),
-      provincia : json['provincia'].toString().replaceAll('[', '').replaceAll(']', ''),
+      numTelefono: json['num_telefono']
+          .toString()
+          .replaceAll('[', '')
+          .replaceAll(']', ''),
+      via: json['via'].toString().replaceAll('[', '').replaceAll(']', ''),
+      citta: json['citta'].toString().replaceAll('[', '').replaceAll(']', ''),
+      provincia:
+      json['provincia'].toString().replaceAll('[', '').replaceAll(']', ''),
     );
   }
 
@@ -111,6 +131,7 @@ class SupportoMedicoDTO {
       'nome': nomeMedico,
       'cognome': cognomeMedico,
       'descrizione': descrizione,
+      'tipo': tipo,
       'immagine': immagine,
       'email': email,
       'num_telefono': numTelefono,
@@ -126,6 +147,7 @@ class SupportoMedicoDTO {
       'nome': nomeMedico,
       'cognome': cognomeMedico,
       'descrizione': descrizione,
+      'tipo': tipo,
       'immagine': immagine,
       'email': email,
       'num_telefono': numTelefono,
@@ -141,6 +163,7 @@ class SupportoMedicoDTO {
       nomeMedico: map['nomeMedico'] as String,
       cognomeMedico: map['cognomeMedico'] as String,
       descrizione: map['descrizione'] as String,
+      tipo: map['tipo'] as String,
       immagine: map['immagine'] as String,
       email: map['email'] as String,
       numTelefono: map['num_telefono'] as String,
@@ -152,6 +175,6 @@ class SupportoMedicoDTO {
 
   @override
   String toString() {
-    return 'SupportoMedicoDTO{id: $_id, immagine: $_immagine, nomeMedico: $_nomeMedico, cognomeMedico: $_cognomeMedico, descrizione: $_descrizione, email: $_email, numTelefono: $_numTelefono, via: $_via, citta: $_citta, provincia: $_provincia}';
+    return 'SupportoMedicoDTO{_id: $_id, _immagine: $_immagine, _nomeMedico: $_nomeMedico, _cognomeMedico: $_cognomeMedico, _descrizione: $_descrizione, _tipo: $_tipo, _email: $_email, _numTelefono: $_numTelefono, _via: $_via, _citta: $_citta, _provincia: $_provincia}';
   }
 }

@@ -1,6 +1,7 @@
 /// Entity class dell'evento
 class EventoDTO {
   int? _id;
+  late int _id_ca;
   late String _immagine;
   late String _nomeEvento;
   late String _descrizione;
@@ -15,6 +16,7 @@ class EventoDTO {
   /// Costruttore che permette di istanziare un nuovo evento
   EventoDTO({
     int? id,
+    required int id_ca,
     required String immagine,
     required String nomeEvento,
     required String descrizione,
@@ -25,7 +27,8 @@ class EventoDTO {
     required String via,
     required String citta,
     required String provincia,
-  })  : _id = id ?? null,
+  })  : _id = id,
+        _id_ca = id_ca,
         _immagine = immagine,
         _nomeEvento = nomeEvento,
         _descrizione = descrizione,
@@ -38,9 +41,13 @@ class EventoDTO {
         _provincia = provincia;
 
   /// Getter e setter dei vari attributi
-  int? get id => _id ?? null;
-
+  int? get id => _id;
+  int get id_ca => _id_ca;
   String get immagine => _immagine;
+
+  set id_ca(int value){
+    _id_ca = value;
+  }
 
   set immagine(String value) {
     _immagine = value;
@@ -115,6 +122,7 @@ class EventoDTO {
     }
     return EventoDTO(
       id: json['id'],
+      id_ca: json['id_ca'],
       nomeEvento: json['nome'].toString().replaceAll('[', '').replaceAll(']', ''),
       descrizione: json['descrizione'].toString().replaceAll('[', '').replaceAll(']', ''),
       date: parsedDate,
@@ -132,6 +140,7 @@ class EventoDTO {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
+      'id_ca': id_ca,
       'nome': nomeEvento,
       'descrizione': descrizione,
       'data': date.toIso8601String(),
@@ -148,6 +157,6 @@ class EventoDTO {
   /// Metodo che permette una stampa più pulita dell'entity utente
   @override
   String toString() {
-    return 'EventoDTO{id: $_id, immagine: $_immagine, nomeEvento: $_nomeEvento, descrizione: $_descrizione, data: $_date, approvato: $_approvato, email: $_email, sito: $_sito, via: $_via, citta: $_citta, provincia: $_provincia}';
+    return 'EventoDTO{id: $_id, id_ca: $_id_ca, immagine: $_immagine, nomeEvento: $_nomeEvento, descrizione: $_descrizione, data: $_date, approvato: $_approvato, email: $_email, sito: $_sito, via: $_via, citta: $_citta, provincia: $_provincia}';
   }
 }

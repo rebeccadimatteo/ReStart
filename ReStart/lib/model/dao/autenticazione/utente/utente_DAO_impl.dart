@@ -16,7 +16,7 @@ class UtenteDAOImpl implements UtenteDAO {
       var result1 = await connection.execute(
         Sql.named(
             'INSERT INTO public."Utente"  (nome, cognome, cod_fiscale, data_nascita, luogo_nascita, genere, username, password) '
-            'VALUES (@nome, @cognome, @cod_fiscale, @data_nascita, @luogo_nascita, @genere, @username, @password) RETURNING id'),
+                'VALUES (@nome, @cognome, @cod_fiscale, @data_nascita, @luogo_nascita, @genere, @username, @password) RETURNING id'),
         parameters: {
           'nome': u.nome,
           'cognome': u.cognome,
@@ -32,7 +32,7 @@ class UtenteDAOImpl implements UtenteDAO {
       var result2 = await connection.execute(
           Sql.named(
               'INSERT INTO public."Indirizzo" (via, citta, provincia, id_utente) '
-              'VALUES (@via, @citta, @provincia, @id_utente)'),
+                  'VALUES (@via, @citta, @provincia, @id_utente)'),
           parameters: {
             'via': u.via,
             'citta': u.citta,
@@ -43,7 +43,7 @@ class UtenteDAOImpl implements UtenteDAO {
       var result3 = await connection.execute(
           Sql.named(
               'INSERT INTO public."Contatti" (email, num_telefono, id_utente) '
-              'VALUES (@email, @telefono, @id_utente)'),
+                  'VALUES (@email, @telefono, @id_utente)'),
           parameters: {
             'id_utente': id,
             'email': u.email,
@@ -116,7 +116,7 @@ class UtenteDAOImpl implements UtenteDAO {
       Connection connection = await connector.openConnection();
       var result = await connection.execute(
           Sql.named('SELECT u.*, c.email, c.num_telefono, i.via, i.citta, i.provincia FROM public."Utente" u, '
-          'public."Contatti" c, public."Indirizzo" i WHERE u.id = c.id_utente AND u.id = i.id_utente'));
+              'public."Contatti" c, public."Indirizzo" i WHERE u.id = c.id_utente AND u.id = i.id_utente'));
 
       // Mappa i risultati della query in oggetti Utente_DTO
       List<UtenteDTO> ads = result.map((row) {
@@ -135,13 +135,13 @@ class UtenteDAOImpl implements UtenteDAO {
   /// questo metodo restituise un [UtenteDTO] preso in input il suo id
   /// restituisce l'utente generico se esiste, null altrimenti.
   @override
-  Future<UtenteDTO?> findById(int id) async {
+  Future<UtenteDTO?> findById(int? id) async {
     try {
       Connection connection = await connector.openConnection();
       var result = await connection.execute(
         Sql.named(
             'SELECT u.*, c.email, c.num_telefono, i.via, i.citta, i.provincia FROM public."Utente" u, public."Contatti" c, '
-            'public."Indirizzo" i WHERE u.id = c.id_utente AND u.id = i.id_utente WHERE u.id = @id'),
+                'public."Indirizzo" i WHERE u.id = c.id_utente AND u.id = i.id_utente WHERE u.id = @id'),
         parameters: {'id': id},
       );
       if (result.isNotEmpty) {
@@ -205,7 +205,7 @@ class UtenteDAOImpl implements UtenteDAO {
       Connection connection = await connector.openConnection();
       var result1 = await connection.execute(
         Sql.named('UPDATE public."Utente" SET nome = @nome, cognome = @cognome, cod_fiscale = @cod_fiscale, data_nascita = @data_nascita, luogo_nascita = @data_nascita, '
-        'genere = @genere, username = @username, password = @password WHERE id = @id'),
+            'genere = @genere, username = @username, password = @password WHERE id = @id'),
         parameters: {
           'id': u.id,
           'nome': u.nome,
@@ -221,7 +221,7 @@ class UtenteDAOImpl implements UtenteDAO {
 
       var result2 = await connection.execute(
         Sql.named('UPDATE public."Contatti" SET email = @email, num_telefono = @num_telefono '
-        'WHERE id_utente = @id_utente'),
+            'WHERE id_utente = @id_utente'),
         parameters: {
           'email': u.email,
           'num_telefono': u.num_telefono,
@@ -231,7 +231,7 @@ class UtenteDAOImpl implements UtenteDAO {
 
       var result3 = await connection.execute(
         Sql.named('UPDATE public."Indirizzo" SET via = @via, citta = @citta, provincia = @provincia '
-        'WHERE id_utente = @id_utente'),
+            'WHERE id_utente = @id_utente'),
         parameters: {
           'via': u.via,
           'citta': u.citta,
@@ -260,8 +260,10 @@ class UtenteDAOImpl implements UtenteDAO {
       Connection connection = await connector.openConnection();
       var result = await connection.execute(
         Sql.named(
-            'SELECT u.id, u.username, c.email, c.num_telefono FROM public."Utente" as u, public."Contatti" as c '
-            'WHERE u.username = @username'),
+            'SELECT u.id, u.nome, u.cognome, u.cod_fiscale, u.data_nascita, u.luogo_nascita, u.genere, u.username, u.password, u.lavoro_adatto, '
+                'c.email, c.num_telefono, i.immagine, ind.via, ind.citta, ind.provincia'
+                ' FROM public."Utente" as u, public."Contatti" as c, public."Immagine" as i, public."Indirizzo" as ind '
+                'WHERE u.username = @username'),
         parameters: {'username': username},
       );
       if (result.isNotEmpty) {

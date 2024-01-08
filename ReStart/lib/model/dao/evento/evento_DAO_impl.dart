@@ -19,8 +19,8 @@ class EventoDAOImpl implements EventoDAO {
       Connection connection = await connector.openConnection();
       var result = await connection.execute(
         Sql.named(
-            'INSERT INTO public."Evento" (nome, descrizione, data, approvato) '
-                'VALUES (@nome, @descrizione, @data, @approvato) RETURNING id'),
+            'INSERT INTO public."Evento" (id_ca, nome, descrizione, data, approvato) '
+                'VALUES (@id_ca, @nome, @descrizione, @data, @approvato) RETURNING id'),
         parameters: {
           'nome': e.nomeEvento,
           'descrizione': e.descrizione,
@@ -98,9 +98,10 @@ class EventoDAOImpl implements EventoDAO {
     try {
       Connection connection = await connector.openConnection();
       var result = await connection.execute(Sql.named(
-          'SELECT  e.id, e.nome, e.descrizione, e.data, e.approvato, c.email,'
-              'c.sito, i.immagine, ind.via, ind.citta, ind.provincia FROM public."Evento" as e, public."Contatti" as c, public."Immagine" as i, public."Indirizzo" as ind'
-              ' WHERE e.id = c.id_evento AND e.id = i.id_evento AND e.id = ind.id_evento'));
+          'SELECT  e.id, e.id_ca, e.id_ca, e.nome, e.descrizione, e.data, e.approvato, c.email, '
+              'c.sito, i.immagine, ind.via, ind.citta, ind.provincia FROM public."Evento" as e, public."Contatti" as c, '
+              'public."Immagine" as i, public."Indirizzo" as ind, public."CA" as ca '
+              'WHERE e.id = c.id_evento AND e.id = i.id_evento AND e.id = ind.id_evento AND e.id_ca = ca.id'));
 
       // Mappa i risultati della query in oggetti SupportoMedicoDTO
       List<EventoDTO> eventi = result.map((row) {
@@ -122,9 +123,10 @@ class EventoDAOImpl implements EventoDAO {
       Connection connection = await connector.openConnection();
       var result = await connection.execute(
         Sql.named(
-            'SELECT  e.id, e.nome, e.descrizione, e.data, e.approvato, c.id, c.email,'
-                'c.sito, i.immagine, ind.via, ind.citta, ind.provincia, FROM public."Evento" as e, public."Contatti" as c, public."Immagine" as i, public."Indirizzo" as ind'
-                'WHERE e.id = @id AND e.id = c.id_evento AND e.id = i.id_evento AND e.id = ind.id_evento'),
+            'SELECT  e.id, e.id_ca, e.nome, e.descrizione, e.data, e.approvato, c.id, c.email,'
+                'c.sito, i.immagine, ind.via, ind.citta, ind.provincia, FROM public."Evento" as e, public."Contatti" as c, '
+                'public."Immagine" as i, public."Indirizzo" as ind, public."CA" as ca '
+                'WHERE e.id = @id AND e.id = c.id_evento AND e.id = i.id_evento AND e.id = ind.id_evento AND e.id_ca = ca.id'),
         parameters: {'id': id},
       );
       if (result.isNotEmpty) {
@@ -167,11 +169,12 @@ class EventoDAOImpl implements EventoDAO {
       Connection connection = await connector.openConnection();
       var result1 = await connection.execute(
         Sql.named(
-            'UPDATE public."Evento" SET nome = @nome, descrizione = @descrizione '
+            'UPDATE public."Evento" SET id_ca = @id_ca, nome = @nome, descrizione = @descrizione '
                 'data = @data, approvato = @approvato'
                 'WHERE id = @id'),
         parameters: {
           'id': e.id,
+          'id_ca': e.id_ca,
           'nome': e.nomeEvento,
           'descrizione': e.descrizione,
           'data': e.date,
@@ -227,14 +230,15 @@ class EventoDAOImpl implements EventoDAO {
       CaDAO caDAO = CaDAOImpl();
       Future<CaDTO?> caDTO = caDAO.findByUsername(usernameCa);
       CaDTO? ca = await caDTO;
-      int? idCa = ca!.id;
+      int? id = ca!.id;
       Connection connection = await connector.openConnection();
       var result = await connection.execute(
         Sql.named(
-            'SELECT  e.id, e.nome, e.descrizione, e.data, e.approvato, c.email,'
-                'c.sito, i.immagine, ind.via, ind.citta, ind.provincia, FROM public."Evento" as e, public."Contatti" as c, public."Immagine" as i, public."Indirizzo" as ind, public."CA" as ca '
-                'WHERE e.id = c.id_evento AND e.id = i.id_evento AND e.id = ind.id_evento AND e.id_ca = ca.@idCa AND e.approvato=true '),
-        parameters: {'idCa': idCa},
+            'SELECT  e.id, e.id_ca, e.nome, e.descrizione, e.data, e.approvato, c.email, '
+                'c.sito, i.immagine, ind.via, ind.citta, ind.provincia, FROM public."Evento" as e, public."Contatti" as c, '
+                'public."Immagine" as i, public."Indirizzo" as ind, public."CA" as ca '
+                'WHERE e.id = c.id_evento AND e.id = i.id_evento AND e.id = ind.id_evento AND e.id_ca = ca.@id AND e.approvato=true '),
+        parameters: {'id': id},
       );
       List<EventoDTO> eventi = result.map((row) {
         return EventoDTO.fromJson(row.toColumnMap());
@@ -255,14 +259,15 @@ class EventoDAOImpl implements EventoDAO {
       CaDAO caDAO = CaDAOImpl();
       Future<CaDTO?> caDTO = caDAO.findByUsername(usernameCa);
       CaDTO? ca = await caDTO;
-      int? idCa = ca!.id;
+      int? id = ca!.id;
       Connection connection = await connector.openConnection();
       var result = await connection.execute(
         Sql.named(
-            'SELECT  e.id, e.nome, e.descrizione, e.data, e.approvato, c.email,'
-                'c.sito, i.immagine, ind.via, ind.citta, ind.provincia, FROM public."Evento" as e, public."Contatti" as c, public."Immagine" as i, public."Indirizzo" as ind, public."CA" as ca '
-                'WHERE e.id = c.id_evento AND e.id = i.id_evento AND e.id = ind.id_evento AND e.id_ca = ca.@idCa AND e.approvato=false '),
-        parameters: {'idCa': idCa},
+            'SELECT  e.id, e.id_ca, e.nome, e.descrizione, e.data, e.approvato, c.email,'
+                'c.sito, i.immagine, ind.via, ind.citta, ind.provincia, FROM public."Evento" as e, public."Contatti" as c, '
+                'public."Immagine" as i, public."Indirizzo" as ind, public."CA" as ca '
+                'WHERE e.id = c.id_evento AND e.id = i.id_evento AND e.id = ind.id_evento AND e.id_ca = ca.@id AND e.approvato=false '),
+        parameters: {'id': id},
       );
       List<EventoDTO> eventi = result.map((row) {
         return EventoDTO.fromJson(row.toColumnMap());

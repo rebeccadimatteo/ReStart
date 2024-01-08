@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_session_manager/flutter_session_manager.dart';
 import '../screens/routes/routes.dart';
 
 /// Classe che builda il widget per mostrare una [AppBar].

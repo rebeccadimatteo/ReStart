@@ -2,10 +2,12 @@ import 'dart:convert';
 import 'package:restart_all_in_one/model/entity/alloggio_temporaneo_DTO.dart';
 import 'package:restart_all_in_one/model/entity/corso_di_formazione_DTO.dart';
 import 'package:shelf/shelf.dart';
-import 'package:shelf/shelf_io.dart' as shelf_io;
+
 import 'package:shelf_router/shelf_router.dart' as shelf_router;
 import '../../../model/entity/supporto_medico_DTO.dart';
 import '../service/reintegrazione/reintegrazione_service_impl.dart';
+
+
 
 class ReintegrazioneController {
   late final ReintegrazioneServiceImpl _service;
@@ -17,8 +19,9 @@ class ReintegrazioneController {
 
     // Associa i vari metodi alle route
     _router.post('/visualizzaCorsi', _visualizzaCorsi);
-   // _router.post('/addCorso', _addCorso);
-   // _router.post('/visualizzaAlloggi', _visualizzaAlloggi);
+    _router.post('/addCorso', _addCorso);
+    _router.post('/addSupporto', _addSupporto);
+    _router.post('/visualizzaAlloggi', _visualizzaAlloggi);
     _router.post('/visualizzaSupporti', _visualizzaSupporti);
 
     // Aggiungi la route di fallback per le richieste non corrispondenti
@@ -31,7 +34,7 @@ class ReintegrazioneController {
     try {
       // Chiamata al servizio per ottenere la lista di corsi
       final List<CorsoDiFormazioneDTO> listaCorsi =
-      await _service.getListaCorsi();
+      await _service.corsiDiFormazione();
       // Creazione della risposta con il corpo JSON contenente la lista di corsi
       final responseBody = jsonEncode({'corsi': listaCorsi});
       return Response.ok(responseBody,
@@ -59,12 +62,118 @@ class ReintegrazioneController {
     }
   }
 
-  // Gestisci le richieste non corrispondenti
+  Future<Response> _visualizzaAlloggi(Request request) async {
+    try {
+      // Chiamata al servizio per ottenere la lista di alloggi
+      final List<AlloggioTemporaneoDTO> listaAlloggi =
+      await _service.alloggiTemporanei();
+      // Creazione della risposta con il corpo JSON contenente la lista di alloggi
+      final responseBody = jsonEncode({'alloggi': listaAlloggi});
+      return Response.ok(responseBody,
+          headers: {'Content-Type': 'application/json'});
+    } catch (e) {
+      // Gestione degli errori durante la chiamata al servizio
+      return Response.internalServerError(
+          body: 'Errore durante la visualizzazione degli alloggi: $e');
+    }
+  }
+
+  Future<Response> _addCorso(Request request) async {
+    try {
+      final String requestBody = await request.readAsString();
+      final Map<String, dynamic> params = jsonDecode(requestBody);
+      final String nomeCorso = params['nome_corso'] ?? '';
+      final String nomeResponsabile = params['nome_responsabile'] ?? '';
+      final String cognomeResponsabile = params['cognome_responsabile'] ?? '';
+      final String descrizione = params['descrizione'] ?? '';
+      final String urlCorso = params['url_corso'] ?? '';
+      final String immagine = params['immagine'] ?? '';
+
+      CorsoDiFormazioneDTO corso = CorsoDiFormazioneDTO(
+          nomeCorso: nomeCorso,
+          nomeResponsabile: nomeResponsabile,
+          cognomeResponsabile: cognomeResponsabile,
+          descrizione: descrizione,
+          urlCorso: urlCorso,
+          immagine: immagine);
+
+      if (await _service.addCorso(corso)) {
+        final responseBody = jsonEncode({'result': "Inserimento effettuato."});
+        return Response.ok(responseBody,
+            headers: {'Content-Type': 'application/json'});
+      } else {
+        final responseBody =
+        jsonEncode({'result': 'Inserimento non effettuato'});
+        return Response.badRequest(
+            body: responseBody, headers: {'Content-Type': 'application/json'});
+      }
+    } catch (e) {
+      // Gestione degli errori durante la chiamata al servizio
+      return Response.internalServerError(
+          body: 'Errore durante l\'inserimento del corso di formazione: $e');
+    }
+  }
+
+  Future<Response> _addSupporto(Request request) async {
+    print("sono in aggiunta supporto");
+
+    try {
+      final String requestBody = await request.readAsString();
+      final Map<String, dynamic> params = jsonDecode(requestBody);
+
+      print(params);
+
+      final String nomeMedico = params['nome'] ?? '';
+      final String cognomeMedico = params['cognome'] ?? '';
+      final String numTelefono = params['num_telefono'] ?? '';
+      final String descrizione = params['descrizione'] ?? '';
+      final String tipo = params['tipo'] ?? '';
+      final String via = params['via'] ?? '';
+      final String citta = params['citta'] ?? '';
+      final String provincia = params['provincia'] ?? '';
+      final String immagine = params['immagine'] ?? '';
+      final String email = params['email'] ?? '';
+
+      print("ho recuperato i parametri");
+
+      SupportoMedicoDTO supporto = SupportoMedicoDTO(
+          nomeMedico: nomeMedico,
+          cognomeMedico: cognomeMedico,
+          descrizione: descrizione,
+          tipo: tipo,
+          immagine: immagine,
+          email: email,
+          numTelefono: numTelefono,
+          via: via,
+          citta: citta,
+          provincia: provincia);
+
+      print(supporto);
+
+      if (await _service.addSupportoMedico(supporto)) {
+        final responseBody = jsonEncode({'result': "Inserimento effettuato."});
+        return Response.ok(responseBody,
+            headers: {'Content-Type': 'application/json'});
+      } else {
+        final responseBody =
+        jsonEncode({'result': 'Inserimento non effettuato'});
+        return Response.badRequest(
+            body: responseBody, headers: {'Content-Type': 'application/json'});
+      }
+    } catch (e) {
+      // Gestione degli errori durante la chiamata al servizio
+      return Response.internalServerError(
+          body: 'Errore durante l\'inserimento del corso di formazione: $e');
+    }
+  }
+
+  /// Metodo per la gestione delle richieste non corrispondenti
   Future<Response> _notFound(Request request) async {
-    return Response.notFound('Endpoint non trovato',
+    return Response.notFound('Endpoint not found',
         headers: {'Content-Type': 'text/plain'});
   }
 }
+
 // Funzione per il parsing dei dati di form
 Map<String, dynamic> parseFormBody(String body) {
   final Map<String, dynamic> formData = {};
