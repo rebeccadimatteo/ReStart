@@ -1,8 +1,8 @@
 import 'dart:convert';
-import 'package:restart_all_in_one/application/gestioneEvento/service/evento_service_impl.dart';
-import 'package:restart_all_in_one/model/entity/evento_DTO.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart' as shelf_router;
+import '../../../model/entity/evento_DTO.dart';
+import '../service/evento_service_impl.dart';
 
 class GestioneEventoController {
   late final EventoServiceImpl _service;
@@ -15,7 +15,7 @@ class GestioneEventoController {
     _router.post('/visualizzaEventi', _visualizzaEventi);
     _router.post('/addEvento', _addEvento);
     //_router.post('/dettagliEvento', _dettagliEvento);
-
+    _router.post('/deleteEvento', _deleteEvento);
     _router.all('/ignored|.*>', _notFound);
   }
 
@@ -78,18 +78,28 @@ class GestioneEventoController {
     }
   }
 
-  //Commentato perchÃ¨ penso sia sbagliata
-  // Future<Response> _dettagliEvento(Request request, int id) async {
-  //   try {
-  //     final EventoDTO? evento = await _service.detailsEvento(id);
-  //     final responseBody = jsonEncode({'evento': evento});
-  //         return Response.ok(responseBody,
-  //             headers: {'Content-Type': 'application/json'});
-  //   } catch (e) {
-  //         return Response.internalServerError(
-  //             body: 'Errore durante la visualizzazione dei corsi: $e');
-  //   }
-  // }
+  Future<Response> _deleteEvento(Request request) async {
+    try {
+      final String requestBody = await request.readAsString();
+      final Map<String, dynamic> params = jsonDecode(requestBody);
+      final int id = params['id'] ?? '';
+
+      if (await _service.deleteEvento(id)) {
+        final responseBody = jsonEncode({'result': "Eliminazione effettuata."});
+        return Response.ok(responseBody,
+            headers: {'Content-Type': 'application/json'});
+      } else {
+        final responseBody =
+        jsonEncode({'result': 'Eliminazione non effettuata.'});
+        return Response.badRequest(
+            body: responseBody, headers: {'Content-Type': 'application/json'});
+      }
+    } catch (e) {
+      // Gestione degli errori durante la chiamata al servizio
+      return Response.internalServerError(
+          body: 'Errore durante l\'eliminazione dell\'evento: $e');
+    }
+  }
 
   Future<Response> _notFound(Request request) async {
     return Response.notFound('Endpoint non trovato',

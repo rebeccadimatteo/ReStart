@@ -1,9 +1,7 @@
 import 'dart:convert';
-
 import '../../../model/entity/candidatura_DTO.dart';
 import '../service/candidatura_service_impl.dart';
 import 'package:shelf/shelf.dart';
-import 'package:shelf/shelf_io.dart' as shelf_io;
 import 'package:shelf_router/shelf_router.dart' as shelf_router;
 
 class CandidaturaController {
@@ -30,12 +28,12 @@ class CandidaturaController {
       final int? id_utente = params['id_utente'] ?? '';
       final int? id_lavoro = params['id_lavoro'] ?? '';
 
-      CandidaturaDTO candidaturaDTO = CandidaturaDTO(id_lavoro: id_lavoro, id_utente: id_utente);
+      CandidaturaDTO candidaturaDTO =
+          CandidaturaDTO(id_lavoro: id_lavoro, id_utente: id_utente);
       print(candidaturaDTO);
 
       if (await _service.candidatura(id_utente, id_lavoro)) {
-        final responseBody =
-            jsonEncode({'result': "Candidatura effettuata."});
+        final responseBody = jsonEncode({'result': "Candidatura effettuata."});
         return Response.ok(responseBody,
             headers: {'Content-Type': 'application/json'});
       } else {

@@ -1,15 +1,13 @@
-import 'package:restart_all_in_one/application/gestioneLavoro/service/lavoro_service.dart';
-import 'package:restart_all_in_one/model/dao/annuncio_di_lavoro/annuncio_di_lavoro_DAO.dart';
-import 'package:restart_all_in_one/model/dao/annuncio_di_lavoro/annuncio_di_lavoro_DAO_impl.dart';
-import 'package:restart_all_in_one/model/dao/autenticazione/CA/ca_DAO_impl.dart';
-import 'package:restart_all_in_one/model/dao/autenticazione/utente/utente_DAO_impl.dart';
-import 'package:restart_all_in_one/model/entity/annuncio_di_lavoro_DTO.dart';
-import 'package:restart_all_in_one/model/entity/ca_DTO.dart';
-import 'package:restart_all_in_one/model/entity/evento_DTO.dart';
-import 'package:restart_all_in_one/model/entity/utente_DTO.dart';
-
+import '../../../model/dao/annuncio_di_lavoro/annuncio_di_lavoro_DAO.dart';
+import '../../../model/dao/annuncio_di_lavoro/annuncio_di_lavoro_DAO_impl.dart';
 import '../../../model/dao/autenticazione/CA/ca_DAO.dart';
+import '../../../model/dao/autenticazione/CA/ca_DAO_impl.dart';
 import '../../../model/dao/autenticazione/utente/utente_DAO.dart';
+import '../../../model/dao/autenticazione/utente/utente_DAO_impl.dart';
+import '../../../model/entity/annuncio_di_lavoro_DTO.dart';
+import '../../../model/entity/ca_DTO.dart';
+import '../../../model/entity/utente_DTO.dart';
+import 'lavoro_service.dart';
 
 class LavoroServiceImpl implements LavoroService{
   final AnnuncioDiLavoroDAO _lavoroDAO;

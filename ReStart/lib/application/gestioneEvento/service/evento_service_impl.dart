@@ -4,10 +4,8 @@ import '../../../model/dao/autenticazione/CA/ca_DAO.dart';
 import '../../../model/dao/autenticazione/CA/ca_DAO_impl.dart';
 import '../../../model/dao/evento/evento_DAO.dart';
 import '../../../model/dao/evento/evento_DAO_impl.dart';
-import '../../../model/entity/ca_DTO.dart';
 import '../../../model/entity/evento_DTO.dart';
 import 'evento_service.dart';
-
 
 class EventoServiceImpl implements EventoService {
   final EventoDAO _eventoDAO;
@@ -21,6 +19,21 @@ class EventoServiceImpl implements EventoService {
   CaDAO get caDAO => _caDAO;
 
   @override
+  Future<bool> addEvento(EventoDTO e) async {
+    return _eventoDAO.add(e);
+  }
+
+  @override
+  Future<bool> deleteEvento(int id) {
+    return _eventoDAO.removeById(id);
+  }
+/*
+  @override
+  Future<EventoDTO?> detailsEvento(int id) {
+    return _eventoDAO.findById(id);
+  }*/
+
+  @override
   Future<List<EventoDTO>> communityEvents() {
     return _eventoDAO.findAll();
   }
@@ -31,13 +44,24 @@ class EventoServiceImpl implements EventoService {
   }
 
   @override
-  Future<bool> addEvento(EventoDTO e) {
-    return _eventoDAO.add(e);
+  Future<bool> approveEvento(EventoDTO e) async {
+    if(await _eventoDAO.existById(e.id) == false){
+      return false;
+    }
+    e.approvato = true;
+    return _eventoDAO.update(e);
   }
-  /*
-  @override
-  Future<EventoDTO?> detailsEvento(int id) {
-    return _eventoDAO.findById(id);
-  }*/
 
+  @override
+  Future<List<EventoDTO>> eventiPubblicati(String usernameCa) {
+    return _eventoDAO.findByApprovato(usernameCa);
+  }
+
+  @override
+  Future<bool> rejectEvento(EventoDTO e) async {
+    if(await _eventoDAO.existById(e.id) == false){
+      return false;
+    }
+    return _eventoDAO.removeById(e.id);
+  }
 }

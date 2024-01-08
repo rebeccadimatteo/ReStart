@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart' as shelf_router;
 import '../../../model/entity/annuncio_di_lavoro_DTO.dart';
@@ -9,7 +8,7 @@ class GestioneLavoroController {
   late final LavoroServiceImpl _service;
   late final shelf_router.Router _router;
 
-  GestioneLavoroController(){
+  GestioneLavoroController() {
     _service = LavoroServiceImpl();
     _router = shelf_router.Router();
 
@@ -22,26 +21,28 @@ class GestioneLavoroController {
   shelf_router.Router get router => _router;
 
   Future<Response> _visualizzaLavori(Request request) async {
-    try{
-      final List<AnnuncioDiLavoroDTO> listaLavori = await _service.offerteLavoro();
-      final responseBody = jsonEncode({'annunci':listaLavori});
-      return Response.ok(responseBody ,
-          headers: {'Content-Type' : 'apllication/json'});
-    }catch(e){
+    try {
+      final List<AnnuncioDiLavoroDTO> listaLavori =
+          await _service.offerteLavoro();
+      final responseBody = jsonEncode({'annunci': listaLavori});
+      return Response.ok(responseBody,
+          headers: {'Content-Type': 'apllication/json'});
+    } catch (e) {
       return Response.internalServerError(
           body: 'Errore durante la visualizzazzione della richiesta');
     }
   }
+
   Future<Response> _aggiungiLavoro(Request request) async {
-    try{
+    try {
       final String requestBody = await request.readAsString();
       final Map<String, dynamic> params = jsonDecode(requestBody);
       // Ottieni i valori dei parametri
       final int id_ca = params['id_ca'] ?? '';
-      final String nomeLavoro= params['nome'] ?? '';
+      final String nomeLavoro = params['nome'] ?? '';
       final String descrizione = params['descrizione'] ?? '';
       final bool approvato = params['approvato'] == 'true';
-      final String via= params['via'] ?? '';
+      final String via = params['via'] ?? '';
       final String citta = params['città'] ?? '';
       final String provincia = params['provincia'] ?? '';
       final String immagine = params['immagine'] ?? '';
@@ -55,7 +56,7 @@ class GestioneLavoroController {
           descrizione: descrizione,
           approvato: approvato,
           via: via,
-          citta : citta,
+          citta: citta,
           provincia: provincia,
           immagine: immagine,
           email: email,
@@ -65,14 +66,11 @@ class GestioneLavoroController {
         final responseBody = jsonEncode({'result': "Inserimento effettuato."});
         return Response.ok(responseBody,
             headers: {'Content-Type': 'application/json'});
-      }
-      else {
-        final responseBody = jsonEncode(
-            {'result': 'Inserimento non effettuato'});
+      } else {
+        final responseBody =
+            jsonEncode({'result': 'Inserimento non effettuato'});
         return Response.badRequest(
-            body: responseBody,
-            headers: {'Content-Type': 'application/json'}
-        );
+            body: responseBody, headers: {'Content-Type': 'application/json'});
       }
     } catch (e) {
       // Gestione degli errori durante la chiamata al servizio
@@ -80,6 +78,7 @@ class GestioneLavoroController {
           body: 'Errore durante la visualizzazione dei supporti medici: $e');
     }
   }
+
   /*Future<Response> _dettagliLavoro(Request request) async {
     try {
       final String requestBody = await request.readAsString();
@@ -112,11 +111,13 @@ class GestioneLavoroController {
       );
     }
   }*/
+
   // Gestisci le richieste non corrispondenti
   Future<Response> _notFound(Request request) async {
     return Response.notFound('Endpoint non trovato',
         headers: {'Content-Type': 'text/plain'});
   }
+
   Map<String, dynamic> parseFormBody(String body) {
     final Map<String, dynamic> formData = {};
     final List<String> pairs = body.split("&");
