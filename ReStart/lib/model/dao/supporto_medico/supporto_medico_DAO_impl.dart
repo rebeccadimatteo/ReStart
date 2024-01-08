@@ -4,7 +4,6 @@ import '../../connection/connector.dart';
 import '../../entity/supporto_medico_DTO.dart';
 import 'supporto_medico_DAO.dart';
 
-
 /// Questa classe rappresenta l'implementazione del dao del Supporto Medico
 class SupportoMedicoDAOImpl implements SupportoMedicoDAO {
   Connector connector = Connector();
@@ -16,7 +15,8 @@ class SupportoMedicoDAOImpl implements SupportoMedicoDAO {
     try {
       Connection connection = await connector.openConnection();
       var result1 = await connection.execute(
-        Sql.named('INSERT INTO public."SupportoMedico" (nome, cognome, descrizione, tipo) '
+        Sql.named(
+            'INSERT INTO public."SupportoMedico" (nome, cognome, descrizione, tipo) '
             'VALUES (@nome, @cognome, @descrizione, @tipo) RETURNING id'),
         parameters: {
           'nome': sm.nomeMedico,
@@ -29,13 +29,11 @@ class SupportoMedicoDAOImpl implements SupportoMedicoDAO {
       var result2 = await connection.execute(
           Sql.named('INSERT INTO public."Immagine" (immagine, id_supporto) '
               'VALUES (@immagine, @id_supporto)'),
-          parameters: {
-            'immagine': sm.immagine,
-            'id_supporto': id
-          });
+          parameters: {'immagine': sm.immagine, 'id_supporto': id});
 
       var result3 = await connection.execute(
-          Sql.named('INSERT INTO public."Indirizzo" (via, citta, provincia, id_supporto) '
+          Sql.named(
+              'INSERT INTO public."Indirizzo" (via, citta, provincia, id_supporto) '
               'VALUES (@via, @citta, @provincia, @id_supporto)'),
           parameters: {
             'via': sm.via,
@@ -45,7 +43,8 @@ class SupportoMedicoDAOImpl implements SupportoMedicoDAO {
           });
 
       var result4 = await connection.execute(
-          Sql.named('INSERT INTO public."Contatti" (email, num_telefono, id_supporto) '
+          Sql.named(
+              'INSERT INTO public."Contatti" (email, num_telefono, id_supporto) '
               'VALUES (@email, @num_telefono, @id_supporto)'),
           parameters: {
             'email': sm.email,
@@ -54,15 +53,17 @@ class SupportoMedicoDAOImpl implements SupportoMedicoDAO {
           });
 
       await connector.closeConnection();
-      if (result1.affectedRows != 0 && result2.affectedRows != 0 &&
-          result3.affectedRows != 0 && result4.affectedRows != 0) {
+      if (result1.affectedRows != 0 &&
+          result2.affectedRows != 0 &&
+          result3.affectedRows != 0 &&
+          result4.affectedRows != 0) {
         return true;
       }
       return false;
-    }catch(e){
+    } catch (e) {
       developer.log(e.toString());
       return false;
-    }finally{
+    } finally {
       await connector.closeConnection();
     }
   }
@@ -86,7 +87,7 @@ class SupportoMedicoDAOImpl implements SupportoMedicoDAO {
     } catch (e) {
       developer.log(e.toString());
       return false;
-    }finally{
+    } finally {
       await connector.closeConnection();
     }
   }
@@ -96,7 +97,8 @@ class SupportoMedicoDAOImpl implements SupportoMedicoDAO {
   Future<List<SupportoMedicoDTO>> findAll() async {
     try {
       Connection connection = await connector.openConnection();
-      var result = await connection.execute(Sql.named('SELECT  sm.id, sm.nome, sm.cognome, sm.descrizione, sm.tipo, c.id, c.num_telefono, c.email,'
+      var result = await connection.execute(Sql.named(
+          'SELECT  sm.id, sm.nome, sm.cognome, sm.descrizione, sm.tipo, c.id, c.num_telefono, c.email,'
           'c.sito, i.id, i.immagine, ind.id, ind.via, ind.citta, ind.provincia FROM public."SupportoMedico" as sm, public."Contatti" as c,'
           ' public."Immagine" as i, public."Indirizzo" as ind '
           'WHERE sm.id = c.id_supporto AND sm.id = i.id_supporto AND sm.id = ind.id_supporto')); // verificare se funziona
@@ -109,7 +111,7 @@ class SupportoMedicoDAOImpl implements SupportoMedicoDAO {
     } catch (e) {
       developer.log(e.toString());
       return [];
-    }finally{
+    } finally {
       await connector.closeConnection();
     }
   }
@@ -120,7 +122,8 @@ class SupportoMedicoDAOImpl implements SupportoMedicoDAO {
     try {
       Connection connection = await connector.openConnection();
       var result = await connection.execute(
-        Sql.named('SELECT  sm.id, sm.nome, sm.cognome, sm.descrizione, i.immagine, c.email, c.num_telefono, ind.via, ind.citta, ind.provincia '
+        Sql.named(
+            'SELECT  sm.id, sm.nome, sm.cognome, sm.descrizione, i.immagine, c.email, c.num_telefono, ind.via, ind.citta, ind.provincia '
             'FROM public."SupportoMedico" as sm, public."Immagine" as i, public."Contatti" as c, public."Indirizzo" as ind '
             'WHERE sm.id = @id AND sm.id = c.id_corso AND sm.id = i.id_corso AND sm.id = ind.id_corso'),
         parameters: {'id': id},
@@ -131,7 +134,7 @@ class SupportoMedicoDAOImpl implements SupportoMedicoDAO {
     } catch (e) {
       developer.log(e.toString());
       return null;
-    }finally{
+    } finally {
       await connector.closeConnection();
     }
     return null;
@@ -147,14 +150,14 @@ class SupportoMedicoDAOImpl implements SupportoMedicoDAO {
         Sql.named('DELETE FROM public."SupportoMedico" WHERE id = @id'),
         parameters: {'id': id},
       );
-      if(result.affectedRows != 0){
+      if (result.affectedRows != 0) {
         return true;
       }
       return false;
     } catch (e) {
       developer.log(e.toString());
       return false;
-    }finally{
+    } finally {
       await connector.closeConnection();
     }
   }
@@ -165,8 +168,9 @@ class SupportoMedicoDAOImpl implements SupportoMedicoDAO {
   Future<bool> update(SupportoMedicoDTO sm) async {
     try {
       Connection connection = await connector.openConnection();
-      var result1 = await connection.execute (
-        Sql.named('UPDATE public."SupportoMedico" SET nome = @nome, cognome = @cognome, '
+      var result1 = await connection.execute(
+        Sql.named(
+            'UPDATE public."SupportoMedico" SET nome = @nome, cognome = @cognome, '
             'descrizione = @descrizione '
             'WHERE id = @id'),
         parameters: {
@@ -177,8 +181,9 @@ class SupportoMedicoDAOImpl implements SupportoMedicoDAO {
         },
       );
 
-      var result2 = await connection.execute (
-        Sql.named('UPDATE public."Contatti" SET email = @email, num_telefono = @num_telefono '
+      var result2 = await connection.execute(
+        Sql.named(
+            'UPDATE public."Contatti" SET email = @email, num_telefono = @num_telefono '
             'WHERE id_supporto = @id_supporto'),
         parameters: {
           'email': sm.email,
@@ -187,8 +192,9 @@ class SupportoMedicoDAOImpl implements SupportoMedicoDAO {
         },
       );
 
-      var result3 = await connection.execute (
-        Sql.named('UPDATE public."Indirizzo" SET via = @via, citta = @citta, provincia = @provincia '
+      var result3 = await connection.execute(
+        Sql.named(
+            'UPDATE public."Indirizzo" SET via = @via, citta = @citta, provincia = @provincia '
             'WHERE id_supporto = @id_supporto'),
         parameters: {
           'via': sm.via,
@@ -201,22 +207,20 @@ class SupportoMedicoDAOImpl implements SupportoMedicoDAO {
       var result4 = await connection.execute(
           Sql.named('UPDATE public."Immagine" SET immagine = @immagine '
               'WHERE id_supporto = @id_supporto'),
-          parameters: {
-            'immagine': sm.immagine,
-            'id_supporto': sm.id
-          }
-      );
+          parameters: {'immagine': sm.immagine, 'id_supporto': sm.id});
 
-      if (result1.affectedRows != 0 && result2.affectedRows != 0 && result3.affectedRows != 0 && result4.affectedRows != 0){
+      if (result1.affectedRows != 0 &&
+          result2.affectedRows != 0 &&
+          result3.affectedRows != 0 &&
+          result4.affectedRows != 0) {
         return true;
       }
       return false;
     } catch (e) {
       developer.log(e.toString());
       return false;
-    }finally{
+    } finally {
       await connector.closeConnection();
     }
   }
-
 }

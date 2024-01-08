@@ -1,6 +1,5 @@
 import 'package:postgres/postgres.dart';
 import 'dart:developer' as developer;
-
 import '../../connection/connector.dart';
 import '../../entity/corso_di_formazione_DTO.dart';
 import 'corso_di_formazione_DAO.dart';
@@ -18,33 +17,32 @@ class CorsoDiFormazioneDAOImpl implements CorsoDiFormazioneDAO {
 
       var result = await connection.execute(
         Sql.named(
-            'INSERT INTO public."CorsoDiFormazione" (nome_corso, nome_responsabile, cognome_responsabile, descrizione, url_corso, immagine) '
-            'VALUES (@nome_corso, @nome_responsabile, @cognome_responsabile, @descrizione, @url_corso, @immagine) RETURNING id'),
+            'INSERT INTO public."CorsoDiFormazione" (nome_corso, nome_responsabile, cognome_responsabile, descrizione, url_corso) '
+            'VALUES (@nome_corso, @nome_responsabile, @cognome_responsabile, @descrizione, @url_corso) RETURNING id'),
         parameters: {
-          'nomeCorso': cf.nomeCorso,
-          'nomeResponsabile': cf.nomeResponsabile,
-          'cognomeResponsabile': cf.cognomeResponsabile,
+          'nome_corso': cf.nomeCorso,
+          'nome_responsabile': cf.nomeResponsabile,
+          'cognome_responsabile': cf.cognomeResponsabile,
           'descrizione': cf.descrizione,
-          'urlCorso': cf.urlCorso,
+          'url_corso': cf.urlCorso,
         },
       );
       var id = result[0][0];
 
       var result1 = await connection.execute(
-          Sql.named('INSERT INTO public."Immagine" (immagine, idCorso) '
-              'VALUES (@immagine, @idCorso)'),
-          parameters: {'immagine': cf.immagine, 'idCorso': id});
-
+          Sql.named('INSERT INTO public."Immagine" (immagine, id_corso) '
+              'VALUES (@immagine, @id_corso)'),
+          parameters: {'immagine': cf.immagine, 'id_corso': id});
 
       await connector.closeConnection();
 
-      if (result1.affectedRows != 0 &&
-          result.affectedRows != 0) {
+      if (result1.affectedRows != 0 && result.affectedRows != 0) {
         return true;
       }
       return false;
     } catch (e) {
       developer.log(e.toString());
+      print(e);
       return false;
     } finally {
       await connector.closeConnection();
