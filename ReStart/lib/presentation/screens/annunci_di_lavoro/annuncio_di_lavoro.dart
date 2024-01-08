@@ -121,4 +121,92 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoro> {
   }
 }
 
-/// visualizza i dettagli di annuncio di lavoro
+/// Visualizza i dettagli di [AnnunciDiLavoro]
+
+class DetailsLavoro extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final AnnuncioDiLavoroDTO annuncio = ModalRoute.of(context)?.settings.arguments as AnnuncioDiLavoroDTO;
+    return Scaffold(
+      appBar: GenericAppBar(
+        showBackButton: true,
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              width: 200,
+              height: 200,
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: NetworkImage(
+                      'https://img.freepik.com/free-vector/men-success-laptop-relieve-work-from-home-computer-great_10045-646.jpg?size=338&ext=jpg&ga=GA1.1.1546980028.1703635200&semt=ais'),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 20),
+          Text(
+            annuncio.nome,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 30,
+            ),
+          ),
+          const SizedBox(height: 10),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Text(annuncio.descrizione, textAlign: TextAlign.center),
+          ),
+          Expanded(
+              child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 30),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        const Text(
+                          'Contatti',
+                          style: TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        // Aggiungi uno spazio tra il testo e gli altri elementi
+                        Text(annuncio.email),
+                        const SizedBox(width: 8),
+                        Text(annuncio.numTelefono),
+                        const SizedBox(width: 8),
+                        Text(
+                            '${annuncio.via}, ${annuncio.citta}, ${annuncio.provincia}'),
+                      ],
+                    ),
+                  ))),
+          const SizedBox(height: 20),
+          Container(
+            padding: const EdgeInsets.only(bottom: 40),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue[200],
+                shadowColor: Colors.grey,
+                elevation: 10,
+              ),
+              onPressed: () {},
+              child: const Text('CANDIDATI',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  )),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

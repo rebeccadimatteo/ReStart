@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-
 import '../alloggi_temporanei/alloggi_temporanei.dart';
+import '../annunci_di_lavoro/annuncio_di_lavoro.dart';
 import '../corsi_di_formazione/corso_di_formazione.dart';
 import '../eventi/eventi.dart';
+import '../home/home_utente.dart';
 import '../login_signup/login.dart';
 import '../login_signup/signup.dart';
 import '../login_signup/start.dart';
 import '../supporto_medico/supporto_medico.dart';
+import '../utente/profilo.dart';
 
 class AppRoutes {
   static const String home = '/';

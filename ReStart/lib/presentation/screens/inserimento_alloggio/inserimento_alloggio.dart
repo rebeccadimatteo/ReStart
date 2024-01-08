@@ -10,11 +10,14 @@ import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as path;
 
+///Classe che rappresenta la schermata per inserire un [AlloggioTemporaneo]
 class InserisciAlloggio extends StatefulWidget {
   @override
   _InserisciAlloggioState createState() => _InserisciAlloggioState();
 }
 
+/// Classe associata a [InserisciAlloggio] e gestisce la logica e l'interazione
+/// dell'interfaccia utente per inserire un nuovo alloggio temporaneo.
 class _InserisciAlloggioState extends State<InserisciAlloggio> {
   final _formKey = GlobalKey<FormState>();
   Uint8List? _image;
@@ -28,14 +31,16 @@ class _InserisciAlloggioState extends State<InserisciAlloggio> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController sitoController = TextEditingController();
 
+  /// Metodo per selezionare un'immagine dalla galleria.
   void selectImage() async {
     Uint8List img = await pickImage(ImageSource.gallery);
     _image = img;
 
-    // Salva l'immagine nella cartella 'images'
+    /// Salva l'immagine nella cartella 'images'
     await saveImageToFolder(_image!);
   }
 
+  /// Metodo per salvare un'immagine nella cartella 'images'.
   Future<String> saveImageToFolder(Uint8List image) async {
     try {
       final appDocumentsDirectory = await getApplicationDocumentsDirectory();
@@ -62,6 +67,7 @@ class _InserisciAlloggioState extends State<InserisciAlloggio> {
     }
   }
 
+  /// Metodo per inviare il form al server.
   void submitForm() async {
     if (_formKey.currentState!.validate()) {
       String nome = nomeAlloggioController.text;
@@ -103,6 +109,7 @@ class _InserisciAlloggioState extends State<InserisciAlloggio> {
     }
   }
 
+  /// Metodo per inviare i dati al server.
   Future<void> sendDataToServer(AlloggioTemporaneoDTO corso) async {
     final response = await http.post(
       Uri.parse('http://10.0.2.2:8080/gestioneReintegrazione/addAlloggio'),
@@ -118,6 +125,7 @@ class _InserisciAlloggioState extends State<InserisciAlloggio> {
     }
   }
 
+  /// Costruisce la UI per la schermata di inserimento di un alloggio temporaneo.
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;

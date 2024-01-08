@@ -9,27 +9,28 @@ import 'package:http/http.dart' as http;
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as path;
-import 'package:external_path/external_path.dart';
 
+///Classe che rappresenta la schermata per inserire un CorsoDiFormazione
 class InserisciCorso extends StatefulWidget {
   @override
   _InserisciCorsoState createState() => _InserisciCorsoState();
 }
 
+/// Classe associata a [InserisciCorso] e gestisce la logica e l'interazione
+/// dell'interfaccia utente per inserire un nuovo supporto medico.
 class _InserisciCorsoState extends State<InserisciCorso> {
   Uint8List? _image;
   final _formKey = GlobalKey<FormState>();
 
   final TextEditingController nomeCorsoController = TextEditingController();
-  final TextEditingController nomeResponsabileController =
-  TextEditingController();
-  final TextEditingController cognomeResponsabileController =
-  TextEditingController();
+  final TextEditingController nomeResponsabileController = TextEditingController();
+  final TextEditingController cognomeResponsabileController = TextEditingController();
   final TextEditingController descrizioneController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController numTelefonoController = TextEditingController();
   final TextEditingController urlCorsoController = TextEditingController();
 
+  /// Metodo per selezionare un'immagine dalla galleria.
   void selectImage() async {
     Uint8List img = await pickImage(ImageSource.gallery);
     _image = img;
@@ -38,6 +39,7 @@ class _InserisciCorsoState extends State<InserisciCorso> {
     await saveImageToFolder(_image!);
   }
 
+  /// Metodo per salvare un'immagine nella cartella 'images'.
   Future<String> saveImageToFolder(Uint8List image) async {
     try {
       final appDocumentsDirectory = await getApplicationDocumentsDirectory();
@@ -64,6 +66,7 @@ class _InserisciCorsoState extends State<InserisciCorso> {
     }
   }
 
+  /// Metodo per inviare il form al server.
   void submitForm() async {
     if (_formKey.currentState!.validate()) {
       String nomeCorso = nomeCorsoController.text;
@@ -99,6 +102,7 @@ class _InserisciCorsoState extends State<InserisciCorso> {
     }
   }
 
+  /// Metodo per inviare i dati al server.
   Future<void> sendDataToServer(CorsoDiFormazioneDTO corso) async {
     final response = await http.post(
       Uri.parse('http://10.0.2.2:8080/gestioneReintegrazione/addCorso'),
@@ -114,6 +118,7 @@ class _InserisciCorsoState extends State<InserisciCorso> {
     }
   }
 
+  /// Costruisce la UI per la schermata di inserimento di un corso di formazione.
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;

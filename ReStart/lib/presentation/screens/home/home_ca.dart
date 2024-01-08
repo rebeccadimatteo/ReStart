@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../components/generic_app_bar.dart';
 
 
@@ -43,9 +42,4 @@ Widget buildCard(String text) {
       ),
     ),
   );
-}
-
-
-void main() {
-  runApp(MaterialApp(home: HomeCA()));
 }

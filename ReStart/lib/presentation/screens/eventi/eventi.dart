@@ -1,9 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_session_manager/flutter_session_manager.dart';
 import '../../../model/entity/evento_DTO.dart';
-import '../../../utils/jwt_constants.dart';
-import '../../../utils/jwt_utils.dart';
 import '../../components/generic_app_bar.dart';
 import 'package:http/http.dart' as http;
 import '../routes/routes.dart';

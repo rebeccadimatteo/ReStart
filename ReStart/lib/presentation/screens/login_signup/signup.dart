@@ -1,10 +1,6 @@
 import "package:flutter/material.dart";
 import "package:restart_all_in_one/presentation/screens/login_signup/login.dart";
 
-void main() {
-  runApp(const SignUpPage());
-}
-
 class SignUpPage extends StatelessWidget {
   const SignUpPage({super.key});
 

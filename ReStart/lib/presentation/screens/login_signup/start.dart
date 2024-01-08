@@ -3,6 +3,7 @@ import "../routes/routes.dart";
 import "signup.dart";
 import "login.dart";
 
+/// Metodo per eseguire l'applicazione
 void main() {
   runApp(MaterialApp(
     routes: AppRoutes.getRoutes(),
@@ -10,6 +11,7 @@ void main() {
   ));
 }
 
+/// Classe che builda il widget contenente l'interfaccia della Start Page
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

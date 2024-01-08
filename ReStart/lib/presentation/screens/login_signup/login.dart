@@ -2,12 +2,7 @@ import "dart:convert";
 import "package:flutter/material.dart";
 import "package:flutter_session_manager/flutter_session_manager.dart";
 import "../routes/routes.dart";
-import "signup.dart";
 import "package:http/http.dart" as http;
-
-void main() {
-  runApp(LoginPage());
-}
 
 class LoginPage extends StatefulWidget {
   _LoginPageState createState() => _LoginPageState();

@@ -1,20 +1,13 @@
 import 'package:flutter/material.dart';
 import '../../components/generic_app_bar.dart';
-import '../alloggi_temporanei/alloggi_temporanei.dart';
-import '../corsi_di_formazione/corso_di_formazione.dart';
-import '../eventi/eventi.dart';
-import '../supporto_medico/supporto_medico.dart';
-// import '../annunci_di_lavoro/annuncio_di_lavoro.dart';
-// import '../corsi_di_formazione/corso_di_formazione.dart';
-// import '../eventi/eventi.dart';
-// import '../supporto_medico/supporto_medico.dart';
+import '../routes/routes.dart';
 
 /// Classe che builda il widget della schermata di home dell'utente
-class MyApp extends StatelessWidget {
+class HomeUtente extends StatelessWidget {
   final List<int> lavori = [1, 2, 3, 4, 5];
   final List<int> eventi = [1, 2, 3, 4, 5];
 
-  MyApp({super.key});
+  HomeUtente({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -48,11 +41,9 @@ class MyApp extends StatelessWidget {
                 itemBuilder: (context, pagePosition) {
                   return GestureDetector(
                     onTap: () {
-                      Navigator.push(
+                      Navigator.pushNamed(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) => CommunityEvents(),
-                        ),
+                        AppRoutes.eventi,
                       );
                     },
                     child: Container(
@@ -87,11 +78,9 @@ class MyApp extends StatelessWidget {
                 itemBuilder: (context, pagePosition) {
                   return GestureDetector(
                     onTap: () {
-                      Navigator.push(
+                      Navigator.pushNamed(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) => AnnuncioDiLavoro(),
-                        ),
+                        AppRoutes.annunci,
                       );
                     },
                     child: Container(
@@ -114,11 +103,9 @@ class MyApp extends StatelessWidget {
             delegate: SliverChildListDelegate([
               GestureDetector(
                 onTap: () {
-                  Navigator.push(
+                  Navigator.pushNamed(
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => CommunityEvents(),
-                    ),
+                    AppRoutes.eventi,
                   );
                 },
                 child: Container(
@@ -139,11 +126,9 @@ class MyApp extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.push(
+                  Navigator.pushNamed(
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => AlloggiTemporanei(),
-                    ),
+                    AppRoutes.alloggi,
                   );
                 },
                 child: Container(
@@ -164,11 +149,9 @@ class MyApp extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.push(
+                  Navigator.pushNamed(
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => CorsoDiFormazione(),
-                    ),
+                    AppRoutes.corsi,
                   );
                 },
                 child: Container(
@@ -189,11 +172,9 @@ class MyApp extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.push(
+                  Navigator.pushNamed(
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => SupportoMedico(),
-                    ),
+                    AppRoutes.supporti,
                   );
                 },
                 child: Container(
@@ -220,8 +201,3 @@ class MyApp extends StatelessWidget {
   }
 }
 
-void main() {
-  runApp(MaterialApp(
-    home: MyApp(),
-  ));
-}
