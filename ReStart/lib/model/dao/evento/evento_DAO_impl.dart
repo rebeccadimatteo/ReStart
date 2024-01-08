@@ -98,7 +98,7 @@ class EventoDAOImpl implements EventoDAO {
     try {
       Connection connection = await connector.openConnection();
       var result = await connection.execute(Sql.named(
-          'SELECT  e.id, ca.username, e.id_ca, e.nome, e.descrizione, e.data, e.approvato, c.email, '
+          'SELECT  e.id, e.id_ca, e.id_ca, e.nome, e.descrizione, e.data, e.approvato, c.email, '
               'c.sito, i.immagine, ind.via, ind.citta, ind.provincia FROM public."Evento" as e, public."Contatti" as c, '
               'public."Immagine" as i, public."Indirizzo" as ind, public."CA" as ca '
               'WHERE e.id = c.id_evento AND e.id = i.id_evento AND e.id = ind.id_evento AND e.id_ca = ca.id'));
@@ -123,7 +123,7 @@ class EventoDAOImpl implements EventoDAO {
       Connection connection = await connector.openConnection();
       var result = await connection.execute(
         Sql.named(
-            'SELECT  e.id, ca.username, e.nome, e.descrizione, e.data, e.approvato, c.id, c.email,'
+            'SELECT  e.id, e.id_ca, e.nome, e.descrizione, e.data, e.approvato, c.id, c.email,'
                 'c.sito, i.immagine, ind.via, ind.citta, ind.provincia, FROM public."Evento" as e, public."Contatti" as c, '
                 'public."Immagine" as i, public."Indirizzo" as ind, public."CA" as ca '
                 'WHERE e.id = @id AND e.id = c.id_evento AND e.id = i.id_evento AND e.id = ind.id_evento AND e.id_ca = ca.id'),
@@ -234,7 +234,7 @@ class EventoDAOImpl implements EventoDAO {
       Connection connection = await connector.openConnection();
       var result = await connection.execute(
         Sql.named(
-            'SELECT  e.id, ca.username, e.nome, e.descrizione, e.data, e.approvato, c.email, '
+            'SELECT  e.id, e.id_ca, e.nome, e.descrizione, e.data, e.approvato, c.email, '
                 'c.sito, i.immagine, ind.via, ind.citta, ind.provincia, FROM public."Evento" as e, public."Contatti" as c, '
                 'public."Immagine" as i, public."Indirizzo" as ind, public."CA" as ca '
                 'WHERE e.id = c.id_evento AND e.id = i.id_evento AND e.id = ind.id_evento AND e.id_ca = ca.@id AND e.approvato=true '),
@@ -263,7 +263,7 @@ class EventoDAOImpl implements EventoDAO {
       Connection connection = await connector.openConnection();
       var result = await connection.execute(
         Sql.named(
-            'SELECT  e.id, ca.username, e.nome, e.descrizione, e.data, e.approvato, c.email,'
+            'SELECT  e.id, e.id_ca, e.nome, e.descrizione, e.data, e.approvato, c.email,'
                 'c.sito, i.immagine, ind.via, ind.citta, ind.provincia, FROM public."Evento" as e, public."Contatti" as c, '
                 'public."Immagine" as i, public."Indirizzo" as ind, public."CA" as ca '
                 'WHERE e.id = c.id_evento AND e.id = i.id_evento AND e.id = ind.id_evento AND e.id_ca = ca.@id AND e.approvato=false '),

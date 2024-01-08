@@ -95,7 +95,7 @@ class AnnuncioLavoroDAOImpl implements AnnuncioDiLavoroDAO {
   Future<List<AnnuncioDiLavoroDTO>> findAll() async {
     try {
       Connection connection = await connector.openConnection();
-      var result = await connection.execute(Sql.named('SELECT adl.id, ca.username, adl.nome, adl.descrizione, adl.approvato, ind.via, ind.citta, ind.provincia, '
+      var result = await connection.execute(Sql.named('SELECT adl.id, adl.id_ca, adl.nome, adl.descrizione, adl.approvato, ind.via, ind.citta, ind.provincia, '
           'i.immagine, c.email, c.num_telefono FROM public."AnnuncioDiLavoro" as adl, public."Contatti" as c, '
           'public."Immagine" as i, public."Indirizzo" as ind, public."CA" as ca '
           'WHERE adl.id = c.id_annuncio AND adl.id = i.id_annuncio AND adl.id = ind.id_annuncio AND adl.id_ca = ca.id'));
@@ -118,7 +118,7 @@ class AnnuncioLavoroDAOImpl implements AnnuncioDiLavoroDAO {
     try {
       Connection connection = await connector.openConnection();
       var result = await connection.execute(
-        Sql.named('SELECT  adl.id, ca.username, adl.nome, adl.descrizione, adl.approvato, ind.via, ind.citta, ind.provincia,'
+        Sql.named('SELECT  adl.id, adl.id_ca, adl.nome, adl.descrizione, adl.approvato, ind.via, ind.citta, ind.provincia,'
             ' i.immagine, c.email, c.num_telefono  FROM public."AnnuncioDiLavoro" as adl, public."Contatti" as c,'
             ' public."Immagine" as i, public."Indirizzo" as ind'
             ' WHERE adl.id = @id AND adl.id = c.id_annuncio AND adl.id = i.id_annuncio AND adl.id = ind.id_annuncio'),
@@ -225,7 +225,7 @@ class AnnuncioLavoroDAOImpl implements AnnuncioDiLavoroDAO {
       Connection connection = await connector.openConnection();
       var result = await connection.execute(
         Sql.named(
-            'SELECT  a.id, ca.username, a.nome, a.descrizione, a.data, a.approvato, c.email,'
+            'SELECT  a.id, a.id_ca, a.nome, a.descrizione, a.data, a.approvato, c.email,'
                 'c.sito, i.immagine, ind.via, ind.citta, ind.provincia, FROM public."AnnuncioDiLavoro" as a, public."Contatti" as c, public."Immagine" as i, '
                 'public."Indirizzo" as ind, public."CA" as ca '
                 'WHERE a.id = c.id_evento AND a.id = i.id_evento AND a.id = ind.id_evento AND a.id_ca = ca.@id AND a.approvato=true '),
@@ -254,7 +254,7 @@ class AnnuncioLavoroDAOImpl implements AnnuncioDiLavoroDAO {
       Connection connection = await connector.openConnection();
       var result = await connection.execute(
         Sql.named(
-            'SELECT  a.id, ca.username, a.nome, a.descrizione, a.data, a.approvato, c.email, '
+            'SELECT  a.id, a.id_ca, a.nome, a.descrizione, a.data, a.approvato, c.email, '
                 'c.sito, i.immagine, ind.via, ind.citta, ind.provincia, FROM public."AnnuncioDiLavoro" as a, public."Contatti" as c, '
                 'public."Immagine" as i, public."Indirizzo" as ind, public."CA" as ca '
                 'WHERE a.id = c.id_annuncio AND a.id = i.id_annuncio AND a.id = ind.id_annuncio AND a.id_ca = ca.@id AND a.approvato=false '),

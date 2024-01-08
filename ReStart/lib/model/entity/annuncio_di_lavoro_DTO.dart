@@ -1,7 +1,7 @@
 /// Questa classe rappresenta un oggetto DTO (Data Transfer Object) per un annuncio di lavoro.
 class AnnuncioDiLavoroDTO {
   int? _id;
-  late String _usernameCa;
+  late int _id_ca;
   late String _nomeLavoro;
   late String _descrizione;
   late bool _approvato;
@@ -14,7 +14,7 @@ class AnnuncioDiLavoroDTO {
   /// Costruttore che richiede tutti i parametri necessari per un annuncio di lavoro.
   AnnuncioDiLavoroDTO({
     int? id,
-    required String usernameCa,
+    required int id_ca,
     required String nomeLavoro,
     required String descrizione,
     required bool approvato,
@@ -25,7 +25,7 @@ class AnnuncioDiLavoroDTO {
     required String email,
     required String numTelefono
   })  : _id = id,
-        _usernameCa = usernameCa,
+        _id_ca = id_ca,
         _nomeLavoro = nomeLavoro,
         _descrizione = descrizione,
         _approvato = approvato,
@@ -38,7 +38,7 @@ class AnnuncioDiLavoroDTO {
 
   /// Getters e setters per accedere ai membri della classe.
   int? get id => _id;
-  String get usernameCa => _usernameCa;
+  int get id_ca => _id_ca;
   String get nome => _nomeLavoro;
   String get descrizione => _descrizione;
   bool get approvato => _approvato;
@@ -49,8 +49,8 @@ class AnnuncioDiLavoroDTO {
   String get email => _email;
   String get numTelefono => _numTelefono;
 
-  set usernameCa(String value){
-    _usernameCa = value;
+  set id_ca(int value){
+    _id_ca = value;
   }
   set nome(String value) {
     _nomeLavoro = value;
@@ -91,7 +91,7 @@ class AnnuncioDiLavoroDTO {
   Map<String, dynamic> toJson() {
     return {
       'id': _id,
-      'usernameCa': _usernameCa,
+      'id_ca': _id_ca,
       'nome': _nomeLavoro,
       'descrizione': _descrizione,
       'approvato': _approvato,
@@ -107,7 +107,7 @@ class AnnuncioDiLavoroDTO {
   factory AnnuncioDiLavoroDTO.fromJson(Map<String, dynamic> json) {
     return AnnuncioDiLavoroDTO(
         id: json['id'],
-        usernameCa: json['usernameCa'].toString().replaceAll('[', '').replaceAll(']', ''),
+        id_ca: json['id_ca'],
         nomeLavoro: json['nome'].toString().replaceAll('[', '').replaceAll(']', ''),
         descrizione: json['descrizione'].toString().replaceAll('[', '').replaceAll(']', ''),
         approvato: json['approvato'] as bool,
@@ -122,6 +122,6 @@ class AnnuncioDiLavoroDTO {
   /// Override del metodo toString per ottenere una rappresentazione testuale dell'oggetto.
   @override
   String toString() {
-    return 'AnnuncioDiLavoroDTO{id: $_id, usernameCa: $usernameCa, nome: $_nomeLavoro, descrizione: $_descrizione, approvato: $_approvato, via: $_via, citta: $_citta, provincia: $_provincia, immagine: $_immagine, email: $_email, numTelefono: $_numTelefono}';
+    return 'AnnuncioDiLavoroDTO{id: $_id, id_ca: $id_ca, nome: $_nomeLavoro, descrizione: $_descrizione, approvato: $_approvato, via: $_via, citta: $_citta, provincia: $_provincia, immagine: $_immagine, email: $_email, numTelefono: $_numTelefono}';
   }
 }
