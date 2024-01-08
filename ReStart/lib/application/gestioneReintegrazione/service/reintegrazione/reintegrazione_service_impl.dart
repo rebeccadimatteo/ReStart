@@ -21,6 +21,7 @@ class ReintegrazioneServiceImpl implements ReintegrazioneService {
 
   SupportoMedicoDAO get supportoDAO => _supportoDAO;
 
+  AlloggioTemporaneoDAO get alloggioDAO => _alloggioDAO;
 
   CorsoDiFormazioneDAO get corsoDAO => _corsoDAO;
 
@@ -32,5 +33,9 @@ class ReintegrazioneServiceImpl implements ReintegrazioneService {
   @override
   Future<List<SupportoMedicoDTO>> supportiMedici() {
     return _supportoDAO.findAll();
+  }
+  @override
+  Future<List<AlloggioTemporaneoDTO>> alloggiTemporanei() {
+    return _alloggioDAO.findAll();
   }
 }

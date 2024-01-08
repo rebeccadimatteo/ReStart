@@ -18,7 +18,7 @@ class ReintegrazioneController {
     // Associa i vari metodi alle route
     _router.post('/visualizzaCorsi', _visualizzaCorsi);
    // _router.post('/addCorso', _addCorso);
-   // _router.post('/visualizzaAlloggi', _visualizzaAlloggi);
+    _router.post('/visualizzaAlloggi', _visualizzaAlloggi);
     _router.post('/visualizzaSupporti', _visualizzaSupporti);
 
     // Aggiungi la route di fallback per le richieste non corrispondenti
@@ -56,6 +56,21 @@ class ReintegrazioneController {
       // Gestione degli errori durante la chiamata al servizio
       return Response.internalServerError(
           body: 'Errore durante la visualizzazione dei supporti medici: $e');
+    }
+  }
+  Future<Response> _visualizzaAlloggi(Request request) async {
+    try {
+      // Chiamata al servizio per ottenere la lista di alloggi
+      final List<AlloggioTemporaneoDTO> listaAlloggi =
+      await _service.alloggiTemporanei();
+      // Creazione della risposta con il corpo JSON contenente la lista di alloggi
+      final responseBody = jsonEncode({'alloggi': listaAlloggi});
+      return Response.ok(responseBody,
+          headers: {'Content-Type': 'application/json'});
+    } catch (e) {
+      // Gestione degli errori durante la chiamata al servizio
+      return Response.internalServerError(
+          body: 'Errore durante la visualizzazione degli alloggi: $e');
     }
   }
 
