@@ -2,7 +2,12 @@ import "dart:convert";
 import "package:flutter/material.dart";
 import "package:flutter_session_manager/flutter_session_manager.dart";
 import "../routes/routes.dart";
+import "signup.dart";
 import "package:http/http.dart" as http;
+
+void main() {
+  runApp(LoginPage());
+}
 
 class LoginPage extends StatefulWidget {
   _LoginPageState createState() => _LoginPageState();
@@ -11,7 +16,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   late bool _viewPassword;
   final _formKey = GlobalKey<FormState>();
-  TextEditingController emailController = TextEditingController();
+  TextEditingController usernameController = TextEditingController();
   TextEditingController pswController = TextEditingController();
 
   @override
@@ -21,7 +26,7 @@ class _LoginPageState extends State<LoginPage> {
 
   void submitForm() async {
     if (_formKey.currentState!.validate()) {
-      String email = emailController.text;
+      String email = usernameController.text;
       String psw = pswController.text;
       Map<String, String> data = {
         'email': email,
@@ -48,7 +53,19 @@ class _LoginPageState extends State<LoginPage> {
         AppRoutes.home,
       );
     } else {
-      print("aggiungere la roba di credenziali sbagliate!");
+      if(usernameController.text.length >= 15){
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+              content: Text('Lunghezza username errata')
+          ),
+        );
+      } else if(pswController.text.length >= 15){
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+              content: Text('Lunghezza password errata')
+          ),
+        );
+      }
     }
   }
 
@@ -84,7 +101,7 @@ class _LoginPageState extends State<LoginPage> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 30),
                     child: TextFormField(
-                      controller: emailController,
+                      controller: usernameController,
                       decoration: const InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(30)),
