@@ -132,8 +132,8 @@ class AdsDAOImpl implements AdsDAO {
       var result = await connection.execute(
         Sql.named(
             'SELECT a.id, a.username, a.password, c.email, c.num_telefono, ind.citta, ind.via, ind.provincia '
-            ' FROM public."ADS" a, public."Contatti" c, public."Indirizzo" ind '
-            ' WHERE a.id = c.id_ca AND a.id = ind.id_ca AND a.id = @id'),
+                ' FROM public."ADS" a, public."Contatti" c, public."Indirizzo" ind '
+                ' WHERE a.id = c.id_ca AND a.id = ind.id_ca AND a.id = @id'),
         parameters: {'id': id},
       );
       if (result.isNotEmpty) {
@@ -199,7 +199,7 @@ class AdsDAOImpl implements AdsDAO {
       var result = await connection.execute(
         Sql.named(
             'UPDATE public."ADS" SET username = @username, password = @password '
-            'WHERE id = @id'),
+                'WHERE id = @id'),
         parameters: {
           'id': a.id,
           'username': a.username,
@@ -210,7 +210,7 @@ class AdsDAOImpl implements AdsDAO {
       var result1 = await connection.execute(
         Sql.named(
             'UPDATE public."Contatti" SET email = @email, num_telefono = @num_telefono '
-            'WHERE id_ADS = @id_ADS'),
+                'WHERE id_ADS = @id_ADS'),
         parameters: {
           'email': a.email,
           'num_telefono': a.num_telefono,
@@ -221,7 +221,7 @@ class AdsDAOImpl implements AdsDAO {
       var result2 = await connection.execute(
         Sql.named(
             'UPDATE public."Indirizzo" SET via = @via, citta = @citta, provincia = @provincia '
-            'WHERE id_ADS = @id_ADS'),
+                'WHERE id_ADS = @id_ADS'),
         parameters: {
           'via': a.via,
           'citta': a.citta,
@@ -252,8 +252,8 @@ class AdsDAOImpl implements AdsDAO {
       var result = await connection.execute(
         Sql.named(
             'SELECT a.id, a.username, a.password, c.email, c.num_telefono, ind.citta, ind.via, ind.provincia '
-            ' FROM public."ADS" a, public."Contatti" c, public."Indirizzo" ind '
-            ' WHERE a.username = @username'),
+                ' FROM public."ADS" a, public."Contatti" c, public."Indirizzo" ind '
+                ' WHERE a.username = @username'),
         parameters: {'username': username},
       );
       if (result.isNotEmpty) {

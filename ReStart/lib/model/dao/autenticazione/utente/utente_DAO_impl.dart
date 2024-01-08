@@ -135,7 +135,7 @@ class UtenteDAOImpl implements UtenteDAO {
   /// questo metodo restituise un [UtenteDTO] preso in input il suo id
   /// restituisce l'utente generico se esiste, null altrimenti.
   @override
-  Future<UtenteDTO?> findById(int? id) async {
+  Future<UtenteDTO?> findById(int id) async {
     try {
       Connection connection = await connector.openConnection();
       var result = await connection.execute(

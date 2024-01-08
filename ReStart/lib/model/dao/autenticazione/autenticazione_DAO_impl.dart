@@ -30,9 +30,9 @@ class AutenticazioneDAOImpl implements AutenticazioneDAO {
     CaDAOImpl caDao = CaDAOImpl();
     AdsDAOImpl adsDao = AdsDAOImpl();
 
-    bool utente = utenteDao.existByUsername(username) as bool;
-    bool ca = caDao.existByUsername(username) as bool;
-    bool ads = adsDao.existByUsername(username) as bool;
+    bool utente = await utenteDao.existByUsername(username);
+    bool ca = await caDao.existByUsername(username);
+    bool ads = await adsDao.existByUsername(username);
 
     if(utente != false)
       return "Utente";
@@ -154,8 +154,7 @@ class AutenticazioneDAOImpl implements AutenticazioneDAO {
   @override
   Future<dynamic> findByUsername(String username) async {
     try {
-      Connection connection = await connector.openConnection();
-      String tipo = getTipoByUsername(username) as String;
+      String tipo = await getTipoByUsername(username);
       switch (tipo) {
         case "Utente":
           {
@@ -178,8 +177,6 @@ class AutenticazioneDAOImpl implements AutenticazioneDAO {
     }catch (e) {
       developer.log(e.toString());
       return false;
-    } finally {
-      await connector.closeConnection();
     }
   }
 }

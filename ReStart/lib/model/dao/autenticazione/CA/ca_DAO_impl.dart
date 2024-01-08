@@ -34,7 +34,7 @@ class CaDAOImpl implements CaDAO {
       var result2 = await connection.execute(
           Sql.named(
               'INSERT INTO public."Indirizzo" (via, citta, provincia, id_ca) '
-              'VALUES (@via, @citta, @provincia, @id_ca)'),
+                  'VALUES (@via, @citta, @provincia, @id_ca)'),
           parameters: {
             'via': ca.via,
             'citta': ca.citta,
@@ -45,7 +45,7 @@ class CaDAOImpl implements CaDAO {
       var result3 = await connection.execute(
           Sql.named(
               'INSERT INTO public."Contatti" (email, num_telefono, sito_web, id_ca) '
-              'VALUES (@email, @num_telefono, @sito_web, @id_ca)'),
+                  'VALUES (@email, @num_telefono, @sito_web, @id_ca)'),
           parameters: {
             'email': ca.email,
             'num_telefono': ca.num_telefono,
@@ -123,9 +123,9 @@ class CaDAOImpl implements CaDAO {
       Connection connection = await connector.openConnection();
       var result = await connection.execute(Sql.named(
           'SELECT ca.id, ca.nome, ca.username, ca.password, c.num_telefono, c.email, '
-          'c.sito, i.immagine, ind.citta, ind.via, ind.provincia '
-          'FROM public."CA" as ca, public."Contatti" as c, public."Immagine" as i, public."Indirizzo" as ind '
-          'WHERE ca.id = c.id_ca AND ca.id = i.id_ca AND ca.id = ind.id_ca'));
+              'c.sito, i.immagine, ind.citta, ind.via, ind.provincia '
+              'FROM public."CA" as ca, public."Contatti" as c, public."Immagine" as i, public."Indirizzo" as ind '
+              'WHERE ca.id = c.id_ca AND ca.id = i.id_ca AND ca.id = ind.id_ca'));
 
       // Mappa i risultati della query in oggetti CaDTO
       List<CaDTO> collaboratoriAziendali = result.map((row) {
@@ -149,10 +149,10 @@ class CaDAOImpl implements CaDAO {
       var result = await connection.execute(
         Sql.named(
             'SELECT  ca.id, ca.nome, ca.username, ca.password, c.num_telefono, c.email, '
-            'c.sito, i.immagine, ind.citta, ind.via, ind.provincia '
-            'FROM public."CA" as ca, public."Contatti" as c, '
-            'public."Immagine" as i, public."Indirizzo" as ind '
-            'WHERE ca.id = c.id_ca AND ca.id = i.id_ca AND ca.id = ind.id_ca AND ca.id = @id'),
+                'c.sito, i.immagine, ind.citta, ind.via, ind.provincia '
+                'FROM public."CA" as ca, public."Contatti" as c, '
+                'public."Immagine" as i, public."Indirizzo" as ind '
+                'WHERE ca.id = c.id_ca AND ca.id = i.id_ca AND ca.id = ind.id_ca AND ca.id = @id'),
         parameters: {'id': id},
       );
       if (result.isNotEmpty) {
@@ -218,8 +218,8 @@ class CaDAOImpl implements CaDAO {
       Connection connection = await connector.openConnection();
       var result = await connection.execute(
         Sql.named('UPDATE public."CA" SET nome = @nome, username = @username, '
-        'password = @password '
-        'WHERE id = @id'),
+            'password = @password '
+            'WHERE id = @id'),
         parameters: {
           'id': ca.id,
           'nome': ca.nome,
@@ -230,7 +230,7 @@ class CaDAOImpl implements CaDAO {
 
       var result1 = await connection.execute(
         Sql.named('UPDATE public."Contatti" SET num_telefono = @num_telefono, email = @email, '
-        'WHERE id_ca = @id_ca'),
+            'WHERE id_ca = @id_ca'),
         parameters: {
           'num_telefono': ca.num_telefono,
           'email': ca.email,
@@ -241,7 +241,7 @@ class CaDAOImpl implements CaDAO {
 
       var result2 = await connection.execute(
         Sql.named('UPDATE public."Indirizzo" SET citta = @citta, via = @via, provincia = @provincia'
-        ' WHERE id_ca = @id_ca'),
+            ' WHERE id_ca = @id_ca'),
         parameters: {
           'citta': ca.citta,
           'via': ca.via,
@@ -252,7 +252,7 @@ class CaDAOImpl implements CaDAO {
 
       var result3 = await connection.execute(
           Sql.named('UPDATE public."Immagine" SET immagine = @immagine'
-          ' WHERE id_ca = @id_ca'),
+              ' WHERE id_ca = @id_ca'),
           parameters: {'immagine': ca.immagine, 'id_ca': ca.id});
 
       if (result.affectedRows != 0 &&
@@ -278,9 +278,9 @@ class CaDAOImpl implements CaDAO {
       Connection connection = await connector.openConnection();
       var result = await connection.execute(
         Sql.named(
-            'SELECT ca.id, ca.nome, ca.username, ca.password, c.id_ads, c.email, c.num_telefono'
-            ' FROM public."CA" as ca, public."Contatti" as c '
-            'WHERE ca.username = @username'),
+            'SELECT ca.id, ca.nome, ca.username, ca.password,  c.num_telefono, c.email, c.sito, i.immagine, ind.citta, ind.via, ind.provincia'
+                ' FROM public."CA" as ca, public."Contatti" as c, public."Immagine" as i, public."Indirizzo" as ind '
+                'WHERE ca.username = @username'),
         parameters: {'username': username},
       );
       if (result.isNotEmpty) {
@@ -295,3 +295,4 @@ class CaDAOImpl implements CaDAO {
     return null;
   }
 }
+
