@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:restart_all_in_one/model/entity/corso_di_formazione_DTO.dart';
+import '../../../model/entity/corso_di_formazione_DTO.dart';
 import '../../../utils/utils.dart';
 import '../../components/generic_app_bar.dart';
 import 'package:http/http.dart' as http;
