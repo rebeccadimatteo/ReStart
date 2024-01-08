@@ -13,8 +13,9 @@ class GestioneLavoroController {
     _router = shelf_router.Router();
 
     _router.post('/visualizzaLavori', _visualizzaLavori);
-    _router.post('/aggiungiLavoro', _aggiungiLavoro);
-    //_router.get('/dettagliLavoro', _dettagliLavoro);
+    _router.post('/addLavoro', _addLavoro);
+    //_router.get('/detailsLavoro', _detailsLavoro);
+    _router.post('/deleteLavoro', _deleteLavoro);
     _router.all('/<ignored|.*>', _notFound);
   }
 
@@ -33,7 +34,7 @@ class GestioneLavoroController {
     }
   }
 
-  Future<Response> _aggiungiLavoro(Request request) async {
+  Future<Response> _addLavoro(Request request) async {
     try {
       final String requestBody = await request.readAsString();
       final Map<String, dynamic> params = jsonDecode(requestBody);
@@ -79,7 +80,8 @@ class GestioneLavoroController {
     }
   }
 
-  /*Future<Response> _dettagliLavoro(Request request) async {
+  /*
+Future<Response> _detailsLavoro(Request request) async {
     try {
       final String requestBody = await request.readAsString();
       final Map<String, dynamic> params = parseFormBody(requestBody);
@@ -88,15 +90,15 @@ class GestioneLavoroController {
       if (idLavoro != null) {
         AnnuncioDiLavoroDTO? lavoroDTO = await _service.detailsLavoro(idLavoro);
         if (lavoroDTO != null) {
-          final responseBody = jsonEncode({'result': 'Dettagli del lavoro', 'lavoro': lavoroDTO.toJson()});
+          final responseBody = jsonEncode({'result': 'details del lavoro', 'lavoro': lavoroDTO.toJson()});
           return Response.ok(responseBody, headers: {'Content-Type': 'application/json'});
         } else {
-          final responseBody = jsonEncode({'result': 'ID lavoro non valido'});
-          return Response(
-            HttpStatus.badRequest,
-            body: responseBody,
-            headers: {'Content-Type': 'application/json'},
-          );
+           final responseBody = jsonEncode({'result': 'ID lavoro non valido'});
+      return Response(
+        HttpStatus.badRequest,
+        body: responseBody,
+        headers: {'Content-Type': 'application/json'},
+      );
         }
       } else {
         final responseBody = jsonEncode({'result': 'ID lavoro non valido'});
@@ -107,10 +109,33 @@ class GestioneLavoroController {
       }
     } catch (e) {
       return Response.internalServerError(
-        body: 'Errore durante il recupero dei dettagli del lavoro: $e',
+        body: 'Errore durante il recupero dei details del lavoro: $e',
       );
     }
   }*/
+
+  Future<Response> _deleteLavoro(Request request) async {
+    try {
+      final String requestBody = await request.readAsString();
+      final Map<String, dynamic> params = jsonDecode(requestBody);
+      final int id = params['id'] ?? '';
+
+      if (await _service.deleteLavoro(id)) {
+        final responseBody = jsonEncode({'result': "Eliminazione effettuata."});
+        return Response.ok(responseBody,
+            headers: {'Content-Type': 'application/json'});
+      } else {
+        final responseBody =
+            jsonEncode({'result': 'Eliminazione non effettuata.'});
+        return Response.badRequest(
+            body: responseBody, headers: {'Content-Type': 'application/json'});
+      }
+    } catch (e) {
+      // Gestione degli errori durante la chiamata al servizio
+      return Response.internalServerError(
+          body: 'Errore durante l\'eliminazione del lavoro: $e');
+    }
+  }
 
   // Gestisci le richieste non corrispondenti
   Future<Response> _notFound(Request request) async {

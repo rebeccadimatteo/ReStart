@@ -4,8 +4,10 @@ import '../../../model/dao/autenticazione/CA/ca_DAO.dart';
 import '../../../model/dao/autenticazione/CA/ca_DAO_impl.dart';
 import '../../../model/dao/autenticazione/utente/utente_DAO.dart';
 import '../../../model/dao/autenticazione/utente/utente_DAO_impl.dart';
+import '../../../model/dao/candidatura_lavoro/candidatura_DAO.dart';
+import '../../../model/dao/candidatura_lavoro/candidatura_DAO_impl.dart';
 import '../../../model/entity/annuncio_di_lavoro_DTO.dart';
-import '../../../model/entity/ca_DTO.dart';
+import '../../../model/entity/candidatura_DTO.dart';
 import '../../../model/entity/utente_DTO.dart';
 import 'lavoro_service.dart';
 
@@ -16,13 +18,13 @@ class LavoroServiceImpl implements LavoroService{
 
   LavoroServiceImpl()
 
-    : _lavoroDAO = AnnuncioLavoroDAOImpl(),
-      _caDAO = CaDAOImpl(),
-      _utenteDAO = UtenteDAOImpl();
+      : _lavoroDAO = AnnuncioLavoroDAOImpl(),
+        _caDAO = CaDAOImpl(),
+        _utenteDAO = UtenteDAOImpl();
 
-AnnuncioDiLavoroDAO get lavoroDAO => _lavoroDAO;
-CaDAO get caDAO => _caDAO;
-UtenteDAO get utenteDAO => _utenteDAO;
+  AnnuncioDiLavoroDAO get lavoroDAO => _lavoroDAO;
+  CaDAO get caDAO => _caDAO;
+  UtenteDAO get utenteDAO => _utenteDAO;
 
   @override
   Future<bool> addLavoro(AnnuncioDiLavoroDTO annuncio) {
@@ -31,7 +33,6 @@ UtenteDAO get utenteDAO => _utenteDAO;
 
   @override
   Future<bool> approveLavoro(AnnuncioDiLavoroDTO annuncio) async {
-
     if(await _lavoroDAO.existById(annuncio.id) == false){
       return false;
     }
@@ -47,7 +48,7 @@ UtenteDAO get utenteDAO => _utenteDAO;
   @override
   Future<AnnuncioDiLavoroDTO?> detailsLavoro(int id) {
     return _lavoroDAO.findById(id);
-  } */
+  }*/
 
   @override
   Future<bool> modifyLavoro(AnnuncioDiLavoroDTO annuncio) {
@@ -61,15 +62,13 @@ UtenteDAO get utenteDAO => _utenteDAO;
 
   @override
   Future<List<AnnuncioDiLavoroDTO>> offertePubblicate(String usernameCA) {
-    Future<CaDTO?> ca = _caDAO.findByUsername(usernameCA);
     return _lavoroDAO.findByApprovato(usernameCA);
   }
-
+/*
   @override
-  Future<UtenteDTO> profiloUtenteCandidato(UtenteDTO u) {
-    // TODO: implement rejectLavoro
-    throw UnimplementedError();
-  }
+  Future<UtenteDTO?> profiloUtenteCandidato(UtenteDTO? u) async {
+    return utenteDAO.findById(u?.id);
+  }*/
 
   @override
   Future<bool> rejectLavoro(AnnuncioDiLavoroDTO annuncio) async {
@@ -79,15 +78,22 @@ UtenteDAO get utenteDAO => _utenteDAO;
     return _lavoroDAO.removeById(annuncio.id);
   }
 
-  @override
+  /*@override
   Future<List<AnnuncioDiLavoroDTO>> richiestaLavoro() {
     // TODO: implement richiestaLavoro
     throw UnimplementedError();
-  }
+  }*/
 
   @override
-  Future<List<UtenteDTO>> utentiCandidati(AnnuncioDiLavoroDTO annuncio) {
-    // TODO: implement utentiCandidati
-    throw UnimplementedError();
+  Future<List<UtenteDTO?>?> utentiCandidati(AnnuncioDiLavoroDTO annuncio) async {
+    CandidaturaDAO candidaturaDAO = CandidaturaDAOImpl();
+    List<CandidaturaDTO> candidature = await candidaturaDAO.findAll();
+    List<UtenteDTO?>? userCandidati = [];
+    for(CandidaturaDTO c in candidature){
+      if(c.id_lavoro == annuncio.id) {
+        userCandidati.add(await utenteDAO.findById(c.id_utente));
+      }
+    }
+    return userCandidati;
   }
 }
