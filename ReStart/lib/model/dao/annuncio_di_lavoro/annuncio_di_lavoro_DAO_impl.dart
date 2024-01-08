@@ -245,7 +245,7 @@ class AnnuncioLavoroDAOImpl implements AnnuncioDiLavoroDAO {
   }
 
   @override
-  Future<List<AnnuncioDiLavoroDTO>> findByNotAppovato(String usernameCa) async {
+  Future<List<AnnuncioDiLavoroDTO>> findByNotApprovato(String usernameCa) async {
     try {
       CaDAO caDAO = CaDAOImpl();
       Future<CaDTO?> caDTO = caDAO.findByUsername(usernameCa);

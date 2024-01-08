@@ -7,7 +7,7 @@ import 'package:restart_all_in_one/model/entity/utente_DTO.dart';
 abstract class LavoroService {
 
   Future<List<AnnuncioDiLavoroDTO>> offerteLavoro();
-  Future<AnnuncioDiLavoroDTO?> detailsLavoro(int id);
+  //Future<AnnuncioDiLavoroDTO?> detailsLavoro(int id);
   Future<List<AnnuncioDiLavoroDTO>> offertePubblicate(String usernameCa);
   Future<bool> addLavoro(AnnuncioDiLavoroDTO annuncio);
   Future<bool> modifyLavoro(AnnuncioDiLavoroDTO annuncio);

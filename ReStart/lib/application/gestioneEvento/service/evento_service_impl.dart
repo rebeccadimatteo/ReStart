@@ -31,8 +31,13 @@ class EventoServiceImpl implements EventoService {
   }
 
   @override
+  Future<bool> addEvento(EventoDTO e) {
+    return _eventoDAO.add(e);
+  }
+  /*
+  @override
   Future<EventoDTO?> detailsEvento(int id) {
     return _eventoDAO.findById(id);
-  }
+  }*/
 
 }

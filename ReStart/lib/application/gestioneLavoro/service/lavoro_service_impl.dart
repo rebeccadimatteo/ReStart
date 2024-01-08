@@ -33,6 +33,7 @@ UtenteDAO get utenteDAO => _utenteDAO;
 
   @override
   Future<bool> approveLavoro(AnnuncioDiLavoroDTO annuncio) async {
+
     if(await _lavoroDAO.existById(annuncio.id) == false){
       return false;
     }
@@ -44,11 +45,11 @@ UtenteDAO get utenteDAO => _utenteDAO;
   Future<bool> deleteLavoro(int id) {
     return _lavoroDAO.removeById(id);
   }
-
+/*
   @override
   Future<AnnuncioDiLavoroDTO?> detailsLavoro(int id) {
     return _lavoroDAO.findById(id);
-  }
+  } */
 
   @override
   Future<bool> modifyLavoro(AnnuncioDiLavoroDTO annuncio) {

@@ -12,7 +12,7 @@ abstract class AnnuncioDiLavoroDAO {
   Future<bool> add(AnnuncioDiLavoroDTO annuncioDiLavoro);
 
   /// Verifica se un annuncio di lavoro con l'ID specificato esiste nel database.
-  Future<bool> existById(int id);
+  Future<bool> existById(int? id);
 
   /// Cerca un annuncio di lavoro nel database tramite il suo ID.
   /// Restituisce l'annuncio di lavoro se trovato, altrimenti null.
@@ -24,5 +24,8 @@ abstract class AnnuncioDiLavoroDAO {
 
   /// Rimuove un annuncio di lavoro dal database utilizzando l'ID specificato.
   /// Restituisce true se l'operazione di rimozione ha avuto successo, altrimenti false.
-  Future<bool> removeById(int id);
+  Future<bool> removeById(int? id);
+
+  Future<List<AnnuncioDiLavoroDTO>> findByNotApprovato(String usernameCa);
+  Future<List<AnnuncioDiLavoroDTO>> findByApprovato(String usernameCa);
 }
