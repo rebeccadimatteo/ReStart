@@ -17,7 +17,7 @@ class GestioneEventoController {
 
     _router.post('/visualizzaEventi', _visualizzaEventi);
     //_router.post('/addEvento', _addEvento);
-    //_router.post('/dettagliEvento', _dettagliEvento);
+    _router.post('/dettagliEvento', _dettagliEvento);
 
     _router.all('/ignored|.*>', _notFound);
   }
@@ -33,6 +33,39 @@ class GestioneEventoController {
     } catch (e) {
       return Response.internalServerError(
           body: 'Errore durante la visualizzazione dei corsi: $e');
+    }
+  }
+
+  Future<Response> _dettagliEvento(Request request) async {
+    try {
+      final String requestBody = await request.readAsString();
+      final Map<String, dynamic> params = parseFormBody(requestBody);
+      final int? idEvento = int.tryParse(params['id_evento'] ?? '');
+
+      if (idEvento != null) {
+        EventoDTO? eventoDTO = await _service.detailsEvento(idEvento);
+        if (eventoDTO != null) {
+          final responseBody = jsonEncode({'result': 'Dettagli del evento', 'evento': eventoDTO.toJson()});
+          return Response.ok(responseBody, headers: {'Content-Type': 'application/json'});
+        } else {
+          final responseBody = jsonEncode({'result': 'ID evento non valido'});
+          return Response(
+            HttpStatus.badRequest,
+            body: responseBody,
+            headers: {'Content-Type': 'application/json'},
+          );
+        }
+      } else {
+        final responseBody = jsonEncode({'result': 'ID evento non valido'});
+        return Response.badRequest(
+          body: responseBody,
+          headers: {'Content-Type': 'application/json'},
+        );
+      }
+    } catch (e) {
+      return Response.internalServerError(
+        body: 'Errore durante il recupero dei dettagli dell evento: $e',
+      );
     }
   }
 
