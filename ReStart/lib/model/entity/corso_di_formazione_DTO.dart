@@ -80,7 +80,7 @@ class CorsoDiFormazioneDTO {
     return CorsoDiFormazioneDTO(
       id: json['id'],
       nomeCorso:
-      json['nome_corso'].toString().replaceAll('[', '').replaceAll(']', ''),
+          json['nome_corso'].toString().replaceAll('[', '').replaceAll(']', ''),
       nomeResponsabile: json['nome_responsabile']
           .toString()
           .replaceAll('[', '')
@@ -94,9 +94,9 @@ class CorsoDiFormazioneDTO {
           .replaceAll('[', '')
           .replaceAll(']', ''),
       urlCorso:
-      json['url_corso'].toString().replaceAll('[', '').replaceAll(']', ''),
+          json['url_corso'].toString().replaceAll('[', '').replaceAll(']', ''),
       immagine:
-      json['immagine'].toString().replaceAll('[', '').replaceAll(']', ''),
+          json['immagine'].toString().replaceAll('[', '').replaceAll(']', ''),
     );
   }
 

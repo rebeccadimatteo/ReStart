@@ -42,10 +42,12 @@ class EventoDTO {
 
   /// Getter e setter dei vari attributi
   int? get id => _id;
+
   int get id_ca => _id_ca;
+
   String get immagine => _immagine;
 
-  set id_ca(int value){
+  set id_ca(int value) {
     _id_ca = value;
   }
 
@@ -123,16 +125,22 @@ class EventoDTO {
     return EventoDTO(
       id: json['id'],
       id_ca: json['id_ca'],
-      nomeEvento: json['nome'].toString().replaceAll('[', '').replaceAll(']', ''),
-      descrizione: json['descrizione'].toString().replaceAll('[', '').replaceAll(']', ''),
+      nomeEvento:
+          json['nome'].toString().replaceAll('[', '').replaceAll(']', ''),
+      descrizione: json['descrizione']
+          .toString()
+          .replaceAll('[', '')
+          .replaceAll(']', ''),
       date: parsedDate,
       approvato: json['approvato'],
       email: json['email'].toString().replaceAll('[', '').replaceAll(']', ''),
       sito: json['sito'].toString().replaceAll('[', '').replaceAll(']', ''),
-      immagine: json['immagine'].toString().replaceAll('[', '').replaceAll(']', ''),
+      immagine:
+          json['immagine'].toString().replaceAll('[', '').replaceAll(']', ''),
       via: json['via'].toString().replaceAll('[', '').replaceAll(']', ''),
       citta: json['citta'].toString().replaceAll('[', '').replaceAll(']', ''),
-      provincia: json['provincia'].toString().replaceAll('[', '').replaceAll(']', ''),
+      provincia:
+          json['provincia'].toString().replaceAll('[', '').replaceAll(']', ''),
     );
   }
 

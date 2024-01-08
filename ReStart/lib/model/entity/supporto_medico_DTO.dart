@@ -102,16 +102,16 @@ class SupportoMedicoDTO {
     return SupportoMedicoDTO(
       id: json['id'],
       nomeMedico:
-      json['nome'].toString().replaceAll('[', '').replaceAll(']', ''),
+          json['nome'].toString().replaceAll('[', '').replaceAll(']', ''),
       cognomeMedico:
-      json['cognome'].toString().replaceAll('[', '').replaceAll(']', ''),
+          json['cognome'].toString().replaceAll('[', '').replaceAll(']', ''),
       descrizione: json['descrizione']
           .toString()
           .replaceAll('[', '')
           .replaceAll(']', ''),
       tipo: json['tipo'].toString().replaceAll('[', ''.replaceAll(']', '')),
       immagine:
-      json['immagine'].toString().replaceAll('[', '').replaceAll(']', ''),
+          json['immagine'].toString().replaceAll('[', '').replaceAll(']', ''),
       email: json['email'].toString().replaceAll('[', '').replaceAll(']', ''),
       numTelefono: json['num_telefono']
           .toString()
@@ -120,7 +120,7 @@ class SupportoMedicoDTO {
       via: json['via'].toString().replaceAll('[', '').replaceAll(']', ''),
       citta: json['citta'].toString().replaceAll('[', '').replaceAll(']', ''),
       provincia:
-      json['provincia'].toString().replaceAll('[', '').replaceAll(']', ''),
+          json['provincia'].toString().replaceAll('[', '').replaceAll(']', ''),
     );
   }
 
