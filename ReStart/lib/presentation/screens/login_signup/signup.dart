@@ -7,26 +7,11 @@ import 'package:http/http.dart' as http;
 import '../../../model/entity/utente_DTO.dart';
 import '../routes/routes.dart';
 
-class SignUpPage extends StatelessWidget {
-  const SignUpPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: SignUp(),
-    );
-  }
-}
-
-class SignUp extends StatefulWidget {
-  const SignUp({super.key});
-
-  @override
+class SignUpPage extends StatefulWidget {
   _SignUpState createState() => _SignUpState();
 }
 
-class _SignUpState extends State<SignUp> {
+class _SignUpState extends State<SignUpPage> {
   final _formKey = GlobalKey<FormState>();
   String? _selectedGender;
   late DateTime? selectedDate;
@@ -111,8 +96,7 @@ class _SignUpState extends State<SignUp> {
 
   bool validateProvincia(String provincia) {
     RegExp regex = RegExp(r'^[A-Z]{2}');
-    if (provincia.length > 2)
-      return false;
+    if (provincia.length > 2) return false;
     return regex.hasMatch(provincia);
   }
 
@@ -656,6 +640,7 @@ class _SignUpState extends State<SignUp> {
                 child: TextButton(
                   onPressed: () {
                     submitForm();
+                    Navigator.pushNamed(context, AppRoutes.login);
                   },
                   child: const Text(
                     'REGISTRATI',
@@ -730,8 +715,4 @@ class _SignUpState extends State<SignUp> {
       ),
     );
   }
-}
-
-void main() {
-  runApp(const SignUp());
 }

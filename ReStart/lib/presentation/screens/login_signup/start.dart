@@ -65,8 +65,10 @@ class Home extends StatelessWidget {
                 )),
             child: TextButton(
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => LoginPage()));
+                Navigator.pushNamed(
+                  context,
+                  AppRoutes.login,
+                );
               },
               child: const Text(
                 'ACCEDI',
@@ -111,10 +113,10 @@ class Home extends StatelessWidget {
                 )),
             child: TextButton(
               onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const SignUpPage()));
+                Navigator.pushNamed(
+                  context,
+                  AppRoutes.signup,
+                );
               },
               child: const Text(
                 'REGISTRATI',
