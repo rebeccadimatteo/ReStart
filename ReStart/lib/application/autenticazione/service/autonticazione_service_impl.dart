@@ -40,6 +40,12 @@ class AutenticazioneServiceImpl implements AutenticazioneService{
     }
   }
 
+  @override
+  Future<UtenteDTO?> visualizzaUtente(String username) {
+    final UtenteDAO utenteDAO = UtenteDAOImpl();
+    return utenteDAO.findByUsername(username);
+  }
+
 
   @override
   Future<List<UtenteDTO>> listaUtenti() {

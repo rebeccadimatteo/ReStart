@@ -21,6 +21,7 @@ class AutenticazioneController {
     _router.post('/login', _login);
     _router.post('/deleteUtente', _deleteUtente);
     _router.get('/listaUtenti', _listaUtenti);
+    _router.post('/visualizzaUtente', _visualizzaUtente);
     _router.get('/modifyUtente', _modifyUtente);
     _router.all('/<ignored|.*>', _notFound);
   }
@@ -80,7 +81,7 @@ class AutenticazioneController {
             headers: {'Content-Type': 'application/json'});
       } else {
         final responseBody =
-        jsonEncode({'result': 'Eliminazione non effettuata'});
+            jsonEncode({'result': 'Eliminazione non effettuata'});
         return Response.badRequest(
             body: responseBody, headers: {'Content-Type': 'application/json'});
       }
@@ -103,9 +104,30 @@ class AutenticazioneController {
     }
   }
 
-  Future<Response> _notFound(Request request) async {
-    return Response.notFound('Endpoint non trovato',
-        headers: {'Content-Type': 'text/plain'});
+  _visualizzaUtente(Request request) async {
+    try {
+      final String requestBody = await request.readAsString();
+      final Map<String, dynamic> params = jsonDecode(requestBody);
+
+      String username = params['username'] ?? '';
+
+      UtenteDTO? utente = await _authService.visualizzaUtente(username);
+
+      if (utente != null) {
+        final responseBody = jsonEncode({'result': utente});
+        return Response.ok(responseBody,
+            headers: {'Content-Type': 'application/json'});
+      } else {
+        final responseBody =
+            jsonEncode({'result': 'visualizzazione non effettuata'});
+        return Response.badRequest(
+            body: responseBody, headers: {'Content-Type': 'application/json'});
+      }
+    } catch (e) {
+      // Gestione degli errori durante la chiamata al servizio
+      return Response.internalServerError(
+          body: 'Errore durante l\'eliminazione dell\'utente: $e');
+    }
   }
 
   Future<Response> _modifyUtente(Request request) async {
@@ -152,8 +174,7 @@ class AutenticazioneController {
         return Response.ok(responseBody,
             headers: {'Content-Type': 'application/json'});
       } else {
-        final responseBody =
-        jsonEncode({'result': 'Modifica non effettuata.'});
+        final responseBody = jsonEncode({'result': 'Modifica non effettuata.'});
         return Response.badRequest(
             body: responseBody, headers: {'Content-Type': 'application/json'});
       }
@@ -162,6 +183,11 @@ class AutenticazioneController {
       return Response.internalServerError(
           body: 'Errore durante la modifica dell\'utente: $e');
     }
+  }
+
+  Future<Response> _notFound(Request request) async {
+    return Response.notFound('Endpoint non trovato',
+        headers: {'Content-Type': 'text/plain'});
   }
 
   Map<String, dynamic> parseFormBody(String body) {
