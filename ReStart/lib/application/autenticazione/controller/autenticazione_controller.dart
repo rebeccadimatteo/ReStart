@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'package:shelf/shelf.dart';
-import 'package:shelf_router/shelf_router.dart' as shelf_router;
 
 import '../../../model/entity/ads_DTO.dart';
 import '../../../model/entity/ca_DTO.dart';
@@ -8,6 +6,9 @@ import '../../../model/entity/utente_DTO.dart';
 import '../../../utils/jwt_constants.dart';
 import '../../../utils/jwt_utils.dart';
 import '../service/autenticazione_service.dart';
+import 'package:shelf/shelf.dart';
+import 'package:shelf_router/shelf_router.dart' as shelf_router;
+
 import '../service/autonticazione_service_impl.dart';
 
 class AutenticazioneController {
@@ -18,6 +19,9 @@ class AutenticazioneController {
     _authService = AutenticazioneServiceImpl();
     _router = shelf_router.Router();
     _router.post('/login', _login);
+    _router.post('/deleteUtente', _deleteUtente);
+    _router.get('/listaUtenti', _listaUtenti);
+    _router.get('/modifyUtente', _modifyUtente);
     _router.all('/<ignored|.*>', _notFound);
   }
 
@@ -76,7 +80,7 @@ class AutenticazioneController {
             headers: {'Content-Type': 'application/json'});
       } else {
         final responseBody =
-            jsonEncode({'result': 'Eliminazione non effettuata'});
+        jsonEncode({'result': 'Eliminazione non effettuata'});
         return Response.badRequest(
             body: responseBody, headers: {'Content-Type': 'application/json'});
       }
@@ -87,9 +91,77 @@ class AutenticazioneController {
     }
   }
 
+  Future<Response> _listaUtenti(Request request) async {
+    try {
+      final List<UtenteDTO> listaUser = await _authService.listaUtenti();
+      final responseBody = jsonEncode({'utenti': listaUser});
+      return Response.ok(responseBody,
+          headers: {'Content-Type': 'apllication/json'});
+    } catch (e) {
+      return Response.internalServerError(
+          body: 'Errore durante la visualizzazzione della richiesta');
+    }
+  }
+
   Future<Response> _notFound(Request request) async {
     return Response.notFound('Endpoint non trovato',
         headers: {'Content-Type': 'text/plain'});
+  }
+
+  Future<Response> _modifyUtente(Request request) async {
+    try {
+      final String requestBody = await request.readAsString();
+      final Map<String, dynamic> params = jsonDecode(requestBody);
+      final int id = params['id'] ?? '';
+      final String nome = params['nome'] ?? '';
+      final String cognome = params['cognome'] ?? '';
+      final String cod_fiscale = params['cod_fiscale'] ?? '';
+      final DateTime data_nascita = params['data_nascita'] ?? '';
+      final String luogo_nascita = params['luogo_nascita'] ?? '';
+      final String genere = params['genere'] ?? '';
+      final String username = params['username'] ?? '';
+      final String password = params['password'] ?? '';
+      final String lavoro_adatto = params['lavoro_adatto'] ?? '';
+      final String email = params['email'] ?? '';
+      final String num_telefono = params['num_telefono'] ?? '';
+      final String immagine = params['immagine'] ?? '';
+      final String via = params['via'] ?? '';
+      final String citta = params['citta'] ?? '';
+      final String provincia = params['provincia'] ?? '';
+
+      UtenteDTO utente = UtenteDTO(
+          id: id,
+          nome: nome,
+          cognome: cognome,
+          cod_fiscale: cod_fiscale,
+          data_nascita: data_nascita,
+          luogo_nascita: luogo_nascita,
+          genere: genere,
+          username: username,
+          password: password,
+          lavoro_adatto: lavoro_adatto,
+          email: email,
+          num_telefono: num_telefono,
+          immagine: immagine,
+          via: via,
+          citta: citta,
+          provincia: provincia);
+
+      if (await _authService.modifyUtente(utente)) {
+        final responseBody = jsonEncode({'result': "Modifica effettuata."});
+        return Response.ok(responseBody,
+            headers: {'Content-Type': 'application/json'});
+      } else {
+        final responseBody =
+        jsonEncode({'result': 'Modifica non effettuata.'});
+        return Response.badRequest(
+            body: responseBody, headers: {'Content-Type': 'application/json'});
+      }
+    } catch (e) {
+      // Gestione degli errori durante la chiamata al servizio
+      return Response.internalServerError(
+          body: 'Errore durante la modifica dell\'utente: $e');
+    }
   }
 
   Map<String, dynamic> parseFormBody(String body) {

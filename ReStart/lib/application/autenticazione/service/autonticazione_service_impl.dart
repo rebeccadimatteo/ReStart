@@ -9,10 +9,11 @@ import 'autenticazione_service.dart';
 
 class AutenticazioneServiceImpl implements AutenticazioneService{
   final AutenticazioneDAO _autenticazioneDAO;
+  final UtenteDAO _utenteDAO;
 
   AutenticazioneServiceImpl():
-      _autenticazioneDAO = AutenticazioneDAOImpl();
-
+        _autenticazioneDAO = AutenticazioneDAOImpl(),
+        _utenteDAO = UtenteDAOImpl();
   @override
   Future<dynamic> login(String user, String psw) async {
     dynamic utente = await _autenticazioneDAO.findByUsername(user);
@@ -39,12 +40,20 @@ class AutenticazioneServiceImpl implements AutenticazioneService{
     }
   }
 
+
+  @override
+  Future<List<UtenteDTO>> listaUtenti() {
+    return _utenteDAO.findAll();
+  }
+
   @override
   Future<bool> deleteUtente(String username) {
-
     final UtenteDAO utenteDAO = UtenteDAOImpl();
     return utenteDAO.removeByUsername(username);
   }
 
-
+  @override
+  Future<bool> modifyUtente(UtenteDTO u) {
+    return _utenteDAO.update(u);
+  }
 }
