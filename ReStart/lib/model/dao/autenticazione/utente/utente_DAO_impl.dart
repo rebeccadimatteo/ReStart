@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:postgres/postgres.dart';
 import 'dart:developer' as developer;
 import '../../../connection/connector.dart';
@@ -146,7 +148,7 @@ class UtenteDAOImpl implements UtenteDAO {
       var result = await connection.execute(
         Sql.named(
             'SELECT u.*, c.email, c.num_telefono, i.via, i.citta, i.provincia FROM public."Utente" u, public."Contatti" c, '
-            'public."Indirizzo" i WHERE u.id = c.id_utente AND u.id = i.id_utente WHERE u.id = @id'),
+            'public."Indirizzo" i WHERE @id = c.id_utente AND @id = i.id_utente WHERE u.id = @id'),
         parameters: {'id': id},
       );
       if (result.isNotEmpty) {
@@ -270,18 +272,24 @@ class UtenteDAOImpl implements UtenteDAO {
   Future<UtenteDTO?> findByUsername(String username) async {
     try {
       Connection connection = await connector.openConnection();
-      var result = await connection.execute(
-        Sql.named(
-            'SELECT u.id, u.nome, u.cognome, u.cod_fiscale, u.data_nascita, u.luogo_nascita, u.genere, u.username, u.password, u.lavoro_adatto, '
-            'c.email, c.num_telefono, i.immagine, ind.via, ind.citta, ind.provincia'
-            ' FROM public."Utente" as u, public."Contatti" as c, public."Immagine" as i, public."Indirizzo" as ind '
-            'WHERE u.username = @username'),
+      var result1 = await connection.execute(
+        Sql.named('SELECT u.id FROM public."Utente" as u WHERE u.username = @username'),
         parameters: {'username': username},
       );
-      if (result.isNotEmpty) {
-        return UtenteDTO.fromJson(result.first.toColumnMap());
+      if (result1.isNotEmpty) {
+        int id = result1[0][0] as int;
+        var result = await connection.execute(
+          Sql.named(
+              'SELECT u.*, c.email, c.num_telefono, i.via, i.citta, i.provincia FROM public."Utente" u, public."Contatti" c, '
+                  'public."Indirizzo" i WHERE u.id = @id AND i.id = @id AND c.id = @id'),
+          parameters: {'id': id},
+        );
+        if (result.isNotEmpty) {
+          return UtenteDTO.fromJson(result.first.toColumnMap());
+        }
       }
     } catch (e) {
+      print(e);
       developer.log(e.toString());
       return null;
     } finally {
