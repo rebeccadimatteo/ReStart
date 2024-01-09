@@ -150,7 +150,7 @@ class CaDAOImpl implements CaDAO {
             'c.sito, i.immagine, ind.citta, ind.via, ind.provincia '
             'FROM public."CA" as ca, public."Contatti" as c, '
             'public."Immagine" as i, public."Indirizzo" as ind '
-            'WHERE ca.id = c.id_ca AND ca.id = i.id_ca AND ca.id = ind.id_ca AND ca.id = @id'),
+            'WHERE @id = c.id_ca AND @id = i.id_ca AND @id = ind.id_ca AND ca.id = @id'),
         parameters: {'id': id},
       );
       if (result.isNotEmpty) {
@@ -277,15 +277,25 @@ class CaDAOImpl implements CaDAO {
   Future<CaDTO?> findByUsername(String username) async {
     try {
       Connection connection = await connector.openConnection();
-      var result = await connection.execute(
+      var result1 = await connection.execute(
         Sql.named(
-            'SELECT ca.id, ca.nome, ca.username, ca.password,  c.num_telefono, c.email, c.sito, i.immagine, ind.citta, ind.via, ind.provincia'
-            ' FROM public."CA" as ca, public."Contatti" as c, public."Immagine" as i, public."Indirizzo" as ind '
-            'WHERE ca.username = @username'),
+            'SELECT ca.id, ca.nome FROM public."CA" ca WHERE ca.username = @username'),
         parameters: {'username': username},
       );
-      if (result.isNotEmpty) {
-        return CaDTO.fromJson(result.first.toColumnMap());
+      if (result1.isNotEmpty) {
+        int id = result1[0][0] as int;
+        var result = await connection.execute(
+          Sql.named(
+              'SELECT  ca.id, ca.nome, ca.username, ca.password, c.num_telefono, c.email, '
+              'c.sito, i.immagine, ind.citta, ind.via, ind.provincia '
+              'FROM public."CA" as ca, public."Contatti" as c, '
+              'public."Immagine" as i, public."Indirizzo" as ind '
+              'WHERE @id = c.id_ca AND @id = i.id_ca AND @id = ind.id_ca AND ca.id = @id'),
+          parameters: {'id': id},
+        );
+        if (result.isNotEmpty) {
+          return CaDTO.fromJson(result.first.toColumnMap());
+        }
       }
     } catch (e) {
       developer.log(e.toString());

@@ -125,7 +125,7 @@ class SupportoMedicoDAOImpl implements SupportoMedicoDAO {
         Sql.named(
             'SELECT  sm.id, sm.nome, sm.cognome, sm.descrizione, i.immagine, c.email, c.num_telefono, ind.via, ind.citta, ind.provincia '
             'FROM public."SupportoMedico" as sm, public."Immagine" as i, public."Contatti" as c, public."Indirizzo" as ind '
-            'WHERE sm.id = @id AND sm.id = c.id_corso AND sm.id = i.id_corso AND sm.id = ind.id_corso'),
+            'WHERE sm.id = @id AND @id = c.id_corso AND @id = i.id_corso AND @id = ind.id_corso'),
         parameters: {'id': id},
       );
       if (result.isNotEmpty) {

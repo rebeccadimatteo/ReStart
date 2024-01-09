@@ -121,7 +121,7 @@ class AnnuncioLavoroDAOImpl implements AnnuncioDiLavoroDAO {
         Sql.named('SELECT  adl.id, adl.id_ca, adl.nome, adl.descrizione, adl.approvato, ind.via, ind.citta, ind.provincia,'
             ' i.immagine, c.email, c.num_telefono  FROM public."AnnuncioDiLavoro" as adl, public."Contatti" as c,'
             ' public."Immagine" as i, public."Indirizzo" as ind'
-            ' WHERE adl.id = @id AND adl.id = c.id_annuncio AND adl.id = i.id_annuncio AND adl.id = ind.id_annuncio'),
+            ' WHERE adl.id = @id AND @id = c.id_annuncio AND @id = i.id_annuncio AND @id = ind.id_annuncio'),
         parameters: {'id': id},
       );
       if (result.isNotEmpty) {

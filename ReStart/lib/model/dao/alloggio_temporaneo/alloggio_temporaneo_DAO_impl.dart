@@ -109,7 +109,7 @@ class AlloggioTemporaneoDAOImpl implements AlloggioTemporaneoDAO{
         Sql.named('SELECT at.id, at.nome, at.descrizione, at.tipo, ind.citta, ind.provincia, ind.via '
             'c.email, c.sito, i.immagine FROM public."AlloggioTemporaneo" at, '
             'public."Contatti" as c, public."Immagine" as i, public."Indirizzo" as ind '
-            'WHERE at.id = @id AND at.id = c.id_alloggio AND at.id = i.id_alloggio AND at.id = ind.id_alloggio'),
+            'WHERE at.id = @id AND @id = c.id_alloggio AND @id = i.id_alloggio AND @id = ind.id_alloggio'),
         parameters: {'id': id},
       );
       if (result.isNotEmpty) {

@@ -137,7 +137,7 @@ class AdsDAOImpl implements AdsDAO {
         Sql.named(
             'SELECT a.id, a.username, a.password, c.email, c.num_telefono, ind.citta, ind.via, ind.provincia '
             ' FROM public."ADS" a, public."Contatti" c, public."Indirizzo" ind '
-            ' WHERE a.id = c.id_ca AND a.id = ind.id_ca AND a.id = @id'),
+            ' WHERE @id = c.id_ca AND @id = ind.id_ca AND a.id = @id'),
         parameters: {'id': id},
       );
       if (result.isNotEmpty) {
@@ -255,15 +255,23 @@ class AdsDAOImpl implements AdsDAO {
   Future<AdsDTO?> findByUsername(String username) async {
     try {
       Connection connection = await connector.openConnection();
-      var result = await connection.execute(
+      var result1 = await connection.execute(
         Sql.named(
-            'SELECT a.id, a.username, a.password, c.email, c.num_telefono, ind.citta, ind.via, ind.provincia '
-            ' FROM public."ADS" a, public."Contatti" c, public."Indirizzo" ind '
-            ' WHERE a.username = @username'),
+            'SELECT a.id FROM public."ADS" a WHERE a.username = @username'),
         parameters: {'username': username},
       );
-      if (result.isNotEmpty) {
-        return AdsDTO.fromJson(result.first.toColumnMap());
+      if (result1.isNotEmpty) {
+        int id = result1[0][0] as int;
+        var result = await connection.execute(
+          Sql.named(
+              'SELECT a.id, a.username, a.password, c.email, c.num_telefono, ind.citta, ind.via, ind.provincia '
+                  ' FROM public."ADS" a, public."Contatti" c, public."Indirizzo" ind '
+                  ' WHERE @id = c.id_ca AND @id = ind.id_ca AND a.id = @id'),
+          parameters: {'id': id},
+        );
+        if (result.isNotEmpty) {
+          return AdsDTO.fromJson(result.first.toColumnMap());
+        }
       }
     } catch (e) {
       developer.log(e.toString());

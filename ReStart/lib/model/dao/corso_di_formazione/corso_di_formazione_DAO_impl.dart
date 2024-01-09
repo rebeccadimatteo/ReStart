@@ -109,7 +109,7 @@ class CorsoDiFormazioneDAOImpl implements CorsoDiFormazioneDAO {
         Sql.named(
             'SELECT  cf.id, cf.nome_corso, cf.nome_responsabile, cf.cognome_responsabile, cf.descrizione, cf.url_corso, '
             'c.sito, i.immagine FROM public."CorsoDiFormazione" as cf, public."Immagine" as i '
-            'WHERE cf.id = @id AND cf.id = i.id_corso'),
+            'WHERE cf.id = @id AND @id = i.id_corso'),
         parameters: {'id': id},
       );
 
