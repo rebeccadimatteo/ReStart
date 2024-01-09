@@ -45,6 +45,7 @@ class _SignUpState extends State<SignUp> {
   bool _isCittaValid = true;
   bool _isProvinciaValid = true;
   bool _isTelefonoValid = true;
+
   //bool _isImmagineValid = true;
   bool _isNomeValid = true;
   bool _isCognomeValid = true;
@@ -157,8 +158,11 @@ class _SignUpState extends State<SignUp> {
                 ),
               ),
               Padding(
-                padding:
-                    const EdgeInsets.only(left: 15.0, right: 15.0, top: 15),
+                padding: EdgeInsets.only(
+                    left: 15.0,
+                    right: 15.0,
+                    top: 15,
+                    bottom: _isNomeValid ? 15 : 20),
                 child: TextFormField(
                   controller: nomeController,
                   onChanged: (value) {
@@ -173,15 +177,19 @@ class _SignUpState extends State<SignUp> {
                     labelText: 'Nome',
                     hintText: 'Inserisci il tuo nome...',
                     // Cambia il colore del testo in rosso se il nome non è valido
-                    errorText:
-                        _isNomeValid ? null : 'Formato nome non corretto (ex. Mirko [max. 20 caratteri])',
+                    errorText: _isNomeValid
+                        ? null
+                        : 'Formato nome non corretto (ex. Mirko [max. 20 caratteri])',
                     errorStyle: const TextStyle(color: Colors.red),
                   ),
                 ),
               ),
               Padding(
-                padding:
-                    const EdgeInsets.only(left: 15.0, right: 15.0, top: 15),
+                padding: EdgeInsets.only(
+                    left: 15.0,
+                    right: 15.0,
+                    top: 15,
+                    bottom: _isCognomeValid ? 15 : 20),
                 child: TextFormField(
                   controller: cognomeController,
                   onChanged: (value) {
@@ -196,8 +204,9 @@ class _SignUpState extends State<SignUp> {
                     labelText: 'Cognome',
                     hintText: 'Inserisci il tuo cognome...',
                     // Cambia il colore del testo in rosso se il nome non è valido
-                    errorText:
-                        _isCognomeValid ? null : 'Formato cognome non corretto (ex: Rossi [max 20 caratteri])',
+                    errorText: _isCognomeValid
+                        ? null
+                        : 'Formato cognome non corretto (ex: Rossi [max 20 caratteri])',
                     errorStyle: const TextStyle(color: Colors.red),
                   ),
                 ),
@@ -215,8 +224,11 @@ class _SignUpState extends State<SignUp> {
                 ),
               ),
               Padding(
-                padding:
-                    const EdgeInsets.only(left: 15.0, right: 15.0, top: 15),
+                padding: EdgeInsets.only(
+                    left: 15.0,
+                    right: 15.0,
+                    top: 15,
+                    bottom: _isLuogoNascitaValid ? 15 : 20),
                 child: TextFormField(
                   controller: luogoNascitaController,
                   onChanged: (value) {
@@ -239,8 +251,11 @@ class _SignUpState extends State<SignUp> {
                 ),
               ),
               Padding(
-                padding:
-                    const EdgeInsets.only(left: 15.0, right: 15.0, top: 15),
+                padding: EdgeInsets.only(
+                    left: 15.0,
+                    right: 15.0,
+                    top: 15,
+                    bottom: _isCodiceFiscaleValid ? 15 : 20),
                 child: TextFormField(
                   controller: codiceFiscaleController,
                   onChanged: (value) {
@@ -257,7 +272,7 @@ class _SignUpState extends State<SignUp> {
                     // Cambia il colore del testo in rosso se il codice fiscale non è valido
                     errorText: _isCodiceFiscaleValid
                         ? null
-                        : 'Codice Fiscale non corretto (ex: AAABBB11C22D333E)',
+                        : 'Formato Codice Fiscale non corretto\n  (ex: AAABBB11C22D333E)',
                     errorStyle: const TextStyle(color: Colors.red),
                   ),
                 ),
@@ -299,9 +314,11 @@ class _SignUpState extends State<SignUp> {
                 ),
               ),
               Padding(
-                // CITTA
-                padding:
-                    const EdgeInsets.only(left: 15.0, right: 15.0, top: 15),
+                padding: EdgeInsets.only(
+                    left: 15.0,
+                    right: 15.0,
+                    top: 15,
+                    bottom: _isCittaValid ? 15 : 20),
                 child: TextFormField(
                   controller: cittaController,
                   onChanged: (value) {
@@ -324,9 +341,11 @@ class _SignUpState extends State<SignUp> {
                 ),
               ),
               Padding(
-                // VIA
-                padding:
-                    const EdgeInsets.only(left: 15.0, right: 15.0, top: 15),
+                padding: EdgeInsets.only(
+                    left: 15.0,
+                    right: 15.0,
+                    top: 15,
+                    bottom: _isViaValid ? 15 : 20),
                 child: TextFormField(
                   controller: viaController,
                   onChanged: (value) {
@@ -349,9 +368,11 @@ class _SignUpState extends State<SignUp> {
                 ),
               ),
               Padding(
-                // PROVINCIA
-                padding:
-                    const EdgeInsets.only(left: 15.0, right: 15.0, top: 15),
+                padding: EdgeInsets.only(
+                    left: 15.0,
+                    right: 15.0,
+                    top: 15,
+                    bottom: _isProvinciaValid ? 15 : 20),
                 child: TextFormField(
                   controller: provinciaController,
                   onChanged: (value) {
@@ -385,7 +406,7 @@ class _SignUpState extends State<SignUp> {
               ),
               Padding(
                 padding:
-                    const EdgeInsets.only(left: 15.0, right: 15.0, top: 15),
+                    EdgeInsets.only(left: 15.0, right: 15.0, top: 15, bottom: _isEmailValid ? 15 : 20),
                 child: TextFormField(
                   controller: emailController,
                   onChanged: (value) {
@@ -409,7 +430,7 @@ class _SignUpState extends State<SignUp> {
               ),
               Padding(
                 padding:
-                    const EdgeInsets.only(left: 15.0, right: 15.0, top: 15),
+                     EdgeInsets.only(left: 15.0, right: 15.0, top: 15, bottom: _isTelefonoValid ? 15 : 20),
                 child: TextFormField(
                   controller: telefonoController,
                   onChanged: (value) {
@@ -443,7 +464,7 @@ class _SignUpState extends State<SignUp> {
               ),
               Padding(
                 padding:
-                    const EdgeInsets.only(left: 15.0, right: 15.0, top: 15),
+                     EdgeInsets.only(left: 15.0, right: 15.0, top: 15,  bottom: _isUsernameValid ? 15 : 20),
                 child: TextFormField(
                   controller: usernameController,
                   onChanged: (value) {
@@ -460,14 +481,14 @@ class _SignUpState extends State<SignUp> {
                     // Cambia il colore del testo in rosso se username non è valido
                     errorText: _isUsernameValid
                         ? null
-                        : 'Formato username non corretto (ex: prova123. [caratteri speciali consentiti: _ . @])',
+                        : 'Formato username non corretto (ex: prova123. \n  [caratteri speciali consentiti: _ . @])',
                     errorStyle: const TextStyle(color: Colors.red),
                   ),
                 ),
               ),
               Padding(
                 padding:
-                    const EdgeInsets.only(left: 15.0, right: 15.0, top: 15),
+                     EdgeInsets.only(left: 15.0, right: 15.0, top: 15, bottom: _isPasswordValid ? 15 : 20),
                 child: TextFormField(
                   controller: passwordController,
                   onChanged: (value) {
