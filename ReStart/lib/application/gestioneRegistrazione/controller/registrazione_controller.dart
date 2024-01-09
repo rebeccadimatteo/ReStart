@@ -12,11 +12,11 @@ class RegistrazioneController {
   late final RegistrazioneService _service;
   late final shelf_router.Router _router;
 
-  RegistrazioneController(){
+  RegistrazioneController() {
     _service = RegistrazioneServiceImpl();
     _router = shelf_router.Router();
-    
-    _router.post('signup', _signup);
+
+    _router.post('/signup', _signup);
 
     // Aggiungi la route di fallback per le richieste non corrispondenti
     _router.all('/<ignored|.*>', _notFound);
@@ -25,13 +25,25 @@ class RegistrazioneController {
   shelf_router.Router get router => _router;
 
   Future<Response> _signup(Request request) async {
+
     try {
       final String requestBody = await request.readAsString();
       final Map<String, dynamic> params = jsonDecode(requestBody);
-      final String nome= params['nome_utente'] ?? '';
+      var rawData = params['data_nascita'] ?? '';
+      print(rawData);
+      DateTime parsedDate;
+
+      if (rawData is DateTime) {
+        parsedDate = rawData;
+      } else if (rawData is String) {
+        parsedDate = DateTime.parse(rawData);
+      } else {
+        // Puoi gestire altri tipi o scenari a tua discrezione
+        parsedDate = DateTime.now();
+      }
+      final String nome = params['nome'] ?? '';
       final String cognome = params['cognome'] ?? '';
       final String cod_fiscale = params['cod_fiscale'] ?? '';
-      final DateTime data_nascita = params['data_nascita'] ?? '';
       final String luogo_nascita = params['luogo_nascita'] ?? '';
       final String genere = params['genere'] ?? '';
       final String username = params['username'] ?? '';
@@ -48,7 +60,7 @@ class RegistrazioneController {
           nome: nome,
           cognome: cognome,
           cod_fiscale: cod_fiscale,
-          data_nascita: data_nascita,
+          data_nascita: parsedDate,
           luogo_nascita: luogo_nascita,
           genere: genere,
           username: username,
@@ -59,18 +71,16 @@ class RegistrazioneController {
           immagine: immagine,
           via: via,
           citta: citta,
-          provincia: provincia
-      );
-
-      print(utente);
+          provincia: provincia);
 
       if (await _service.signUp(utente)) {
-        final responseBody = jsonEncode({'result': "Registrazione effettuata."});
+        final responseBody =
+            jsonEncode({'result': "Registrazione effettuata."});
         return Response.ok(responseBody,
             headers: {'Content-Type': 'application/json'});
       } else {
         final responseBody =
-        jsonEncode({'result': 'Registrazione non effettuata'});
+            jsonEncode({'result': 'Registrazione non effettuata'});
         return Response.badRequest(
             body: responseBody, headers: {'Content-Type': 'application/json'});
       }

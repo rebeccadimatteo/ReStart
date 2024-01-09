@@ -167,6 +167,17 @@ class UtenteDTO {
 
   /// Mapping dell'oggetto json in un UtenteDTO
   factory UtenteDTO.fromJson(Map<String, dynamic> json) {
+    var rawData = json['data'];
+    DateTime parsedDate;
+
+    if (rawData is DateTime) {
+      parsedDate = rawData;
+    } else if (rawData is String) {
+      parsedDate = DateTime.parse(rawData);
+    } else {
+      // Puoi gestire altri tipi o scenari a tua discrezione
+      parsedDate = DateTime.now();
+    }
     return UtenteDTO(
       id: json['id'],
       nome: json['nome'].toString().replaceAll('[', '').replaceAll(']', ''),
@@ -176,7 +187,7 @@ class UtenteDTO {
           .toString()
           .replaceAll('[', '')
           .replaceAll(']', ''),
-      data_nascita: json['data_nascita'],
+      data_nascita: parsedDate,
       luogo_nascita: json['luogo_nascita']
           .toString()
           .replaceAll('[', '')

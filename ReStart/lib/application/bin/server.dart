@@ -5,6 +5,7 @@ import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart' as shelf_io;
 import 'package:shelf_router/shelf_router.dart' as shelf_router;
 import '../autenticazione/controller/autenticazione_controller.dart';
+import '../gestioneRegistrazione/controller/registrazione_controller.dart';
 import '../gestioneReintegrazione/controller/reintegrazione_controller.dart';
 import '../gestioneEvento/controller/evento_controller.dart';
 
@@ -17,7 +18,7 @@ void main() {
   app.mount('/gestioneLavoro', GestioneLavoroController().router);
   app.mount('/gestioneReintegrazione', ReintegrazioneController().router);
   //app.mount('/lavoroAdatto', LavoroAdattoController().router);
-  //app.mount('/registrazione', RegistrazioneController().router);
+  app.mount('/registrazione', RegistrazioneController().router);
 
   // Aggiungi la route di fallback per le richieste non corrispondenti
   app.all('/<ignored|.*>', (Request request) {

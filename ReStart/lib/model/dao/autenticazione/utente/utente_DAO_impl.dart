@@ -57,6 +57,7 @@ class UtenteDAOImpl implements UtenteDAO {
       }
       return false;
     } catch (e) {
+      print(e);
       developer.log(e.toString());
       return false;
     } finally {

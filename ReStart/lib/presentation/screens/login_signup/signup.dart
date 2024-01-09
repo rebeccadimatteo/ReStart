@@ -1,5 +1,11 @@
+import 'dart:convert';
+
 import "package:flutter/material.dart";
-import "package:restart_all_in_one/presentation/screens/login_signup/login.dart";
+import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
+
+import '../../../model/entity/utente_DTO.dart';
+import '../routes/routes.dart';
 
 class SignUpPage extends StatelessWidget {
   const SignUpPage({super.key});
@@ -23,6 +29,30 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   final _formKey = GlobalKey<FormState>();
   String? _selectedGender;
+  late DateTime? selectedDate;
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1940, 12, 31),
+      lastDate: DateTime(2070, 12, 31),
+    );
+
+    if (pickedDate != null && pickedDate != selectedDate) {
+      setState(() {
+        selectedDate = pickedDate;
+        dataNascitaController.text =
+            DateFormat('yyyy-MM-dd').format(selectedDate!);
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    selectedDate = DateTime.now();
+  }
 
 // Aggiungi un controller per il campo del codice fiscale
   final TextEditingController codiceFiscaleController = TextEditingController();
@@ -36,6 +66,7 @@ class _SignUpState extends State<SignUp> {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController telefonoController = TextEditingController();
   final TextEditingController luogoNascitaController = TextEditingController();
+  final TextEditingController dataNascitaController = TextEditingController();
 
 // Aggiungi una variabile booleana per tenere traccia dello stato di validità del codice fiscale
   bool _isCodiceFiscaleValid = true;
@@ -80,6 +111,8 @@ class _SignUpState extends State<SignUp> {
 
   bool validateProvincia(String provincia) {
     RegExp regex = RegExp(r'^[A-Z]{2}');
+    if (provincia.length > 2)
+      return false;
     return regex.hasMatch(provincia);
   }
 
@@ -109,6 +142,60 @@ class _SignUpState extends State<SignUp> {
 
   bool validateLuogoNascita(String password) {
     return password.length <= 20 && password.length >= 3;
+  }
+
+  void submitForm() async {
+    if (_formKey.currentState!.validate()) {
+      String email = emailController.text;
+      String nome = nomeController.text;
+      String cognome = cognomeController.text;
+      String luogoNascita = luogoNascitaController.text;
+      String password = passwordController.text;
+      String username = usernameController.text;
+      String cf = codiceFiscaleController.text;
+      String numTelefono = telefonoController.text;
+      String via = viaController.text;
+      String citta = cittaController.text;
+      String provincia = provinciaController.text;
+
+      UtenteDTO utente = UtenteDTO(
+        email: email,
+        nome: nome,
+        cognome: cognome,
+        data_nascita: selectedDate!,
+        luogo_nascita: luogoNascita,
+        genere: _selectedGender as String,
+        lavoro_adatto: '',
+        username: username,
+        password: password,
+        cod_fiscale: cf,
+        num_telefono: numTelefono,
+        immagine: 'images/avatar.png',
+        via: via,
+        citta: citta,
+        provincia: provincia,
+      );
+
+      print(utente);
+
+      sendDataToServer(utente);
+    }
+  }
+
+  /// Metodo per inviare i dati al server.
+  Future<void> sendDataToServer(UtenteDTO utente) async {
+    final response = await http.post(
+      Uri.parse('http://10.0.2.2:8080/registrazione/signup'),
+      body: jsonEncode(utente),
+      headers: {'Content-Type': 'application/json'},
+    );
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> responseBody = json.decode(response.body);
+      if (responseBody.containsKey('result')) {
+        print("Funziona");
+      }
+    }
   }
 
   @override
@@ -212,15 +299,33 @@ class _SignUpState extends State<SignUp> {
                 ),
               ),
               Padding(
-                padding:
-                    const EdgeInsets.only(left: 15.0, right: 15.0, top: 15),
-                child: TextFormField(
-                  decoration: const InputDecoration(
+                padding: EdgeInsets.only(
+                    left: 15.0,
+                    right: 15.0,
+                    top: 15,
+                    bottom: _isLuogoNascitaValid ? 15 : 20),
+                child: GestureDetector(
+                  onTap: () {
+                    _selectDate(context);
+                  },
+                  child: TextFormField(
+                    controller: dataNascitaController,
+                    decoration: const InputDecoration(
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(30)),
                       ),
                       labelText: 'Data di nascita',
-                      hintText: 'Inserisci la tua data di nascita...'),
+                    ),
+                    onTap: () {
+                      _selectDate(context);
+                    },
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Seleziona la data di nascita';
+                      }
+                      return null;
+                    },
+                  ),
                 ),
               ),
               Padding(
@@ -278,8 +383,11 @@ class _SignUpState extends State<SignUp> {
                 ),
               ),
               Padding(
-                padding:
-                    const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 25),
+                padding: EdgeInsets.only(
+                    left: 15.0,
+                    right: 15.0,
+                    top: 15,
+                    bottom: _isCodiceFiscaleValid ? 15 : 20),
                 child: DropdownButtonFormField<String>(
                   value: _selectedGender,
                   onChanged: (newValue) {
@@ -405,8 +513,11 @@ class _SignUpState extends State<SignUp> {
                 ),
               ),
               Padding(
-                padding:
-                    EdgeInsets.only(left: 15.0, right: 15.0, top: 15, bottom: _isEmailValid ? 15 : 20),
+                padding: EdgeInsets.only(
+                    left: 15.0,
+                    right: 15.0,
+                    top: 15,
+                    bottom: _isEmailValid ? 15 : 20),
                 child: TextFormField(
                   controller: emailController,
                   onChanged: (value) {
@@ -429,8 +540,11 @@ class _SignUpState extends State<SignUp> {
                 ),
               ),
               Padding(
-                padding:
-                     EdgeInsets.only(left: 15.0, right: 15.0, top: 15, bottom: _isTelefonoValid ? 15 : 20),
+                padding: EdgeInsets.only(
+                    left: 15.0,
+                    right: 15.0,
+                    top: 15,
+                    bottom: _isTelefonoValid ? 15 : 20),
                 child: TextFormField(
                   controller: telefonoController,
                   onChanged: (value) {
@@ -463,8 +577,11 @@ class _SignUpState extends State<SignUp> {
                 ),
               ),
               Padding(
-                padding:
-                     EdgeInsets.only(left: 15.0, right: 15.0, top: 15,  bottom: _isUsernameValid ? 15 : 20),
+                padding: EdgeInsets.only(
+                    left: 15.0,
+                    right: 15.0,
+                    top: 15,
+                    bottom: _isUsernameValid ? 15 : 20),
                 child: TextFormField(
                   controller: usernameController,
                   onChanged: (value) {
@@ -487,8 +604,11 @@ class _SignUpState extends State<SignUp> {
                 ),
               ),
               Padding(
-                padding:
-                     EdgeInsets.only(left: 15.0, right: 15.0, top: 15, bottom: _isPasswordValid ? 15 : 20),
+                padding: EdgeInsets.only(
+                    left: 15.0,
+                    right: 15.0,
+                    top: 15,
+                    bottom: _isPasswordValid ? 15 : 20),
                 child: TextFormField(
                   controller: passwordController,
                   onChanged: (value) {
@@ -535,7 +655,7 @@ class _SignUpState extends State<SignUp> {
                     )),
                 child: TextButton(
                   onPressed: () {
-                    if (_formKey.currentState?.validate() ?? false) {}
+                    submitForm();
                   },
                   child: const Text(
                     'REGISTRATI',
@@ -584,8 +704,10 @@ class _SignUpState extends State<SignUp> {
                     )),
                 child: TextButton(
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => LoginPage()));
+                    Navigator.pushNamed(
+                      context,
+                      AppRoutes.login,
+                    );
                   },
                   child: const Text(
                     'ACCEDI',

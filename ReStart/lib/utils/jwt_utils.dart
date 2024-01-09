@@ -24,6 +24,6 @@ abstract class JWTUtils {
   static String getUserIdFromToken({required String accessToken}) {
     final jwt = JWT.decode(accessToken);
     // ignore: avoid_dynamic_calls
-    return jwt.payload['email'] as String;
+    return jwt.payload['username'] as String;
   }
 }

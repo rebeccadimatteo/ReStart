@@ -107,9 +107,7 @@ class AutenticazioneController {
   _visualizzaUtente(Request request) async {
     try {
       final String requestBody = await request.readAsString();
-      final Map<String, dynamic> params = jsonDecode(requestBody);
-
-      String username = params['username'] ?? '';
+      final String username = jsonDecode(requestBody);
 
       UtenteDTO? utente = await _authService.visualizzaUtente(username);
 
