@@ -19,13 +19,11 @@ class _LoginPageState extends State<LoginPage> {
   bool _isPasswordValid = true;
 
   bool validateUsername(String username) {
-    RegExp regex = RegExp(r'^{15}');
-    return regex.hasMatch(username);
+    return username.length <= 15 && username.length >= 3;
   }
 
-  bool validatePsw(String psw) {
-    RegExp regex = RegExp(r'^{15}');
-    return regex.hasMatch(psw);
+  bool validatePsw(String password) {
+    return password.length <= 15 && password.length >= 3;
   }
 
   @override
@@ -110,7 +108,7 @@ class _LoginPageState extends State<LoginPage> {
                       left: 15.0,
                       right: 15.0,
                       top: 15,
-                      bottom: _isUsernameValid ? 10 : 15),
+                      bottom: _isUsernameValid ? 15 : 20),
                     child: TextFormField(
                       controller: usernameController,
                       onChanged: (value) {
