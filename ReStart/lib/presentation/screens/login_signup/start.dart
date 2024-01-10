@@ -1,20 +1,41 @@
 import "package:flutter/material.dart";
+import "package:flutter_session_manager/flutter_session_manager.dart";
+import "../../../utils/jwt_constants.dart";
+import "../../../utils/jwt_utils.dart";
 import "../routes/routes.dart";
-import "signup.dart";
-import "login.dart";
 
 /// Metodo per eseguire l'applicazione
 void main() {
   runApp(MaterialApp(
     routes: AppRoutes.getRoutes(),
-    initialRoute: AppRoutes.start,
+    initialRoute: AppRoutes.home,
   ));
 }
 
 /// Classe che builda il widget contenente l'interfaccia della Start Page
 class Home extends StatelessWidget {
+  Future<void> checkUser(BuildContext context) async {
+    var token = await SessionManager().get("token");
+    if (token != null) {
+      if (JWTUtils.verifyAccessToken(
+          accessToken: await token,
+          secretKey: JWTConstants.accessTokenSecretKeyForUtente)) {
+        Navigator.pushNamed(context, AppRoutes.homeUtente);;
+      } else if (JWTUtils.verifyAccessToken(
+          accessToken: await token,
+          secretKey: JWTConstants.accessTokenSecretKeyForADS)){
+        Navigator.pushNamed(context, AppRoutes.homeADS);;
+      } else if (JWTUtils.verifyAccessToken(
+          accessToken: await token,
+          secretKey: JWTConstants.accessTokenSecretKeyForCA)){
+        Navigator.pushNamed(context, AppRoutes.homeCA);;
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    checkUser(context);
     return (Scaffold(
       body: Column(
         children: <Widget>[

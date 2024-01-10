@@ -1,6 +1,7 @@
 import "dart:convert";
 import "package:flutter/material.dart";
 import "package:flutter_session_manager/flutter_session_manager.dart";
+import "../../../utils/jwt_utils.dart";
 import "../routes/routes.dart";
 import "package:http/http.dart" as http;
 
@@ -43,22 +44,30 @@ class _LoginPageState extends State<LoginPage> {
       final Map<String, dynamic> responseBody = json.decode(response.body);
       var token = responseBody['token'];
       await SessionManager().set("token", token);
-      Navigator.pushNamed(
-        context,
-        AppRoutes.home,
-      );
-    } else {
-      if(usernameController.text.length >= 15){
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-              content: Text('Lunghezza username errata')
-          ),
+      if (JWTUtils.getUserTypeFromToken(accessToken: token) == "Utente") {
+        Navigator.pushNamed(
+          context,
+          AppRoutes.homeUtente,
         );
-      } else if(pswController.text.length >= 15){
+      } else if (JWTUtils.getUserTypeFromToken(accessToken: token) == "ADS") {
+        Navigator.pushNamed(
+          context,
+          AppRoutes.homeADS,
+        );
+      } else if (JWTUtils.getUserTypeFromToken(accessToken: token) == "CA") {
+        Navigator.pushNamed(
+          context,
+          AppRoutes.homeCA,
+        );
+      }
+    } else {
+      if (usernameController.text.length >= 15) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-              content: Text('Lunghezza password errata')
-          ),
+          const SnackBar(content: Text('Lunghezza username errata')),
+        );
+      } else if (pswController.text.length >= 15) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Lunghezza password errata')),
         );
       }
     }

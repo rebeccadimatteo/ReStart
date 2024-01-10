@@ -7,33 +7,34 @@ import '../../../model/entity/ca_DTO.dart';
 import '../../../model/entity/utente_DTO.dart';
 import 'autenticazione_service.dart';
 
-class AutenticazioneServiceImpl implements AutenticazioneService{
+class AutenticazioneServiceImpl implements AutenticazioneService {
   final AutenticazioneDAO _autenticazioneDAO;
   final UtenteDAO _utenteDAO;
 
-  AutenticazioneServiceImpl():
-        _autenticazioneDAO = AutenticazioneDAOImpl(),
+  AutenticazioneServiceImpl()
+      : _autenticazioneDAO = AutenticazioneDAOImpl(),
         _utenteDAO = UtenteDAOImpl();
+
   @override
   Future<dynamic> login(String user, String psw) async {
     dynamic utente = await _autenticazioneDAO.findByUsername(user);
-    if(utente == null){
+    if (utente == null) {
       return null;
-    }else{
-      if(utente is AdsDTO){
+    } else {
+      if (utente is AdsDTO) {
         AdsDTO utenteAds = utente;
-        if(utenteAds.password == psw){
+        if (utenteAds.password == psw) {
           return utenteAds;
         }
       }
-      if(utente is UtenteDTO){
+      if (utente is UtenteDTO) {
         UtenteDTO utenteU = utente;
-        if(utenteU.password == psw){
+        if (utenteU.password == psw) {
           return utenteU;
         }
-      }else{
+      } else {
         CaDTO utenteCa = utente;
-        if(utenteCa.password == psw){
+        if (utenteCa.password == psw) {
           return utenteCa;
         }
       }
@@ -45,7 +46,6 @@ class AutenticazioneServiceImpl implements AutenticazioneService{
     final UtenteDAO utenteDAO = UtenteDAOImpl();
     return utenteDAO.findByUsername(username);
   }
-
 
   @override
   Future<List<UtenteDTO>> listaUtenti() {

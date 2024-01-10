@@ -1,8 +1,11 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:restart_all_in_one/model/entity/annuncio_di_lavoro_DTO.dart';
 import '../../../model/entity/evento_DTO.dart';
+import '../../../utils/jwt_constants.dart';
+import '../../../utils/jwt_utils.dart';
 import '../../components/generic_app_bar.dart';
 import '../routes/routes.dart';
 import "package:http/http.dart" as http;
@@ -17,6 +20,23 @@ class _HomeUtenteState extends State<HomeUtente> {
   List<EventoDTO> eventi = [];
   List<AnnuncioDiLavoroDTO> annunci = [];
 
+  void initState(){
+    super.initState();
+    fetchEventiFromServer();
+    fetchLavoriFromServer();
+  }
+  Future<void> checkUser(BuildContext context) async {
+    var token = await SessionManager().get("token");
+    if(token != null) {
+      if (!JWTUtils.verifyAccessToken(accessToken: await token, secretKey: JWTConstants.accessTokenSecretKeyForUtente)) {
+        Navigator.pushNamed(context, AppRoutes.home);
+      } else {
+        print("benvenuto!!");
+      }
+    } else{
+      Navigator.pushNamed(context, AppRoutes.home);
+    }
+  }
   Future<void> fetchEventiFromServer() async {
     final response = await http.post(
         Uri.parse('http://10.0.2.2:8080/gestioneEvento/visualizzaEventi'));

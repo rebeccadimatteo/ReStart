@@ -215,7 +215,7 @@ class UtenteDAOImpl implements UtenteDAO {
       Connection connection = await connector.openConnection();
       var result1 = await connection.execute(
         Sql.named(
-            'UPDATE public."Utente" SET nome = @nome, cognome = @cognome, cod_fiscale = @cod_fiscale, data_nascita = @data_nascita, luogo_nascita = @data_nascita, '
+            'UPDATE public."Utente" SET nome = @nome, cognome = @cognome, cod_fiscale = @cod_fiscale, data_nascita = @data_nascita, luogo_nascita = @luogo_nascita, '
             'genere = @genere, username = @username, password = @password WHERE id = @id'),
         parameters: {
           'id': u.id,
@@ -229,7 +229,7 @@ class UtenteDAOImpl implements UtenteDAO {
           'password': u.password,
         },
       );
-
+      print(result1.affectedRows);
       var result2 = await connection.execute(
         Sql.named(
             'UPDATE public."Contatti" SET email = @email, num_telefono = @num_telefono '
@@ -240,7 +240,7 @@ class UtenteDAOImpl implements UtenteDAO {
           'id_utente': u.id,
         },
       );
-
+      print(result2.affectedRows);
       var result3 = await connection.execute(
         Sql.named(
             'UPDATE public."Indirizzo" SET via = @via, citta = @citta, provincia = @provincia '
@@ -252,6 +252,7 @@ class UtenteDAOImpl implements UtenteDAO {
           'id_utente': u.id
         },
       );
+      print(result3.affectedRows);
       if (result1.affectedRows != 0 &&
           result2.affectedRows != 0 &&
           result3.affectedRows != 0) {
@@ -259,6 +260,7 @@ class UtenteDAOImpl implements UtenteDAO {
       }
       return false;
     } catch (e) {
+      print(e);
       developer.log(e.toString());
       return false;
     } finally {

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:restart_all_in_one/presentation/screens/home/home_ads.dart';
+import 'package:restart_all_in_one/presentation/screens/home/home_ca.dart';
 import '../alloggi_temporanei/alloggi_temporanei.dart';
 import '../annunci_di_lavoro/annuncio_di_lavoro.dart';
 import '../corsi_di_formazione/corso_di_formazione.dart';
@@ -12,7 +14,9 @@ import '../utente/profilo.dart';
 
 class AppRoutes {
   static const String home = '/';
-  static const String start = '/start';
+  static const String homeUtente = '/homeUtente';
+  static const String homeADS = '/homeAds';
+  static const String homeCA = '/homeCa';
   static const String login = '/login';
   static const String signup = '/registrati';
   static const String alloggi = '/alloggiTemporanei';
@@ -28,22 +32,30 @@ class AppRoutes {
   static const String profilo = '/profilo';
   static const String modificaprofilo = '/profilo/edit';
   static const String annunciAds = '/annunciDiLavoroAds';
+
   //NB: I DETTAGLI DELLE SEZIONI NEGLI ADS NON SONO A PRIORITA ALTA
   //static const String dettagliannuncioAds = '/annunciDiLavoroAds/dettagliAds';
   static const String alloggiAds = '/alloggiTemporaneiAds';
+
   //static const String dettaglialloggioAds = '/alloggiTemporaneiAds/dettagliAds';
   static const String eventiAds = '/communityEventsAds';
+
   //static const String dettaglieventoAds = '/communityEventsAds/dettagliAds';
   static const String corsiAds = '/corsiDiFormazioneAds';
+
   //static const String dettaglicorsoAds = '/corsiDiFormazioneAds/dettagliAds';
   static const String supportiAds = '/supportiMediciAds';
+
   //static const String dettaglisupportoAds = '/supportiMediciAds/dettagliAds';
   static const String richieste = '/richieste';
+
   /// Definizione di tutte le [AppRoutes]
   static Map<String, WidgetBuilder> getRoutes() {
     return {
-      home: (context) => HomeUtente(),
-      start: (context) => Home(),
+      home: (context) => Home(),
+      homeADS: (context) => HomeAds(),
+      homeUtente: (context) => HomeUtente(),
+      homeCA: (context) => HomeCA(),
       login: (context) => LoginPage(),
       signup: (context) => SignUpPage(),
       alloggi: (context) => AlloggiTemporanei(),

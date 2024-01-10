@@ -265,8 +265,8 @@ class AdsDAOImpl implements AdsDAO {
         var result = await connection.execute(
           Sql.named(
               'SELECT a.id, a.username, a.password, c.email, c.num_telefono, ind.citta, ind.via, ind.provincia '
-                  ' FROM public."ADS" a, public."Contatti" c, public."Indirizzo" ind '
-                  ' WHERE @id = c.id_ca AND @id = ind.id_ca AND a.id = @id'),
+              ' FROM public."ADS" a, public."Contatti" c, public."Indirizzo" ind '
+              ' WHERE @id = c.id_ads AND @id = ind.id_ads AND a.id = @id'),
           parameters: {'id': id},
         );
         if (result.isNotEmpty) {

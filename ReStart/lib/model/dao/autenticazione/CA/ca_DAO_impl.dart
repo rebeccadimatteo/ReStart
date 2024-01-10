@@ -23,12 +23,8 @@ class CaDAOImpl implements CaDAO {
         },
       );
       var id = result[0][0];
-      var result1 = await connection.execute(
-          Sql.named('INSERT INTO public."Immagine" (immagine, id_ca) '
-              'VALUES (@immagine, @id_ca)'),
-          parameters: {'immagine': ca.immagine, 'id_ca': id});
 
-      var result2 = await connection.execute(
+      var result1 = await connection.execute(
           Sql.named(
               'INSERT INTO public."Indirizzo" (via, citta, provincia, id_ca) '
               'VALUES (@via, @citta, @provincia, @id_ca)'),
@@ -39,7 +35,7 @@ class CaDAOImpl implements CaDAO {
             'id_ca': id
           });
 
-      var result3 = await connection.execute(
+      var result2 = await connection.execute(
           Sql.named(
               'INSERT INTO public."Contatti" (email, num_telefono, sito_web, id_ca) '
               'VALUES (@email, @num_telefono, @sito_web, @id_ca)'),
@@ -53,8 +49,7 @@ class CaDAOImpl implements CaDAO {
       await connector.closeConnection();
       if (result.affectedRows != 0 &&
           result1.affectedRows != 0 &&
-          result2.affectedRows != 0 &&
-          result3.affectedRows != 0) {
+          result2.affectedRows != 0) {
         return true;
       }
       return false;
@@ -251,15 +246,9 @@ class CaDAOImpl implements CaDAO {
         },
       );
 
-      var result3 = await connection.execute(
-          Sql.named('UPDATE public."Immagine" SET immagine = @immagine'
-              ' WHERE id_ca = @id_ca'),
-          parameters: {'immagine': ca.immagine, 'id_ca': ca.id});
-
       if (result.affectedRows != 0 &&
           result1.affectedRows != 0 &&
-          result2.affectedRows != 0 &&
-          result3.affectedRows != 0) {
+          result2.affectedRows != 0) {
         return true;
       }
       return false;
@@ -287,10 +276,10 @@ class CaDAOImpl implements CaDAO {
         var result = await connection.execute(
           Sql.named(
               'SELECT  ca.id, ca.nome, ca.username, ca.password, c.num_telefono, c.email, '
-              'c.sito, i.immagine, ind.citta, ind.via, ind.provincia '
+              'c.sito, ind.citta, ind.via, ind.provincia '
               'FROM public."CA" as ca, public."Contatti" as c, '
-              'public."Immagine" as i, public."Indirizzo" as ind '
-              'WHERE @id = c.id_ca AND @id = i.id_ca AND @id = ind.id_ca AND ca.id = @id'),
+              'public."Indirizzo" as ind '
+              'WHERE @id = c.id_ca AND @id = ind.id_ca AND ca.id = @id'),
           parameters: {'id': id},
         );
         if (result.isNotEmpty) {

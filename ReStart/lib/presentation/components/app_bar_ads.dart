@@ -9,7 +9,6 @@ class AdsAppBar extends StatelessWidget implements PreferredSizeWidget {
   /// Costruttore per [AdsAppBar].
   AdsAppBar({super.key, required this.showBackButton});
 
-
   @override
   Widget build(BuildContext context) {
     return AppBar(
@@ -181,6 +180,7 @@ class AdsAppBar extends StatelessWidget implements PreferredSizeWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
+
               ///metodo onTap gestisce il logout dall'applicazione.
               onTap: () {
                 SessionManager().remove("token");
@@ -188,7 +188,7 @@ class AdsAppBar extends StatelessWidget implements PreferredSizeWidget {
                 print("logout riuscito");
                 Navigator.pushNamed(
                   context,
-                  AppRoutes.start,
+                  AppRoutes.home,
                 );
               },
             ),

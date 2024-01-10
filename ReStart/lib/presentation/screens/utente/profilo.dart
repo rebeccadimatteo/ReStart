@@ -123,6 +123,7 @@ class _ProfiloState extends State<Profilo> {
                   Navigator.pushNamed(
                     context,
                     AppRoutes.modificaprofilo,
+                    arguments: utente,
                   );
                 },
                 style: ElevatedButton.styleFrom(
@@ -163,7 +164,7 @@ class _ProfiloEditState extends State<ProfiloEdit> {
   }
 
   final _formKey = GlobalKey<FormState>();
-  late DateTime selectedDate;
+  DateTime? selectedDate;
   String? _selectedGender = 'Maschio';
 
   final TextEditingController emailController = TextEditingController();
@@ -192,13 +193,14 @@ class _ProfiloEditState extends State<ProfiloEdit> {
     if (pickedDate != null && pickedDate != selectedDate) {
       setState(() {
         selectedDate = pickedDate;
-        dataNascitaController.text =
-            DateFormat('yyyy-MM-dd').format(selectedDate);
+        dataNascitaController.text = DateFormat('yyyy-MM-dd').format(selectedDate!);
       });
     }
   }
 
   void submitForm() async {
+    final UtenteDTO u = ModalRoute.of(context)?.settings.arguments as UtenteDTO;
+
     if (_formKey.currentState!.validate()) {
       String email = emailController.text;
       String nome = nomeController.text;
@@ -214,10 +216,11 @@ class _ProfiloEditState extends State<ProfiloEdit> {
       String provincia = provinciaController.text;
 
       UtenteDTO utenteEdit = UtenteDTO(
+        id: u.id,
         email: email,
         nome: nome,
         cognome: cognome,
-        data_nascita: selectedDate,
+        data_nascita: selectedDate!,
         luogo_nascita: luogoNascita,
         genere: _selectedGender as String,
         lavoro_adatto: lavoroAdatto,
@@ -230,6 +233,8 @@ class _ProfiloEditState extends State<ProfiloEdit> {
         citta: citta,
         provincia: provincia,
       );
+
+      print(utenteEdit);
 
       sendEditProfiloToServer(utenteEdit);
     }
@@ -292,26 +297,31 @@ class _ProfiloEditState extends State<ProfiloEdit> {
                       ],
                     ),
                     TextFormField(
+                      controller: usernameController,
                       decoration: const InputDecoration(
                         labelText: 'Username',
                       ),
                     ),
                     TextFormField(
+                      controller: emailController,
                       decoration: const InputDecoration(
                         labelText: 'Email',
                       ),
                     ),
                     TextFormField(
+                      controller: nomeController,
                       decoration: const InputDecoration(
                         labelText: 'Nome',
                       ),
                     ),
                     TextFormField(
+                      controller: cognomeController,
                       decoration: const InputDecoration(
                         labelText: 'Cognome',
                       ),
                     ),
                     TextFormField(
+                      controller: cfController,
                       decoration: const InputDecoration(
                         labelText: 'Codice fiscale',
                       ),
@@ -323,6 +333,7 @@ class _ProfiloEditState extends State<ProfiloEdit> {
                             _selectDate(context);
                           },
                           child: TextFormField(
+                            readOnly: true,
                             controller: dataNascitaController,
                             decoration: const InputDecoration(
                               labelText: 'Data di nascita',
@@ -341,6 +352,7 @@ class _ProfiloEditState extends State<ProfiloEdit> {
                       ),
                     ]),
                     TextFormField(
+                      controller: luogoNascitaController,
                       decoration: const InputDecoration(
                         labelText: 'Luogo di nascita',
                       ),
@@ -369,25 +381,26 @@ class _ProfiloEditState extends State<ProfiloEdit> {
                       ),
                     ),
                     TextFormField(
+                      controller: passwordController,
                       obscureText: true,
                       decoration: const InputDecoration(
                         labelText: 'Password',
                       ),
                     ),
                     TextFormField(
-                      obscureText: false,
+                      controller: cittaController,
                       decoration: const InputDecoration(
                         labelText: 'Città',
                       ),
                     ),
                     TextFormField(
-                      obscureText: false,
+                      controller: viaController,
                       decoration: const InputDecoration(
                         labelText: 'Via',
                       ),
                     ),
                     TextFormField(
-                      obscureText: false,
+                      controller: provinciaController,
                       decoration: const InputDecoration(
                         labelText: 'Provincia',
                       ),
@@ -399,10 +412,10 @@ class _ProfiloEditState extends State<ProfiloEdit> {
               ElevatedButton(
                 onPressed: () {
                   submitForm();
-                  // Navigator.pushNamed(
-                  //   context,
-                  //   AppRoutes.profilo,
-                  // );
+                  Navigator.pushNamed(
+                    context,
+                    AppRoutes.profilo,
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green,

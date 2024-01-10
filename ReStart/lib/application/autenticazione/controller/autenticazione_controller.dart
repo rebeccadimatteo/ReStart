@@ -20,9 +20,9 @@ class AutenticazioneController {
     _router = shelf_router.Router();
     _router.post('/login', _login);
     _router.post('/deleteUtente', _deleteUtente);
-    _router.get('/listaUtenti', _listaUtenti);
+    _router.post('/listaUtenti', _listaUtenti);
     _router.post('/visualizzaUtente', _visualizzaUtente);
-    _router.get('/modifyUtente', _modifyUtente);
+    _router.post('/modifyUtente', _modifyUtente);
     _router.all('/<ignored|.*>', _notFound);
   }
 
@@ -45,15 +45,18 @@ class AutenticazioneController {
         if (user is UtenteDTO) {
           jwtToken = JWTUtils.generateAccessToken(
               username: username,
-              secretKey: JWTConstants.accessTokenSecretKeyForUtente);
+              secretKey: JWTConstants.accessTokenSecretKeyForUtente,
+              userType: "Utente");
         } else if (user is CaDTO) {
           jwtToken = JWTUtils.generateAccessToken(
               username: username,
-              secretKey: JWTConstants.accessTokenSecretKeyForCA);
+              secretKey: JWTConstants.accessTokenSecretKeyForCA,
+              userType: "CA");
         } else if (user is AdsDTO) {
           jwtToken = JWTUtils.generateAccessToken(
               username: username,
-              secretKey: JWTConstants.accessTokenSecretKeyForADS);
+              secretKey: JWTConstants.accessTokenSecretKeyForADS,
+              userType: "ADS");
         }
         final responseBody = jsonEncode({'token': jwtToken});
         return Response.ok(responseBody,
@@ -62,6 +65,7 @@ class AutenticazioneController {
         return Response.forbidden('Credenziali non valide');
       }
     } catch (e) {
+      print(e);
       return Response.internalServerError(body: 'Errore durante il login: $e');
     }
   }
@@ -131,12 +135,13 @@ class AutenticazioneController {
   Future<Response> _modifyUtente(Request request) async {
     try {
       final String requestBody = await request.readAsString();
+      print(requestBody);
       final Map<String, dynamic> params = jsonDecode(requestBody);
-      final int id = params['id'] ?? '';
+      final int id = params['id'] != null ? int.parse(params['id'].toString()) : 0;
       final String nome = params['nome'] ?? '';
       final String cognome = params['cognome'] ?? '';
       final String cod_fiscale = params['cod_fiscale'] ?? '';
-      final DateTime data_nascita = params['data_nascita'] ?? '';
+      final DateTime? data_nascita = params['data_nascita'] != null ? DateTime.parse(params['data_nascita']) : null;
       final String luogo_nascita = params['luogo_nascita'] ?? '';
       final String genere = params['genere'] ?? '';
       final String username = params['username'] ?? '';
@@ -154,7 +159,7 @@ class AutenticazioneController {
           nome: nome,
           cognome: cognome,
           cod_fiscale: cod_fiscale,
-          data_nascita: data_nascita,
+          data_nascita: data_nascita!,
           luogo_nascita: luogo_nascita,
           genere: genere,
           username: username,
@@ -167,6 +172,8 @@ class AutenticazioneController {
           citta: citta,
           provincia: provincia);
 
+      print(utente);
+
       if (await _authService.modifyUtente(utente)) {
         final responseBody = jsonEncode({'result': "Modifica effettuata."});
         return Response.ok(responseBody,
@@ -177,6 +184,7 @@ class AutenticazioneController {
             body: responseBody, headers: {'Content-Type': 'application/json'});
       }
     } catch (e) {
+      print(e);
       // Gestione degli errori durante la chiamata al servizio
       return Response.internalServerError(
           body: 'Errore durante la modifica dell\'utente: $e');
