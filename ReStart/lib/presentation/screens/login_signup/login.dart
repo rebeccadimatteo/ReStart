@@ -61,13 +61,41 @@ class _LoginPageState extends State<LoginPage> {
         );
       }
     } else {
-      if (usernameController.text.length >= 15) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Lunghezza username errata')),
+      if (usernameController.text.length >=15 ) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Errore Username'),
+              content: Text('Username troppo lungo'),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('Chiudi'),
+                ),
+              ],
+            );
+          },
         );
       } else if (pswController.text.length >= 15) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Lunghezza password errata')),
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Errore Password'),
+              content: Text('Password troppo lungo'),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('Chiudi'),
+                ),
+              ],
+            );
+          },
         );
       }
     }
