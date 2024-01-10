@@ -44,12 +44,13 @@ class EventoServiceImpl implements EventoService {
   }
 
   @override
-  Future<bool> approveEvento(EventoDTO e) async {
-    if(await _eventoDAO.existById(e.id) == false){
+  Future<bool> approveEvento(int id_evento) async {
+    if(await _eventoDAO.existById(id_evento) == false){
       return false;
     }
-    e.approvato = true;
-    return _eventoDAO.update(e);
+    EventoDTO? evento=await _eventoDAO.findById(id_evento);
+    evento?.approvato = true;
+    return _eventoDAO.update(evento);
   }
 
   @override
@@ -58,10 +59,10 @@ class EventoServiceImpl implements EventoService {
   }
 
   @override
-  Future<bool> rejectEvento(EventoDTO e) async {
-    if(await _eventoDAO.existById(e.id) == false){
+  Future<bool> rejectEvento(int id_evento) async {
+    if(await _eventoDAO.existById(id_evento) == false){
       return false;
     }
-    return _eventoDAO.removeById(e.id);
+    return _eventoDAO.removeById(id_evento);
   }
 }

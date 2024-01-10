@@ -15,7 +15,7 @@ abstract class EventoService {
 
   Future<bool> modifyEvento(EventoDTO e);
 
-  Future<bool> approveEvento(EventoDTO e);
+  Future<bool> approveEvento(int id_evento);
 
-  Future<bool> rejectEvento(EventoDTO e);
+  Future<bool> rejectEvento(int  id_evento);
 }
