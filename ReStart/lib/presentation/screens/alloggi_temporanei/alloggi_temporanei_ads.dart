@@ -72,8 +72,9 @@ class _AlloggiTemporaneiState extends State<AlloggiTemporanei> {
                 'Alloggi Disponibili',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 20,
+                  fontFamily: 'Poppins',
                   fontWeight: FontWeight.bold,
+                  fontSize: 20,
                 ),
               ),
             ),
@@ -107,7 +108,11 @@ class _AlloggiTemporaneiState extends State<AlloggiTemporanei> {
                             'https://img.freepik.com/free-photo/real-estate-broker-agent-presenting-consult-customer-decision-making-sign-insurance-form-agreement_1150-15023.jpg?w=996&t=st=1703846100~exp=1703846700~hmac=f81b22dab9dc2a0900a3cc79de365b5f367c1c4442d434f369a5e82f12cde1f9'),
                       ),
                       title: Text(alloggio.nome,
-                          style: const TextStyle(fontWeight: FontWeight.bold)),
+                        style: const TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),),
                       subtitle: Text(alloggio.descrizione),
                       trailing: IconButton(
                         icon: const Icon(Icons.delete,
@@ -160,8 +165,9 @@ class DetailsAlloggio extends StatelessWidget {
           Text(
             alloggio.nome,
             style: const TextStyle(
+              fontFamily: 'Poppins',
               fontWeight: FontWeight.bold,
-              fontSize: 30,
+              fontSize: 20,
             ),
           ),
           const SizedBox(height: 10),
@@ -179,7 +185,11 @@ class DetailsAlloggio extends StatelessWidget {
               children: [
                 const Text(
                   'Contatti',
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.bold,
+                    fontSize: 25,
+                  ),
                 ),
                 Text(alloggio.email),
                 Text(alloggio.sito),

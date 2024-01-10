@@ -75,7 +75,8 @@ class _ListaUtentiState extends State<ListaUtenti> {
                   'Lista utenti',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 17,
+                    fontFamily: 'Poppins',
                     fontWeight: FontWeight.bold,
                   ),
                 ),

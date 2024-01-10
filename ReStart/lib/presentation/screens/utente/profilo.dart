@@ -63,6 +63,24 @@ class _ProfiloState extends State<Profilo> {
     }
   }
 
+  Widget buildProfileField(String label, String value, TextStyle labelStyle, TextStyle valueStyle, double screenWidth) {
+    return ListTile(
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            '$label: ',
+            style: labelStyle,
+          ),
+          Text(
+            value,
+            style: valueStyle,
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -71,7 +89,8 @@ class _ProfiloState extends State<Profilo> {
     final String data = utente!.data_nascita.toIso8601String();
     final String dataBuona = data.substring(0,10);
 
-    return Scaffold(
+    return MaterialApp(
+        home: Scaffold(
       appBar: GenericAppBar(
         showBackButton: true,
       ),
@@ -90,29 +109,97 @@ class _ProfiloState extends State<Profilo> {
                   ),
                   title: Text(
                     utente!.username,
-                    style: const TextStyle(fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold
+                    ),
                     textAlign: TextAlign.center,
                   ),
                 ),
               SizedBox(height: screenWidth * 0.1),
               Column(
                 children: [
-                  buildProfileField('Email', utente!.email, screenWidth),
-                  buildProfileField('Nome', utente!.nome, screenWidth),
-                  buildProfileField('Cognome', utente!.cognome, screenWidth),
+                  buildProfileField('Email', utente!.email, const TextStyle(
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.bold,
+                  ), const TextStyle(
+                    fontFamily: 'Poppins',
+                  ), screenWidth),
+                  buildProfileField('Nome', utente!.nome, const TextStyle(
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.bold,
+                  ), const TextStyle(
+                    fontFamily: 'Poppins',
+                  ), screenWidth),
+                  buildProfileField('Cognome', utente!.cognome,const TextStyle(
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.bold,
+                  ), const TextStyle(
+                    fontFamily: 'Poppins',
+                  ), screenWidth),
                   buildProfileField(
-                      'Codice fiscale', utente!.cod_fiscale, screenWidth),
-                  buildProfileField('Data di nascita', dataBuona, screenWidth),
+                      'Codice fiscale', utente!.cod_fiscale, const TextStyle(
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.bold,
+                  ), const TextStyle(
+                    fontFamily: 'Poppins',
+                  ), screenWidth),
+                  buildProfileField('Data di nascita', dataBuona, const TextStyle(
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.bold,
+                  ), const TextStyle(
+                    fontFamily: 'Poppins',
+                  ), screenWidth),
                   buildProfileField('Luogo di nascita',
-                      utente!.luogo_nascita as String, screenWidth),
-                  buildProfileField('Genere', utente!.genere, screenWidth),
-                  buildProfileField('Username', utente!.username, screenWidth),
-                  buildProfileField('Password', '*********', screenWidth),
+                      utente!.luogo_nascita as String, const TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold,
+                      ), const TextStyle(
+                        fontFamily: 'Poppins',
+                      ), screenWidth),
+                  buildProfileField('Genere', utente!.genere,const TextStyle(
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.bold,
+                  ), const TextStyle(
+                    fontFamily: 'Poppins',
+                  ), screenWidth),
+                  buildProfileField('Username', utente!.username, const TextStyle(
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.bold,
+                  ), const TextStyle(
+                    fontFamily: 'Poppins',
+                  ), screenWidth),
+                  buildProfileField('Password', '*********', const TextStyle(
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.bold,
+                  ), const TextStyle(
+                    fontFamily: 'Poppins',
+                  ), screenWidth),
                   buildProfileField('Lavoro adatto',
-                      utente!.lavoro_adatto as String, screenWidth),
-                  buildProfileField('Città', utente!.citta, screenWidth),
-                  buildProfileField('Via', utente!.via, screenWidth),
-                  buildProfileField('Provicia', utente!.provincia, screenWidth),
+                      utente!.lavoro_adatto as String, const TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold,
+                      ), const TextStyle(
+                        fontFamily: 'Poppins',
+                      ), screenWidth),
+                  buildProfileField('Città', utente!.citta, const TextStyle(
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.bold,
+                  ), const TextStyle(
+                    fontFamily: 'Poppins',
+                  ), screenWidth),
+                  buildProfileField('Via', utente!.via, const TextStyle(
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.bold,
+                  ), const TextStyle(
+                    fontFamily: 'Poppins',
+                  ), screenWidth),
+                  buildProfileField('Provicia', utente!.provincia, const TextStyle(
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.bold,
+                  ), const TextStyle(
+                    fontFamily: 'Poppins',
+                  ), screenWidth),
                 ],
               ),
               SizedBox(height: screenWidth * 0.1),
@@ -134,6 +221,9 @@ class _ProfiloState extends State<Profilo> {
                 child: const Text(
                   'MODIFICA',
                   style: TextStyle(
+                    fontFamily: 'Poppins',
+                    color: Colors.white,
+                    fontSize: 23,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -142,6 +232,7 @@ class _ProfiloState extends State<Profilo> {
           ),
         ),
       ),
+    ),
     );
   }
 }
@@ -256,7 +347,8 @@ class _ProfiloEditState extends State<ProfiloEdit> {
     double screenWidth = MediaQuery.of(context).size.width;
     double avatarSize = screenWidth * 0.3;
 
-    return Scaffold(
+    return MaterialApp(
+        home: Scaffold(
       appBar: GenericAppBar(
         showBackButton: true,
       ),
@@ -297,11 +389,19 @@ class _ProfiloEditState extends State<ProfiloEdit> {
                       decoration: const InputDecoration(
                         labelText: 'Username',
                       ),
+                      style: const TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     TextFormField(
                       controller: emailController,
                       decoration: const InputDecoration(
                         labelText: 'Email',
+                      ),
+                      style: const TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                     TextFormField(
@@ -309,17 +409,29 @@ class _ProfiloEditState extends State<ProfiloEdit> {
                       decoration: const InputDecoration(
                         labelText: 'Nome',
                       ),
+                      style: const TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     TextFormField(
                       controller: cognomeController,
                       decoration: const InputDecoration(
                         labelText: 'Cognome',
                       ),
+                      style: const TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     TextFormField(
                       controller: cfController,
                       decoration: const InputDecoration(
                         labelText: 'Codice fiscale',
+                      ),
+                      style: const TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                     Row(children: [
@@ -343,6 +455,10 @@ class _ProfiloEditState extends State<ProfiloEdit> {
                               }
                               return null;
                             },
+                            style: const TextStyle(
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ),
@@ -366,13 +482,25 @@ class _ProfiloEditState extends State<ProfiloEdit> {
                         items: ['Maschio', 'Femmina', 'Non specificato']
                             .map<DropdownMenuItem<String>>(
                               (String value) => DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
+                            value: value,
+                            child: Text(
+                              value,
+                              style: const TextStyle(
+                                fontFamily: 'Poppins',
                               ),
-                            )
+                            ),
+                          ),
+                        )
                             .toList(),
                         decoration: const InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(30)),
+                          ),
                           labelText: 'Genere',
+                          labelStyle: TextStyle(
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),
@@ -382,11 +510,19 @@ class _ProfiloEditState extends State<ProfiloEdit> {
                       decoration: const InputDecoration(
                         labelText: 'Password',
                       ),
+                      style: const TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     TextFormField(
                       controller: cittaController,
                       decoration: const InputDecoration(
                         labelText: 'Città',
+                      ),
+                      style: const TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                     TextFormField(
@@ -394,11 +530,19 @@ class _ProfiloEditState extends State<ProfiloEdit> {
                       decoration: const InputDecoration(
                         labelText: 'Via',
                       ),
+                      style: const TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     TextFormField(
                       controller: provinciaController,
                       decoration: const InputDecoration(
                         labelText: 'Provincia',
+                      ),
+                      style: const TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ],
@@ -423,6 +567,9 @@ class _ProfiloEditState extends State<ProfiloEdit> {
                 child: const Text(
                   'APPLICA MODIFICHE',
                   style: TextStyle(
+                    fontFamily: 'Poppins',
+                    color: Colors.white,
+                    fontSize: 23,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -430,6 +577,7 @@ class _ProfiloEditState extends State<ProfiloEdit> {
             ],
           ),
         ),
+      ),
       ),
     );
   }
@@ -458,4 +606,7 @@ Widget buildProfileField(String label, String value, double screenWidth) {
       ],
     ),
   );
+}
+void main() {
+  runApp(Profilo());
 }

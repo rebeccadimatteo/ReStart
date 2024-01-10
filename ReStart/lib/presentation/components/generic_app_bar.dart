@@ -67,8 +67,9 @@ class GenericAppBar extends StatelessWidget implements PreferredSizeWidget {
                               color: Color.fromARGB(255, 128, 0, 128),
                             ),
                           ],
-                          fontSize: 18,
+                          fontFamily: 'Poppins',
                           color: Colors.black,
+                          fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),
                         textAlign: TextAlign.center,
@@ -81,6 +82,7 @@ class GenericAppBar extends StatelessWidget implements PreferredSizeWidget {
                     'Community Events',
                     textAlign: TextAlign.center,
                     style: TextStyle(
+                      fontFamily: 'Poppins',
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -96,6 +98,7 @@ class GenericAppBar extends StatelessWidget implements PreferredSizeWidget {
                     'Annunci di lavoro',
                     textAlign: TextAlign.center,
                     style: TextStyle(
+                      fontFamily: 'Poppins',
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -111,6 +114,7 @@ class GenericAppBar extends StatelessWidget implements PreferredSizeWidget {
                     'Alloggi temporanei',
                     textAlign: TextAlign.center,
                     style: TextStyle(
+                      fontFamily: 'Poppins',
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -126,6 +130,7 @@ class GenericAppBar extends StatelessWidget implements PreferredSizeWidget {
                     'Supporto medico',
                     textAlign: TextAlign.center,
                     style: TextStyle(
+                      fontFamily: 'Poppins',
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -141,6 +146,7 @@ class GenericAppBar extends StatelessWidget implements PreferredSizeWidget {
                     'Corsi di formazione',
                     textAlign: TextAlign.center,
                     style: TextStyle(
+                      fontFamily: 'Poppins',
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -156,6 +162,7 @@ class GenericAppBar extends StatelessWidget implements PreferredSizeWidget {
                     'Trova il lavoro adatto a te',
                     textAlign: TextAlign.center,
                     style: TextStyle(
+                      fontFamily: 'Poppins',
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -175,6 +182,7 @@ class GenericAppBar extends StatelessWidget implements PreferredSizeWidget {
               'ACCOUNT',
               textAlign: TextAlign.center,
               style: TextStyle(
+                fontFamily: 'Poppins',
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -192,6 +200,7 @@ class GenericAppBar extends StatelessWidget implements PreferredSizeWidget {
                 'Logout',
                 textAlign: TextAlign.center,
                 style: TextStyle(
+                  fontFamily: 'Poppins',
                   fontWeight: FontWeight.bold,
                 ),
               ),

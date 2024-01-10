@@ -33,12 +33,15 @@ dependencies:
   postgres: ^3.0.5
   shelf: ^1.4.1
   shelf_router: ^1.1.4
-  image_picker: ^1.0.5
+  image_picker: ^1.0.7
   path_provider: ^2.0.9
   path: ^1.8.0
   date_field: ^4.0.0
+  table_calendar: ^3.0.9
+  intl: ^0.18.0
+  date_picker_plus: ^2.0.3
   flutter_session_jwt:
-  # The following adds the Cupertino Icons font to your application.
+# The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   dart_jsonwebtoken: ^2.12.2
   flutter_session_manager: ^1.0.3
@@ -85,17 +88,25 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
+  fonts:
+    - family: Orbitron
+      fonts:
+         - asset: fonts/Orbitron-VariableFont_wght.ttf
+           weight: 500
   #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
+    - family: CCE
+      fonts:
+         - asset: fonts/CCElephantmenGreatest Bold.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
-  #
+
+    - family: Poppins
+      fonts:
+        - asset: fonts/Poppins-Light.ttf
+          weight: 100
+
+    - family: SofiaSans
+      fonts:
+        - asset: fonts/SofiaSans-VariableFont_wght.ttf
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

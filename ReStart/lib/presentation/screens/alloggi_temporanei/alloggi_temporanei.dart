@@ -72,8 +72,9 @@ class _AlloggiTemporaneiState extends State<AlloggiTemporanei> {
                 'Alloggi Disponibili',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 20,
+                  fontFamily: 'Poppins',
                   fontWeight: FontWeight.bold,
+                  fontSize: 20,
                 ),
               ),
             ),
@@ -105,10 +106,22 @@ class _AlloggiTemporaneiState extends State<AlloggiTemporanei> {
                         radius: 35,
                         backgroundImage: AssetImage(alloggio.immagine),
                       ),
-                      title: Text(alloggio.nome,
-                          style: const TextStyle(fontWeight: FontWeight.bold)),
-                      subtitle: Text(alloggio.descrizione),
-                    ),
+                      title: Text(
+                        alloggio.nome,
+                        style: const TextStyle(
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
+                      ),
+                      subtitle: Text(
+                        alloggio.descrizione,
+                        style: const TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 20,
+                        ),
+                      ),
+                    )
                   ),
                 );
               },
@@ -170,7 +183,11 @@ class DetailsAlloggio extends StatelessWidget {
               children: [
                 const Text(
                   'Contatti',
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 Text(alloggio.email),
                 Text(alloggio.sito),
@@ -181,4 +198,7 @@ class DetailsAlloggio extends StatelessWidget {
       ),
     );
   }
+}
+void main() {
+  runApp(AlloggiTemporanei());
 }
