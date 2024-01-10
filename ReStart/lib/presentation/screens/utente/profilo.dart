@@ -68,6 +68,8 @@ class _ProfiloState extends State<Profilo> {
     double screenWidth = MediaQuery.of(context).size.width;
     double buttonWidth = screenWidth * 0.1;
     double buttonHeight = screenWidth * 0.1;
+    final String data = utente!.data_nascita.toIso8601String();
+    final String dataBuona = data.substring(0,10);
 
     return Scaffold(
       appBar: GenericAppBar(
@@ -102,7 +104,7 @@ class _ProfiloState extends State<Profilo> {
                   buildProfileField('Cognome', utente!.cognome, screenWidth),
                   buildProfileField(
                       'Codice fiscale', utente!.cod_fiscale, screenWidth),
-                  buildProfileField('Data di nascita', 'mammt', screenWidth),
+                  buildProfileField('Data di nascita', dataBuona, screenWidth),
                   buildProfileField('Luogo di nascita',
                       utente!.luogo_nascita as String, screenWidth),
                   buildProfileField('Genere', utente!.genere, screenWidth),
