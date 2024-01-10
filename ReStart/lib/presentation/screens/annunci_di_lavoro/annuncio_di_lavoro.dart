@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:restart_all_in_one/model/entity/annuncio_di_lavoro_DTO.dart';
+import 'package:restart_all_in_one/utils/jwt_utils.dart';
+import 'package:shelf_router/shelf_router.dart';
 import '../../components/generic_app_bar.dart';
 import 'package:http/http.dart' as http;
 
@@ -29,8 +32,8 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoro> {
   /// viene assegnata alla variabile di stato 'alloggi'. In caso di errori
   /// nella risposta, vengono stampati messaggi di errore sulla console.
   Future<void> fetchDataFromServer() async {
-    final response = await http.post(Uri.parse(
-        'http://10.0.2.2:8080/gestioneLavoro/visualizzaLavori'));
+    final response = await http.post(
+        Uri.parse('http://10.0.2.2:8080/gestioneLavoro/visualizzaLavori'));
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseBody = json.decode(response.body);
       if (responseBody.containsKey('annunci')) {
@@ -101,10 +104,9 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoro> {
                       minVerticalPadding: 50,
                       minLeadingWidth: 80,
                       tileColor: Colors.grey,
-                      leading: const CircleAvatar(
+                      leading: CircleAvatar(
                         radius: 35,
-                        backgroundImage: NetworkImage(
-                            'https://img.freepik.com/free-vector/men-success-laptop-relieve-work-from-home-computer-great_10045-646.jpg?size=338&ext=jpg&ga=GA1.1.1546980028.1703635200&semt=ais'),
+                        backgroundImage: AssetImage(annuncio.immagine),
                       ),
                       title: Text(annuncio.nome,
                           style: const TextStyle(fontWeight: FontWeight.bold)),
@@ -124,9 +126,76 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoro> {
 /// Visualizza i dettagli di [AnnunciDiLavoro]
 
 class DetailsLavoro extends StatelessWidget {
+  late String username;
+
+  Future<void> apply(int idL, BuildContext context) async {
+    var token = SessionManager().get("token");
+    username = JWTUtils.getUserIdFromToken(accessToken: await token);
+    Map<String, String> data = {
+      'idLavoro': idL.toString(),
+      'username': username,
+    };
+    String dataToServer = jsonEncode(data);
+    sendDataToServer(dataToServer, context);
+  }
+
+  Future<void> sendDataToServer(String dataToServer, BuildContext context) async {
+    final response = await http.post(
+      Uri.parse('http://10.0.2.2:8080/candidaturaLavoro/apply'),
+      body: dataToServer,
+      headers: {'Content-Type': 'application/json'},
+    );
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> responseBody = jsonDecode(response.body);
+      if (responseBody.containsKey('result')) {
+        // Mostra una snackbar personalizzata con il risultato
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              responseBody['result'].toString(),
+              style: TextStyle(color: Colors.black, fontSize: 16),
+            ),
+            backgroundColor: Colors.blue[200],
+            duration: Duration(seconds: 5),
+            action: SnackBarAction(
+              label: 'Chiudi',
+              textColor: Colors.deepPurple,
+              onPressed: () {
+                // Codice per chiudere la snackbar, se necessario
+              },
+            ),
+          ),
+        );
+      }
+    } else {
+      final Map<String, dynamic> responseBody = jsonDecode(response.body);
+      if (responseBody.containsKey('result')) {
+        // Mostra una snackbar personalizzata con il risultato
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              responseBody['result'].toString(),
+              style: TextStyle(color: Colors.black, fontSize: 16),
+            ),
+            backgroundColor: Colors.blue[200],
+            duration: Duration(seconds: 5),
+            action: SnackBarAction(
+              label: 'Chiudi',
+              textColor: Colors.deepPurple,
+              onPressed: () {
+                // Codice per chiudere la snackbar, se necessario
+              },
+            ),
+          ),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final AnnuncioDiLavoroDTO annuncio = ModalRoute.of(context)?.settings.arguments as AnnuncioDiLavoroDTO;
+    final AnnuncioDiLavoroDTO annuncio =
+        ModalRoute.of(context)?.settings.arguments as AnnuncioDiLavoroDTO;
     return Scaffold(
       appBar: GenericAppBar(
         showBackButton: true,
@@ -139,12 +208,11 @@ class DetailsLavoro extends StatelessWidget {
             child: Container(
               width: 200,
               height: 200,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: NetworkImage(
-                      'https://img.freepik.com/free-vector/men-success-laptop-relieve-work-from-home-computer-great_10045-646.jpg?size=338&ext=jpg&ga=GA1.1.1546980028.1703635200&semt=ais'),
+                  image: AssetImage(annuncio.immagine),
                 ),
               ),
             ),
@@ -197,7 +265,9 @@ class DetailsLavoro extends StatelessWidget {
                 shadowColor: Colors.grey,
                 elevation: 10,
               ),
-              onPressed: () {},
+              onPressed: () {
+                apply(annuncio.id!, context);
+              },
               child: const Text('CANDIDATI',
                   style: TextStyle(
                     color: Colors.black,

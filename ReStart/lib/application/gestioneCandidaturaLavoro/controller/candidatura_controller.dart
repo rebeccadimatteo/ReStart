@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 import '../service/candidatura_service_impl.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart' as shelf_router;
@@ -12,7 +13,7 @@ class CandidaturaController {
     _router = shelf_router.Router();
 
     // Associa i vari metodi alle route
-    _router.post('/candidatura', _candidatura);
+    _router.post('/apply', _candidatura);
     // Aggiungi la route di fallback per le richieste non corrispondenti
     _router.all('/<ignored|.*>', _notFound);
   }
@@ -23,27 +24,28 @@ class CandidaturaController {
     try {
       final String requestBody = await request.readAsString();
       final Map<String, dynamic> params = jsonDecode(requestBody);
-
+      final int? idLavoro = int.parse(params['idLavoro']);
       final String username = params['username'] ?? '';
-      final int? idLavoro = params['id_lavoro'] ?? '';
 
       String result = await _service.candidatura(username, idLavoro);
 
       String responseBody;
 
-      switch(result) {
+      switch (result) {
+        case "Candidatura effettuata":
+          {
+            responseBody = jsonEncode({'result': result});
+            return Response.ok(responseBody,
+                headers: {'Content-Type': 'application/json'});
+          }
 
-        case "candidatura effettuata": {
-          responseBody = jsonEncode({'result': result});
-          return Response.ok(responseBody,
-              headers: {'Content-Type': 'application/json'});
-        }
-
-        default: {
-          responseBody = jsonEncode({'result': result});
-          return Response.badRequest(
-              body: responseBody, headers: {'Content-Type': 'application/json'});
-        }
+        default:
+          {
+            responseBody = jsonEncode({'result': result});
+            return Response.badRequest(
+                body: responseBody,
+                headers: {'Content-Type': 'application/json'});
+          }
       }
     } catch (e) {
       // Gestione degli errori durante la chiamata al servizio
@@ -73,3 +75,4 @@ class CandidaturaController {
     return formData;
   }
 }
+

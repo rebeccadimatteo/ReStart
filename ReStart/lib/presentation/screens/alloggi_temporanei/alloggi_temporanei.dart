@@ -101,10 +101,9 @@ class _AlloggiTemporaneiState extends State<AlloggiTemporanei> {
                       minVerticalPadding: 50,
                       minLeadingWidth: 80,
                       tileColor: Colors.grey,
-                      leading: const CircleAvatar(
+                      leading: CircleAvatar(
                         radius: 35,
-                        backgroundImage: NetworkImage(
-                            'https://img.freepik.com/free-photo/real-estate-broker-agent-presenting-consult-customer-decision-making-sign-insurance-form-agreement_1150-15023.jpg?w=996&t=st=1703846100~exp=1703846700~hmac=f81b22dab9dc2a0900a3cc79de365b5f367c1c4442d434f369a5e82f12cde1f9'),
+                        backgroundImage: AssetImage(alloggio.immagine),
                       ),
                       title: Text(alloggio.nome,
                           style: const TextStyle(fontWeight: FontWeight.bold)),
@@ -139,12 +138,11 @@ class DetailsAlloggio extends StatelessWidget {
             child: Container(
               width: 200,
               height: 200,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: NetworkImage(
-                      'https://img.freepik.com/free-photo/real-estate-broker-agent-presenting-consult-customer-decision-making-sign-insurance-form-agreement_1150-15023.jpg?w=996&t=st=1703846100~exp=1703846700~hmac=f81b22dab9dc2a0900a3cc79de365b5f367c1c4442d434f369a5e82f12cde1f9'),
+                  image: AssetImage(alloggio.immagine),
                 ),
               ),
             ),

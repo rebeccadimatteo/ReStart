@@ -92,10 +92,9 @@ class _CommunityEventsState extends State<CommunityEvents> {
                       minVerticalPadding: 50,
                       minLeadingWidth: 80,
                       tileColor: Colors.grey,
-                      leading: const CircleAvatar(
+                      leading: CircleAvatar(
                         radius: 35,
-                        backgroundImage: NetworkImage(
-                            'https://img.freepik.com/free-vector/men-success-laptop-relieve-work-from-home-computer-great_10045-646.jpg?size=338&ext=jpg&ga=GA1.1.1546980028.1703635200&semt=ais'),
+                        backgroundImage: AssetImage(evento.immagine),
                       ),
                       title: Text(evento.nomeEvento,
                           style: const TextStyle(fontWeight: FontWeight.bold)),
@@ -133,12 +132,11 @@ class DetailsEvento extends StatelessWidget {
             child: Container(
               width: 200,
               height: 200,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: NetworkImage(
-                      'https://img.freepik.com/free-vector/men-success-laptop-relieve-work-from-home-computer-great_10045-646.jpg?size=338&ext=jpg&ga=GA1.1.1546980028.1703635200&semt=ais'),
+                  image: AssetImage(evento.immagine)
                 ),
               ),
             ),

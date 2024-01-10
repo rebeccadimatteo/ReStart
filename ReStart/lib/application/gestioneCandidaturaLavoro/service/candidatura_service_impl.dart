@@ -24,19 +24,19 @@ class CandidaturaServiceImpl implements CandidaturaService {
     UtenteDTO? utente = await _utenteDAO.findByUsername(username);
 
     if (utente == null)
-      return "utente non trovato"; // non è stato possibile trovare l'utente
+      return "Utente non trovato"; // non è stato possibile trovare l'utente
 
     if (await _annuncioDiLavoroDAO.existById(idLavoro!) == false)
-      return "lavoro esistente"; // il lavoro già esiste
+      return "Lavoro non esistente"; // il lavoro già esiste
 
     if (await _candidaturaDAO.existCandidatura(utente.id, idLavoro))
-      return "candidatura esistente"; // la candidatura già esiste
+      return "Candidatura esistente"; // la candidatura già esiste
 
-    CandidaturaDTO candidaturaDTO = CandidaturaDTO(
-        id_lavoro: idLavoro, id_utente: utente.id);
+    CandidaturaDTO candidaturaDTO =
+        CandidaturaDTO(id_lavoro: idLavoro, id_utente: utente.id);
 
     if (await _candidaturaDAO.add(candidaturaDTO))
-      return "candidatura effettuata";
+      return "Candidatura effettuata";
 
     return "fallito";
   }

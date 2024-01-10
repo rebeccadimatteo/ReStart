@@ -34,7 +34,7 @@ class _ProfiloState extends State<Profilo> {
         password: 'password',
         email: 'email',
         num_telefono: 'num_telefono',
-        immagine: 'immagine',
+        immagine: 'images/avatar.png',
         via: 'via',
         citta: 'citta',
         provincia: 'provincia',
@@ -86,9 +86,7 @@ class _ProfiloState extends State<Profilo> {
                 ListTile(
                   leading: CircleAvatar(
                     radius: screenWidth * 0.1,
-                    backgroundImage: const NetworkImage(
-                      'https://img.freepik.com/free-photo/real-estate-broker-agent-presenting-consult-customer-decision-making-sign-insurance-form-agreement_1150-15023.jpg?w=996&t=st=1703846100~exp=1703846700~hmac=f81b22dab9dc2a0900a3cc79de365b5f367c1c4442d434f369a5e82f12cde1f9',
-                    ),
+                    backgroundImage: AssetImage(utente!.immagine),
                   ),
                   title: Text(
                     utente!.username,
@@ -233,8 +231,6 @@ class _ProfiloEditState extends State<ProfiloEdit> {
         citta: citta,
         provincia: provincia,
       );
-
-      print(utenteEdit);
 
       sendEditProfiloToServer(utenteEdit);
     }

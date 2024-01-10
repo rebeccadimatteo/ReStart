@@ -12,8 +12,8 @@ class CandidaturaDAOImpl implements CandidaturaDAO {
     try {
       Connection connection = await connector.openConnection();
       var result = await connection.execute(
-        Sql.named('INSERT INTO public."Candidatura" (id_utente, id_lavoro) '
-            'VALUES (@id_utente, @id_lavoro) RETURNING id'),
+        Sql.named('INSERT INTO public."Candidatura" (id_utente, id_annuncio) '
+            'VALUES (@id_utente, @id_lavoro)'),
         parameters: {
           'id_utente': ca.id_utente,
           'id_lavoro': ca.id_lavoro,
@@ -25,7 +25,6 @@ class CandidaturaDAOImpl implements CandidaturaDAO {
       }
       return false;
     } catch (e) {
-      print(e);
       return false;
     } finally {
       await connector.closeConnection();
@@ -171,7 +170,7 @@ class CandidaturaDAOImpl implements CandidaturaDAO {
       Connection connection = await connector.openConnection();
       var result = await connection.execute(
         Sql.named(
-            'SELECT * FROM public."Candidatura" WHERE id_lavoro = @id_lavoro AND id_utente = @id_utente '),
+            'SELECT * FROM public."Candidatura" WHERE id_annuncio = @id_lavoro AND id_utente = @id_utente '),
         parameters: {
           'id_lavoro': id_lavoro,
           'id_utente': id_utente,
