@@ -314,6 +314,7 @@ class _SignUpState extends State<SignUpPage> {
                         _selectDate(context);
                       },
                       child: TextFormField(
+                        readOnly: true,
                         controller: dataNascitaController,
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(
@@ -450,6 +451,7 @@ class _SignUpState extends State<SignUpPage> {
                   style: const TextStyle(
                     fontFamily: 'Poppins',
                     fontWeight: FontWeight.bold,
+                    color: Colors.black,
                   ),
                 ),
               ),
