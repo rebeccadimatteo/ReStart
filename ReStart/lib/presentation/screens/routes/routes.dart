@@ -27,7 +27,18 @@ class AppRoutes {
   static const String dettaglisupporto = '/supportiMedici/dettagli';
   static const String profilo = '/profilo';
   static const String modificaprofilo = '/profilo/edit';
-
+  static const String annunciAds = '/annunciDiLavoroAds';
+  //NB: I DETTAGLI DELLE SEZIONI NEGLI ADS NON SONO A PRIORITA ALTA
+  //static const String dettagliannuncioAds = '/annunciDiLavoroAds/dettagliAds';
+  static const String alloggiAds = '/alloggiTemporaneiAds';
+  //static const String dettaglialloggioAds = '/alloggiTemporaneiAds/dettagliAds';
+  static const String eventiAds = '/communityEventsAds';
+  //static const String dettaglieventoAds = '/communityEventsAds/dettagliAds';
+  static const String corsiAds = '/corsiDiFormazioneAds';
+  //static const String dettaglicorsoAds = '/corsiDiFormazioneAds/dettagliAds';
+  static const String supportiAds = '/supportiMediciAds';
+  //static const String dettaglisupportoAds = '/supportiMediciAds/dettagliAds';
+  static const String richieste = '/richieste';
   /// Definizione di tutte le [AppRoutes]
   static Map<String, WidgetBuilder> getRoutes() {
     return {
@@ -47,6 +58,17 @@ class AppRoutes {
       dettaglisupporto: (context) => DetailsSupporto(),
       profilo: (context) => Profilo(),
       modificaprofilo: (context) => ProfiloEdit(),
+      /*annunciAds: (context) => AnnunciDiLavoroAds(),
+      //dettagliannuncioAds: (context) => DetailsLavoroAds(),
+      alloggiAds: AlloggiTemporaneiAds(),
+      //dettaglialloggioAds: DetailsAllogioAds(),
+      eventiAds: CommunityEventsAds(),
+      //dettaglieventoAds: DetailsEventoAds(),
+      corsiAds: CorsoDiFormazioneAds(),
+      //dettaglicorsoAds: DetailsCorsoAds(),
+      supportiAds: SupportoMedicoAds(),
+      richieste: Richieste(),
+      //dettaglisupportoAds: DetailsSupportoAds(), */
     };
   }
 }
