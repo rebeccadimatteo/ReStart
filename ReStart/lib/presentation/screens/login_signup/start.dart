@@ -36,7 +36,7 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     checkUser(context);
-    return (Scaffold(
+    return Scaffold(
       body: Column(
         children: <Widget>[
           Padding(
@@ -53,14 +53,19 @@ class Home extends StatelessWidget {
             child: const Text(
               'RICOMINCIAMO INSIEME',
               style: TextStyle(
-                fontSize: 25,
+                fontFamily: 'CCE',
+                fontSize: 17,
                 fontWeight: FontWeight.bold,
               ),
             ),
           ),
           const Text(
             'Hai già un account?',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            style: TextStyle(
+              fontSize: 17,
+              fontFamily: 'Poppins',
+              fontWeight: FontWeight.bold,
+            ),
           ),
           Container(
             margin: const EdgeInsets.only(top: 10, bottom: 10),
@@ -94,8 +99,10 @@ class Home extends StatelessWidget {
               child: const Text(
                 'ACCEDI',
                 style: TextStyle(
+                  fontFamily: 'Poppins',
                   color: Colors.white,
-                  fontSize: 25,
+                  fontSize: 23,
+                  fontWeight: FontWeight.bold,
                   shadows: [
                     Shadow(
                       color: Colors.black,
@@ -108,7 +115,11 @@ class Home extends StatelessWidget {
           ),
           const Text(
             'Oppure',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            style: TextStyle(
+              fontSize: 17,
+              fontFamily: 'Poppins',
+              fontWeight: FontWeight.bold,
+            ),
           ),
           Container(
             margin: const EdgeInsets.only(top: 12),
@@ -142,8 +153,9 @@ class Home extends StatelessWidget {
               child: const Text(
                 'REGISTRATI',
                 style: TextStyle(
+                  fontFamily: 'Poppins',
                   color: Colors.white,
-                  fontSize: 25,
+                  fontSize: 23,
                   shadows: [
                     Shadow(
                       color: Colors.black,
@@ -156,6 +168,6 @@ class Home extends StatelessWidget {
           ),
         ],
       ),
-    ));
+    );
   }
 }
