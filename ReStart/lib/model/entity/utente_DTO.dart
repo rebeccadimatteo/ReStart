@@ -167,7 +167,7 @@ class UtenteDTO {
 
   /// Mapping dell'oggetto json in un UtenteDTO
   factory UtenteDTO.fromJson(Map<String, dynamic> json) {
-    var rawData = json['data'];
+    var rawData = json['data_nascita'];
     DateTime parsedDate;
 
     if (rawData is DateTime) {
