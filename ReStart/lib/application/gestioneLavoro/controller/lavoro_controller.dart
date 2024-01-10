@@ -16,6 +16,7 @@ class GestioneLavoroController {
     _router.post('/addLavoro', _addLavoro);
     //_router.get('/detailsLavoro', _detailsLavoro);
     _router.post('/deleteLavoro', _deleteLavoro);
+    _router.post('modifyLavoro', _modifyLavoro);
     _router.all('/<ignored|.*>', _notFound);
   }
 
@@ -134,6 +135,53 @@ Future<Response> _detailsLavoro(Request request) async {
       // Gestione degli errori durante la chiamata al servizio
       return Response.internalServerError(
           body: 'Errore durante l\'eliminazione del lavoro: $e');
+    }
+  }
+
+  Future<Response> _modifyLavoro(Request request) async {
+    try {
+      final String requestBody = await request.readAsString();
+      final Map<String, dynamic> params = jsonDecode(requestBody);
+
+
+      final int id = params['id'] != null ? int.parse(params['id'].toString()) : 0;
+      final int id_ca = params['id_ca'] != null ? int.parse(params['id_ca'].toString()) : 0;
+      final String nomeLavoro = params['nomeLavoro'] ?? '';
+      final String descrizione = params['descrizione'] ?? '';
+      final bool approvato = params['approvato'] ?? 'false';
+      final String via = params['via'] ?? '';
+      final String citta = params['citta'] ?? '';
+      final String provincia = params['provincia'] ?? '';
+      final String email = params['email'] ?? '';
+      final String immagine = params['immagine'] ?? '';
+      final String num_telefono = params['num_telefono'] ?? '';
+      AnnuncioDiLavoroDTO lavoro = AnnuncioDiLavoroDTO(
+        id: id,
+        id_ca: id_ca,
+        nomeLavoro: nomeLavoro,
+        descrizione: descrizione,
+        approvato: approvato,
+        via: via,
+        citta: citta,
+        provincia: provincia,
+        email: email,
+        immagine: immagine,
+        numTelefono: num_telefono,
+      );
+
+      if (await _service.modifyLavoro(lavoro)) {
+        final responseBody = jsonEncode({'result': "Modifica effettuata."});
+        return Response.ok(responseBody,
+            headers: {'Content-Type': 'application/json'});
+      } else {
+        final responseBody = jsonEncode({'result': 'Modifica non effettuata.'});
+        return Response.badRequest(
+            body: responseBody, headers: {'Content-Type': 'application/json'});
+      }
+    } catch (e) {
+      // Gestione degli errori durante la chiamata al servizio
+      return Response.internalServerError(
+          body: 'Errore durante la modifica del lavoro: $e');
     }
   }
 
