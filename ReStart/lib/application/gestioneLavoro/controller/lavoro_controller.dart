@@ -16,7 +16,7 @@ class GestioneLavoroController {
     _router.post('/addLavoro', _addLavoro);
     //_router.get('/detailsLavoro', _detailsLavoro);
     _router.post('/deleteLavoro', _deleteLavoro);
-    _router.post('modifyLavoro', _modifyLavoro);
+    _router.post('/modifyLavoro', _modifyLavoro);
     _router.all('/<ignored|.*>', _notFound);
   }
 

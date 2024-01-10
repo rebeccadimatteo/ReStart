@@ -1,17 +1,17 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:restart_all_in_one/model/entity/annuncio_di_lavoro_DTO.dart';
-import '../../components/app_bar_ads.dart';
+import '../../components/app_bar_ca.dart';
 import 'package:http/http.dart' as http;
 
 import '../routes/routes.dart';
 
-class AnnunciDiLavoroAds extends StatefulWidget {
+class AnnunciDiLavoroPubblicati extends StatefulWidget {
   @override
   _AnnunciDiLavoroState createState() => _AnnunciDiLavoroState();
 }
 
-class _AnnunciDiLavoroState extends State<AnnunciDiLavoroAds> {
+class _AnnunciDiLavoroState extends State<AnnunciDiLavoroPubblicati> {
   List<AnnuncioDiLavoroDTO> annunci = [];
 
   @override
@@ -29,15 +29,15 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroAds> {
   /// viene assegnata alla variabile di stato 'alloggi'. In caso di errori
   /// nella risposta, vengono stampati messaggi di errore sulla console.
   Future<void> fetchDataFromServer() async {
-    final response = await http.post(Uri.parse(
-        'http://10.0.2.2:8080/gestioneLavoro/visualizzaLavori'));
+    final response = await http.post(
+        Uri.parse('http://10.0.2.2:8080/gestioneLavoro/visualizzaLavori'));
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseBody = json.decode(response.body);
       if (responseBody.containsKey('annunci')) {
         final List<AnnuncioDiLavoroDTO> data =
-        List<Map<String, dynamic>>.from(responseBody['annunci'])
-            .map((json) => AnnuncioDiLavoroDTO.fromJson(json))
-            .toList();
+            List<Map<String, dynamic>>.from(responseBody['annunci'])
+                .map((json) => AnnuncioDiLavoroDTO.fromJson(json))
+                .toList();
         setState(() {
           List<AnnuncioDiLavoroDTO> newData = [];
           for (AnnuncioDiLavoroDTO a in data) {
@@ -68,16 +68,29 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroAds> {
     }
   }
 
+  Future<void> modifyLavoro(AnnuncioDiLavoroDTO annuncio) async {
+    final response = await http.post(
+        Uri.parse('http://10.0.2.2:8080/gestioneLavoro/modifyLavoro'),
+        body: jsonEncode(annuncio));
+    if (response.statusCode == 200) {
+      setState(() {
+        annunci.remove(annuncio); // da modificare
+      });
+    } else {
+      print("Modifica non andata a buon fine");
+    }
+  }
+
   /// Costruisce la schermata che visualizza la lista degli annunci di lavoro disponibili.
   /// La lista viene costruita dinamicamente utilizzando i dati presenti nella
   /// lista 'annunci'.
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AdsAppBar(
+      appBar: CaAppBar(
         showBackButton: true,
       ),
-      endDrawer: AdsAppBar.buildDrawer(context),
+      endDrawer: CaAppBar.buildDrawer(context),
       body: Stack(
         children: [
           Positioned(
@@ -88,7 +101,7 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroAds> {
               padding: const EdgeInsets.all(10),
               color: Colors.white,
               child: const Text(
-                'Annunci di lavoro',
+                'GESTISCI LE TUE OFFERTE DI LAVORO',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 20,
@@ -113,10 +126,10 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroAds> {
                   },
                   child: Padding(
                     padding:
-                    const EdgeInsets.only(left: 5, bottom: 5, right: 5),
+                        const EdgeInsets.only(left: 5, bottom: 5, right: 5),
                     child: ListTile(
                       visualDensity:
-                      const VisualDensity(vertical: 4, horizontal: 4),
+                          const VisualDensity(vertical: 4, horizontal: 4),
                       minVerticalPadding: 50,
                       minLeadingWidth: 80,
                       tileColor: Colors.grey,
@@ -128,12 +141,26 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroAds> {
                       title: Text(annuncio.nome,
                           style: const TextStyle(fontWeight: FontWeight.bold)),
                       subtitle: Text(annuncio.descrizione),
-                      trailing: IconButton(
-                        icon: const Icon(Icons.delete,
-                            color: Colors.red, size: 30),
-                        onPressed: () {
-                          deleteLavoro(annuncio);
-                        },
+                      trailing: SizedBox(
+                        width: 100, // o un'altra dimensione adeguata
+                        child: Row(
+                          children: [
+                            IconButton(
+                              icon: const Icon(Icons.edit,
+                                  color: Colors.black, size: 30),
+                              onPressed: () {
+                                modifyLavoro(annuncio); //
+                              },
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.delete,
+                                  color: Colors.red, size: 30),
+                              onPressed: () {
+                                deleteLavoro(annuncio);
+                              },
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -152,9 +179,10 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroAds> {
 class DetailsLavoro extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final AnnuncioDiLavoroDTO annuncio = ModalRoute.of(context)?.settings.arguments as AnnuncioDiLavoroDTO;
+    final AnnuncioDiLavoroDTO annuncio =
+        ModalRoute.of(context)?.settings.arguments as AnnuncioDiLavoroDTO;
     return Scaffold(
-      appBar: AdsAppBar(
+      appBar: CaAppBar(
         showBackButton: true,
       ),
       body: Column(
@@ -239,6 +267,6 @@ class DetailsLavoro extends StatelessWidget {
 
 void main() {
   runApp(MaterialApp(
-    home: AnnunciDiLavoroAds(),
+    home: AnnunciDiLavoroPubblicati(),
   ));
 }

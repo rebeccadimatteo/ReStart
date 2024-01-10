@@ -1,18 +1,18 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import '../../../model/entity/evento_DTO.dart';
-import '../../components/app_bar_ads.dart';
+import '../../components/app_bar_ca.dart';
 import 'package:http/http.dart' as http;
 import '../routes/routes.dart';
 
 /// Classe che implementa la sezione [CommunityEvents]
-class CommunityEventsAds extends StatefulWidget {
+class CommunityEventsPubblicati extends StatefulWidget {
   @override
   _CommunityEventsState createState() => _CommunityEventsState();
 }
 
 /// Creazione dello stato di [CommunityEvents], costituito dalla lista degli eventi
-class _CommunityEventsState extends State<CommunityEventsAds> {
+class _CommunityEventsState extends State<CommunityEventsPubblicati> {
   List<EventoDTO> eventi = [];
 
   /// Inizializzazione dello stato, con chiamata alla funzione [fetchDataFromServer]
@@ -24,15 +24,15 @@ class _CommunityEventsState extends State<CommunityEventsAds> {
 
   /// Metodo che permette di inviare la richiesta al server per ottenere la lista di tutti i [SupportoMedicoDTO] presenti nel database
   Future<void> fetchDataFromServer() async {
-    final response = await http.post(Uri.parse(
-        'http://10.0.2.2:8080/gestioneEvento/visualizzaEventi'));
+    final response = await http.post(
+        Uri.parse('http://10.0.2.2:8080/gestioneEvento/visualizzaEventi'));
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseBody = json.decode(response.body);
       if (responseBody.containsKey('eventi')) {
         final List<EventoDTO> data =
-        List<Map<String, dynamic>>.from(responseBody['eventi'])
-            .map((json) => EventoDTO.fromJson(json))
-            .toList();
+            List<Map<String, dynamic>>.from(responseBody['eventi'])
+                .map((json) => EventoDTO.fromJson(json))
+                .toList();
         setState(() {
           List<EventoDTO> newData = [];
           for (EventoDTO e in data) {
@@ -64,14 +64,27 @@ class _CommunityEventsState extends State<CommunityEventsAds> {
     }
   }
 
+  Future<void> modifyEvento(EventoDTO evento) async {
+    final response = await http.post(
+        Uri.parse('http://10.0.2.2:8080/gestioneEvento/modifyEvento'),
+        body: jsonEncode(evento));
+    if (response.statusCode == 200) {
+      setState(() {
+        eventi.remove(evento); // da modificare
+      });
+    } else {
+      print("Mofifica non andata a buon fine");
+    }
+  }
+
   /// Build del widget principale della sezione [CommunityEvents], contenente tutta l'interfaccia grafica
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AdsAppBar(
+      appBar: CaAppBar(
         showBackButton: true,
       ),
-      endDrawer: AdsAppBar.buildDrawer(context),
+      endDrawer: CaAppBar.buildDrawer(context),
       body: Stack(
         children: [
           Positioned(
@@ -82,7 +95,7 @@ class _CommunityEventsState extends State<CommunityEventsAds> {
               padding: const EdgeInsets.all(10),
               color: Colors.white,
               child: const Text(
-                'Community Events',
+                'GESTISCI I TUOI EVENTI',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 20,
@@ -106,9 +119,11 @@ class _CommunityEventsState extends State<CommunityEventsAds> {
                     );
                   },
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 5, bottom: 5, right: 5),
+                    padding:
+                        const EdgeInsets.only(left: 5, bottom: 5, right: 5),
                     child: ListTile(
-                      visualDensity: const VisualDensity(vertical: 4, horizontal: 4),
+                      visualDensity:
+                          const VisualDensity(vertical: 4, horizontal: 4),
                       minVerticalPadding: 50,
                       minLeadingWidth: 80,
                       tileColor: Colors.grey,
@@ -120,12 +135,26 @@ class _CommunityEventsState extends State<CommunityEventsAds> {
                       title: Text(evento.nomeEvento,
                           style: const TextStyle(fontWeight: FontWeight.bold)),
                       subtitle: Text(evento.descrizione),
-                      trailing: IconButton(
-                        icon: const Icon(Icons.delete,
-                            color: Colors.red, size: 30),
-                        onPressed: () {
-                          deleteEvento(evento);
-                        },
+                      trailing: Container(
+                        width: 100, // o un'altra dimensione adeguata
+                        child: Row(
+                          children: [
+                            IconButton(
+                              icon: const Icon(Icons.edit,
+                                  color: Colors.black, size: 30),
+                              onPressed: () {
+                                modifyEvento(evento); //
+                              },
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.delete,
+                                  color: Colors.red, size: 30),
+                              onPressed: () {
+                                deleteEvento(evento);
+                              },
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -144,14 +173,15 @@ class _CommunityEventsState extends State<CommunityEventsAds> {
 class DetailsEvento extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final EventoDTO evento = ModalRoute.of(context)?.settings.arguments as EventoDTO;
+    final EventoDTO evento =
+        ModalRoute.of(context)?.settings.arguments as EventoDTO;
     final String data = evento.date.toIso8601String();
-    final String dataBuona = data.substring(0,10);
+    final String dataBuona = data.substring(0, 10);
     return Scaffold(
-      appBar: AdsAppBar(
+      appBar: CaAppBar(
         showBackButton: true,
       ),
-      endDrawer: AdsAppBar.buildDrawer(context),
+      endDrawer: CaAppBar.buildDrawer(context),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -216,6 +246,6 @@ class DetailsEvento extends StatelessWidget {
 
 void main() {
   runApp(MaterialApp(
-    home: CommunityEventsAds(),
+    home: CommunityEventsPubblicati(),
   ));
 }
