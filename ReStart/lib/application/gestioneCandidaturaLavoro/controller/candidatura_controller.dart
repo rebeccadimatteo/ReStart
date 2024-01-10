@@ -1,5 +1,4 @@
 import 'dart:convert';
-import '../../../model/entity/candidatura_DTO.dart';
 import '../service/candidatura_service_impl.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart' as shelf_router;
@@ -25,22 +24,26 @@ class CandidaturaController {
       final String requestBody = await request.readAsString();
       final Map<String, dynamic> params = jsonDecode(requestBody);
 
-      final int? id_utente = params['id_utente'] ?? '';
-      final int? id_lavoro = params['id_lavoro'] ?? '';
+      final String username = params['username'] ?? '';
+      final int? idLavoro = params['id_lavoro'] ?? '';
 
-      CandidaturaDTO candidaturaDTO =
-          CandidaturaDTO(id_lavoro: id_lavoro, id_utente: id_utente);
-      print(candidaturaDTO);
+      String result = await _service.candidatura(username, idLavoro);
 
-      if (await _service.candidatura(id_utente, id_lavoro)) {
-        final responseBody = jsonEncode({'result': "Candidatura effettuata."});
-        return Response.ok(responseBody,
-            headers: {'Content-Type': 'application/json'});
-      } else {
-        final responseBody =
-            jsonEncode({'result': 'Candidatura non effettuata'});
-        return Response.badRequest(
-            body: responseBody, headers: {'Content-Type': 'application/json'});
+      String responseBody;
+
+      switch(result) {
+
+        case "candidatura effettuata": {
+          responseBody = jsonEncode({'result': result});
+          return Response.ok(responseBody,
+              headers: {'Content-Type': 'application/json'});
+        }
+
+        default: {
+          responseBody = jsonEncode({'result': result});
+          return Response.badRequest(
+              body: responseBody, headers: {'Content-Type': 'application/json'});
+        }
       }
     } catch (e) {
       // Gestione degli errori durante la chiamata al servizio

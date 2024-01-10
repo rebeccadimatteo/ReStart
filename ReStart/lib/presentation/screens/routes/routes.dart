@@ -47,7 +47,7 @@ class AppRoutes {
   static const String supportiAds = '/supportiMediciAds';
 
   //static const String dettaglisupportoAds = '/supportiMediciAds/dettagliAds';
-  static const String richieste = '/richieste';
+  static const String richiesteAds = '/richieste';
 
   /// Definizione di tutte le [AppRoutes]
   static Map<String, WidgetBuilder> getRoutes() {
@@ -55,7 +55,7 @@ class AppRoutes {
       home: (context) => Home(),
       homeADS: (context) => HomeAds(),
       homeUtente: (context) => HomeUtente(),
-      homeCA: (context) => HomeCA(),
+      homeCA: (context) => HomeCa(),
       login: (context) => LoginPage(),
       signup: (context) => SignUpPage(),
       alloggi: (context) => AlloggiTemporanei(),
@@ -79,7 +79,7 @@ class AppRoutes {
       corsiAds: CorsoDiFormazioneAds(),
       //dettaglicorsoAds: DetailsCorsoAds(),
       supportiAds: SupportoMedicoAds(),
-      richieste: Richieste(),
+      richiesteAds: RichiesteAds(),
       //dettaglisupportoAds: DetailsSupportoAds(), */
     };
   }

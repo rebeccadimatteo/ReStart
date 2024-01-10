@@ -38,7 +38,7 @@ class _HomeAdsState extends State<HomeAds> {
             child: Column(
               children: [
                 _buildFullWidthItem(context, 'COMMUNITY EVENTS', AppRoutes.eventiAds),
-                _buildFullWidthItem(context, 'RICHIESTE DA APPROVARE', AppRoutes.richieste),
+                _buildFullWidthItem(context, 'RICHIESTE DA APPROVARE', AppRoutes.richiesteAds),
               ],
             ),
           ),

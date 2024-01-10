@@ -3,11 +3,11 @@ import 'package:flutter_session_manager/flutter_session_manager.dart';
 import '../screens/routes/routes.dart';
 
 /// Classe che builda il widget per mostrare una [AppBar].
-class AdsAppBar extends StatelessWidget implements PreferredSizeWidget {
+class CaAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool showBackButton;
 
-  /// Costruttore per [AdsAppBar].
-  AdsAppBar({super.key, required this.showBackButton});
+  /// Costruttore per [CaAppBar].
+  CaAppBar({super.key, required this.showBackButton});
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +87,7 @@ class AdsAppBar extends StatelessWidget implements PreferredSizeWidget {
                   onTap: () {
                     Navigator.pushNamed(
                       context,
-                      AppRoutes.homeADS,
+                      AppRoutes.homeCA,
                     );
                   },
                 ),
@@ -102,7 +102,7 @@ class AdsAppBar extends StatelessWidget implements PreferredSizeWidget {
                   onTap: () {
                     Navigator.pushNamed(
                       context,
-                      AppRoutes.eventiAds,
+                      AppRoutes.eventi,
                     );
                   },
                 ),
@@ -117,67 +117,7 @@ class AdsAppBar extends StatelessWidget implements PreferredSizeWidget {
                   onTap: () {
                     Navigator.pushNamed(
                       context,
-                      AppRoutes.annunciAds,
-                    );
-                  },
-                ),
-                ListTile(
-                  title: const Text(
-                    'Alloggi temporanei',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      AppRoutes.alloggiAds,
-                    );
-                  },
-                ),
-                ListTile(
-                  title: const Text(
-                    'Supporto medico',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      AppRoutes.supportiAds,
-                    );
-                  },
-                ),
-                ListTile(
-                  title: const Text(
-                    'Corsi di formazione',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      AppRoutes.corsiAds,
-                    );
-                  },
-                ),
-                ListTile(
-                  title: const Text(
-                    'Gestione Richieste',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      AppRoutes.richiesteAds,
+                      AppRoutes.annunci,
                     );
                   },
                 ),
@@ -203,7 +143,7 @@ class AdsAppBar extends StatelessWidget implements PreferredSizeWidget {
                 print("logout riuscito");
                 Navigator.pushNamed(
                   context,
-                  AppRoutes.homeADS,
+                  AppRoutes.homeCA,
                 );
               },
             ),

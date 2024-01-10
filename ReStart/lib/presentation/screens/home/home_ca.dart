@@ -1,45 +1,72 @@
 import 'package:flutter/material.dart';
-import '../../components/generic_app_bar.dart';
+import '../../components/app_bar_ca.dart';
+import '../routes/routes.dart';
+class HomeCa extends StatefulWidget {
+  @override
+  State<HomeCa> createState() => _HomeCaState();
+}
 
-
-class HomeCA extends StatelessWidget {
+class _HomeCaState extends State<HomeCa> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: GenericAppBar(
+      appBar: CaAppBar(
         showBackButton: false,
       ),
-      endDrawer: GenericAppBar.buildDrawer(context),
-      body: Center(
-        child: ListView(
-          shrinkWrap: true,
-          children: [
-            buildCard('Item 1'),
-            buildCard('Item 2'),
-            buildCard('Item 3'),
-            buildCard('Item 4'),
-          ],
+      endDrawer: CaAppBar.buildDrawer(context),
+      body: CustomScrollView(
+        slivers: [
+          SliverFillRemaining(
+            hasScrollBody: false,
+            child: Column(
+              children: [
+                _buildFullWidthItem(context, 'OFFERTE DI LAVORO\n    PUBBLICATE', AppRoutes.annunci),// va modificata
+                _buildFullWidthItem(context, 'COMMUNITY EVENTS\n    PUBBLICATI', AppRoutes.eventi),// va modificata
+                _buildFullWidthItem(context, 'AGGIUNGI EVENTO', AppRoutes.eventi), // va modificata
+                _buildFullWidthItem(context, 'AGGIUNGI OFFERTA\nDI LAVORO', AppRoutes.annunci),// va modificata
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+  
+  Widget _buildFullWidthItem(BuildContext context, String title, String route) {
+    // Widget per i blocchi rettangolari con testo centrato
+    return Expanded(
+      child: GestureDetector(
+        onTap: () => Navigator.pushNamed(context, route),
+        child: Card(
+          color: Colors.blue[200],
+          margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 24),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(25),
+          ),
+          child: Container(
+            alignment: Alignment.center,
+            padding: const EdgeInsets.all(20),
+            child: Text(
+              title,
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
         ),
       ),
     );
   }
 }
 
-Widget buildCard(String text) {
-  return SizedBox(
-    height: 180,
-    child: Card(
-      elevation: 50,
-      shadowColor: Colors.grey,
-      color: Colors.grey,
-      margin: EdgeInsets.all(20),
-      child: Center(
-        child: Text(
-          text,
-          style: TextStyle(fontSize: 24),
-          textAlign: TextAlign.center, // Centra il testo
-        ),
-      ),
+void main() {
+  runApp(MaterialApp(
+    title: 'ReStart',
+    theme: ThemeData(
+      primarySwatch: Colors.blue,
+      visualDensity: VisualDensity.adaptivePlatformDensity,
     ),
-  );
+    home: HomeCa(),
+  ));
 }
