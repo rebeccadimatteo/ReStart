@@ -17,6 +17,8 @@ class GestioneEventoController {
     //_router.post('/dettagliEvento', _dettagliEvento);
     _router.post('/deleteEvento', _deleteEvento);
     _router.post('/modifyEvento', _modifyEvento);
+    _router.post('/approveEvento', _approveEvento);
+    _router.post('/rejectEvento', _rejectEvento);
     _router.all('/ignored|.*>', _notFound);
   }
 
@@ -102,7 +104,50 @@ class GestioneEventoController {
           body: 'Errore durante l\'eliminazione dell\'evento: $e');
     }
   }
+  Future<Response> _approveEvento(Request request) async {
+    try {
+      final String requestBody = await request.readAsString();
+      final Map<String, dynamic> params = jsonDecode(requestBody);
+      final int id_evento = params['id_evento'] ?? '';
 
+      if (await _service.approveEvento(id_evento)) {
+        final responseBody = jsonEncode({'result': "Approvazione effettuata."});
+        return Response.ok(responseBody,
+            headers: {'Content-Type': 'application/json'});
+      } else {
+        final responseBody =
+        jsonEncode({'result': 'Approvazione non effettuata.'});
+        return Response.badRequest(
+            body: responseBody, headers: {'Content-Type': 'application/json'});
+      }
+    } catch (e) {
+      // Gestione degli errori durante la chiamata al servizio
+      return Response.internalServerError(
+          body: 'Errore durante l\'eliminazione del lavoro: $e');
+    }
+  }
+  Future<Response> _rejectEvento(Request request) async {
+    try {
+      final String requestBody = await request.readAsString();
+      final Map<String, dynamic> params = jsonDecode(requestBody);
+      final int id = params['id'] ?? '';
+
+      if (await _service.rejectEvento(id)) {
+        final responseBody = jsonEncode({'result': "Rifiuto effettuata."});
+        return Response.ok(responseBody,
+            headers: {'Content-Type': 'application/json'});
+      } else {
+        final responseBody =
+        jsonEncode({'result': 'Rifiuto non effettuata.'});
+        return Response.badRequest(
+            body: responseBody, headers: {'Content-Type': 'application/json'});
+      }
+    } catch (e) {
+      // Gestione degli errori durante la chiamata al servizio
+      return Response.internalServerError(
+          body: 'Errore durante l\'eliminazione del lavoro: $e');
+    }
+  }
   Future<Response> _modifyEvento(Request request) async {
     try {
       final String requestBody = await request.readAsString();

@@ -17,6 +17,10 @@ class GestioneLavoroController {
     //_router.get('/detailsLavoro', _detailsLavoro);
     _router.post('/deleteLavoro', _deleteLavoro);
     _router.post('/modifyLavoro', _modifyLavoro);
+    _router.post('modifyLavoro', _modifyLavoro);
+    _router.post('approveLavoro', _approveLavoro);
+    _router.post('rejectLavoro', _rejectLavoro);
+
     _router.all('/<ignored|.*>', _notFound);
   }
 

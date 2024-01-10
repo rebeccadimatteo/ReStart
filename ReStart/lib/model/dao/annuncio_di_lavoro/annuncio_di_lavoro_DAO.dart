@@ -20,7 +20,7 @@ abstract class AnnuncioDiLavoroDAO {
 
   /// Aggiorna le informazioni di un annuncio di lavoro nel database.
   /// Restituisce true se l'operazione di aggiornamento ha avuto successo, altrimenti false.
-  Future<bool> update(AnnuncioDiLavoroDTO annuncioDiLavoro);
+  Future<bool> update(AnnuncioDiLavoroDTO? annuncioDiLavoro);
 
   /// Rimuove un annuncio di lavoro dal database utilizzando l'ID specificato.
   /// Restituisce true se l'operazione di rimozione ha avuto successo, altrimenti false.

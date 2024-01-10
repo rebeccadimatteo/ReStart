@@ -164,7 +164,7 @@ class EventoDAOImpl implements EventoDAO {
 
   /// Metodo che, dato un oggetto EventoDTO, permette l'update di un determinato evento con i campi di quello passato come parametro. In base al risultato dell'operazione, restituisce un bool
   @override
-  Future<bool> update(EventoDTO e) async {
+  Future<bool> update(EventoDTO? e) async {
     try {
       Connection connection = await connector.openConnection();
       var result1 = await connection.execute(
@@ -173,12 +173,12 @@ class EventoDAOImpl implements EventoDAO {
                 'data = @data, approvato = @approvato'
                 'WHERE id = @id'),
         parameters: {
-          'id': e.id,
-          'id_ca': e.id_ca,
-          'nome': e.nomeEvento,
-          'descrizione': e.descrizione,
-          'data': e.date,
-          'approvato': e.approvato
+          'id': e?.id,
+          'id_ca': e?.id_ca,
+          'nome': e?.nomeEvento,
+          'descrizione': e?.descrizione,
+          'data': e?.date,
+          'approvato': e?.approvato
         },
       );
 
@@ -186,9 +186,9 @@ class EventoDAOImpl implements EventoDAO {
         Sql.named('UPDATE public."Contatti" SET email = @email, sito = @sito, '
             'WHERE id_evento = @id_evento'),
         parameters: {
-          'email': e.email,
-          'sito': e.sito,
-          'id_evento': e.id,
+          'email': e?.email,
+          'sito': e?.sito,
+          'id_evento': e?.id,
         },
       );
 
@@ -197,17 +197,17 @@ class EventoDAOImpl implements EventoDAO {
             'UPDATE public."Indirizzo" SET via = @via, citta = @citta, provincia = @provincia'
                 'WHERE id_evento = @id_evento'),
         parameters: {
-          'via': e.via,
-          'citta': e.citta,
-          'provincia': e.provincia,
-          'id_evento': e.id
+          'via': e?.via,
+          'citta': e?.citta,
+          'provincia': e?.provincia,
+          'id_evento': e?.id
         },
       );
 
       var result4 = await connection.execute(
           Sql.named('UPDATE public."Immagine" SET immagine = @immagine'
               'WHERE id_evento = @id_evento'),
-          parameters: {'immagine': e.immagine, 'id_evento': e.id});
+          parameters: {'immagine': e?.immagine, 'id_evento': e?.id});
 
       if (result1.affectedRows != 0 &&
           result2.affectedRows != 0 &&

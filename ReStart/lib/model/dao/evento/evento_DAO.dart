@@ -12,7 +12,7 @@ abstract class EventoDAO {
   /// Metodo che permette la rimozione di evento dato il suo id
   Future<bool> removeById(int? id);
   /// Metodo che permette la modifica dei dati di un evento
-  Future<bool> update(EventoDTO e);
+  Future<bool> update(EventoDTO? e);
   ///Metodo che permette la ricerca di tutti gli eventi approvati da un Ca
   Future<List<EventoDTO>> findByApprovato(String usernameCa);
   ///Metodo che permette la ricerca di tutti gli eventi non ancora approvati da un Ca

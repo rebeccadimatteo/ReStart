@@ -32,12 +32,13 @@ class LavoroServiceImpl implements LavoroService{
   }
 
   @override
-  Future<bool> approveLavoro(AnnuncioDiLavoroDTO annuncio) async {
-    if(await _lavoroDAO.existById(annuncio.id) == false){
+  Future<bool> approveLavoro(int  id_annuncio) async {
+    if(await _lavoroDAO.existById(id_annuncio) == false){
       return false;
     }
-    annuncio.approvato = true;
-    return _lavoroDAO.update(annuncio);
+    AnnuncioDiLavoroDTO? lavoro=await _lavoroDAO.findById(id_annuncio);
+    lavoro?.approvato = true;
+    return _lavoroDAO.update(lavoro);
   }
 
   @override
@@ -71,11 +72,11 @@ class LavoroServiceImpl implements LavoroService{
   }*/
 
   @override
-  Future<bool> rejectLavoro(AnnuncioDiLavoroDTO annuncio) async {
-    if(await _lavoroDAO.existById(annuncio.id) == false){
+  Future<bool> rejectLavoro(int id_annuncio) async {
+    if(await _lavoroDAO.existById(id_annuncio) == false){
       return false;
     }
-    return _lavoroDAO.removeById(annuncio.id);
+    return _lavoroDAO.removeById(id_annuncio);
   }
 
   /*@override

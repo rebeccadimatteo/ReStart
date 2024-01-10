@@ -157,7 +157,7 @@ class AnnuncioLavoroDAOImpl implements AnnuncioDiLavoroDAO {
   }
   ///metodo `update` che aggiorna un annuncio esistente nel database
   @override
-  Future<bool> update(AnnuncioDiLavoroDTO annuncio) async {
+  Future<bool> update(AnnuncioDiLavoroDTO? annuncio) async {
     try {
       Connection connection = await connector.openConnection();
       var result1 = await connection.execute (
@@ -165,11 +165,11 @@ class AnnuncioLavoroDAOImpl implements AnnuncioDiLavoroDAO {
             'approvato = @approvato '
             'WHERE id = @id'),
         parameters: {
-          'id': annuncio.id,
-          'id_ca': annuncio.id_ca,
-          'nome': annuncio.nome,
-          'descrizione': annuncio.descrizione,
-          'approvato': annuncio.approvato
+          'id': annuncio?.id,
+          'id_ca': annuncio?.id_ca,
+          'nome': annuncio?.nome,
+          'descrizione': annuncio?.descrizione,
+          'approvato': annuncio?.approvato
         },
       );
 
@@ -177,9 +177,9 @@ class AnnuncioLavoroDAOImpl implements AnnuncioDiLavoroDAO {
         Sql.named('UPDATE public."Contatti" SET email = @email, num_telefono = @num_telefono '
             'WHERE id_annuncio = @id_annuncio'),
         parameters: {
-          'email': annuncio.email,
-          'num_telefono': annuncio.numTelefono,
-          'id_annuncio': annuncio.id,
+          'email': annuncio?.email,
+          'num_telefono': annuncio?.numTelefono,
+          'id_annuncio': annuncio?.id,
         },
       );
 
@@ -187,10 +187,10 @@ class AnnuncioLavoroDAOImpl implements AnnuncioDiLavoroDAO {
         Sql.named('UPDATE public."Indirizzo" SET via = @via, citta = @citta, provincia = @provincia '
             'WHERE id_annuncio = @id_annuncio'),
         parameters: {
-          'via': annuncio.via,
-          'citta': annuncio.citta,
-          'provincia': annuncio.provincia,
-          'id_annuncio': annuncio.id
+          'via': annuncio?.via,
+          'citta': annuncio?.citta,
+          'provincia': annuncio?.provincia,
+          'id_annuncio': annuncio?.id
         },
       );
 
@@ -198,8 +198,8 @@ class AnnuncioLavoroDAOImpl implements AnnuncioDiLavoroDAO {
           Sql.named('UPDATE public."Immagine" SET immagine = @immagine '
               'WHERE id_annuncio = @id_annuncio'),
           parameters: {
-            'immagine': annuncio.immagine,
-            'id_annuncio': annuncio.id
+            'immagine': annuncio?.immagine,
+            'id_annuncio': annuncio?.id
           }
       );
 

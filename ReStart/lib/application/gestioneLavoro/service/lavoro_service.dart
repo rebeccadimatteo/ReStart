@@ -20,7 +20,7 @@ abstract class LavoroService {
 
   //Future<List<AnnuncioDiLavoroDTO>> richiestaLavoro();
 
-  Future<bool> approveLavoro(AnnuncioDiLavoroDTO annuncio);
+  Future<bool> approveLavoro(int  id_annuncio);
 
-  Future<bool> rejectLavoro(AnnuncioDiLavoroDTO annuncio);
+  Future<bool> rejectLavoro(int  id_annuncio);
 }
