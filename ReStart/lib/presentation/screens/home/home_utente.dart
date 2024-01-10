@@ -120,9 +120,7 @@ class _HomeUtenteState extends State<HomeUtente> {
                     },
                     child: Container(
                       margin: const EdgeInsets.all(10),
-                      child: Image.network(
-                        'https://img.freepik.com/free-vector/men-success-laptop-relieve-work-from-home-computer-great_10045-646.jpg?size=338&ext=jpg&ga=GA1.1.1546980028.1703635200&semt=ais',
-                      ),
+                      child:  Image.asset(evento.immagine),
                     ),
                   );
                 },
@@ -159,9 +157,7 @@ class _HomeUtenteState extends State<HomeUtente> {
                     },
                     child: Container(
                       margin: const EdgeInsets.all(10),
-                      child: Image.network(
-                        'https://img.freepik.com/free-vector/men-success-laptop-relieve-work-from-home-computer-great_10045-646.jpg?size=338&ext=jpg&ga=GA1.1.1546980028.1703635200&semt=ais',
-                      ),
+                      child: Image.asset(annuncio.immagine),
                     ),
                   );
                 },

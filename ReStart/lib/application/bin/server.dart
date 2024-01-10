@@ -5,6 +5,7 @@ import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart' as shelf_io;
 import 'package:shelf_router/shelf_router.dart' as shelf_router;
 import '../autenticazione/controller/autenticazione_controller.dart';
+import '../gestioneCandidaturaLavoro/controller/candidatura_controller.dart';
 import '../gestioneRegistrazione/controller/registrazione_controller.dart';
 import '../gestioneReintegrazione/controller/reintegrazione_controller.dart';
 import '../gestioneEvento/controller/evento_controller.dart';
@@ -13,7 +14,7 @@ void main() {
   final app = shelf_router.Router();
   // Aggiungi i controller al router
   app.mount('/autenticazione', AutenticazioneController().router);
-  //app.mount('/candidaturaLavoro', CandidaturaLavoroController().router);
+  app.mount('/candidaturaLavoro', CandidaturaController().router);
   app.mount('/gestioneEvento', GestioneEventoController().router);
   app.mount('/gestioneLavoro', GestioneLavoroController().router);
   app.mount('/gestioneReintegrazione', ReintegrazioneController().router);

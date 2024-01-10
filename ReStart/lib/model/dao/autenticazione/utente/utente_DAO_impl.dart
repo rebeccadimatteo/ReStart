@@ -147,8 +147,8 @@ class UtenteDAOImpl implements UtenteDAO {
       Connection connection = await connector.openConnection();
       var result = await connection.execute(
         Sql.named(
-            'SELECT u.*, c.email, c.num_telefono, i.via, i.citta, i.provincia FROM public."Utente" u, public."Contatti" c, '
-            'public."Indirizzo" i WHERE @id = c.id_utente AND @id = i.id_utente WHERE u.id = @id'),
+            'SELECT u.*, c.email, c.num_telefono,img.immagine, i.via, i.citta, i.provincia FROM public."Utente" u, public."Contatti" c, public."Immagine" img, '
+            'public."Indirizzo" i WHERE @id = c.id_utente AND @id = i.id_utente AND @id = img.id_utente AND u.id = @id'),
         parameters: {'id': id},
       );
       if (result.isNotEmpty) {
@@ -282,8 +282,8 @@ class UtenteDAOImpl implements UtenteDAO {
         int id = result1[0][0] as int;
         var result = await connection.execute(
           Sql.named(
-              'SELECT u.*, c.email, c.num_telefono, i.via, i.citta, i.provincia FROM public."Utente" u, public."Contatti" c, '
-                  'public."Indirizzo" i WHERE u.id = @id AND i.id = @id AND c.id = @id'),
+              'SELECT u.*, c.email, c.num_telefono,img.immagine, i.via, i.citta, i.provincia FROM public."Utente" u, public."Contatti" c, public."Immagine" img, '
+                  'public."Indirizzo" i WHERE @id = c.id_utente AND @id = i.id_utente AND @id = img.id_utente AND u.id = @id'),
           parameters: {'id': id},
         );
         if (result.isNotEmpty) {
@@ -291,7 +291,6 @@ class UtenteDAOImpl implements UtenteDAO {
         }
       }
     } catch (e) {
-      print(e);
       developer.log(e.toString());
       return null;
     } finally {

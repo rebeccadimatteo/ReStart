@@ -31,9 +31,9 @@ class _SupportoMedicoState extends State<SupportoMedico> {
       final Map<String, dynamic> responseBody = json.decode(response.body);
       if (responseBody.containsKey('supporti')) {
         final List<SupportoMedicoDTO> data =
-        List<Map<String, dynamic>>.from(responseBody['supporti'])
-            .map((json) => SupportoMedicoDTO.fromJson(json))
-            .toList();
+            List<Map<String, dynamic>>.from(responseBody['supporti'])
+                .map((json) => SupportoMedicoDTO.fromJson(json))
+                .toList();
         setState(() {
           supporti = data;
         });
@@ -88,18 +88,16 @@ class _SupportoMedicoState extends State<SupportoMedico> {
                   },
                   child: Padding(
                     padding:
-                    const EdgeInsets.only(left: 5, bottom: 5, right: 5),
+                        const EdgeInsets.only(left: 5, bottom: 5, right: 5),
                     child: ListTile(
                       visualDensity:
-                      const VisualDensity(vertical: 4, horizontal: 4),
+                          const VisualDensity(vertical: 4, horizontal: 4),
                       minVerticalPadding: 50,
                       minLeadingWidth: 80,
                       tileColor: Colors.grey,
-                      leading: const CircleAvatar(
-                        radius: 35,
-                        backgroundImage: NetworkImage(
-                            'https://img.freepik.com/free-vector/men-success-laptop-relieve-work-from-home-computer-great_10045-646.jpg?size=338&ext=jpg&ga=GA1.1.1546980028.1703635200&semt=ais'),
-                      ),
+                      leading: CircleAvatar(
+                          radius: 35,
+                          backgroundImage: AssetImage(supporto.immagine)),
                       title: Text(supporto.nomeMedico,
                           style: const TextStyle(fontWeight: FontWeight.bold)),
                       subtitle: Text(supporto.descrizione),
@@ -118,7 +116,8 @@ class _SupportoMedicoState extends State<SupportoMedico> {
 class DetailsSupporto extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final SupportoMedicoDTO supporto = ModalRoute.of(context)?.settings.arguments as SupportoMedicoDTO;
+    final SupportoMedicoDTO supporto =
+        ModalRoute.of(context)?.settings.arguments as SupportoMedicoDTO;
     return Scaffold(
       appBar: GenericAppBar(
         showBackButton: true,
@@ -131,13 +130,11 @@ class DetailsSupporto extends StatelessWidget {
             child: Container(
               width: 200,
               height: 200,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: NetworkImage(
-                      'https://img.freepik.com/free-vector/men-success-laptop-relieve-work-from-home-computer-great_10045-646.jpg?size=338&ext=jpg&ga=GA1.1.1546980028.1703635200&semt=ais'),
-                ),
+                  image: AssetImage(supporto.immagine)),
               ),
             ),
           ),

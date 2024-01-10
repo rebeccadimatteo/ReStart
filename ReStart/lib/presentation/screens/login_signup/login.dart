@@ -124,7 +124,7 @@ class _LoginPageState extends State<LoginPage> {
                           hintText: 'Inserisci il tuo username...',
                           errorText: _isUsernameValid
                               ? null
-                              : 'Formato username non valido (ex: mariorossi1 [max 15 caratteri]',
+                              : 'Formato username non valido \n(ex: mariorossi1 [max 15 caratteri]',
                           errorStyle: const TextStyle(color: Colors.red)),
                     ),
                   ),
