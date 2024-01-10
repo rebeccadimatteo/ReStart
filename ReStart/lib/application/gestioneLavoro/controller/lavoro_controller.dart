@@ -17,9 +17,9 @@ class GestioneLavoroController {
     //_router.get('/detailsLavoro', _detailsLavoro);
     _router.post('/deleteLavoro', _deleteLavoro);
     _router.post('/modifyLavoro', _modifyLavoro);
-    _router.post('modifyLavoro', _modifyLavoro);
-    _router.post('approveLavoro', _approveLavoro);
-    _router.post('rejectLavoro', _rejectLavoro);
+    _router.post('/modifyLavoro', _modifyLavoro);
+    _router.post('/approveLavoro', _approveLavoro);
+    _router.post('/rejectLavoro', _rejectLavoro);
 
     _router.all('/<ignored|.*>', _notFound);
   }
@@ -147,9 +147,10 @@ Future<Response> _detailsLavoro(Request request) async {
       final String requestBody = await request.readAsString();
       final Map<String, dynamic> params = jsonDecode(requestBody);
 
-
-      final int id = params['id'] != null ? int.parse(params['id'].toString()) : 0;
-      final int id_ca = params['id_ca'] != null ? int.parse(params['id_ca'].toString()) : 0;
+      final int id =
+          params['id'] != null ? int.parse(params['id'].toString()) : 0;
+      final int id_ca =
+          params['id_ca'] != null ? int.parse(params['id_ca'].toString()) : 0;
       final String nomeLavoro = params['nomeLavoro'] ?? '';
       final String descrizione = params['descrizione'] ?? '';
       final bool approvato = params['approvato'] ?? 'false';
@@ -186,6 +187,51 @@ Future<Response> _detailsLavoro(Request request) async {
       // Gestione degli errori durante la chiamata al servizio
       return Response.internalServerError(
           body: 'Errore durante la modifica del lavoro: $e');
+    }
+  }
+
+  Future<Response> _approveLavoro(Request request) async {
+    try {
+      final String requestBody = await request.readAsString();
+      final Map<String, dynamic> params = jsonDecode(requestBody);
+      final int id = params['id'] ?? '';
+
+      if (await _service.approveLavoro(id)) {
+        final responseBody = jsonEncode({'result': "Approvazione effettuata."});
+        return Response.ok(responseBody,
+            headers: {'Content-Type': 'application/json'});
+      } else {
+        final responseBody =
+            jsonEncode({'result': 'Approvazione non effettuata.'});
+        return Response.badRequest(
+            body: responseBody, headers: {'Content-Type': 'application/json'});
+      }
+    } catch (e) {
+      // Gestione degli errori durante la chiamata al servizio
+      return Response.internalServerError(
+          body: 'Errore durante l\'eliminazione del lavoro: $e');
+    }
+  }
+
+  Future<Response> _rejectLavoro(Request request) async {
+    try {
+      final String requestBody = await request.readAsString();
+      final Map<String, dynamic> params = jsonDecode(requestBody);
+      final int id = params['id'] ?? '';
+
+      if (await _service.rejectLavoro(id)) {
+        final responseBody = jsonEncode({'result': "Rifiuto effettuata."});
+        return Response.ok(responseBody,
+            headers: {'Content-Type': 'application/json'});
+      } else {
+        final responseBody = jsonEncode({'result': 'Rifiuto non effettuata.'});
+        return Response.badRequest(
+            body: responseBody, headers: {'Content-Type': 'application/json'});
+      }
+    } catch (e) {
+      // Gestione degli errori durante la chiamata al servizio
+      return Response.internalServerError(
+          body: 'Errore durante l\'eliminazione del lavoro: $e');
     }
   }
 
