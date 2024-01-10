@@ -20,7 +20,7 @@ class _CorsoDiFormazioneState extends State<CorsoDiFormazione> {
   }
 
   Future<void> fetchDataFromServer() async {
-    final response = await http.post(Uri.parse('http://10.0.2.2:8080/gestioneReintegrazione/visualizzaCorsi'));
+    final response = await http.post(Uri.parse('http://10.0.2.2:8080/autenticazione/listaUtenti'));
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseBody = json.decode(response.body);
       if (responseBody.containsKey('corsi')) {
