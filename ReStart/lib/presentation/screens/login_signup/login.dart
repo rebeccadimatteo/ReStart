@@ -15,6 +15,17 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController usernameController = TextEditingController();
   TextEditingController pswController = TextEditingController();
 
+  bool _isUsernameValid = true;
+  bool _isPasswordValid = true;
+
+  bool validateUsername(String username) {
+    return username.length <= 15 && username.length >= 3;
+  }
+
+  bool validatePsw(String password) {
+    return password.length <= 15 && password.length >= 3;
+  }
+
   @override
   void initState() {
     _viewPassword = true;
@@ -60,16 +71,6 @@ class _LoginPageState extends State<LoginPage> {
           AppRoutes.homeCA,
         );
       }
-    } else {
-      if (usernameController.text.length >= 15) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Lunghezza username errata')),
-        );
-      } else if (pswController.text.length >= 15) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Lunghezza password errata')),
-        );
-      }
     }
   }
 
@@ -103,42 +104,56 @@ class _LoginPageState extends State<LoginPage> {
               child: Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 30),
+                    padding: EdgeInsets.only(
+                      left: 15.0,
+                      right: 15.0,
+                      top: 15,
+                      bottom: _isUsernameValid ? 15 : 20),
                     child: TextFormField(
                       controller: usernameController,
-                      decoration: const InputDecoration(
-                          border: OutlineInputBorder(
+                      onChanged: (value) {
+                        setState(() {
+                          _isUsernameValid = validateUsername(value);
+                        });
+                      },
+                      decoration: InputDecoration(
+                          border: const OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(30)),
                           ),
                           labelText: 'Username',
-                          hintText: 'Inserisci il tuo username...'),
+                          hintText: 'Inserisci il tuo username...',
+                          errorText: _isUsernameValid
+                              ? null
+                              : 'Formato username non valido (ex: mariorossi1 [max 15 caratteri]',
+                          errorStyle: const TextStyle(color: Colors.red)),
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 30, vertical: 10),
+                    padding: EdgeInsets.only(
+                        left: 15.0,
+                        right: 15.0,
+                        top: 15,
+                        bottom: _isPasswordValid ? 15 : 20),
                     child: TextFormField(
-                      obscureText: _viewPassword,
                       controller: pswController,
+                      onChanged: (value) {
+                        setState(() {
+                          _isPasswordValid = validatePsw(value);
+                        });
+                      },
+                      obscureText: true,
                       decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(30)),
-                          ),
-                          labelText: 'Password',
-                          hintText: 'Inserisci la tua password...',
-                          suffixIcon: IconButton(
-                            icon: Icon(
-                              _viewPassword
-                                  ? Icons.visibility
-                                  : Icons.visibility_off,
-                              color: Colors.blueGrey,
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                _viewPassword = !_viewPassword;
-                              });
-                            },
-                          )),
+                        border: const OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(30)),
+                        ),
+                        labelText: 'Password',
+                        hintText: 'Inserisci la tua password...',
+                        // Cambia il colore del testo in rosso se password non è valida
+                        errorText: _isPasswordValid
+                            ? null
+                            : 'Formato password non corretto',
+                        errorStyle: const TextStyle(color: Colors.red),
+                      ),
                     ),
                   ),
                 ],
