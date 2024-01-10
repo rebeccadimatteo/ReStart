@@ -6,12 +6,12 @@ import 'package:http/http.dart' as http;
 
 import '../routes/routes.dart';
 
-class AnnunciDiLavoro extends StatefulWidget {
+class AnnunciDiLavoroAds extends StatefulWidget {
   @override
   _AnnunciDiLavoroState createState() => _AnnunciDiLavoroState();
 }
 
-class _AnnunciDiLavoroState extends State<AnnunciDiLavoro> {
+class _AnnunciDiLavoroState extends State<AnnunciDiLavoroAds> {
   List<AnnuncioDiLavoroDTO> annunci = [];
 
   @override
@@ -39,7 +39,13 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoro> {
             .map((json) => AnnuncioDiLavoroDTO.fromJson(json))
             .toList();
         setState(() {
-          annunci = data;
+          List<AnnuncioDiLavoroDTO> newData = [];
+          for (AnnuncioDiLavoroDTO a in data) {
+            if (a.approvato) {
+              newData.add(a);
+            }
+          }
+          annunci = newData;
         });
       } else {
         print('Chiave "annunci" non trovata nella risposta.');
@@ -229,4 +235,10 @@ class DetailsLavoro extends StatelessWidget {
       ),
     );
   }
+}
+
+void main() {
+  runApp(MaterialApp(
+    home: AnnunciDiLavoroAds(),
+  ));
 }

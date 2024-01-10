@@ -6,13 +6,13 @@ import 'package:http/http.dart' as http;
 import '../routes/routes.dart';
 
 /// Classe che implementa la sezione [CommunityEvents]
-class CommunityEvents extends StatefulWidget {
+class CommunityEventsAds extends StatefulWidget {
   @override
   _CommunityEventsState createState() => _CommunityEventsState();
 }
 
 /// Creazione dello stato di [CommunityEvents], costituito dalla lista degli eventi
-class _CommunityEventsState extends State<CommunityEvents> {
+class _CommunityEventsState extends State<CommunityEventsAds> {
   List<EventoDTO> eventi = [];
 
   /// Inizializzazione dello stato, con chiamata alla funzione [fetchDataFromServer]
@@ -34,7 +34,14 @@ class _CommunityEventsState extends State<CommunityEvents> {
             .map((json) => EventoDTO.fromJson(json))
             .toList();
         setState(() {
-          eventi = data;
+          List<EventoDTO> newData = [];
+          for (EventoDTO e in data) {
+            if (e.approvato) {
+              newData.add(e);
+              print(e);
+            }
+          }
+          eventi = newData;
         });
       } else {
         print('Chiave "eventi" non trovata nella risposta.');
@@ -46,7 +53,7 @@ class _CommunityEventsState extends State<CommunityEvents> {
 
   Future<void> deleteEvento(EventoDTO evento) async {
     final response = await http.post(
-        Uri.parse('http://10.0.2.2:8080/gestioneLavoro/deleteLavoro'),
+        Uri.parse('http://10.0.2.2:8080/gestioneEvento/deleteEvento'),
         body: jsonEncode(evento));
     if (response.statusCode == 200) {
       setState(() {
@@ -205,4 +212,10 @@ class DetailsEvento extends StatelessWidget {
       ),
     );
   }
+}
+
+void main() {
+  runApp(MaterialApp(
+    home: CommunityEventsAds(),
+  ));
 }
