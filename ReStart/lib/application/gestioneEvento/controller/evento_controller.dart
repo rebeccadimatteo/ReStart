@@ -16,7 +16,7 @@ class GestioneEventoController {
     _router.post('/addEvento', _addEvento);
     //_router.post('/dettagliEvento', _dettagliEvento);
     _router.post('/deleteEvento', _deleteEvento);
-    _router.post('/modifyEvento' ,_modifyEvento);
+    _router.post('/modifyEvento', _modifyEvento);
     _router.all('/ignored|.*>', _notFound);
   }
 
@@ -33,6 +33,7 @@ class GestioneEventoController {
           body: 'Errore durante la visualizzazione dei corsi: $e');
     }
   }
+
   Future<Response> _addEvento(Request request) async {
     try {
       final String requestBody = await request.readAsString();
@@ -68,7 +69,7 @@ class GestioneEventoController {
             headers: {'Content-Type': 'application/json'});
       } else {
         final responseBody =
-        jsonEncode({'result': 'Inserimento non effettuato'});
+            jsonEncode({'result': 'Inserimento non effettuato'});
         return Response.badRequest(
             body: responseBody, headers: {'Content-Type': 'application/json'});
       }
@@ -91,7 +92,7 @@ class GestioneEventoController {
             headers: {'Content-Type': 'application/json'});
       } else {
         final responseBody =
-        jsonEncode({'result': 'Eliminazione non effettuata.'});
+            jsonEncode({'result': 'Eliminazione non effettuata.'});
         return Response.badRequest(
             body: responseBody, headers: {'Content-Type': 'application/json'});
       }
@@ -101,6 +102,7 @@ class GestioneEventoController {
           body: 'Errore durante l\'eliminazione dell\'evento: $e');
     }
   }
+
   Future<Response> _modifyEvento(Request request) async {
     try {
       final String requestBody = await request.readAsString();
@@ -115,45 +117,44 @@ class GestioneEventoController {
       } else {
         // Puoi gestire altri tipi o scenari a tua discrezione
         parsedDate = DateTime.now();
+      }
 
-        final int id = params['id'] != null ? int.parse(params['id'].toString()) : 0;
-        final int id_ca = params['id_ca'] != null ? int.parse(
-            params['id_ca'].toString()) : 0;
-        final String immagine = params['immagine'] ?? '';
-        final String nomeEvento = params['nomeEvento'] ?? '';
-        final String descrizione = params['descrizione'] ?? '';
-        final bool approvato = params['approvato'] ?? 'false';
-        final String email = params['email'] ?? '';
-        final String sito = params['sito'] ?? '';
-        final String via = params['via'] ?? '';
-        final String citta = params['citta'] ?? '';
-        final String provincia = params['provincia'] ?? '';
-        EventoDTO evento = EventoDTO(
-          id: id,
-          id_ca: id_ca,
-          immagine: immagine,
-          nomeEvento: nomeEvento,
-          descrizione: descrizione,
-          approvato: approvato,
-          email: email,
-          sito: sito,
-          via: via,
-          citta: citta,
-          provincia: provincia,
-          date: parsedDate,
-        );
+      final int id =
+          params['id'] != null ? int.parse(params['id'].toString()) : 0;
+      final int id_ca =
+          params['id_ca'] != null ? int.parse(params['id_ca'].toString()) : 0;
+      final String immagine = params['immagine'] ?? '';
+      final String nomeEvento = params['nomeEvento'] ?? '';
+      final String descrizione = params['descrizione'] ?? '';
+      final bool approvato = params['approvato'] ?? 'false';
+      final String email = params['email'] ?? '';
+      final String sito = params['sito'] ?? '';
+      final String via = params['via'] ?? '';
+      final String citta = params['citta'] ?? '';
+      final String provincia = params['provincia'] ?? '';
+      EventoDTO evento = EventoDTO(
+        id: id,
+        id_ca: id_ca,
+        immagine: immagine,
+        nomeEvento: nomeEvento,
+        descrizione: descrizione,
+        approvato: approvato,
+        email: email,
+        sito: sito,
+        via: via,
+        citta: citta,
+        provincia: provincia,
+        date: parsedDate,
+      );
 
-        if (await _service.modifyEvento(evento)) {
-          final responseBody = jsonEncode({'result': "Modifica effettuata."});
-          return Response.ok(responseBody,
-              headers: {'Content-Type': 'application/json'});
-        } else {
-          final responseBody = jsonEncode(
-              {'result': 'Modifica non effettuata.'});
-          return Response.badRequest(
-              body: responseBody,
-              headers: {'Content-Type': 'application/json'});
-        }
+      if (await _service.modifyEvento(evento)) {
+        final responseBody = jsonEncode({'result': "Modifica effettuata."});
+        return Response.ok(responseBody,
+            headers: {'Content-Type': 'application/json'});
+      } else {
+        final responseBody = jsonEncode({'result': 'Modifica non effettuata.'});
+        return Response.badRequest(
+            body: responseBody, headers: {'Content-Type': 'application/json'});
       }
     } catch (e) {
       print(e);
@@ -161,7 +162,6 @@ class GestioneEventoController {
       return Response.internalServerError(
           body: 'Errore durante la modifica dell\'evento: $e');
     }
-
   }
 
   Future<Response> _notFound(Request request) async {

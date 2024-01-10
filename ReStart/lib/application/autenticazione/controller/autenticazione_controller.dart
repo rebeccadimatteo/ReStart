@@ -135,7 +135,6 @@ class AutenticazioneController {
   Future<Response> _modifyUtente(Request request) async {
     try {
       final String requestBody = await request.readAsString();
-      print(requestBody);
       final Map<String, dynamic> params = jsonDecode(requestBody);
       final int id = params['id'] != null ? int.parse(params['id'].toString()) : 0;
       final String nome = params['nome'] ?? '';
