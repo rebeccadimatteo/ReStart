@@ -176,7 +176,7 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroPubblicati> {
 
 /// Visualizza i dettagli di [AnnunciDiLavoro]
 
-class DetailsLavoro extends StatelessWidget {
+class DetailsLavoroPub extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AnnuncioDiLavoroDTO annuncio =

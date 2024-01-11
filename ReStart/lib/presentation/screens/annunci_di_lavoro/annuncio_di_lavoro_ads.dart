@@ -29,15 +29,15 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroAds> {
   /// viene assegnata alla variabile di stato 'alloggi'. In caso di errori
   /// nella risposta, vengono stampati messaggi di errore sulla console.
   Future<void> fetchDataFromServer() async {
-    final response = await http.post(Uri.parse(
-        'http://10.0.2.2:8080/gestioneLavoro/visualizzaLavori'));
+    final response = await http.post(
+        Uri.parse('http://10.0.2.2:8080/gestioneLavoro/visualizzaLavori'));
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseBody = json.decode(response.body);
       if (responseBody.containsKey('annunci')) {
         final List<AnnuncioDiLavoroDTO> data =
-        List<Map<String, dynamic>>.from(responseBody['annunci'])
-            .map((json) => AnnuncioDiLavoroDTO.fromJson(json))
-            .toList();
+            List<Map<String, dynamic>>.from(responseBody['annunci'])
+                .map((json) => AnnuncioDiLavoroDTO.fromJson(json))
+                .toList();
         setState(() {
           List<AnnuncioDiLavoroDTO> newData = [];
           for (AnnuncioDiLavoroDTO a in data) {
@@ -113,10 +113,10 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroAds> {
                   },
                   child: Padding(
                     padding:
-                    const EdgeInsets.only(left: 5, bottom: 5, right: 5),
+                        const EdgeInsets.only(left: 5, bottom: 5, right: 5),
                     child: ListTile(
                       visualDensity:
-                      const VisualDensity(vertical: 4, horizontal: 4),
+                          const VisualDensity(vertical: 4, horizontal: 4),
                       minVerticalPadding: 50,
                       minLeadingWidth: 80,
                       tileColor: Colors.grey,
@@ -149,10 +149,11 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroAds> {
 
 /// Visualizza i dettagli di [AnnunciDiLavoro]
 
-class DetailsLavoro extends StatelessWidget {
+class DetailsLavoroAds extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final AnnuncioDiLavoroDTO annuncio = ModalRoute.of(context)?.settings.arguments as AnnuncioDiLavoroDTO;
+    final AnnuncioDiLavoroDTO annuncio =
+        ModalRoute.of(context)?.settings.arguments as AnnuncioDiLavoroDTO;
     return Scaffold(
       appBar: AdsAppBar(
         showBackButton: true,
@@ -214,23 +215,6 @@ class DetailsLavoro extends StatelessWidget {
                       ],
                     ),
                   ))),
-          const SizedBox(height: 20),
-          Container(
-            padding: const EdgeInsets.only(bottom: 40),
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue[200],
-                shadowColor: Colors.grey,
-                elevation: 10,
-              ),
-              onPressed: () {},
-              child: const Text('CANDIDATI',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                  )),
-            ),
-          ),
         ],
       ),
     );

@@ -5,12 +5,12 @@ import '../../components/generic_app_bar.dart';
 import 'package:http/http.dart' as http;
 import '../routes/routes.dart';
 
-class AlloggiTemporanei extends StatefulWidget {
+class AlloggiTemporaneiAds extends StatefulWidget {
   @override
   _AlloggiTemporaneiState createState() => _AlloggiTemporaneiState();
 }
 
-class _AlloggiTemporaneiState extends State<AlloggiTemporanei> {
+class _AlloggiTemporaneiState extends State<AlloggiTemporaneiAds> {
   List<AlloggioTemporaneoDTO> alloggi = [];
 
   @override
@@ -134,7 +134,7 @@ class _AlloggiTemporaneiState extends State<AlloggiTemporanei> {
 }
 
 /// visualizza i dettagli di un alloggio
-class DetailsAlloggio extends StatelessWidget {
+class DetailsAlloggioAds extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AlloggioTemporaneoDTO alloggio =

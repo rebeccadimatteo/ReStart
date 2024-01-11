@@ -141,7 +141,7 @@ class _CommunityEventsState extends State<CommunityEventsAds> {
 
 /// Build del widget che viene visualizzato quando viene selezionato un determinato evento dalla sezione [CommunityEvents]
 /// Permette di visualizzare i dettagli dell'evento selezionato
-class DetailsEvento extends StatelessWidget {
+class DetailsEventoAds extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final EventoDTO evento = ModalRoute.of(context)?.settings.arguments as EventoDTO;

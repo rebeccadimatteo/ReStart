@@ -170,7 +170,7 @@ class _CommunityEventsState extends State<CommunityEventsPubblicati> {
 
 /// Build del widget che viene visualizzato quando viene selezionato un determinato evento dalla sezione [CommunityEvents]
 /// Permette di visualizzare i dettagli dell'evento selezionato
-class DetailsEvento extends StatelessWidget {
+class DetailsEventoPub extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final EventoDTO evento =

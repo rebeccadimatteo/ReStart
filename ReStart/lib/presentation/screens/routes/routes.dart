@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:restart_all_in_one/presentation/screens/annunci_di_lavoro/annunci_di_lavoro_pubblicati.dart';
+import 'package:restart_all_in_one/presentation/screens/eventi/eventi_pubblicati.dart';
 import 'package:restart_all_in_one/presentation/screens/home/home_ads.dart';
 import 'package:restart_all_in_one/presentation/screens/home/home_ca.dart';
 import '../alloggi_temporanei/alloggi_temporanei.dart';
+import '../alloggi_temporanei/alloggi_temporanei_ads.dart';
 import '../annunci_di_lavoro/annuncio_di_lavoro.dart';
+import '../annunci_di_lavoro/annuncio_di_lavoro_ads.dart';
 import '../corsi_di_formazione/corso_di_formazione.dart';
+import '../corsi_di_formazione/corso_di_formazione_ads.dart';
 import '../eventi/eventi.dart';
+import '../eventi/eventi_ads.dart';
 import '../home/home_utente.dart';
 import '../login_signup/login.dart';
 import '../login_signup/signup.dart';
 import '../login_signup/start.dart';
 import '../supporto_medico/supporto_medico.dart';
+import '../supporto_medico/supporto_medico_ads.dart';
 import '../utente/profilo.dart';
 
 class AppRoutes {
@@ -34,20 +41,27 @@ class AppRoutes {
   static const String annunciAds = '/annunciDiLavoroAds';
 
   //NB: I DETTAGLI DELLE SEZIONI NEGLI ADS NON SONO A PRIORITA ALTA
-  //static const String dettagliannuncioAds = '/annunciDiLavoroAds/dettagliAds';
+  static const String dettagliannuncioAds = '/annunciDiLavoroAds/dettagliAds';
   static const String alloggiAds = '/alloggiTemporaneiAds';
 
-  //static const String dettaglialloggioAds = '/alloggiTemporaneiAds/dettagliAds';
+  static const String dettaglialloggioAds = '/alloggiTemporaneiAds/dettagliAds';
   static const String eventiAds = '/communityEventsAds';
 
-  //static const String dettaglieventoAds = '/communityEventsAds/dettagliAds';
+  static const String dettaglieventoAds = '/communityEventsAds/dettagliAds';
   static const String corsiAds = '/corsiDiFormazioneAds';
 
-  //static const String dettaglicorsoAds = '/corsiDiFormazioneAds/dettagliAds';
+  static const String dettaglicorsoAds = '/corsiDiFormazioneAds/dettagliAds';
   static const String supportiAds = '/supportiMediciAds';
 
-  //static const String dettaglisupportoAds = '/supportiMediciAds/dettagliAds';
+  static const String dettaglisupportoAds = '/supportiMediciAds/dettagliAds';
   static const String richiesteAds = '/richieste';
+
+  static const String annuncipubblicati = '/annunciPubblicati';
+  static const String dettagliannunciopub = '/annunciPubblicati/dettagli';
+  static const String eventipubblicati = '/eventiPubblicati';
+  static const String dettaglieventipub = '/eventiPubblicati/dettagli';
+  static const String addevento = '/aggiungiEvento';
+  static const String addannuncio = '/aggiungiAnnuncio';
 
   /// Definizione di tutte le [AppRoutes]
   static Map<String, WidgetBuilder> getRoutes() {
@@ -70,17 +84,24 @@ class AppRoutes {
       dettaglisupporto: (context) => DetailsSupporto(),
       profilo: (context) => Profilo(),
       modificaprofilo: (context) => ProfiloEdit(),
-      /*annunciAds: (context) => AnnunciDiLavoroAds(),
-      //dettagliannuncioAds: (context) => DetailsLavoroAds(),
-      alloggiAds: AlloggiTemporaneiAds(),
-      //dettaglialloggioAds: DetailsAllogioAds(),
-      eventiAds: CommunityEventsAds(),
-      //dettaglieventoAds: DetailsEventoAds(),
-      corsiAds: CorsoDiFormazioneAds(),
-      //dettaglicorsoAds: DetailsCorsoAds(),
-      supportiAds: SupportoMedicoAds(),
-      richiesteAds: RichiesteAds(),
-      //dettaglisupportoAds: DetailsSupportoAds(), */
+      annuncipubblicati: (context) => AnnunciDiLavoroPubblicati(),
+      eventipubblicati: (context) => CommunityEventsPubblicati(),
+      dettagliannunciopub: (context) => DetailsLavoroPub(),
+      dettaglieventipub: (context) => DetailsEventoPub(),
+      // addevento: (context) => InserisciEvento(),
+      // addannuncio: (context) => InserisciAnnuncio(),
+
+      annunciAds: (context) => AnnunciDiLavoroAds(),
+      dettagliannuncioAds: (context) => DetailsLavoroAds(),
+      alloggiAds: (context) => AlloggiTemporaneiAds(),
+      dettaglialloggioAds: (context) =>DetailsAlloggioAds(),
+      eventiAds: (context) => CommunityEventsAds(),
+      dettaglieventoAds: (context) => DetailsEventoAds(),
+      corsiAds: (context) => CorsoDiFormazioneAds(),
+      dettaglicorsoAds: (context) => DetailsCorsoAds(),
+      supportiAds: (context) => SupportoMedicoAds(),
+      dettaglisupportoAds: (context) => DetailsSupportoAds(),
+      // richiesteAds: (context) => RichiesteAds(),
     };
   }
 }

@@ -165,7 +165,7 @@ class _LoginPageState extends State<LoginPage> {
                           _isPasswordValid = validatePsw(value);
                         });
                       },
-                      obscureText: true,
+                      obscureText: _viewPassword,
                       decoration: InputDecoration(
                         border: const OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(30)),
@@ -176,6 +176,19 @@ class _LoginPageState extends State<LoginPage> {
                           fontWeight: FontWeight.bold,
                         ),
                         hintText: 'Inserisci la tua password...',
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _viewPassword
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                            color: Colors.blueGrey,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _viewPassword = !_viewPassword;
+                            });
+                          },
+                        ),
                         // Cambia il colore del testo in rosso se password non è valida
                         errorText: _isPasswordValid
                             ? null

@@ -5,12 +5,12 @@ import '../../components/generic_app_bar.dart';
 import 'package:http/http.dart' as http;
 import '../routes/routes.dart';
 
-class CorsoDiFormazione extends StatefulWidget {
+class CorsoDiFormazioneAds extends StatefulWidget {
   @override
   _CorsoDiFormazioneState createState() => _CorsoDiFormazioneState();
 }
 
-class _CorsoDiFormazioneState extends State<CorsoDiFormazione> {
+class _CorsoDiFormazioneState extends State<CorsoDiFormazioneAds> {
   List<CorsoDiFormazioneDTO> corsi = [];
 
   @override
@@ -114,7 +114,7 @@ class _CorsoDiFormazioneState extends State<CorsoDiFormazione> {
 
 /// Build del widget che viene visualizzato quando viene selezionato un determinato corso dalla sezione [CorsoDiFormazione]
 /// Permette di visualizzare i dettagli del corso selezionato
-class DetailsCorso extends StatelessWidget {
+class DetailsCorsoAds extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final CorsoDiFormazioneDTO corso = ModalRoute.of(context)?.settings.arguments as CorsoDiFormazioneDTO;

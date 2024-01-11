@@ -7,13 +7,13 @@ import 'package:http/http.dart' as http;
 import '../routes/routes.dart';
 
 /// Classe che implementa la sezione [SupportoMedico]
-class SupportoMedico extends StatefulWidget {
+class SupportoMedicoAds extends StatefulWidget {
   @override
   _SupportoMedicoState createState() => _SupportoMedicoState();
 }
 
 /// Creazione dello stato di [SupportoMedico], costituito dalla lista dei supporti
-class _SupportoMedicoState extends State<SupportoMedico> {
+class _SupportoMedicoState extends State<SupportoMedicoAds> {
   List<SupportoMedicoDTO> supporti = [];
 
   /// Inizializzazione dello stato, con chiamata alla funzione [fetchDataFromServer]
@@ -122,7 +122,7 @@ class _SupportoMedicoState extends State<SupportoMedico> {
   }
 }
 
-class DetailsSupporto extends StatelessWidget {
+class DetailsSupportoAds extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final SupportoMedicoDTO supporto = ModalRoute.of(context)?.settings.arguments as SupportoMedicoDTO;

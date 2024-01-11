@@ -109,14 +109,14 @@ class _ProfiloState extends State<Profilo> {
       endDrawer: GenericAppBar.buildDrawer(context),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(screenWidth * 0.1),
+          padding: EdgeInsets.symmetric(vertical: screenWidth * 0.1, horizontal: screenWidth * 0.01),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               if (utente != null)
                 ListTile(
                   leading: CircleAvatar(
-                    radius: screenWidth * 0.1,
+                    radius: screenWidth * 0.15,
                     backgroundImage: AssetImage(utente!.immagine),
                   ),
                   title: Text(
