@@ -67,6 +67,7 @@ class CaAppBar extends StatelessWidget implements PreferredSizeWidget {
                               color: Color.fromARGB(255, 128, 0, 128),
                             ),
                           ],
+                          fontFamily: 'Poppins',
                           fontSize: 18,
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
@@ -81,6 +82,7 @@ class CaAppBar extends StatelessWidget implements PreferredSizeWidget {
                     'Home',
                     textAlign: TextAlign.center,
                     style: TextStyle(
+                      fontFamily: 'Poppins',
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -96,6 +98,7 @@ class CaAppBar extends StatelessWidget implements PreferredSizeWidget {
                     'Community Events',
                     textAlign: TextAlign.center,
                     style: TextStyle(
+                      fontFamily: 'Poppins',
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -111,6 +114,7 @@ class CaAppBar extends StatelessWidget implements PreferredSizeWidget {
                     'Annunci di lavoro',
                     textAlign: TextAlign.center,
                     style: TextStyle(
+                      fontFamily: 'Poppins',
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -132,6 +136,7 @@ class CaAppBar extends StatelessWidget implements PreferredSizeWidget {
                 'Logout',
                 textAlign: TextAlign.center,
                 style: TextStyle(
+                  fontFamily: 'Poppins',
                   fontWeight: FontWeight.bold,
                 ),
               ),

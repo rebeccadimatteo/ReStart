@@ -76,7 +76,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return (Scaffold(
+    return Scaffold(
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -94,7 +94,8 @@ class _LoginPageState extends State<LoginPage> {
               child: const Text(
                 'RICOMINCIAMO INSIEME',
                 style: TextStyle(
-                  fontSize: 25,
+                  fontFamily: 'CCE',
+                  fontSize: 17,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -121,11 +122,20 @@ class _LoginPageState extends State<LoginPage> {
                             borderRadius: BorderRadius.all(Radius.circular(30)),
                           ),
                           labelText: 'Username',
+                          labelStyle: const TextStyle(
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.bold,
+                          ),
                           hintText: 'Inserisci il tuo username...',
                           errorText: _isUsernameValid
                               ? null
                               : 'Formato username non valido \n(ex: mariorossi1 [max 15 caratteri]',
-                          errorStyle: const TextStyle(color: Colors.red)),
+                          errorStyle: const TextStyle(color: Colors.red)
+                      ),
+                      style: const TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                   Padding(
@@ -147,12 +157,20 @@ class _LoginPageState extends State<LoginPage> {
                           borderRadius: BorderRadius.all(Radius.circular(30)),
                         ),
                         labelText: 'Password',
+                        labelStyle: const TextStyle(
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.bold,
+                        ),
                         hintText: 'Inserisci la tua password...',
                         // Cambia il colore del testo in rosso se password non è valida
                         errorText: _isPasswordValid
                             ? null
                             : 'Formato password non corretto',
                         errorStyle: const TextStyle(color: Colors.red),
+                      ),
+                      style: const TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
@@ -188,8 +206,10 @@ class _LoginPageState extends State<LoginPage> {
                 child: const Text(
                   'ACCEDI',
                   style: TextStyle(
+                    fontFamily: 'Poppins',
                     color: Colors.white,
-                    fontSize: 25,
+                    fontSize: 23,
+                    fontWeight: FontWeight.bold,
                     shadows: [
                       Shadow(
                         color: Colors.black,
@@ -209,7 +229,12 @@ class _LoginPageState extends State<LoginPage> {
               },
               child: const Text(
                 'Password dimenticata?',
-                style: TextStyle(color: Colors.blue, fontSize: 18),
+                style: TextStyle(
+                  color: Colors.blue,
+                  fontSize: 17,
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             const SizedBox(
@@ -217,7 +242,11 @@ class _LoginPageState extends State<LoginPage> {
             ),
             const Text(
               'Non hai un account?',
-              style: TextStyle(fontSize: 18),
+              style: TextStyle(
+                fontSize: 17,
+                fontFamily: 'Poppins',
+                fontWeight: FontWeight.bold,
+              ),
             ),
             Container(
               margin: const EdgeInsets.only(top: 12),
@@ -251,8 +280,10 @@ class _LoginPageState extends State<LoginPage> {
                 child: const Text(
                   'REGISTRATI',
                   style: TextStyle(
+                    fontFamily: 'Poppins',
                     color: Colors.white,
-                    fontSize: 25,
+                    fontSize: 23,
+                    fontWeight: FontWeight.bold,
                     shadows: [
                       Shadow(
                         color: Colors.black,
@@ -266,6 +297,6 @@ class _LoginPageState extends State<LoginPage> {
           ],
         ),
       ),
-    ));
+    );
   }
 }

@@ -1,11 +1,10 @@
 import 'dart:convert';
-
 import "package:flutter/material.dart";
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
-
 import '../../../model/entity/utente_DTO.dart';
 import '../routes/routes.dart';
+
 
 class SignUpPage extends StatefulWidget {
   _SignUpState createState() => _SignUpState();
@@ -14,7 +13,8 @@ class SignUpPage extends StatefulWidget {
 class _SignUpState extends State<SignUpPage> {
   final _formKey = GlobalKey<FormState>();
   String? _selectedGender;
-  late DateTime? selectedDate;
+  DateTime? selectedDate;
+
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
@@ -184,8 +184,7 @@ class _SignUpState extends State<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
         body: SingleChildScrollView(
             child: Form(
           key: _formKey,
@@ -203,7 +202,8 @@ class _SignUpState extends State<SignUpPage> {
                 child: const Text(
                   'RICOMINCIAMO INSIEME',
                   style: TextStyle(
-                    fontSize: 25,
+                    fontFamily: 'CCE',
+                    fontSize: 17,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -213,7 +213,8 @@ class _SignUpState extends State<SignUpPage> {
                 child: const Text(
                   'Inserisci i tuoi dati',
                   style: TextStyle(
-                    fontSize: 20,
+                    fontFamily: 'Poppins',
+                    fontSize: 17,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -223,8 +224,9 @@ class _SignUpState extends State<SignUpPage> {
                 child: Text(
                   'Dati anagrafici',
                   style: TextStyle(
+                    fontFamily: 'Poppins',
                     fontWeight: FontWeight.bold,
-                    fontSize: 17,
+                    fontSize: 15,
                   ),
                 ),
               ),
@@ -252,6 +254,14 @@ class _SignUpState extends State<SignUpPage> {
                         ? null
                         : 'Formato nome non corretto (ex. Mirko [max. 20 caratteri])',
                     errorStyle: const TextStyle(color: Colors.red),
+                    labelStyle: const TextStyle(
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  style: const TextStyle(
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
@@ -279,38 +289,63 @@ class _SignUpState extends State<SignUpPage> {
                         ? null
                         : 'Formato cognome non corretto (ex: Rossi [max 20 caratteri])',
                     errorStyle: const TextStyle(color: Colors.red),
+                    labelStyle: const TextStyle(
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  style: const TextStyle(
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.only(
-                    left: 15.0,
-                    right: 15.0,
-                    top: 15,
-                    bottom: _isLuogoNascitaValid ? 15 : 20),
-                child: GestureDetector(
-                  onTap: () {
-                    _selectDate(context);
-                  },
-                  child: TextFormField(
-                    controller: dataNascitaController,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(30)),
+              Row(
+                children: [
+                  Expanded(
+                    child: Padding(
+                    padding: EdgeInsets.only(
+                        left: 15.0,
+                        right: 15.0,
+                        top: 15,
+                        bottom: _isLuogoNascitaValid ? 15 : 20),
+                    child: GestureDetector(
+                      onTap: () {
+                        _selectDate(context);
+                      },
+                      child: TextFormField(
+                        readOnly: true,
+                        controller: dataNascitaController,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(30)),
+                          ),
+                          labelText: 'Data di nascita',
+                          labelStyle: TextStyle(
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.bold,
+                          ),
+                          hintText: 'Inserisci la tua data di nascita...',
+                          suffixIcon: Icon(Icons.date_range),
+                        ),
+                        style: const TextStyle(
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.bold,
+                        ),
+                        onTap: () {
+                          _selectDate(context);
+                        },
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Data di nascita';
+                          }
+                          return null;
+                        },
                       ),
-                      labelText: 'Data di nascita',
                     ),
-                    onTap: () {
-                      _selectDate(context);
-                    },
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Seleziona la data di nascita';
-                      }
-                      return null;
-                    },
+                    ),
                   ),
-                ),
+                ],
               ),
               Padding(
                 padding: EdgeInsets.only(
@@ -336,6 +371,14 @@ class _SignUpState extends State<SignUpPage> {
                         ? null
                         : 'Formato luogo nascita non corretto (ex: Napoli)',
                     errorStyle: const TextStyle(color: Colors.red),
+                    labelStyle: const TextStyle(
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  style: const TextStyle(
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
@@ -363,6 +406,14 @@ class _SignUpState extends State<SignUpPage> {
                         ? null
                         : 'Formato Codice Fiscale non corretto\n  (ex: AAABBB11C22D333E)',
                     errorStyle: const TextStyle(color: Colors.red),
+                    labelStyle: const TextStyle(
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  style: const TextStyle(
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
@@ -392,6 +443,15 @@ class _SignUpState extends State<SignUpPage> {
                       borderRadius: BorderRadius.all(Radius.circular(30)),
                     ),
                     labelText: 'Genere',
+                    labelStyle: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  style: const TextStyle(
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
                   ),
                 ),
               ),
@@ -400,6 +460,7 @@ class _SignUpState extends State<SignUpPage> {
                 child: Text(
                   'Indirizzo',
                   style: TextStyle(
+                    fontFamily: 'Poppins',
                     fontWeight: FontWeight.bold,
                     fontSize: 17,
                   ),
@@ -423,12 +484,20 @@ class _SignUpState extends State<SignUpPage> {
                       borderRadius: BorderRadius.all(Radius.circular(30)),
                     ),
                     labelText: 'Citta',
+                    labelStyle: const TextStyle(
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.bold,
+                    ),
                     hintText: 'Inserisci la tua Città...',
                     // Cambia il colore del testo in rosso se città non è valida
                     errorText: _isCittaValid
                         ? null
                         : 'Formato città non corretto (ex: Napoli)',
                     errorStyle: const TextStyle(color: Colors.red),
+                  ),
+                  style: const TextStyle(
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
@@ -450,12 +519,20 @@ class _SignUpState extends State<SignUpPage> {
                       borderRadius: BorderRadius.all(Radius.circular(30)),
                     ),
                     labelText: 'Via',
+                    labelStyle: const TextStyle(
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.bold,
+                    ),
                     hintText: 'Inserisci la tua via...',
                     // Cambia il colore del testo in rosso se via non è valida
                     errorText: _isViaValid
                         ? null
                         : 'Formato via non corretto (ex: Via Fratelli Napoli, 1)',
                     errorStyle: const TextStyle(color: Colors.red),
+                  ),
+                  style: const TextStyle(
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
@@ -477,12 +554,20 @@ class _SignUpState extends State<SignUpPage> {
                       borderRadius: BorderRadius.all(Radius.circular(30)),
                     ),
                     labelText: 'Provincia',
+                    labelStyle: const TextStyle(
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.bold,
+                    ),
                     hintText: 'Inserisci la tua provincia...',
                     // Cambia il colore del testo in rosso se provincia non è valida
                     errorText: _isProvinciaValid
                         ? null
                         : 'Formato provincia non corretta (ex: AV)',
                     errorStyle: const TextStyle(color: Colors.red),
+                  ),
+                  style: const TextStyle(
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
@@ -491,6 +576,7 @@ class _SignUpState extends State<SignUpPage> {
                 child: Text(
                   'Contatti',
                   style: TextStyle(
+                    fontFamily: 'Poppins',
                     fontWeight: FontWeight.bold,
                     fontSize: 17,
                   ),
@@ -514,12 +600,20 @@ class _SignUpState extends State<SignUpPage> {
                       borderRadius: BorderRadius.all(Radius.circular(30)),
                     ),
                     labelText: 'Email',
+                    labelStyle: const TextStyle(
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.bold,
+                    ),
                     hintText: 'Inserisci la tua email...',
                     // Cambia il colore del testo in rosso se email non è valida
                     errorText: _isEmailValid
                         ? null
                         : 'Formato email non corretta (ex: esempio@esempio.com)',
                     errorStyle: const TextStyle(color: Colors.red),
+                  ),
+                  style: const TextStyle(
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
@@ -541,12 +635,20 @@ class _SignUpState extends State<SignUpPage> {
                       borderRadius: BorderRadius.all(Radius.circular(30)),
                     ),
                     labelText: 'Numero di telefono',
+                    labelStyle: const TextStyle(
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.bold,
+                    ),
                     hintText: 'Inserisci il tuo numero di telefono...',
                     // Cambia il colore del testo in rosso se telefono non è valido
                     errorText: _isTelefonoValid
                         ? null
                         : 'Formato numero di telefono non corretto (ex: +393330000000)',
                     errorStyle: const TextStyle(color: Colors.red),
+                  ),
+                  style: const TextStyle(
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
@@ -555,6 +657,7 @@ class _SignUpState extends State<SignUpPage> {
                 child: Text(
                   'Credenziali',
                   style: TextStyle(
+                    fontFamily: 'Poppins',
                     fontWeight: FontWeight.bold,
                     fontSize: 17,
                   ),
@@ -578,12 +681,20 @@ class _SignUpState extends State<SignUpPage> {
                       borderRadius: BorderRadius.all(Radius.circular(30)),
                     ),
                     labelText: 'Username',
+                    labelStyle: const TextStyle(
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.bold,
+                    ),
                     hintText: 'Inserisci il tuo username...',
                     // Cambia il colore del testo in rosso se username non è valido
                     errorText: _isUsernameValid
                         ? null
                         : 'Formato username non corretto (ex: prova123. \n  [caratteri speciali consentiti: _ . @])',
                     errorStyle: const TextStyle(color: Colors.red),
+                  ),
+                  style: const TextStyle(
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
@@ -606,12 +717,20 @@ class _SignUpState extends State<SignUpPage> {
                       borderRadius: BorderRadius.all(Radius.circular(30)),
                     ),
                     labelText: 'Password',
+                    labelStyle: const TextStyle(
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.bold,
+                    ),
                     hintText: 'Inserisci la tua password...',
                     // Cambia il colore del testo in rosso se password non è valida
                     errorText: _isPasswordValid
                         ? null
                         : 'Formato password non corretto',
                     errorStyle: const TextStyle(color: Colors.red),
+                  ),
+                  style: const TextStyle(
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
@@ -645,8 +764,9 @@ class _SignUpState extends State<SignUpPage> {
                   child: const Text(
                     'REGISTRATI',
                     style: TextStyle(
+                      fontFamily: 'Poppins',
                       color: Colors.white,
-                      fontSize: 25,
+                      fontSize: 23,
                       fontWeight: FontWeight.bold,
                       shadows: [
                         Shadow(
@@ -662,7 +782,11 @@ class _SignUpState extends State<SignUpPage> {
                 padding: EdgeInsets.only(top: 30),
                 child: Text(
                   'Hai già un account?',
-                  style: TextStyle(fontSize: 18),
+                  style: TextStyle(
+                    fontSize: 17,
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               Container(
@@ -697,8 +821,10 @@ class _SignUpState extends State<SignUpPage> {
                   child: const Text(
                     'ACCEDI',
                     style: TextStyle(
+                      fontFamily: 'Poppins',
                       color: Colors.white,
-                      fontSize: 25,
+                      fontSize: 23,
+                      fontWeight: FontWeight.bold,
                       shadows: [
                         Shadow(
                           color: Colors.black,
@@ -711,7 +837,7 @@ class _SignUpState extends State<SignUpPage> {
               ),
             ],
           ),
-        )),
+        ),
       ),
     );
   }
