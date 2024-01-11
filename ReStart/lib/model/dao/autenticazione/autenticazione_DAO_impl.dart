@@ -37,8 +37,10 @@ class AutenticazioneDAOImpl implements AutenticazioneDAO {
       return "Utente";
     else if (ca != false)
       return "CA";
-    else
+    else if (ads != false)
       return "ADS";
+    else
+      return "notfound";
   }
 
   /// questo metodo prende in input un utente generico e lo aggiunge al database
