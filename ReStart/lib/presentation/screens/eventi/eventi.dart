@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import '../../../model/entity/evento_DTO.dart';
+import '../../../utils/auth_service.dart';
 import '../../../utils/jwt_constants.dart';
 import '../../../utils/jwt_utils.dart';
 import '../../components/generic_app_bar.dart';
@@ -23,15 +24,12 @@ class _CommunityEventsState extends State<CommunityEvents> {
   void initState() {
     super.initState();
     fetchDataFromServer();
+    _checkUserAndNavigate();
   }
 
-  Future<void> checkUser(BuildContext context) async {
-    var token = await SessionManager().get("token");
-    if(token != null) {
-      if (!JWTUtils.verifyAccessToken(accessToken: await token, secretKey: JWTConstants.accessTokenSecretKeyForUtente)) {
-        Navigator.pushNamed(context, AppRoutes.home);
-      }
-    } else{
+  void _checkUserAndNavigate() async {
+    bool isUserValid = await AuthService.checkUserUtente();
+    if (!isUserValid) {
       Navigator.pushNamed(context, AppRoutes.home);
     }
   }
@@ -61,7 +59,6 @@ class _CommunityEventsState extends State<CommunityEvents> {
   /// Build del widget principale della sezione [CommunityEvents], contenente tutta l'interfaccia grafica
   @override
   Widget build(BuildContext context) {
-    checkUser(context);
     return Scaffold(
       appBar: GenericAppBar(
         showBackButton: true,
@@ -128,7 +125,24 @@ class _CommunityEventsState extends State<CommunityEvents> {
 
 /// Build del widget che viene visualizzato quando viene selezionato un determinato evento dalla sezione [CommunityEvents]
 /// Permette di visualizzare i dettagli dell'evento selezionato
-class DetailsEvento extends StatelessWidget {
+class DetailsEvento extends StatefulWidget {
+  @override
+  State<DetailsEvento> createState() => _DetailsEventoState();
+}
+
+class _DetailsEventoState extends State<DetailsEvento> {
+  @override
+  void initState() {
+    super.initState();
+    _checkUserAndNavigate();
+  }
+
+  void _checkUserAndNavigate() async {
+    bool isUserValid = await AuthService.checkUserUtente();
+    if (!isUserValid) {
+      Navigator.pushNamed(context, AppRoutes.home);
+    }
+  }
   @override
   Widget build(BuildContext context) {
     final EventoDTO evento = ModalRoute.of(context)?.settings.arguments as EventoDTO;

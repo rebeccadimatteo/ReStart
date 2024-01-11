@@ -1,8 +1,11 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import '../../../model/entity/utente_DTO.dart';
+import '../../../utils/auth_service.dart';
 import '../../components/generic_app_bar.dart';
 import 'package:http/http.dart' as http;
+
+import '../routes/routes.dart';
 
 class ListaUtenti extends StatefulWidget {
   ListaUtenti({super.key});
@@ -18,8 +21,14 @@ class _ListaUtentiState extends State<ListaUtenti> {
   void initState() {
     super.initState();
     fetchDataFromServer();
+    _checkUserAndNavigate();
   }
-
+  void _checkUserAndNavigate() async {
+    bool isUserValid = await AuthService.checkUserADS();
+    if (!isUserValid) {
+      Navigator.pushNamed(context, AppRoutes.home);
+    }
+  }
   Future<void> fetchDataFromServer() async {
     final response = await http
         .post(Uri.parse('http://10.0.2.2:8080/autenticazione/listaUtenti'));

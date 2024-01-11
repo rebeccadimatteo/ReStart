@@ -1,15 +1,14 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import '../../../model/entity/corso_di_formazione_DTO.dart';
+import '../../../utils/auth_service.dart';
 import '../../components/app_bar_ads.dart';
-import '../../components/generic_app_bar.dart';
 import 'package:http/http.dart' as http;
 import '../routes/routes.dart';
 
 class CorsoDiFormazioneAds extends StatefulWidget {
   @override
   _CorsoDiFormazioneState createState() => _CorsoDiFormazioneState();
-
 }
 
 class _CorsoDiFormazioneState extends State<CorsoDiFormazioneAds> {
@@ -19,16 +18,27 @@ class _CorsoDiFormazioneState extends State<CorsoDiFormazioneAds> {
   void initState() {
     super.initState();
     fetchDataFromServer();
+
+    _checkUserAndNavigate();
+  }
+
+  void _checkUserAndNavigate() async {
+    bool isUserValid = await AuthService.checkUserADS();
+    if (!isUserValid) {
+      Navigator.pushNamed(context, AppRoutes.home);
+    }
   }
 
   Future<void> fetchDataFromServer() async {
-    final response = await http.post(Uri.parse('http://10.0.2.2:8080/gestioneReintegrazione/visualizzaCorsi'));
+    final response = await http.post(Uri.parse(
+        'http://10.0.2.2:8080/gestioneReintegrazione/visualizzaCorsi'));
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseBody = json.decode(response.body);
       if (responseBody.containsKey('corsi')) {
-        final List<CorsoDiFormazioneDTO> data = List<Map<String, dynamic>>.from(responseBody['corsi'])
-            .map((json) => CorsoDiFormazioneDTO.fromJson(json))
-            .toList();
+        final List<CorsoDiFormazioneDTO> data =
+            List<Map<String, dynamic>>.from(responseBody['corsi'])
+                .map((json) => CorsoDiFormazioneDTO.fromJson(json))
+                .toList();
         setState(() {
           corsi = data;
         });
@@ -94,16 +104,17 @@ class _CorsoDiFormazioneState extends State<CorsoDiFormazioneAds> {
                     );
                   },
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 5, bottom: 5, right: 5),
+                    padding:
+                        const EdgeInsets.only(left: 5, bottom: 5, right: 5),
                     child: ListTile(
-                      visualDensity: const VisualDensity(vertical: 4, horizontal: 4),
+                      visualDensity:
+                          const VisualDensity(vertical: 4, horizontal: 4),
                       minVerticalPadding: 50,
                       minLeadingWidth: 80,
                       tileColor: Colors.grey,
                       leading: CircleAvatar(
-                        radius: 35,
-                        backgroundImage: AssetImage(corso.immagine)
-                      ),
+                          radius: 35,
+                          backgroundImage: AssetImage(corso.immagine)),
                       title: Text(corso.nomeCorso,
                           style: const TextStyle(fontWeight: FontWeight.bold)),
                       subtitle: Text(corso.descrizione),
@@ -131,7 +142,8 @@ class _CorsoDiFormazioneState extends State<CorsoDiFormazioneAds> {
 class DetailsCorsoAds extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final CorsoDiFormazioneDTO corso = ModalRoute.of(context)?.settings.arguments as CorsoDiFormazioneDTO;
+    final CorsoDiFormazioneDTO corso =
+        ModalRoute.of(context)?.settings.arguments as CorsoDiFormazioneDTO;
     return Scaffold(
       appBar: AdsAppBar(
         showBackButton: true,

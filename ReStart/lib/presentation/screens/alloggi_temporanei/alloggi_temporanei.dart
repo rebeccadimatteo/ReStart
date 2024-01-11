@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:restart_all_in_one/model/entity/alloggio_temporaneo_DTO.dart';
+import '../../../utils/auth_service.dart';
 import '../../../utils/jwt_constants.dart';
 import '../../../utils/jwt_utils.dart';
 import '../../components/generic_app_bar.dart';
@@ -20,15 +21,12 @@ class _AlloggiTemporaneiState extends State<AlloggiTemporanei> {
   void initState() {
     super.initState();
     fetchDataFromServer();
+    _checkUserAndNavigate();
   }
 
-  Future<void> checkUser(BuildContext context) async {
-    var token = await SessionManager().get("token");
-    if(token != null) {
-      if (!JWTUtils.verifyAccessToken(accessToken: await token, secretKey: JWTConstants.accessTokenSecretKeyForUtente)) {
-        Navigator.pushNamed(context, AppRoutes.home);
-      }
-    } else{
+  void _checkUserAndNavigate() async {
+    bool isUserValid = await AuthService.checkUserUtente();
+    if (!isUserValid) {
       Navigator.pushNamed(context, AppRoutes.home);
     }
   }
@@ -68,7 +66,6 @@ class _AlloggiTemporaneiState extends State<AlloggiTemporanei> {
   /// descrizione e un'immagine di anteprima dell'alloggio.
   @override
   Widget build(BuildContext context) {
-    checkUser(context);
     return Scaffold(
       appBar: GenericAppBar(
         showBackButton: true,
@@ -149,7 +146,26 @@ class _AlloggiTemporaneiState extends State<AlloggiTemporanei> {
 }
 
 /// visualizza i dettagli di un alloggio
-class DetailsAlloggio extends StatelessWidget {
+class DetailsAlloggio extends StatefulWidget {
+  @override
+  State<DetailsAlloggio> createState() => _DetailsAlloggioState();
+}
+
+class _DetailsAlloggioState extends State<DetailsAlloggio> {
+
+  @override
+  void initState() {
+    super.initState();
+    _checkUserAndNavigate();
+  }
+
+  void _checkUserAndNavigate() async {
+    bool isUserValid = await AuthService.checkUserUtente();
+    if (!isUserValid) {
+      Navigator.pushNamed(context, AppRoutes.home);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final AlloggioTemporaneoDTO alloggio =

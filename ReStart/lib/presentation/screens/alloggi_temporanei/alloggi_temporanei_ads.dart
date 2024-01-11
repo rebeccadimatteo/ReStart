@@ -1,6 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:restart_all_in_one/model/entity/alloggio_temporaneo_DTO.dart';
+import '../../../utils/auth_service.dart';
+import '../../../utils/jwt_constants.dart';
+import '../../../utils/jwt_utils.dart';
 import '../../components/app_bar_ads.dart';
 import '../../components/generic_app_bar.dart';
 import 'package:http/http.dart' as http;
@@ -18,6 +22,14 @@ class _AlloggiTemporaneiState extends State<AlloggiTemporaneiAds> {
   void initState() {
     super.initState();
     fetchDataFromServer();
+    _checkUserAndNavigate();
+  }
+
+  void _checkUserAndNavigate() async {
+    bool isUserValid = await AuthService.checkUserADS();
+    if (!isUserValid) {
+      Navigator.pushNamed(context, AppRoutes.home);
+    }
   }
 
   /// Effettua una richiesta asincrona al server per ottenere dati sugli alloggi.
@@ -35,9 +47,9 @@ class _AlloggiTemporaneiState extends State<AlloggiTemporaneiAds> {
       final Map<String, dynamic> responseBody = json.decode(response.body);
       if (responseBody.containsKey('alloggi')) {
         final List<AlloggioTemporaneoDTO> data =
-        List<Map<String, dynamic>>.from(responseBody['alloggi'])
-            .map((json) => AlloggioTemporaneoDTO.fromJson(json))
-            .toList();
+            List<Map<String, dynamic>>.from(responseBody['alloggi'])
+                .map((json) => AlloggioTemporaneoDTO.fromJson(json))
+                .toList();
         setState(() {
           alloggi = data;
         });
@@ -109,23 +121,24 @@ class _AlloggiTemporaneiState extends State<AlloggiTemporaneiAds> {
                   },
                   child: Padding(
                     padding:
-                    const EdgeInsets.only(left: 5, bottom: 5, right: 5),
+                        const EdgeInsets.only(left: 5, bottom: 5, right: 5),
                     child: ListTile(
                       visualDensity:
-                      const VisualDensity(vertical: 4, horizontal: 4),
+                          const VisualDensity(vertical: 4, horizontal: 4),
                       minVerticalPadding: 50,
                       minLeadingWidth: 80,
                       tileColor: Colors.grey,
                       leading: CircleAvatar(
                           radius: 35,
-                          backgroundImage: AssetImage(alloggio.immagine)
-                      ),
-                      title: Text(alloggio.nome,
+                          backgroundImage: AssetImage(alloggio.immagine)),
+                      title: Text(
+                        alloggio.nome,
                         style: const TextStyle(
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                      ),),
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
+                      ),
                       subtitle: Text(alloggio.descrizione),
                       trailing: IconButton(
                         icon: const Icon(Icons.delete,
@@ -147,11 +160,29 @@ class _AlloggiTemporaneiState extends State<AlloggiTemporaneiAds> {
 }
 
 /// visualizza i dettagli di un alloggio
-class DetailsAlloggioAds extends StatelessWidget {
+class DetailsAlloggioAds extends StatefulWidget {
+  @override
+  State<DetailsAlloggioAds> createState() => _DetailsAlloggioAdsState();
+}
+
+class _DetailsAlloggioAdsState extends State<DetailsAlloggioAds> {
+  @override
+  void initState() {
+    super.initState();
+    _checkUserAndNavigate();
+  }
+
+  void _checkUserAndNavigate() async {
+    bool isUserValid = await AuthService.checkUserADS();
+    if (!isUserValid) {
+      Navigator.pushNamed(context, AppRoutes.home);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final AlloggioTemporaneoDTO alloggio =
-    ModalRoute.of(context)?.settings.arguments as AlloggioTemporaneoDTO;
+        ModalRoute.of(context)?.settings.arguments as AlloggioTemporaneoDTO;
     return Scaffold(
       appBar: AdsAppBar(
         showBackButton: true,

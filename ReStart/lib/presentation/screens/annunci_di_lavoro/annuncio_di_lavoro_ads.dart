@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:restart_all_in_one/model/entity/annuncio_di_lavoro_DTO.dart';
+import '../../../utils/auth_service.dart';
 import '../../components/app_bar_ads.dart';
 import 'package:http/http.dart' as http;
 
@@ -18,6 +19,14 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroAds> {
   void initState() {
     super.initState();
     fetchDataFromServer();
+    _checkUserAndNavigate();
+  }
+
+  void _checkUserAndNavigate() async {
+    bool isUserValid = await AuthService.checkUserADS();
+    if (!isUserValid) {
+      Navigator.pushNamed(context, AppRoutes.home);
+    }
   }
 
   /// Effettua una richiesta asincrona al server per ottenere dati sugli alloggi.

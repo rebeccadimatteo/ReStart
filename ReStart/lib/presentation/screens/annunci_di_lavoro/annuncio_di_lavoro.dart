@@ -4,6 +4,7 @@ import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:restart_all_in_one/model/entity/annuncio_di_lavoro_DTO.dart';
 import 'package:restart_all_in_one/utils/jwt_utils.dart';
 import 'package:shelf_router/shelf_router.dart';
+import '../../../utils/auth_service.dart';
 import '../../../utils/jwt_constants.dart';
 import '../../components/generic_app_bar.dart';
 import 'package:http/http.dart' as http;
@@ -21,16 +22,13 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoro> {
   @override
   void initState() {
     super.initState();
+    _checkUserAndNavigate();
     fetchDataFromServer();
   }
 
-  Future<void> checkUser(BuildContext context) async {
-    var token = await SessionManager().get("token");
-    if(token != null) {
-      if (!JWTUtils.verifyAccessToken(accessToken: await token, secretKey: JWTConstants.accessTokenSecretKeyForUtente)) {
-        Navigator.pushNamed(context, AppRoutes.home);
-      }
-    } else{
+  void _checkUserAndNavigate() async {
+    bool isUserValid = await AuthService.checkUserUtente();
+    if (!isUserValid) {
       Navigator.pushNamed(context, AppRoutes.home);
     }
   }
@@ -69,7 +67,6 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoro> {
   /// lista 'annunci'.
   @override
   Widget build(BuildContext context) {
-    checkUser(context);
     return Scaffold(
       appBar: GenericAppBar(
         showBackButton: true,
@@ -138,7 +135,25 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoro> {
 
 /// Visualizza i dettagli di [AnnunciDiLavoro]
 
-class DetailsLavoro extends StatelessWidget {
+class DetailsLavoro extends StatefulWidget {
+  @override
+  State<DetailsLavoro> createState() => _DetailsLavoroState();
+}
+
+class _DetailsLavoroState extends State<DetailsLavoro> {
+  @override
+  void initState() {
+    super.initState();
+    _checkUserAndNavigate();
+  }
+
+  void _checkUserAndNavigate() async {
+    bool isUserValid = await AuthService.checkUserUtente();
+    if (!isUserValid) {
+      Navigator.pushNamed(context, AppRoutes.home);
+    }
+  }
+
   late String username;
 
   Future<void> apply(int idL, BuildContext context) async {
@@ -152,7 +167,8 @@ class DetailsLavoro extends StatelessWidget {
     sendDataToServer(dataToServer, context);
   }
 
-  Future<void> sendDataToServer(String dataToServer, BuildContext context) async {
+  Future<void> sendDataToServer(
+      String dataToServer, BuildContext context) async {
     final response = await http.post(
       Uri.parse('http://10.0.2.2:8080/candidaturaLavoro/apply'),
       body: dataToServer,

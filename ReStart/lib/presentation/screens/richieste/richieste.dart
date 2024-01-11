@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../../../model/entity/annuncio_di_lavoro_DTO.dart';
 import '../../../model/entity/evento_DTO.dart';
+import '../../../utils/auth_service.dart';
 import '../../components/app_bar_ads.dart';
 import '../../components/generic_app_bar.dart';
 import '../routes/routes.dart';
@@ -21,6 +22,13 @@ class _RichiesteState extends State<Richieste> {
     super.initState();
     fetchEventiFromServer();
     fetchAnnunciFromServer();
+    _checkUserAndNavigate();
+  }
+  void _checkUserAndNavigate() async {
+    bool isUserValid = await AuthService.checkUserADS();
+    if (!isUserValid) {
+      Navigator.pushNamed(context, AppRoutes.home);
+    }
   }
 
   Future<void> fetchEventiFromServer() async {

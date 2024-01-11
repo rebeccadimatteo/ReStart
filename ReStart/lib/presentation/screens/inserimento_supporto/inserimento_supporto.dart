@@ -2,6 +2,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../model/entity/supporto_medico_DTO.dart';
+import '../../../utils/auth_service.dart';
 import '../../../utils/utils.dart';
 import '../../components/generic_app_bar.dart';
 import 'package:http/http.dart' as http;
@@ -9,6 +10,8 @@ import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as path;
 import 'dart:convert';
+
+import '../routes/routes.dart';
 
 ///Classe che rappresenta la schermata per inserire un SupportoMedico
 class InserisciSupporto extends StatefulWidget {
@@ -18,6 +21,17 @@ class InserisciSupporto extends StatefulWidget {
 /// Classe associata a [InserisciSupporto] e gestisce la logica e l'interazione
 /// dell'interfaccia utente per inserire un nuovo supporto medico.
 class _InserisciSupportoState extends State<InserisciSupporto> {
+  @override
+  void initState() {
+    super.initState();
+    _checkUserAndNavigate();
+  }
+  void _checkUserAndNavigate() async {
+    bool isUserValid = await AuthService.checkUserADS();
+    if (!isUserValid) {
+      Navigator.pushNamed(context, AppRoutes.home);
+    }
+  }
   XFile? _image;
   final _formKey = GlobalKey<FormState>();
 

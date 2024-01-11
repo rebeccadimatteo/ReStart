@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../model/entity/utente_DTO.dart';
+import '../../../utils/auth_service.dart';
 import '../../../utils/jwt_constants.dart';
 import '../../../utils/jwt_utils.dart';
 import '../../components/generic_app_bar.dart';
@@ -17,15 +18,10 @@ class Profilo extends StatefulWidget {
 }
 
 class _ProfiloState extends State<Profilo> {
-  Future<void> checkUser(BuildContext context) async {
-    var token = await SessionManager().get("token");
-    if (token != null) {
-      if (!JWTUtils.verifyAccessToken(
-          accessToken: await token,
-          secretKey: JWTConstants.accessTokenSecretKeyForUtente)) {
-        Navigator.pushNamed(context, AppRoutes.home);
-      }
-    } else {
+
+  void _checkUserAndNavigate() async {
+    bool isUserValid = await AuthService.checkUserUtente();
+    if (!isUserValid) {
       Navigator.pushNamed(context, AppRoutes.home);
     }
   }
@@ -53,6 +49,7 @@ class _ProfiloState extends State<Profilo> {
         provincia: 'provincia',
         lavoro_adatto: 'lavoro_adatto');
     fetchProfiloFromServer();
+    _checkUserAndNavigate();
   }
 
   Future<void> fetchProfiloFromServer() async {
@@ -97,7 +94,6 @@ class _ProfiloState extends State<Profilo> {
 
   @override
   Widget build(BuildContext context) {
-    checkUser(context);
     double screenWidth = MediaQuery.of(context).size.width;
     double buttonWidth = screenWidth * 0.1;
     double buttonHeight = screenWidth * 0.1;
@@ -318,6 +314,19 @@ class ProfiloEdit extends StatefulWidget {
 }
 
 class _ProfiloEditState extends State<ProfiloEdit> {
+
+  @override
+  void initState() {
+    super.initState();
+    _checkUserAndNavigate();
+  }
+
+  void _checkUserAndNavigate() async {
+    bool isUserValid = await AuthService.checkUserUtente();
+    if (!isUserValid) {
+      Navigator.pushNamed(context, AppRoutes.home);
+    }
+  }
   XFile? _image;
 
   void selectImage() async {
@@ -344,18 +353,6 @@ class _ProfiloEditState extends State<ProfiloEdit> {
   final TextEditingController cittaController = TextEditingController();
   final TextEditingController provinciaController = TextEditingController();
 
-  Future<void> checkUser(BuildContext context) async {
-    var token = await SessionManager().get("token");
-    if (token != null) {
-      if (!JWTUtils.verifyAccessToken(
-          accessToken: await token,
-          secretKey: JWTConstants.accessTokenSecretKeyForUtente)) {
-        Navigator.pushNamed(context, AppRoutes.home);
-      }
-    } else {
-      Navigator.pushNamed(context, AppRoutes.home);
-    }
-  }
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
@@ -448,7 +445,6 @@ class _ProfiloEditState extends State<ProfiloEdit> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double avatarSize = screenWidth * 0.3;
-    checkUser(context);
     return Scaffold(
       appBar: GenericAppBar(
         showBackButton: true,

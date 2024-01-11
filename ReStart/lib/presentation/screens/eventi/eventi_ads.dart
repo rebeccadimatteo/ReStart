@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import '../../../model/entity/evento_DTO.dart';
+import '../../../utils/auth_service.dart';
 import '../../components/app_bar_ads.dart';
 import 'package:http/http.dart' as http;
 import '../routes/routes.dart';
@@ -20,6 +21,14 @@ class _CommunityEventsState extends State<CommunityEventsAds> {
   void initState() {
     super.initState();
     fetchDataFromServer();
+    _checkUserAndNavigate();
+  }
+
+  void _checkUserAndNavigate() async {
+    bool isUserValid = await AuthService.checkUserADS();
+    if (!isUserValid) {
+      Navigator.pushNamed(context, AppRoutes.home);
+    }
   }
 
   /// Metodo che permette di inviare la richiesta al server per ottenere la lista di tutti i [SupportoMedicoDTO] presenti nel database

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:restart_all_in_one/model/entity/annuncio_di_lavoro_DTO.dart';
 import '../../../model/entity/evento_DTO.dart';
+import '../../../utils/auth_service.dart';
 import '../../../utils/jwt_constants.dart';
 import '../../../utils/jwt_utils.dart';
 import '../../components/generic_app_bar.dart';
@@ -24,19 +25,16 @@ class _HomeUtenteState extends State<HomeUtente> {
     super.initState();
     fetchEventiFromServer();
     fetchLavoriFromServer();
+    _checkUserAndNavigate();
   }
-  Future<void> checkUser(BuildContext context) async {
-    var token = await SessionManager().get("token");
-    if(token != null) {
-      if (!JWTUtils.verifyAccessToken(accessToken: await token, secretKey: JWTConstants.accessTokenSecretKeyForUtente)) {
-        Navigator.pushNamed(context, AppRoutes.home);
-      } else {
-        print("benvenuto!!");
-      }
-    } else{
+
+  void _checkUserAndNavigate() async {
+    bool isUserValid = await AuthService.checkUserUtente();
+    if (!isUserValid) {
       Navigator.pushNamed(context, AppRoutes.home);
     }
   }
+
   Future<void> fetchEventiFromServer() async {
     final response = await http.post(
         Uri.parse('http://10.0.2.2:8080/gestioneEvento/visualizzaEventi'));
@@ -81,7 +79,6 @@ class _HomeUtenteState extends State<HomeUtente> {
 
   @override
   Widget build(BuildContext context) {
-    checkUser(context);
     /// Restituisce uno scaffold, dove appbar e drawer presi dal file generic_app_bar.dart.
     /// Il tutto è ancora statico, manca la connessione al backend.
     return Scaffold(

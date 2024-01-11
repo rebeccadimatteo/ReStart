@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
+import '../../../utils/auth_service.dart';
 import '../../../utils/jwt_constants.dart';
 import '../../../utils/jwt_utils.dart';
 import '../../components/app_bar_ads.dart';
@@ -11,20 +12,20 @@ class HomeAds extends StatefulWidget {
 
 class _HomeAdsState extends State<HomeAds> {
 
-  Future<void> checkUser(BuildContext context) async {
-    var token = await SessionManager().get("token");
-    if(token != null) {
-      if (!JWTUtils.verifyAccessToken(accessToken: await token, secretKey: JWTConstants.accessTokenSecretKeyForADS)) {
-        Navigator.pushNamed(context, AppRoutes.home);
-      }
-    } else{
+  @override
+  void initState() {
+    super.initState();
+    _checkUserAndNavigate();
+  }
+  void _checkUserAndNavigate() async {
+    bool isUserValid = await AuthService.checkUserADS();
+    if (!isUserValid) {
       Navigator.pushNamed(context, AppRoutes.home);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    checkUser(context);
     return Scaffold(
       appBar: AdsAppBar(
         showBackButton: false,

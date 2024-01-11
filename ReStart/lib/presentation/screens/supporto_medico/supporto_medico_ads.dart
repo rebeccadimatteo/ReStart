@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import '../../../model/entity/supporto_medico_DTO.dart';
+import '../../../utils/auth_service.dart';
 import '../../components/app_bar_ads.dart';
 import '../../components/generic_app_bar.dart';
 import 'package:http/http.dart' as http;
@@ -22,8 +23,14 @@ class _SupportoMedicoState extends State<SupportoMedicoAds> {
   void initState() {
     super.initState();
     fetchDataFromServer();
+    _checkUserAndNavigate();
   }
-
+  void _checkUserAndNavigate() async {
+    bool isUserValid = await AuthService.checkUserADS();
+    if (!isUserValid) {
+      Navigator.pushNamed(context, AppRoutes.home);
+    }
+  }
   /// Metodo che permette di inviare la richiesta al server per ottenere la lista di tutti i [SupportoMedicoDTO] presenti nel database
   Future<void> fetchDataFromServer() async {
     final response = await http.post(Uri.parse(
@@ -134,7 +141,24 @@ class _SupportoMedicoState extends State<SupportoMedicoAds> {
   }
 }
 
-class DetailsSupportoAds extends StatelessWidget {
+class DetailsSupportoAds extends StatefulWidget {
+  @override
+  State<DetailsSupportoAds> createState() => _DetailsSupportoAdsState();
+}
+
+class _DetailsSupportoAdsState extends State<DetailsSupportoAds> {
+
+  @override
+  void initState() {
+    super.initState();
+    _checkUserAndNavigate();
+  }
+  void _checkUserAndNavigate() async {
+    bool isUserValid = await AuthService.checkUserADS();
+    if (!isUserValid) {
+      Navigator.pushNamed(context, AppRoutes.home);
+    }
+  }
   @override
   Widget build(BuildContext context) {
     final SupportoMedicoDTO supporto =

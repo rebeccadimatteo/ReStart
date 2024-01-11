@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import '../../../model/entity/supporto_medico_DTO.dart';
+import '../../../utils/auth_service.dart';
 import '../../../utils/jwt_constants.dart';
 import '../../../utils/jwt_utils.dart';
 import '../../components/generic_app_bar.dart';
@@ -24,15 +25,12 @@ class _SupportoMedicoState extends State<SupportoMedico> {
   void initState() {
     super.initState();
     fetchDataFromServer();
+    _checkUserAndNavigate();
   }
 
-  Future<void> checkUser(BuildContext context) async {
-    var token = await SessionManager().get("token");
-    if(token != null) {
-      if (!JWTUtils.verifyAccessToken(accessToken: await token, secretKey: JWTConstants.accessTokenSecretKeyForUtente)) {
-        Navigator.pushNamed(context, AppRoutes.home);
-      }
-    } else{
+  void _checkUserAndNavigate() async {
+    bool isUserValid = await AuthService.checkUserUtente();
+    if (!isUserValid) {
       Navigator.pushNamed(context, AppRoutes.home);
     }
   }
@@ -62,7 +60,6 @@ class _SupportoMedicoState extends State<SupportoMedico> {
   /// Build del widget principale della sezione [SupportoMedico], contenente tutta l'interfaccia grafica
   @override
   Widget build(BuildContext context) {
-    checkUser(context);
     return Scaffold(
       appBar: GenericAppBar(
         showBackButton: true,
@@ -128,7 +125,26 @@ class _SupportoMedicoState extends State<SupportoMedico> {
   }
 }
 
-class DetailsSupporto extends StatelessWidget {
+class DetailsSupporto extends StatefulWidget {
+  @override
+  State<DetailsSupporto> createState() => _DetailsSupportoState();
+}
+
+class _DetailsSupportoState extends State<DetailsSupporto> {
+
+  @override
+  void initState() {
+    super.initState();
+    _checkUserAndNavigate();
+  }
+
+  void _checkUserAndNavigate() async {
+    bool isUserValid = await AuthService.checkUserUtente();
+    if (!isUserValid) {
+      Navigator.pushNamed(context, AppRoutes.home);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final SupportoMedicoDTO supporto =

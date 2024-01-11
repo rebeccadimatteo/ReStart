@@ -2,9 +2,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:restart_all_in_one/model/entity/corso_di_formazione_DTO.dart';
+import '../../../utils/auth_service.dart';
 import '../../components/generic_app_bar.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io';
+
+import '../routes/routes.dart';
 
 class InserisciCorso extends StatefulWidget {
   @override
@@ -12,6 +15,17 @@ class InserisciCorso extends StatefulWidget {
 }
 
 class _InserisciCorsoState extends State<InserisciCorso> {
+  @override
+  void initState() {
+    super.initState();
+    _checkUserAndNavigate();
+  }
+  void _checkUserAndNavigate() async {
+    bool isUserValid = await AuthService.checkUserADS();
+    if (!isUserValid) {
+      Navigator.pushNamed(context, AppRoutes.home);
+    }
+  }
   XFile? _image;
   final _formKey = GlobalKey<FormState>();
 
