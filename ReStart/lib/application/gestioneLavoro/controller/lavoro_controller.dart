@@ -16,7 +16,6 @@ class GestioneLavoroController {
     _router.post('/addLavoro', _addLavoro);
     _router.post('/deleteLavoro', _deleteLavoro);
     _router.post('/modifyLavoro', _modifyLavoro);
-    _router.post('/modifyLavoro', _modifyLavoro);
     _router.post('/approveLavoro', _approveLavoro);
     _router.post('/rejectLavoro', _rejectLavoro);
     _router.post('/richiesteAnnunci',_richiesteAnnunci);
@@ -220,7 +219,7 @@ class GestioneLavoroController {
     } catch (e) {
       // Gestione degli errori durante la chiamata al servizio
       return Response.internalServerError(
-          body: 'Errore durante l\'inserimento della Candidatura: $e');
+          body: 'Errore durante il rifiuto dell\'annuncio: $e');
     }
   }
 

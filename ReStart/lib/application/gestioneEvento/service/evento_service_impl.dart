@@ -41,16 +41,17 @@ class EventoServiceImpl implements EventoService {
 
   @override
   Future<String> approveEvento(int idEvento) async {
-
-    if (await _eventoDAO.existById(idEvento) == false) return "L'evento non esiste";
+    if (await _eventoDAO.existById(idEvento) == false)
+      return "L'evento non esiste";
 
     EventoDTO? evento = await _eventoDAO.findById(idEvento);
 
     evento?.approvato = true;
 
-    if (await _eventoDAO.update(evento)) return "Approvazione effettuata";
+    if (await _eventoDAO.update(evento))
+      return "Approvazione effettuata";
 
-    return "fallito";
+    return "Approvazione fallita";
   }
 
   @override
@@ -66,14 +67,10 @@ class EventoServiceImpl implements EventoService {
 
   @override
   Future<String> rejectEvento(int idEvento) async {
+    if (await _eventoDAO.existById(idEvento) == false)
+      return "L'evento non esiste";
 
-    if (await _eventoDAO.existById(idEvento) == false) return "L'evento non esiste";
-
-    EventoDTO? evento = await _eventoDAO.findById(idEvento);
-
-    evento?.approvato = false;
-
-    if (await _eventoDAO.update(evento)) return "Rifiuto effettuato";
+    if (await _eventoDAO.removeById(idEvento)) return "Rifiuto effettuato";
 
     return "fallito";
   }

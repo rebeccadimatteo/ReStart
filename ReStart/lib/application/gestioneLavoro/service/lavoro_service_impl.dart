@@ -74,11 +74,8 @@ class LavoroServiceImpl implements LavoroService{
     if(await _lavoroDAO.existById(id_annuncio) == false){
       return "L'annuncio di lavoro non esiste";
     }
-    AnnuncioDiLavoroDTO? lavoro = await _lavoroDAO.findById(id_annuncio);
 
-    lavoro?.approvato = false;
-
-    if(await _lavoroDAO.update(lavoro)) return "Rifiuto effettuato";
+    if(await _lavoroDAO.removeById(id_annuncio)) return "Rifiuto effettuato";
 
     return "fallito";
   }

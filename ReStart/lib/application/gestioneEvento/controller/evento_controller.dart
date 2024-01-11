@@ -111,8 +111,7 @@ class GestioneEventoController {
     try {
       final String requestBody = await request.readAsString();
       final Map<String, dynamic> params = jsonDecode(requestBody);
-      final int id = params['id_evento'] ?? '';
-
+      final int id = params['id'];
       String result = await _service.approveEvento(id);
 
       String responseBody;
@@ -136,7 +135,7 @@ class GestioneEventoController {
     } catch (e) {
       // Gestione degli errori durante la chiamata al servizio
       return Response.internalServerError(
-          body: 'Errore durante l\'inserimento della Candidatura: $e');
+          body: 'Errore durante l\'approvazione dell\'evento: $e');
     }
   }
 
@@ -145,9 +144,7 @@ class GestioneEventoController {
       final String requestBody = await request.readAsString();
       final Map<String, dynamic> params = jsonDecode(requestBody);
       final int id = params['id'] ?? '';
-
       String result = await _service.rejectEvento(id);
-
       String responseBody;
 
       switch (result) {
@@ -169,7 +166,7 @@ class GestioneEventoController {
     } catch (e) {
       // Gestione degli errori durante la chiamata al servizio
       return Response.internalServerError(
-          body: 'Errore durante l\'inserimento della Candidatura: $e');
+          body: 'Errore durante il rifiuto dell\'evento: $e');
     }
   }
 

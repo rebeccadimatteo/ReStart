@@ -123,8 +123,8 @@ class EventoDAOImpl implements EventoDAO {
       Connection connection = await connector.openConnection();
       var result = await connection.execute(
         Sql.named(
-            'SELECT  e.id, e.id_ca, e.nome, e.descrizione, e.data, e.approvato, c.id, c.email,'
-                'c.sito, i.immagine, ind.via, ind.citta, ind.provincia, FROM public."Evento" as e, public."Contatti" as c, '
+            'SELECT  e.id, e.id_ca, e.nome, e.descrizione, e.data, e.approvato, c.email,'
+                'c.sito, i.immagine, ind.via, ind.citta, ind.provincia FROM public."Evento" as e, public."Contatti" as c, '
                 'public."Immagine" as i, public."Indirizzo" as ind '
                 'WHERE e.id = @id AND @id = c.id_evento AND @id = i.id_evento AND @id = ind.id_evento '),
         parameters: {'id': id},
@@ -169,8 +169,8 @@ class EventoDAOImpl implements EventoDAO {
       Connection connection = await connector.openConnection();
       var result1 = await connection.execute(
         Sql.named(
-            'UPDATE public."Evento" SET id_ca = @id_ca, nome = @nome, descrizione = @descrizione '
-                'data = @data, approvato = @approvato'
+            'UPDATE public."Evento" SET id_ca = @id_ca, nome = @nome, descrizione = @descrizione, '
+                'data = @data, approvato = @approvato '
                 'WHERE id = @id'),
         parameters: {
           'id': e?.id,
@@ -183,7 +183,7 @@ class EventoDAOImpl implements EventoDAO {
       );
 
       var result2 = await connection.execute(
-        Sql.named('UPDATE public."Contatti" SET email = @email, sito = @sito, '
+        Sql.named('UPDATE public."Contatti" SET email = @email, sito = @sito '
             'WHERE id_evento = @id_evento'),
         parameters: {
           'email': e?.email,
@@ -194,7 +194,7 @@ class EventoDAOImpl implements EventoDAO {
 
       var result3 = await connection.execute(
         Sql.named(
-            'UPDATE public."Indirizzo" SET via = @via, citta = @citta, provincia = @provincia'
+            'UPDATE public."Indirizzo" SET via = @via, citta = @citta, provincia = @provincia '
                 'WHERE id_evento = @id_evento'),
         parameters: {
           'via': e?.via,
@@ -205,7 +205,7 @@ class EventoDAOImpl implements EventoDAO {
       );
 
       var result4 = await connection.execute(
-          Sql.named('UPDATE public."Immagine" SET immagine = @immagine'
+          Sql.named('UPDATE public."Immagine" SET immagine = @immagine '
               'WHERE id_evento = @id_evento'),
           parameters: {'immagine': e?.immagine, 'id_evento': e?.id});
 
