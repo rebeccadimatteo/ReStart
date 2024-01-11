@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
+import 'package:restart_all_in_one/presentation/screens/login_signup/start.dart';
 import '../screens/routes/routes.dart';
 
 /// Classe che builda il widget per mostrare una [AppBar].
@@ -210,9 +211,9 @@ class GenericAppBar extends StatelessWidget implements PreferredSizeWidget {
                 SessionManager().remove("token");
                 SessionManager().destroy();
                 print("logout riuscito");
-                Navigator.pushNamed(
+                Navigator.pushReplacement(
                   context,
-                  AppRoutes.home,
+                  MaterialPageRoute(builder: (context) => Home()),
                 );
               },
             ),

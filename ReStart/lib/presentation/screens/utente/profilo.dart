@@ -95,12 +95,12 @@ class _ProfiloState extends State<Profilo> {
 
   @override
   Widget build(BuildContext context) {
+    checkUser(context);
     double screenWidth = MediaQuery.of(context).size.width;
     double buttonWidth = screenWidth * 0.1;
     double buttonHeight = screenWidth * 0.1;
     final String data = utente!.data_nascita.toIso8601String();
     final String dataBuona = data.substring(0,10);
-    checkUser(context);
     return MaterialApp(
         home: Scaffold(
       appBar: GenericAppBar(
