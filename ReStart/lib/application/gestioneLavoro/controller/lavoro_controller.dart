@@ -14,7 +14,6 @@ class GestioneLavoroController {
 
     _router.post('/visualizzaLavori', _visualizzaLavori);
     _router.post('/addLavoro', _addLavoro);
-    //_router.get('/detailsLavoro', _detailsLavoro);
     _router.post('/deleteLavoro', _deleteLavoro);
     _router.post('/modifyLavoro', _modifyLavoro);
     _router.post('/modifyLavoro', _modifyLavoro);
@@ -84,40 +83,6 @@ class GestioneLavoroController {
           body: 'Errore durante la visualizzazione dei supporti medici: $e');
     }
   }
-
-  /*
-Future<Response> _detailsLavoro(Request request) async {
-    try {
-      final String requestBody = await request.readAsString();
-      final Map<String, dynamic> params = parseFormBody(requestBody);
-      final int? idLavoro = int.tryParse(params['id_lavoro'] ?? '');
-
-      if (idLavoro != null) {
-        AnnuncioDiLavoroDTO? lavoroDTO = await _service.detailsLavoro(idLavoro);
-        if (lavoroDTO != null) {
-          final responseBody = jsonEncode({'result': 'details del lavoro', 'lavoro': lavoroDTO.toJson()});
-          return Response.ok(responseBody, headers: {'Content-Type': 'application/json'});
-        } else {
-           final responseBody = jsonEncode({'result': 'ID lavoro non valido'});
-      return Response(
-        HttpStatus.badRequest,
-        body: responseBody,
-        headers: {'Content-Type': 'application/json'},
-      );
-        }
-      } else {
-        final responseBody = jsonEncode({'result': 'ID lavoro non valido'});
-        return Response.badRequest(
-          body: responseBody,
-          headers: {'Content-Type': 'application/json'},
-        );
-      }
-    } catch (e) {
-      return Response.internalServerError(
-        body: 'Errore durante il recupero dei details del lavoro: $e',
-      );
-    }
-  }*/
 
   Future<Response> _deleteLavoro(Request request) async {
     try {
@@ -196,42 +161,64 @@ Future<Response> _detailsLavoro(Request request) async {
       final Map<String, dynamic> params = jsonDecode(requestBody);
       final int id = params['id'] ?? '';
 
-      if (await _service.approveLavoro(id)) {
-        final responseBody = jsonEncode({'result': "Approvazione effettuata."});
-        return Response.ok(responseBody,
-            headers: {'Content-Type': 'application/json'});
-      } else {
-        final responseBody =
-            jsonEncode({'result': 'Approvazione non effettuata.'});
-        return Response.badRequest(
-            body: responseBody, headers: {'Content-Type': 'application/json'});
+      String result = await _service.approveLavoro(id);
+
+      String responseBody;
+
+      switch (result) {
+        case "Approvazione effettuata":
+          {
+            responseBody = jsonEncode({'result': result});
+            return Response.ok(responseBody,
+                headers: {'Content-Type': 'application/json'});
+          }
+
+        default:
+          {
+            responseBody = jsonEncode({'result': result});
+            return Response.badRequest(
+                body: responseBody,
+                headers: {'Content-Type': 'application/json'});
+          }
       }
     } catch (e) {
       // Gestione degli errori durante la chiamata al servizio
       return Response.internalServerError(
-          body: 'Errore durante l\'eliminazione del lavoro: $e');
+          body: 'Errore durante l\'inserimento della Candidatura: $e');
     }
   }
 
   Future<Response> _rejectLavoro(Request request) async {
+
     try {
       final String requestBody = await request.readAsString();
       final Map<String, dynamic> params = jsonDecode(requestBody);
       final int id = params['id'] ?? '';
 
-      if (await _service.rejectLavoro(id)) {
-        final responseBody = jsonEncode({'result': "Rifiuto effettuata."});
-        return Response.ok(responseBody,
-            headers: {'Content-Type': 'application/json'});
-      } else {
-        final responseBody = jsonEncode({'result': 'Rifiuto non effettuata.'});
-        return Response.badRequest(
-            body: responseBody, headers: {'Content-Type': 'application/json'});
+      String result = await _service.rejectLavoro(id);
+
+      String responseBody;
+
+      switch (result) {
+        case "Rifiuto effettuato":
+          {
+            responseBody = jsonEncode({'result': result});
+            return Response.ok(responseBody,
+                headers: {'Content-Type': 'application/json'});
+          }
+
+        default:
+          {
+            responseBody = jsonEncode({'result': result});
+            return Response.badRequest(
+                body: responseBody,
+                headers: {'Content-Type': 'application/json'});
+          }
       }
     } catch (e) {
       // Gestione degli errori durante la chiamata al servizio
       return Response.internalServerError(
-          body: 'Errore durante l\'eliminazione del lavoro: $e');
+          body: 'Errore durante l\'inserimento della Candidatura: $e');
     }
   }
 

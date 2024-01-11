@@ -32,24 +32,24 @@ class LavoroServiceImpl implements LavoroService{
   }
 
   @override
-  Future<bool> approveLavoro(int  id_annuncio) async {
+  Future<String> approveLavoro(int id_annuncio) async {
+
     if(await _lavoroDAO.existById(id_annuncio) == false){
-      return false;
+      return "L'annuncio di lavoro non esiste";
     }
-    AnnuncioDiLavoroDTO? lavoro=await _lavoroDAO.findById(id_annuncio);
+    AnnuncioDiLavoroDTO? lavoro = await _lavoroDAO.findById(id_annuncio);
+
     lavoro?.approvato = true;
-    return _lavoroDAO.update(lavoro);
+
+    if(await _lavoroDAO.update(lavoro)) return "Approvazione effettuata";
+
+    return "fallito";
   }
 
   @override
   Future<bool> deleteLavoro(int id) {
     return _lavoroDAO.removeById(id);
   }
-/*
-  @override
-  Future<AnnuncioDiLavoroDTO?> detailsLavoro(int id) {
-    return _lavoroDAO.findById(id);
-  }*/
 
   @override
   Future<bool> modifyLavoro(AnnuncioDiLavoroDTO annuncio) {
@@ -65,25 +65,21 @@ class LavoroServiceImpl implements LavoroService{
   Future<List<AnnuncioDiLavoroDTO>> offertePubblicate(String usernameCA) {
     return _lavoroDAO.findByApprovato(usernameCA);
   }
-/*
-  @override
-  Future<UtenteDTO?> profiloUtenteCandidato(UtenteDTO? u) async {
-    return utenteDAO.findById(u?.id);
-  }*/
 
   @override
-  Future<bool> rejectLavoro(int id_annuncio) async {
+  Future<String> rejectLavoro(int id_annuncio) async {
+
     if(await _lavoroDAO.existById(id_annuncio) == false){
-      return false;
+      return "L'annuncio di lavoro non esiste";
     }
-    return _lavoroDAO.removeById(id_annuncio);
-  }
+    AnnuncioDiLavoroDTO? lavoro = await _lavoroDAO.findById(id_annuncio);
 
-  /*@override
-  Future<List<AnnuncioDiLavoroDTO>> richiestaLavoro() {
-    // TODO: implement richiestaLavoro
-    throw UnimplementedError();
-  }*/
+    lavoro?.approvato = false;
+
+    if(await _lavoroDAO.update(lavoro)) return "Rifiuto effettuato";
+
+    return "fallito";
+  }
 
   @override
   Future<List<UtenteDTO?>?> utentiCandidati(AnnuncioDiLavoroDTO annuncio) async {

@@ -16,6 +16,7 @@ class EventoServiceImpl implements EventoService {
         _caDAO = CaDAOImpl();
 
   EventoDAO get eventoDAO => _eventoDAO;
+
   CaDAO get caDAO => _caDAO;
 
   @override
@@ -27,12 +28,6 @@ class EventoServiceImpl implements EventoService {
   Future<bool> deleteEvento(int id) {
     return _eventoDAO.removeById(id);
   }
-/*
-  @override
-  Future<EventoDTO?> detailsEvento(int id) {
-    _eventoDAO.findById(id);
-    return _eventoDAO.
-  }*/
 
   @override
   Future<List<EventoDTO>> communityEvents() {
@@ -40,18 +35,22 @@ class EventoServiceImpl implements EventoService {
   }
 
   @override
-  Future<bool> modifyEvento (EventoDTO e) {
+  Future<bool> modifyEvento(EventoDTO e) {
     return _eventoDAO.update(e);
   }
 
   @override
-  Future<bool> approveEvento(int id_evento) async {
-    if(await _eventoDAO.existById(id_evento) == false){
-      return false;
-    }
-    EventoDTO? evento=await _eventoDAO.findById(id_evento);
+  Future<String> approveEvento(int idEvento) async {
+
+    if (await _eventoDAO.existById(idEvento) == false) return "L'evento non esiste";
+
+    EventoDTO? evento = await _eventoDAO.findById(idEvento);
+
     evento?.approvato = true;
-    return _eventoDAO.update(evento);
+
+    if (await _eventoDAO.update(evento)) return "Approvazione effettuata";
+
+    return "fallito";
   }
 
   @override
@@ -60,10 +59,16 @@ class EventoServiceImpl implements EventoService {
   }
 
   @override
-  Future<bool> rejectEvento(int id_evento) async {
-    if(await _eventoDAO.existById(id_evento) == false){
-      return false;
-    }
-    return _eventoDAO.removeById(id_evento);
+  Future<String> rejectEvento(int idEvento) async {
+
+    if (await _eventoDAO.existById(idEvento) == false) return "L'evento non esiste";
+
+    EventoDTO? evento = await _eventoDAO.findById(idEvento);
+
+    evento?.approvato = false;
+
+    if (await _eventoDAO.update(evento)) return "Rifiuto effettuato";
+
+    return "fallito";
   }
 }
