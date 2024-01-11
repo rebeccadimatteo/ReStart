@@ -4,6 +4,7 @@ import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:restart_all_in_one/model/entity/annuncio_di_lavoro_DTO.dart';
 import 'package:restart_all_in_one/utils/jwt_utils.dart';
 import 'package:shelf_router/shelf_router.dart';
+import '../../../utils/jwt_constants.dart';
 import '../../components/generic_app_bar.dart';
 import 'package:http/http.dart' as http;
 
@@ -21,6 +22,17 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoro> {
   void initState() {
     super.initState();
     fetchDataFromServer();
+  }
+
+  Future<void> checkUser(BuildContext context) async {
+    var token = await SessionManager().get("token");
+    if(token != null) {
+      if (!JWTUtils.verifyAccessToken(accessToken: await token, secretKey: JWTConstants.accessTokenSecretKeyForUtente)) {
+        Navigator.pushNamed(context, AppRoutes.home);
+      }
+    } else{
+      Navigator.pushNamed(context, AppRoutes.home);
+    }
   }
 
   /// Effettua una richiesta asincrona al server per ottenere dati sugli alloggi.
@@ -57,6 +69,7 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoro> {
   /// lista 'annunci'.
   @override
   Widget build(BuildContext context) {
+    checkUser(context);
     return Scaffold(
       appBar: GenericAppBar(
         showBackButton: true,

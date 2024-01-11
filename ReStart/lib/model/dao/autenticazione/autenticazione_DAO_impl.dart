@@ -176,7 +176,7 @@ class AutenticazioneDAOImpl implements AutenticazioneDAO {
       }
     } catch (e) {
       developer.log(e.toString());
-      return false;
+      return null;
     }
   }
 }

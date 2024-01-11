@@ -229,7 +229,7 @@ class UtenteDAOImpl implements UtenteDAO {
           'password': u.password,
         },
       );
-      print(result1.affectedRows);
+
       var result2 = await connection.execute(
         Sql.named(
             'UPDATE public."Contatti" SET email = @email, num_telefono = @num_telefono '
@@ -240,7 +240,7 @@ class UtenteDAOImpl implements UtenteDAO {
           'id_utente': u.id,
         },
       );
-      print(result2.affectedRows);
+
       var result3 = await connection.execute(
         Sql.named(
             'UPDATE public."Indirizzo" SET via = @via, citta = @citta, provincia = @provincia '
@@ -252,10 +252,20 @@ class UtenteDAOImpl implements UtenteDAO {
           'id_utente': u.id
         },
       );
-      print(result3.affectedRows);
+
+      var result4 = await connection.execute(
+          Sql.named('UPDATE public."Immagine" SET immagine = @immagine '
+              'WHERE id_utente = @id'),
+          parameters: {
+            'immagine': u.immagine,
+            'id': u.id
+          }
+      );
+
       if (result1.affectedRows != 0 &&
           result2.affectedRows != 0 &&
-          result3.affectedRows != 0) {
+          result3.affectedRows != 0 &&
+          result4.affectedRows != 0) {
         return true;
       }
       return false;

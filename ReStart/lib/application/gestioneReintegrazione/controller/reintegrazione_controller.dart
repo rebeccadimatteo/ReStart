@@ -1,5 +1,8 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:shelf/shelf.dart';
+import 'package:shelf_multipart/form_data.dart';
+import 'package:shelf_multipart/multipart.dart';
 
 import 'package:shelf_router/shelf_router.dart' as shelf_router;
 import '../../../model/entity/alloggio_temporaneo_DTO.dart';
@@ -23,6 +26,7 @@ class ReintegrazioneController {
     _router.post('/addSupporto', _addSupporto);
     _router.post('/visualizzaAlloggi', _visualizzaAlloggi);
     _router.post('/visualizzaSupporti', _visualizzaSupporti);
+    _router.post('/addImage', _uploadImage);
 
     // Aggiungi la route di fallback per le richieste non corrispondenti
     _router.all('/<ignored|.*>', _notFound);
@@ -111,6 +115,48 @@ class ReintegrazioneController {
       // Gestione degli errori durante la chiamata al servizio
       return Response.internalServerError(
           body: 'Errore durante l\'inserimento del corso di formazione: $e');
+    }
+  }
+
+  Future<Response> _uploadImage(Request request) async {
+    try {
+      if (!request.isMultipartForm) {
+        return Response.badRequest(body: 'Tipo di contenuto non valido.');
+      }
+
+      final parts = await request.parts;
+      String? nomeCorso;
+      List<int>? imageData;
+
+      await for (final part in parts) {
+        if (part.headers.containsKey('content-disposition')) {
+          final contentDisposition = HeaderValue.parse(part.headers['content-disposition']!);
+          final name = contentDisposition.parameters['name'];
+
+          if (name == 'nome_corso') {
+            nomeCorso = await part.toList().then((value) => utf8.decode(value.expand((i) => i).toList()));
+          } else if (name == 'immagine') {
+            imageData = await part.toList().then((value) => value.expand((i) => i).toList());
+          }
+        }
+      }
+
+      if (nomeCorso != null && imageData != null) {
+        final imagePath = 'images/image_${nomeCorso}.jpg';
+        final imageFile = File(imagePath);
+        if (await imageFile.exists()) {
+          // Elimina il file esistente
+          await imageFile.delete();
+        }
+        await imageFile.writeAsBytes(imageData);
+
+        return Response.ok('Immagine caricata con successo');
+      } else {
+        return Response.badRequest(body: 'Dati mancanti nella richiesta');
+      }
+    } catch (e) {
+      print(e);
+      return Response.internalServerError(body: 'Errore server: $e');
     }
   }
 

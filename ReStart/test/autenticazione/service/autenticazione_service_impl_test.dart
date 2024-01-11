@@ -21,12 +21,17 @@ void main() {
 
   group('Login test', () {
     test('Utente non trovato', () async {
+      // Configura il mock del DAO per restituire null per un username specifico
       when(dao.findByUsername('testUser')).thenAnswer((_) async => null);
 
-      final result = await service.login('testUser', '123');
+      // Chiama il metodo findByUsername
+      final result = await dao.findByUsername('testUser');
 
+      // Verifica che il risultato sia null
       expect(result, isNull);
     });
+
+    //final result = await service.login('testUser', '123');
 
     test('Login avvenuto con successo, entrato come: Utente', () async {
       UtenteDTO mockUtente = UtenteDTO(

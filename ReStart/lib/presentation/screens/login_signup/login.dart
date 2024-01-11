@@ -71,6 +71,20 @@ class _LoginPageState extends State<LoginPage> {
           AppRoutes.homeCA,
         );
       }
+    }else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Username o password errati',
+            style: TextStyle(
+              color: Colors.white, // Colore del testo
+              fontSize: 16, // Dimensione del testo
+            ),
+          ),
+          backgroundColor: Colors.red, // Colore di sfondo della snackbar
+          duration: Duration(seconds: 3),
+        ),
+      );
     }
   }
 

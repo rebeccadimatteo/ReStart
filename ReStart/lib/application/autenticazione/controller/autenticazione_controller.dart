@@ -1,4 +1,8 @@
 import 'dart:convert';
+import 'dart:io';
+
+import 'package:shelf_multipart/form_data.dart';
+import 'package:shelf_multipart/multipart.dart';
 
 import '../../../model/entity/ads_DTO.dart';
 import '../../../model/entity/ca_DTO.dart';
@@ -23,6 +27,7 @@ class AutenticazioneController {
     _router.post('/listaUtenti', _listaUtenti);
     _router.post('/visualizzaUtente', _visualizzaUtente);
     _router.post('/modifyUtente', _modifyUtente);
+    _router.post('/addImage', _uploadImage);
     _router.all('/<ignored|.*>', _notFound);
   }
 
@@ -171,7 +176,6 @@ class AutenticazioneController {
           citta: citta,
           provincia: provincia);
 
-      print(utente);
 
       if (await _authService.modifyUtente(utente)) {
         final responseBody = jsonEncode({'result': "Modifica effettuata."});
@@ -183,10 +187,50 @@ class AutenticazioneController {
             body: responseBody, headers: {'Content-Type': 'application/json'});
       }
     } catch (e) {
-      print(e);
       // Gestione degli errori durante la chiamata al servizio
       return Response.internalServerError(
           body: 'Errore durante la modifica dell\'utente: $e');
+    }
+  }
+
+  Future<Response> _uploadImage(Request request) async {
+    try {
+      if (!request.isMultipartForm) {
+        return Response.badRequest(body: 'Tipo di contenuto non valido.');
+      }
+
+      final parts = await request.parts;
+      String? username;
+      List<int>? imageData;
+
+      await for (final part in parts) {
+        if (part.headers.containsKey('content-disposition')) {
+          final contentDisposition = HeaderValue.parse(part.headers['content-disposition']!);
+          final name = contentDisposition.parameters['name'];
+
+          if (name == 'username') {
+            username = await part.toList().then((value) => utf8.decode(value.expand((i) => i).toList()));
+          } else if (name == 'immagine') {
+            imageData = await part.toList().then((value) => value.expand((i) => i).toList());
+          }
+        }
+      }
+
+      if (username != null && imageData != null) {
+        final imagePath = 'images/image_${username}.jpg';
+        final imageFile = File(imagePath);
+        if (await imageFile.exists()) {
+          // Elimina il file esistente
+          await imageFile.delete();
+        }
+        await imageFile.writeAsBytes(imageData);
+
+        return Response.ok('Immagine caricata con successo');
+      } else {
+        return Response.badRequest(body: 'Dati mancanti nella richiesta');
+      }
+    } catch (e) {
+      return Response.internalServerError(body: 'Errore server: $e');
     }
   }
 

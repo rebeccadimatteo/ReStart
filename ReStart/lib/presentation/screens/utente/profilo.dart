@@ -1,12 +1,12 @@
 import 'dart:convert';
-import 'dart:typed_data';
+import 'dart:io';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../model/entity/utente_DTO.dart';
+import '../../../utils/jwt_constants.dart';
 import '../../../utils/jwt_utils.dart';
-import '../../../utils/utils.dart';
 import '../../components/generic_app_bar.dart';
 import '../routes/routes.dart';
 import 'package:http/http.dart' as http;
@@ -17,6 +17,18 @@ class Profilo extends StatefulWidget {
 }
 
 class _ProfiloState extends State<Profilo> {
+
+  Future<void> checkUser(BuildContext context) async {
+    var token = await SessionManager().get("token");
+    if(token != null) {
+      if (!JWTUtils.verifyAccessToken(accessToken: await token, secretKey: JWTConstants.accessTokenSecretKeyForUtente)) {
+        Navigator.pushNamed(context, AppRoutes.home);
+      }
+    } else{
+      Navigator.pushNamed(context, AppRoutes.home);
+    }
+  }
+
   late UtenteDTO? utente;
   var token = SessionManager().get('token');
 
@@ -88,7 +100,7 @@ class _ProfiloState extends State<Profilo> {
     double buttonHeight = screenWidth * 0.1;
     final String data = utente!.data_nascita.toIso8601String();
     final String dataBuona = data.substring(0,10);
-
+    checkUser(context);
     return MaterialApp(
         home: Scaffold(
       appBar: GenericAppBar(
@@ -242,14 +254,14 @@ class ProfiloEdit extends StatefulWidget {
 
   @override
   State<ProfiloEdit> createState() => _ProfiloEditState();
-}
+  }
 
 class _ProfiloEditState extends State<ProfiloEdit> {
-  Uint8List? _image;
+  XFile? _image;
 
   void selectImage() async {
-    Uint8List img = await pickImage(ImageSource.gallery);
-    _image = img;
+    final imagePicker = ImagePicker();
+    _image = await imagePicker.pickImage(source: ImageSource.gallery);
   }
 
   final _formKey = GlobalKey<FormState>();
@@ -270,6 +282,17 @@ class _ProfiloEditState extends State<ProfiloEdit> {
   final TextEditingController viaController = TextEditingController();
   final TextEditingController cittaController = TextEditingController();
   final TextEditingController provinciaController = TextEditingController();
+
+  Future<void> checkUser(BuildContext context) async {
+    var token = await SessionManager().get("token");
+    if(token != null) {
+      if (!JWTUtils.verifyAccessToken(accessToken: await token, secretKey: JWTConstants.accessTokenSecretKeyForUtente)) {
+        Navigator.pushNamed(context, AppRoutes.home);
+      }
+    } else{
+      Navigator.pushNamed(context, AppRoutes.home);
+    }
+  }
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
@@ -303,6 +326,7 @@ class _ProfiloEditState extends State<ProfiloEdit> {
       String via = viaController.text;
       String citta = cittaController.text;
       String provincia = provinciaController.text;
+      String imagePath = 'images/image_${username}.jpg';
 
       UtenteDTO utenteEdit = UtenteDTO(
         id: u.id,
@@ -317,7 +341,7 @@ class _ProfiloEditState extends State<ProfiloEdit> {
         password: password,
         cod_fiscale: cf,
         num_telefono: numTelefono,
-        immagine: 'images/avatar.png',
+        immagine: imagePath,
         via: via,
         citta: citta,
         provincia: provincia,
@@ -328,16 +352,27 @@ class _ProfiloEditState extends State<ProfiloEdit> {
   }
 
   Future<void> sendEditProfiloToServer(UtenteDTO utenteEdit) async {
-    print("mando al server");
     final response = await http.post(
       Uri.parse('http://10.0.2.2:8080/autenticazione/modifyUtente'),
       body: jsonEncode(utenteEdit),
       headers: {'Content-Type': 'application/json'},
     );
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> responseBody = json.decode(response.body);
-      if (responseBody.containsKey('result')) {
-        print("Funziona");
+    if (response.statusCode == 200 && _image != null) {
+      final imageUrl = Uri.parse('http://10.0.2.2:8080/autenticazione/addImage');
+      final imageRequest = http.MultipartRequest('POST', imageUrl);
+
+      // Aggiungi l'immagine
+      imageRequest.files.add(await http.MultipartFile.fromPath('immagine', _image!.path));
+      //aggiungi nome utente
+      imageRequest.fields['username'] = utenteEdit.username;
+
+      final imageResponse = await imageRequest.send();
+      if (imageResponse.statusCode == 200) {
+        // L'immagine è stata caricata con successo
+        print("Immagine caricata con successo.");
+      } else {
+        // Si è verificato un errore nell'upload dell'immagine
+        print("Errore durante l'upload dell'immagine: ${imageResponse.statusCode}");
       }
     }
   }
@@ -346,7 +381,7 @@ class _ProfiloEditState extends State<ProfiloEdit> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double avatarSize = screenWidth * 0.3;
-
+    checkUser(context);
     return MaterialApp(
         home: Scaffold(
       appBar: GenericAppBar(
@@ -370,7 +405,7 @@ class _ProfiloEditState extends State<ProfiloEdit> {
                           height: avatarSize,
                           child: CircleAvatar(
                             backgroundImage: _image != null
-                                ? MemoryImage(_image!)
+                                ? MemoryImage(File(_image!.path).readAsBytesSync())
                                 : Image.asset('images/avatar.png').image,
                           ),
                         ),

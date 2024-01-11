@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_session_manager/flutter_session_manager.dart';
+import '../../../utils/jwt_constants.dart';
+import '../../../utils/jwt_utils.dart';
 import '../../components/app_bar_ca.dart';
 import '../routes/routes.dart';
 class HomeCa extends StatefulWidget {
@@ -7,8 +10,20 @@ class HomeCa extends StatefulWidget {
 }
 
 class _HomeCaState extends State<HomeCa> {
+
+  Future<void> checkUser(BuildContext context) async {
+    var token = await SessionManager().get("token");
+    if(token != null) {
+      if (!JWTUtils.verifyAccessToken(accessToken: await token, secretKey: JWTConstants.accessTokenSecretKeyForCA)) {
+        Navigator.pushNamed(context, AppRoutes.home);
+      }
+    } else{
+      Navigator.pushNamed(context, AppRoutes.home);
+    }
+  }
   @override
   Widget build(BuildContext context) {
+    checkUser(context);
     return Scaffold(
       appBar: CaAppBar(
         showBackButton: false,

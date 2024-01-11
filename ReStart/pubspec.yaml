@@ -48,6 +48,8 @@ dependencies:
   external_path: ^1.0.3
   test: ^1.24.9
   mockito: ^5.4.4
+  shelf_multipart:
+
 
 dev_dependencies:
   flutter_test:

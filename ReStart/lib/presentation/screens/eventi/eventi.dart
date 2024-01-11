@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_session_manager/flutter_session_manager.dart';
 import '../../../model/entity/evento_DTO.dart';
+import '../../../utils/jwt_constants.dart';
+import '../../../utils/jwt_utils.dart';
 import '../../components/generic_app_bar.dart';
 import 'package:http/http.dart' as http;
 import '../routes/routes.dart';
@@ -20,6 +23,17 @@ class _CommunityEventsState extends State<CommunityEvents> {
   void initState() {
     super.initState();
     fetchDataFromServer();
+  }
+
+  Future<void> checkUser(BuildContext context) async {
+    var token = await SessionManager().get("token");
+    if(token != null) {
+      if (!JWTUtils.verifyAccessToken(accessToken: await token, secretKey: JWTConstants.accessTokenSecretKeyForUtente)) {
+        Navigator.pushNamed(context, AppRoutes.home);
+      }
+    } else{
+      Navigator.pushNamed(context, AppRoutes.home);
+    }
   }
 
   /// Metodo che permette di inviare la richiesta al server per ottenere la lista di tutti i [SupportoMedicoDTO] presenti nel database
@@ -47,6 +61,7 @@ class _CommunityEventsState extends State<CommunityEvents> {
   /// Build del widget principale della sezione [CommunityEvents], contenente tutta l'interfaccia grafica
   @override
   Widget build(BuildContext context) {
+    checkUser(context);
     return Scaffold(
       appBar: GenericAppBar(
         showBackButton: true,

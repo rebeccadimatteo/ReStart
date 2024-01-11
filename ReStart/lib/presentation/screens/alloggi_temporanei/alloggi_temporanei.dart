@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:restart_all_in_one/model/entity/alloggio_temporaneo_DTO.dart';
+import '../../../utils/jwt_constants.dart';
+import '../../../utils/jwt_utils.dart';
 import '../../components/generic_app_bar.dart';
 import 'package:http/http.dart' as http;
 import '../routes/routes.dart';
@@ -17,6 +20,17 @@ class _AlloggiTemporaneiState extends State<AlloggiTemporanei> {
   void initState() {
     super.initState();
     fetchDataFromServer();
+  }
+
+  Future<void> checkUser(BuildContext context) async {
+    var token = await SessionManager().get("token");
+    if(token != null) {
+      if (!JWTUtils.verifyAccessToken(accessToken: await token, secretKey: JWTConstants.accessTokenSecretKeyForUtente)) {
+        Navigator.pushNamed(context, AppRoutes.home);
+      }
+    } else{
+      Navigator.pushNamed(context, AppRoutes.home);
+    }
   }
 
   /// Effettua una richiesta asincrona al server per ottenere dati sugli alloggi.
@@ -54,6 +68,7 @@ class _AlloggiTemporaneiState extends State<AlloggiTemporanei> {
   /// descrizione e un'immagine di anteprima dell'alloggio.
   @override
   Widget build(BuildContext context) {
+    checkUser(context);
     return Scaffold(
       appBar: GenericAppBar(
         showBackButton: true,
