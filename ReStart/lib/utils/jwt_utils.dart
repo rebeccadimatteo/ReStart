@@ -27,10 +27,10 @@ abstract class JWTUtils {
     }
   }
 
-  static String getIdFromToken({required String accessToken}) {
+  static int getIdFromToken({required String accessToken}) {
     final jwt = JWT.decode(accessToken);
     // ignore: avoid_dynamic_calls
-    return jwt.payload['userId'] as String;
+    return int.parse(jwt.payload['userId'].toString());
   }
 
   static String getUserFromToken({required String accessToken}) {
