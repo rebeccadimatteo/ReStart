@@ -17,14 +17,15 @@ class Profilo extends StatefulWidget {
 }
 
 class _ProfiloState extends State<Profilo> {
-
   Future<void> checkUser(BuildContext context) async {
     var token = await SessionManager().get("token");
-    if(token != null) {
-      if (!JWTUtils.verifyAccessToken(accessToken: await token, secretKey: JWTConstants.accessTokenSecretKeyForUtente)) {
+    if (token != null) {
+      if (!JWTUtils.verifyAccessToken(
+          accessToken: await token,
+          secretKey: JWTConstants.accessTokenSecretKeyForUtente)) {
         Navigator.pushNamed(context, AppRoutes.home);
       }
-    } else{
+    } else {
       Navigator.pushNamed(context, AppRoutes.home);
     }
   }
@@ -75,7 +76,8 @@ class _ProfiloState extends State<Profilo> {
     }
   }
 
-  Widget buildProfileField(String label, String value, TextStyle labelStyle, TextStyle valueStyle, double screenWidth) {
+  Widget buildProfileField(String label, String value, TextStyle labelStyle,
+      TextStyle valueStyle, double screenWidth) {
     return ListTile(
       title: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -100,16 +102,16 @@ class _ProfiloState extends State<Profilo> {
     double buttonWidth = screenWidth * 0.1;
     double buttonHeight = screenWidth * 0.1;
     final String data = utente!.data_nascita.toIso8601String();
-    final String dataBuona = data.substring(0,10);
-    return MaterialApp(
-        home: Scaffold(
+    final String dataBuona = data.substring(0, 10);
+    return Scaffold(
       appBar: GenericAppBar(
         showBackButton: true,
       ),
       endDrawer: GenericAppBar.buildDrawer(context),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.symmetric(vertical: screenWidth * 0.1, horizontal: screenWidth * 0.01),
+          padding: EdgeInsets.symmetric(
+              vertical: screenWidth * 0.1, horizontal: screenWidth * 0.01),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -122,96 +124,156 @@ class _ProfiloState extends State<Profilo> {
                   title: Text(
                     utente!.username,
                     style: const TextStyle(
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.bold
-                    ),
+                        fontFamily: 'Poppins', fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center,
                   ),
                 ),
               SizedBox(height: screenWidth * 0.1),
               Column(
                 children: [
-                  buildProfileField('Email', utente!.email, const TextStyle(
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.bold,
-                  ), const TextStyle(
-                    fontFamily: 'Poppins',
-                  ), screenWidth),
-                  buildProfileField('Nome', utente!.nome, const TextStyle(
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.bold,
-                  ), const TextStyle(
-                    fontFamily: 'Poppins',
-                  ), screenWidth),
-                  buildProfileField('Cognome', utente!.cognome,const TextStyle(
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.bold,
-                  ), const TextStyle(
-                    fontFamily: 'Poppins',
-                  ), screenWidth),
                   buildProfileField(
-                      'Codice fiscale', utente!.cod_fiscale, const TextStyle(
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.bold,
-                  ), const TextStyle(
-                    fontFamily: 'Poppins',
-                  ), screenWidth),
-                  buildProfileField('Data di nascita', dataBuona, const TextStyle(
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.bold,
-                  ), const TextStyle(
-                    fontFamily: 'Poppins',
-                  ), screenWidth),
-                  buildProfileField('Luogo di nascita',
-                      utente!.luogo_nascita as String, const TextStyle(
+                      'Email',
+                      utente!.email,
+                      const TextStyle(
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.bold,
-                      ), const TextStyle(
+                      ),
+                      const TextStyle(
                         fontFamily: 'Poppins',
-                      ), screenWidth),
-                  buildProfileField('Genere', utente!.genere,const TextStyle(
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.bold,
-                  ), const TextStyle(
-                    fontFamily: 'Poppins',
-                  ), screenWidth),
-                  buildProfileField('Username', utente!.username, const TextStyle(
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.bold,
-                  ), const TextStyle(
-                    fontFamily: 'Poppins',
-                  ), screenWidth),
-                  buildProfileField('Password', '*********', const TextStyle(
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.bold,
-                  ), const TextStyle(
-                    fontFamily: 'Poppins',
-                  ), screenWidth),
-                  buildProfileField('Lavoro adatto',
-                      utente!.lavoro_adatto as String, const TextStyle(
+                      ),
+                      screenWidth),
+                  buildProfileField(
+                      'Nome',
+                      utente!.nome,
+                      const TextStyle(
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.bold,
-                      ), const TextStyle(
+                      ),
+                      const TextStyle(
                         fontFamily: 'Poppins',
-                      ), screenWidth),
-                  buildProfileField('Città', utente!.citta, const TextStyle(
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.bold,
-                  ), const TextStyle(
-                    fontFamily: 'Poppins',
-                  ), screenWidth),
-                  buildProfileField('Via', utente!.via, const TextStyle(
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.bold,
-                  ), const TextStyle(
-                    fontFamily: 'Poppins',
-                  ), screenWidth),
-                  buildProfileField('Provicia', utente!.provincia, const TextStyle(
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.bold,
-                  ), const TextStyle(
-                    fontFamily: 'Poppins',
-                  ), screenWidth),
+                      ),
+                      screenWidth),
+                  buildProfileField(
+                      'Cognome',
+                      utente!.cognome,
+                      const TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold,
+                      ),
+                      const TextStyle(
+                        fontFamily: 'Poppins',
+                      ),
+                      screenWidth),
+                  buildProfileField(
+                      'Codice fiscale',
+                      utente!.cod_fiscale,
+                      const TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold,
+                      ),
+                      const TextStyle(
+                        fontFamily: 'Poppins',
+                      ),
+                      screenWidth),
+                  buildProfileField(
+                      'Data di nascita',
+                      dataBuona,
+                      const TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold,
+                      ),
+                      const TextStyle(
+                        fontFamily: 'Poppins',
+                      ),
+                      screenWidth),
+                  buildProfileField(
+                      'Luogo di nascita',
+                      utente!.luogo_nascita as String,
+                      const TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold,
+                      ),
+                      const TextStyle(
+                        fontFamily: 'Poppins',
+                      ),
+                      screenWidth),
+                  buildProfileField(
+                      'Genere',
+                      utente!.genere,
+                      const TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold,
+                      ),
+                      const TextStyle(
+                        fontFamily: 'Poppins',
+                      ),
+                      screenWidth),
+                  buildProfileField(
+                      'Username',
+                      utente!.username,
+                      const TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold,
+                      ),
+                      const TextStyle(
+                        fontFamily: 'Poppins',
+                      ),
+                      screenWidth),
+                  buildProfileField(
+                      'Password',
+                      '*********',
+                      const TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold,
+                      ),
+                      const TextStyle(
+                        fontFamily: 'Poppins',
+                      ),
+                      screenWidth),
+                  buildProfileField(
+                      'Lavoro adatto',
+                      utente!.lavoro_adatto as String,
+                      const TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold,
+                      ),
+                      const TextStyle(
+                        fontFamily: 'Poppins',
+                      ),
+                      screenWidth),
+                  buildProfileField(
+                      'Città',
+                      utente!.citta,
+                      const TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold,
+                      ),
+                      const TextStyle(
+                        fontFamily: 'Poppins',
+                      ),
+                      screenWidth),
+                  buildProfileField(
+                      'Via',
+                      utente!.via,
+                      const TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold,
+                      ),
+                      const TextStyle(
+                        fontFamily: 'Poppins',
+                      ),
+                      screenWidth),
+                  buildProfileField(
+                      'Provicia',
+                      utente!.provincia,
+                      const TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold,
+                      ),
+                      const TextStyle(
+                        fontFamily: 'Poppins',
+                      ),
+                      screenWidth),
                 ],
               ),
               SizedBox(height: screenWidth * 0.1),
@@ -244,7 +306,6 @@ class _ProfiloState extends State<Profilo> {
           ),
         ),
       ),
-    ),
     );
   }
 }
@@ -254,7 +315,7 @@ class ProfiloEdit extends StatefulWidget {
 
   @override
   State<ProfiloEdit> createState() => _ProfiloEditState();
-  }
+}
 
 class _ProfiloEditState extends State<ProfiloEdit> {
   XFile? _image;
@@ -285,11 +346,13 @@ class _ProfiloEditState extends State<ProfiloEdit> {
 
   Future<void> checkUser(BuildContext context) async {
     var token = await SessionManager().get("token");
-    if(token != null) {
-      if (!JWTUtils.verifyAccessToken(accessToken: await token, secretKey: JWTConstants.accessTokenSecretKeyForUtente)) {
+    if (token != null) {
+      if (!JWTUtils.verifyAccessToken(
+          accessToken: await token,
+          secretKey: JWTConstants.accessTokenSecretKeyForUtente)) {
         Navigator.pushNamed(context, AppRoutes.home);
       }
-    } else{
+    } else {
       Navigator.pushNamed(context, AppRoutes.home);
     }
   }
@@ -305,7 +368,8 @@ class _ProfiloEditState extends State<ProfiloEdit> {
     if (pickedDate != null && pickedDate != selectedDate) {
       setState(() {
         selectedDate = pickedDate;
-        dataNascitaController.text = DateFormat('yyyy-MM-dd').format(selectedDate!);
+        dataNascitaController.text =
+            DateFormat('yyyy-MM-dd').format(selectedDate!);
       });
     }
   }
@@ -358,11 +422,13 @@ class _ProfiloEditState extends State<ProfiloEdit> {
       headers: {'Content-Type': 'application/json'},
     );
     if (response.statusCode == 200 && _image != null) {
-      final imageUrl = Uri.parse('http://10.0.2.2:8080/autenticazione/addImage');
+      final imageUrl =
+          Uri.parse('http://10.0.2.2:8080/autenticazione/addImage');
       final imageRequest = http.MultipartRequest('POST', imageUrl);
 
       // Aggiungi l'immagine
-      imageRequest.files.add(await http.MultipartFile.fromPath('immagine', _image!.path));
+      imageRequest.files
+          .add(await http.MultipartFile.fromPath('immagine', _image!.path));
       //aggiungi nome utente
       imageRequest.fields['username'] = utenteEdit.username;
 
@@ -372,7 +438,8 @@ class _ProfiloEditState extends State<ProfiloEdit> {
         print("Immagine caricata con successo.");
       } else {
         // Si è verificato un errore nell'upload dell'immagine
-        print("Errore durante l'upload dell'immagine: ${imageResponse.statusCode}");
+        print(
+            "Errore durante l'upload dell'immagine: ${imageResponse.statusCode}");
       }
     }
   }
@@ -382,8 +449,7 @@ class _ProfiloEditState extends State<ProfiloEdit> {
     double screenWidth = MediaQuery.of(context).size.width;
     double avatarSize = screenWidth * 0.3;
     checkUser(context);
-    return MaterialApp(
-        home: Scaffold(
+    return Scaffold(
       appBar: GenericAppBar(
         showBackButton: true,
       ),
@@ -405,7 +471,8 @@ class _ProfiloEditState extends State<ProfiloEdit> {
                           height: avatarSize,
                           child: CircleAvatar(
                             backgroundImage: _image != null
-                                ? MemoryImage(File(_image!.path).readAsBytesSync())
+                                ? MemoryImage(
+                                    File(_image!.path).readAsBytesSync())
                                 : Image.asset('images/avatar.png').image,
                           ),
                         ),
@@ -517,15 +584,15 @@ class _ProfiloEditState extends State<ProfiloEdit> {
                         items: ['Maschio', 'Femmina', 'Non specificato']
                             .map<DropdownMenuItem<String>>(
                               (String value) => DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(
-                              value,
-                              style: const TextStyle(
-                                fontFamily: 'Poppins',
+                                value: value,
+                                child: Text(
+                                  value,
+                                  style: const TextStyle(
+                                    fontFamily: 'Poppins',
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                        )
+                            )
                             .toList(),
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(
@@ -613,7 +680,6 @@ class _ProfiloEditState extends State<ProfiloEdit> {
           ),
         ),
       ),
-      ),
     );
   }
 }
@@ -641,7 +707,4 @@ Widget buildProfileField(String label, String value, double screenWidth) {
       ],
     ),
   );
-}
-void main() {
-  runApp(Profilo());
 }
