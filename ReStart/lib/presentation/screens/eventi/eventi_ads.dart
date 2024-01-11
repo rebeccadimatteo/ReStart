@@ -24,15 +24,15 @@ class _CommunityEventsState extends State<CommunityEventsAds> {
 
   /// Metodo che permette di inviare la richiesta al server per ottenere la lista di tutti i [SupportoMedicoDTO] presenti nel database
   Future<void> fetchDataFromServer() async {
-    final response = await http.post(Uri.parse(
-        'http://10.0.2.2:8080/gestioneEvento/visualizzaEventi'));
+    final response = await http.post(
+        Uri.parse('http://10.0.2.2:8080/gestioneEvento/visualizzaEventi'));
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseBody = json.decode(response.body);
       if (responseBody.containsKey('eventi')) {
         final List<EventoDTO> data =
-        List<Map<String, dynamic>>.from(responseBody['eventi'])
-            .map((json) => EventoDTO.fromJson(json))
-            .toList();
+            List<Map<String, dynamic>>.from(responseBody['eventi'])
+                .map((json) => EventoDTO.fromJson(json))
+                .toList();
         setState(() {
           List<EventoDTO> newData = [];
           for (EventoDTO e in data) {
@@ -101,22 +101,22 @@ class _CommunityEventsState extends State<CommunityEventsAds> {
                   onTap: () {
                     Navigator.pushNamed(
                       context,
-                      AppRoutes.dettaglievento,
+                      AppRoutes.dettaglieventoAds,
                       arguments: evento,
                     );
                   },
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 5, bottom: 5, right: 5),
+                    padding:
+                        const EdgeInsets.only(left: 5, bottom: 5, right: 5),
                     child: ListTile(
-                      visualDensity: const VisualDensity(vertical: 4, horizontal: 4),
+                      visualDensity:
+                          const VisualDensity(vertical: 4, horizontal: 4),
                       minVerticalPadding: 50,
                       minLeadingWidth: 80,
                       tileColor: Colors.grey,
-                      leading: const CircleAvatar(
-                        radius: 35,
-                        backgroundImage: NetworkImage(
-                            'https://img.freepik.com/free-vector/men-success-laptop-relieve-work-from-home-computer-great_10045-646.jpg?size=338&ext=jpg&ga=GA1.1.1546980028.1703635200&semt=ais'),
-                      ),
+                      leading: CircleAvatar(
+                          radius: 35,
+                          backgroundImage: AssetImage(evento.immagine)),
                       title: Text(evento.nomeEvento,
                           style: const TextStyle(fontWeight: FontWeight.bold)),
                       subtitle: Text(evento.descrizione),
@@ -144,9 +144,10 @@ class _CommunityEventsState extends State<CommunityEventsAds> {
 class DetailsEventoAds extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final EventoDTO evento = ModalRoute.of(context)?.settings.arguments as EventoDTO;
+    final EventoDTO evento =
+        ModalRoute.of(context)?.settings.arguments as EventoDTO;
     final String data = evento.date.toIso8601String();
-    final String dataBuona = data.substring(0,10);
+    final String dataBuona = data.substring(0, 10);
     return Scaffold(
       appBar: AdsAppBar(
         showBackButton: true,
@@ -160,13 +161,10 @@ class DetailsEventoAds extends StatelessWidget {
             child: Container(
               width: 200,
               height: 200,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: NetworkImage(
-                      'https://img.freepik.com/free-vector/men-success-laptop-relieve-work-from-home-computer-great_10045-646.jpg?size=338&ext=jpg&ga=GA1.1.1546980028.1703635200&semt=ais'),
-                ),
+                    fit: BoxFit.cover, image: AssetImage(evento.immagine)),
               ),
             ),
           ),
@@ -207,7 +205,26 @@ class DetailsEventoAds extends StatelessWidget {
                         Text(dataBuona),
                       ],
                     ),
-                  )))
+                  ))),
+          const SizedBox(height: 20),
+          Container(
+            padding: const EdgeInsets.only(bottom: 40),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red,
+                shadowColor: Colors.grey,
+                elevation: 10,
+              ),
+              onPressed: () {
+                // deleteEvento(evento);
+              },
+              child: const Text('ELIMINA',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  )),
+            ),
+          ),
         ],
       ),
     );

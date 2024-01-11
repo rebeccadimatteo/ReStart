@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:restart_all_in_one/model/entity/alloggio_temporaneo_DTO.dart';
+import '../../components/app_bar_ads.dart';
 import '../../components/generic_app_bar.dart';
 import 'package:http/http.dart' as http;
 import '../routes/routes.dart';
@@ -48,6 +49,19 @@ class _AlloggiTemporaneiState extends State<AlloggiTemporaneiAds> {
     }
   }
 
+  Future<void> deleteAlloggio(AlloggioTemporaneoDTO alloggio) async {
+    final response = await http.post(
+        Uri.parse('http://10.0.2.2:8080/gestioneLavoro/deleteLavoro'),
+        body: jsonEncode(alloggio));
+    if (response.statusCode == 200) {
+      setState(() {
+        alloggi.remove(alloggio);
+      });
+    } else {
+      print("Eliminazione non andata a buon fine");
+    }
+  }
+
   /// Costruisce la schermata che visualizza la lista degli alloggi disponibili.
   /// La lista viene costruita dinamicamente utilizzando i dati presenti nella
   /// lista 'alloggi'. Ogni elemento della lista visualizza il nome, la
@@ -55,10 +69,10 @@ class _AlloggiTemporaneiState extends State<AlloggiTemporaneiAds> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: GenericAppBar(
+      appBar: AdsAppBar(
         showBackButton: true,
       ),
-      endDrawer: GenericAppBar.buildDrawer(context),
+      endDrawer: AdsAppBar.buildDrawer(context),
       body: Stack(
         children: [
           Positioned(
@@ -89,7 +103,7 @@ class _AlloggiTemporaneiState extends State<AlloggiTemporaneiAds> {
                   onTap: () {
                     Navigator.pushNamed(
                       context,
-                      AppRoutes.dettaglialloggio,
+                      AppRoutes.dettaglialloggioAds,
                       arguments: alloggio,
                     );
                   },
@@ -102,10 +116,9 @@ class _AlloggiTemporaneiState extends State<AlloggiTemporaneiAds> {
                       minVerticalPadding: 50,
                       minLeadingWidth: 80,
                       tileColor: Colors.grey,
-                      leading: const CircleAvatar(
-                        radius: 35,
-                        backgroundImage: NetworkImage(
-                            'https://img.freepik.com/free-photo/real-estate-broker-agent-presenting-consult-customer-decision-making-sign-insurance-form-agreement_1150-15023.jpg?w=996&t=st=1703846100~exp=1703846700~hmac=f81b22dab9dc2a0900a3cc79de365b5f367c1c4442d434f369a5e82f12cde1f9'),
+                      leading: CircleAvatar(
+                          radius: 35,
+                          backgroundImage: AssetImage(alloggio.immagine)
                       ),
                       title: Text(alloggio.nome,
                         style: const TextStyle(
@@ -118,7 +131,7 @@ class _AlloggiTemporaneiState extends State<AlloggiTemporaneiAds> {
                         icon: const Icon(Icons.delete,
                             color: Colors.red, size: 30),
                         onPressed: () {
-                          // deleteEvento(evento);
+                          deleteAlloggio(alloggio);
                         },
                       ),
                     ),
@@ -140,9 +153,10 @@ class DetailsAlloggioAds extends StatelessWidget {
     final AlloggioTemporaneoDTO alloggio =
     ModalRoute.of(context)?.settings.arguments as AlloggioTemporaneoDTO;
     return Scaffold(
-      appBar: GenericAppBar(
+      appBar: AdsAppBar(
         showBackButton: true,
       ),
+      endDrawer: AdsAppBar.buildDrawer(context),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -151,13 +165,10 @@ class DetailsAlloggioAds extends StatelessWidget {
             child: Container(
               width: 200,
               height: 200,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: NetworkImage(
-                      'https://img.freepik.com/free-photo/real-estate-broker-agent-presenting-consult-customer-decision-making-sign-insurance-form-agreement_1150-15023.jpg?w=996&t=st=1703846100~exp=1703846700~hmac=f81b22dab9dc2a0900a3cc79de365b5f367c1c4442d434f369a5e82f12cde1f9'),
-                ),
+                    fit: BoxFit.cover, image: AssetImage(alloggio.immagine)),
               ),
             ),
           ),
@@ -194,6 +205,25 @@ class DetailsAlloggioAds extends StatelessWidget {
                 Text(alloggio.email),
                 Text(alloggio.sito),
               ],
+            ),
+          ),
+          const SizedBox(height: 20),
+          Container(
+            padding: const EdgeInsets.only(bottom: 40),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red,
+                shadowColor: Colors.grey,
+                elevation: 10,
+              ),
+              onPressed: () {
+                // deleteAlloggio(alloggio);
+              },
+              child: const Text('ELIMINA',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  )),
             ),
           ),
         ],

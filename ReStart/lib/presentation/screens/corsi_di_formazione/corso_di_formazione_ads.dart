@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import '../../../model/entity/corso_di_formazione_DTO.dart';
+import '../../components/app_bar_ads.dart';
 import '../../components/generic_app_bar.dart';
 import 'package:http/http.dart' as http;
 import '../routes/routes.dart';
@@ -8,6 +9,7 @@ import '../routes/routes.dart';
 class CorsoDiFormazioneAds extends StatefulWidget {
   @override
   _CorsoDiFormazioneState createState() => _CorsoDiFormazioneState();
+
 }
 
 class _CorsoDiFormazioneState extends State<CorsoDiFormazioneAds> {
@@ -20,7 +22,7 @@ class _CorsoDiFormazioneState extends State<CorsoDiFormazioneAds> {
   }
 
   Future<void> fetchDataFromServer() async {
-    final response = await http.post(Uri.parse('http://10.0.2.2:8080/autenticazione/listaUtenti'));
+    final response = await http.post(Uri.parse('http://10.0.2.2:8080/gestioneReintegrazione/visualizzaCorsi'));
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseBody = json.decode(response.body);
       if (responseBody.containsKey('corsi')) {
@@ -38,13 +40,26 @@ class _CorsoDiFormazioneState extends State<CorsoDiFormazioneAds> {
     }
   }
 
+  Future<void> deleteCorso(CorsoDiFormazioneDTO corso) async {
+    final response = await http.post(
+        Uri.parse('http://10.0.2.2:8080/gestioneLavoro/deleteLavoro'),
+        body: jsonEncode(corso));
+    if (response.statusCode == 200) {
+      setState(() {
+        corsi.remove(corso);
+      });
+    } else {
+      print("Eliminazione non andata a buon fine");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: GenericAppBar(
+      appBar: AdsAppBar(
         showBackButton: true,
       ),
-      endDrawer: GenericAppBar.buildDrawer(context),
+      endDrawer: AdsAppBar.buildDrawer(context),
       body: Stack(
         children: [
           Positioned(
@@ -74,7 +89,7 @@ class _CorsoDiFormazioneState extends State<CorsoDiFormazioneAds> {
                   onTap: () {
                     Navigator.pushNamed(
                       context,
-                      AppRoutes.dettaglicorso,
+                      AppRoutes.dettaglicorsoAds,
                       arguments: corso,
                     );
                   },
@@ -85,10 +100,9 @@ class _CorsoDiFormazioneState extends State<CorsoDiFormazioneAds> {
                       minVerticalPadding: 50,
                       minLeadingWidth: 80,
                       tileColor: Colors.grey,
-                      leading: const CircleAvatar(
+                      leading: CircleAvatar(
                         radius: 35,
-                        backgroundImage: NetworkImage(
-                            'https://img.freepik.com/free-vector/men-success-laptop-relieve-work-from-home-computer-great_10045-646.jpg?size=338&ext=jpg&ga=GA1.1.1546980028.1703635200&semt=ais'),
+                        backgroundImage: AssetImage(corso.immagine)
                       ),
                       title: Text(corso.nomeCorso,
                           style: const TextStyle(fontWeight: FontWeight.bold)),
@@ -97,7 +111,7 @@ class _CorsoDiFormazioneState extends State<CorsoDiFormazioneAds> {
                         icon: const Icon(Icons.delete,
                             color: Colors.red, size: 30),
                         onPressed: () {
-                          // deleteCorso(corso);
+                          deleteCorso(corso);
                         },
                       ),
                     ),
@@ -119,9 +133,10 @@ class DetailsCorsoAds extends StatelessWidget {
   Widget build(BuildContext context) {
     final CorsoDiFormazioneDTO corso = ModalRoute.of(context)?.settings.arguments as CorsoDiFormazioneDTO;
     return Scaffold(
-      appBar: GenericAppBar(
+      appBar: AdsAppBar(
         showBackButton: true,
       ),
+      endDrawer: AdsAppBar.buildDrawer(context),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -130,13 +145,10 @@ class DetailsCorsoAds extends StatelessWidget {
             child: Container(
               width: 200,
               height: 200,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: NetworkImage(
-                      'https://img.freepik.com/free-vector/men-success-laptop-relieve-work-from-home-computer-great_10045-646.jpg?size=338&ext=jpg&ga=GA1.1.1546980028.1703635200&semt=ais'),
-                ),
+                    fit: BoxFit.cover, image: AssetImage(corso.immagine)),
               ),
             ),
           ),
@@ -170,7 +182,26 @@ class DetailsCorsoAds extends StatelessWidget {
                         Text(corso.urlCorso),
                       ],
                     ),
-                  )))
+                  ))),
+          const SizedBox(height: 20),
+          Container(
+            padding: const EdgeInsets.only(bottom: 40),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red,
+                shadowColor: Colors.grey,
+                elevation: 10,
+              ),
+              onPressed: () {
+                // deleteCorso(corso);
+              },
+              child: const Text('ELIMINA',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  )),
+            ),
+          ),
         ],
       ),
     );

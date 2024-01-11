@@ -15,6 +15,7 @@ import '../home/home_utente.dart';
 import '../login_signup/login.dart';
 import '../login_signup/signup.dart';
 import '../login_signup/start.dart';
+import '../richieste/richieste.dart';
 import '../supporto_medico/supporto_medico.dart';
 import '../supporto_medico/supporto_medico_ads.dart';
 import '../utente/profilo.dart';
@@ -101,7 +102,7 @@ class AppRoutes {
       dettaglicorsoAds: (context) => DetailsCorsoAds(),
       supportiAds: (context) => SupportoMedicoAds(),
       dettaglisupportoAds: (context) => DetailsSupportoAds(),
-      // richiesteAds: (context) => RichiesteAds(),
+      richiesteAds: (context) => Richieste(),
     };
   }
 }

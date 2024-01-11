@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../../../model/entity/annuncio_di_lavoro_DTO.dart';
 import '../../../model/entity/evento_DTO.dart';
-import '../../../utils/jwt_constants.dart';
-import '../../../utils/jwt_utils.dart';
+import '../../components/app_bar_ads.dart';
 import '../../components/generic_app_bar.dart';
 import '../routes/routes.dart';
 
@@ -283,10 +282,10 @@ class _RichiesteState extends State<Richieste> {
     if (eventi.isEmpty && annunci.isEmpty) {
       // Nessuna richiesta
       return Scaffold(
-        appBar: GenericAppBar(
+        appBar: AdsAppBar (
           showBackButton: true,
         ),
-        endDrawer: GenericAppBar.buildDrawer(context),
+        endDrawer: AdsAppBar.buildDrawer(context),
         body: const Center(
           child: Text(
             'Nessuna richiesta',
@@ -299,10 +298,10 @@ class _RichiesteState extends State<Richieste> {
       );
     }
     return Scaffold(
-      appBar: GenericAppBar(
+      appBar: AdsAppBar (
         showBackButton: true,
       ),
-      endDrawer: GenericAppBar.buildDrawer(context),
+      endDrawer: AdsAppBar.buildDrawer(context),
       body: ListView.builder(
         itemCount: eventi.length + annunci.length + 2,
         // Aggiungi 2 per le scritte 'Eventi' e 'Annunci di lavoro'

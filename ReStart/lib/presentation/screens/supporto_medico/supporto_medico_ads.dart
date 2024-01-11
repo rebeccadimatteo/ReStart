@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import '../../../model/entity/supporto_medico_DTO.dart';
+import '../../components/app_bar_ads.dart';
 import '../../components/generic_app_bar.dart';
 import 'package:http/http.dart' as http;
 
@@ -31,9 +32,9 @@ class _SupportoMedicoState extends State<SupportoMedicoAds> {
       final Map<String, dynamic> responseBody = json.decode(response.body);
       if (responseBody.containsKey('supporti')) {
         final List<SupportoMedicoDTO> data =
-        List<Map<String, dynamic>>.from(responseBody['supporti'])
-            .map((json) => SupportoMedicoDTO.fromJson(json))
-            .toList();
+            List<Map<String, dynamic>>.from(responseBody['supporti'])
+                .map((json) => SupportoMedicoDTO.fromJson(json))
+                .toList();
         setState(() {
           supporti = data;
         });
@@ -45,14 +46,27 @@ class _SupportoMedicoState extends State<SupportoMedicoAds> {
     }
   }
 
+  Future<void> deleteSupporto(SupportoMedicoDTO supporto) async {
+    final response = await http.post(
+        Uri.parse('http://10.0.2.2:8080/gestioneLavoro/deleteLavoro'),
+        body: jsonEncode(supporto));
+    if (response.statusCode == 200) {
+      setState(() {
+        supporti.remove(supporto);
+      });
+    } else {
+      print("Eliminazione non andata a buon fine");
+    }
+  }
+
   /// Build del widget principale della sezione [SupportoMedico], contenente tutta l'interfaccia grafica
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: GenericAppBar(
+      appBar: AdsAppBar(
         showBackButton: true,
       ),
-      endDrawer: GenericAppBar.buildDrawer(context),
+      endDrawer: AdsAppBar.buildDrawer(context),
       body: Stack(
         children: [
           Positioned(
@@ -82,24 +96,22 @@ class _SupportoMedicoState extends State<SupportoMedicoAds> {
                   onTap: () {
                     Navigator.pushNamed(
                       context,
-                      AppRoutes.dettaglisupporto,
+                      AppRoutes.dettaglisupportoAds,
                       arguments: supporto,
                     );
                   },
                   child: Padding(
                     padding:
-                    const EdgeInsets.only(left: 5, bottom: 5, right: 5),
+                        const EdgeInsets.only(left: 5, bottom: 5, right: 5),
                     child: ListTile(
                       visualDensity:
-                      const VisualDensity(vertical: 4, horizontal: 4),
+                          const VisualDensity(vertical: 4, horizontal: 4),
                       minVerticalPadding: 50,
                       minLeadingWidth: 80,
                       tileColor: Colors.grey,
-                      leading: const CircleAvatar(
-                        radius: 35,
-                        backgroundImage: NetworkImage(
-                            'https://img.freepik.com/free-vector/men-success-laptop-relieve-work-from-home-computer-great_10045-646.jpg?size=338&ext=jpg&ga=GA1.1.1546980028.1703635200&semt=ais'),
-                      ),
+                      leading: CircleAvatar(
+                          radius: 35,
+                          backgroundImage: AssetImage(supporto.immagine)),
                       title: Text(supporto.nomeMedico,
                           style: const TextStyle(fontWeight: FontWeight.bold)),
                       subtitle: Text(supporto.descrizione),
@@ -125,11 +137,13 @@ class _SupportoMedicoState extends State<SupportoMedicoAds> {
 class DetailsSupportoAds extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final SupportoMedicoDTO supporto = ModalRoute.of(context)?.settings.arguments as SupportoMedicoDTO;
+    final SupportoMedicoDTO supporto =
+        ModalRoute.of(context)?.settings.arguments as SupportoMedicoDTO;
     return Scaffold(
-      appBar: GenericAppBar(
+      appBar: AdsAppBar(
         showBackButton: true,
       ),
+      endDrawer: AdsAppBar.buildDrawer(context),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -138,13 +152,10 @@ class DetailsSupportoAds extends StatelessWidget {
             child: Container(
               width: 200,
               height: 200,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: NetworkImage(
-                      'https://img.freepik.com/free-vector/men-success-laptop-relieve-work-from-home-computer-great_10045-646.jpg?size=338&ext=jpg&ga=GA1.1.1546980028.1703635200&semt=ais'),
-                ),
+                    fit: BoxFit.cover, image: AssetImage(supporto.immagine)),
               ),
             ),
           ),
@@ -192,7 +203,26 @@ class DetailsSupportoAds extends StatelessWidget {
                             '${supporto.via}, ${supporto.citta}, ${supporto.provincia}'),
                       ],
                     ),
-                  )))
+                  ))),
+          const SizedBox(height: 20),
+          Container(
+            padding: const EdgeInsets.only(bottom: 40),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red,
+                shadowColor: Colors.grey,
+                elevation: 10,
+              ),
+              onPressed: () {
+                // deleteSupporto(supporto);
+              },
+              child: const Text('ELIMINA',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  )),
+            ),
+          ),
         ],
       ),
     );
