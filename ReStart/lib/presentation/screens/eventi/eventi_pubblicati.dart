@@ -17,6 +17,7 @@ class CommunityEventsPubblicati extends StatefulWidget {
 class _CommunityEventsState extends State<CommunityEventsPubblicati> {
   List<EventoDTO> eventi = [];
   var token = SessionManager().get("token");
+
   /// Inizializzazione dello stato, con chiamata alla funzione [fetchDataFromServer]
   @override
   void initState() {
@@ -28,7 +29,7 @@ class _CommunityEventsState extends State<CommunityEventsPubblicati> {
   Future<void> fetchDataFromServer() async {
     int idCa = JWTUtils.getIdFromToken(accessToken: await token);
     final response = await http.post(
-        Uri.parse('http://10.0.2.2:8080/gestioneEvento/visualizzaEventi'));
+        Uri.parse('http://10.0.2.2:8080/gestioneEvento/eventiPubblicati'));
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseBody = json.decode(response.body);
       if (responseBody.containsKey('eventi')) {
@@ -73,8 +74,8 @@ class _CommunityEventsState extends State<CommunityEventsPubblicati> {
         body: jsonEncode(evento));
     if (response.statusCode == 200) {
       setState(() {
-        for(EventoDTO e in eventi){
-          if(e.id == evento.id){
+        for (EventoDTO e in eventi) {
+          if (e.id == evento.id) {
             eventi.remove(e);
             break;
           }
@@ -152,7 +153,7 @@ class _CommunityEventsState extends State<CommunityEventsPubblicati> {
                               icon: const Icon(Icons.edit,
                                   color: Colors.black, size: 30),
                               onPressed: () {
-                                modifyEvento(evento); //
+                                modifyEvento(evento);
                               },
                             ),
                             IconButton(
@@ -176,10 +177,85 @@ class _CommunityEventsState extends State<CommunityEventsPubblicati> {
     );
   }
 }
+class DetailsEventoPub extends StatefulWidget{
+  @override
+  _DetailsEventoPub createState() => _DetailsEventoPub();
 
+}
 /// Build del widget che viene visualizzato quando viene selezionato un determinato evento dalla sezione [CommunityEvents]
 /// Permette di visualizzare i dettagli dell'evento selezionato
-class DetailsEventoPub extends StatelessWidget {
+class _DetailsEventoPub extends State<CommunityEventsPubblicati> {
+  List<EventoDTO> eventi = [];
+  var token = SessionManager().get("token");
+
+  /// Inizializzazione dello stato, con chiamata alla funzione [fetchDataFromServer]
+  @override
+  void initState() {
+    super.initState();
+    fetchDataFromServer();
+  }
+
+  /// Metodo che permette di inviare la richiesta al server per ottenere la lista di tutti i [EventoDTO] presenti nel database
+  Future<void> fetchDataFromServer() async {
+    //int idCa = JWTUtils.getIdFromToken(accessToken: await token);
+    final response = await http.post(
+        Uri.parse('http://10.0.2.2:8080/gestioneEvento/eventiPubblicati'));
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> responseBody = json.decode(response.body);
+      if (responseBody.containsKey('eventi')) {
+        final List<EventoDTO> data =
+        List<Map<String, dynamic>>.from(responseBody['eventi'])
+            .map((json) => EventoDTO.fromJson(json))
+            .toList();
+        setState(() {
+          List<EventoDTO> newData = [];
+          for (EventoDTO e in data) {
+            //if (e.approvato && e.id_ca == idCa) {
+              newData.add(e);
+              print(e);
+            //}
+          }
+          eventi = newData;
+        });
+      } else {
+        print('Chiave "eventi" non trovata nella risposta.');
+      }
+    } else {
+      print('Errore');
+    }
+  }
+
+  Future<void> deleteEvento(EventoDTO evento) async {
+    final response = await http.post(
+        Uri.parse('http://10.0.2.2:8080/gestioneEvento/deleteEvento'),
+        body: jsonEncode(evento));
+    if (response.statusCode == 200) {
+      setState(() {
+        eventi.remove(evento);
+      });
+    } else {
+      print("Eliminazione non andata a buon fine");
+    }
+  }
+
+  Future<void> modifyEvento(EventoDTO evento) async {
+    final response = await http.post(
+        Uri.parse('http://10.0.2.2:8080/gestioneEvento/modifyEvento'),
+        body: jsonEncode(evento));
+    if (response.statusCode == 200) {
+      setState(() {
+        for (EventoDTO e in eventi) {
+          if (e.id == evento.id) {
+            eventi.remove(e);
+            break;
+          }
+        }
+        eventi.add(evento);
+      });
+    } else {
+      print("Mofifica non andata a buon fine");
+    }
+  }
   @override
   Widget build(BuildContext context) {
     final EventoDTO evento =
@@ -244,6 +320,28 @@ class DetailsEventoPub extends StatelessWidget {
                               fontSize: 25, fontWeight: FontWeight.bold),
                         ),
                         Text(dataBuona),
+                        // Aggiunta dei pulsanti sotto la sezione "Contatti"
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            IconButton(
+                              icon: const Icon(Icons.edit,
+                                  color: Colors.black, size: 40),
+                              onPressed: () {
+                                modifyEvento(evento);
+                              },
+                            ),
+                            const SizedBox(width: 20),
+                            // Aggiungi uno spazio tra i pulsanti
+                            IconButton(
+                              icon: const Icon(Icons.delete,
+                                  color: Colors.red, size: 40),
+                              onPressed: () {
+                                deleteEvento(evento);
+                              },
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                   )))

@@ -2,7 +2,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:restart_all_in_one/model/entity/annuncio_di_lavoro_DTO.dart';
-import '../../../utils/jwt_utils.dart';
+
+//import '../../../utils/jwt_utils.dart';
 import '../../components/app_bar_ca.dart';
 import 'package:http/http.dart' as http;
 
@@ -32,30 +33,30 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroPubblicati> {
   /// viene assegnata alla variabile di stato 'alloggi'. In caso di errori
   /// nella risposta, vengono stampati messaggi di errore sulla console.
   Future<void> fetchDataFromServer() async {
-    int idCa = JWTUtils.getIdFromToken(accessToken: await token);
+    //int idCa = JWTUtils.getIdFromToken(accessToken: await token);
     final response = await http.post(
-        Uri.parse('http://10.0.2.2:8080/gestioneLavoro/visualizzaLavori'));
+        Uri.parse('http://10.0.2.2:8080/gestioneLavoro/annunciPubblicati'));
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseBody = json.decode(response.body);
       if (responseBody.containsKey('annunci')) {
         final List<AnnuncioDiLavoroDTO> data =
-            List<Map<String, dynamic>>.from(responseBody['annunci'])
-                .map((json) => AnnuncioDiLavoroDTO.fromJson(json))
-                .toList();
+        List<Map<String, dynamic>>.from(responseBody['annunci'])
+            .map((json) => AnnuncioDiLavoroDTO.fromJson(json))
+            .toList();
         setState(() {
           List<AnnuncioDiLavoroDTO> newData = [];
           for (AnnuncioDiLavoroDTO a in data) {
-            if (a.approvato && a.id_ca == idCa) {
+            //if (a.approvato && a.id_ca == idCa) {
               newData.add(a);
-            }
+            //}
           }
           annunci = newData;
         });
-      } else {
-        print('Chiave "annunci" non trovata nella risposta.');
-      }
     } else {
-      print('Errore');
+    print('Chiave "annunci" non trovata nella risposta.');
+    }
+    } else {
+    print('Errore');
     }
   }
 
@@ -78,8 +79,8 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroPubblicati> {
         body: jsonEncode(annuncio));
     if (response.statusCode == 200) {
       setState(() {
-        for(AnnuncioDiLavoroDTO a in annunci) {
-          if(a.id == annuncio.id) {
+        for (AnnuncioDiLavoroDTO a in annunci) {
+          if (a.id == annuncio.id) {
             annunci.remove(a);
             break;
           }
@@ -136,10 +137,10 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroPubblicati> {
                   },
                   child: Padding(
                     padding:
-                        const EdgeInsets.only(left: 5, bottom: 5, right: 5),
+                    const EdgeInsets.only(left: 5, bottom: 5, right: 5),
                     child: ListTile(
                       visualDensity:
-                          const VisualDensity(vertical: 4, horizontal: 4),
+                      const VisualDensity(vertical: 4, horizontal: 4),
                       minVerticalPadding: 50,
                       minLeadingWidth: 80,
                       tileColor: Colors.grey,
@@ -185,12 +186,88 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroPubblicati> {
 }
 
 /// Visualizza i dettagli di [AnnunciDiLavoro]
+class DetailsLavoroPub extends StatefulWidget{
+  @override
+  _DetailsLavoroPub createState() => _DetailsLavoroPub();
 
-class DetailsLavoroPub extends StatelessWidget {
+}
+class _DetailsLavoroPub  extends State<AnnunciDiLavoroPubblicati> {
+  List<AnnuncioDiLavoroDTO> annunci = [];
+  var token = SessionManager().get("token");
+
+  @override
+  void initState() {
+    super.initState();
+    fetchDataFromServer();
+  }
+
+  Future<void> fetchDataFromServer() async {
+    //int idCa = JWTUtils.getIdFromToken(accessToken: await token);
+    final response = await http.post(
+        Uri.parse('http://10.0.2.2:8080/gestioneLavoro/annunciPubblicati'));
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> responseBody = json.decode(response.body);
+      if (responseBody.containsKey('annunci')) {
+        final List<AnnuncioDiLavoroDTO> data =
+        List<Map<String, dynamic>>.from(responseBody['annunci'])
+            .map((json) => AnnuncioDiLavoroDTO.fromJson(json))
+            .toList();
+        setState(() {
+          List<AnnuncioDiLavoroDTO> newData = [];
+          for (AnnuncioDiLavoroDTO a in data) {
+            //if (a.approvato && a.id_ca == idCa) {
+            newData.add(a);
+            //}
+          }
+          annunci = newData;
+        });
+      } else {
+        print('Chiave "annunci" non trovata nella risposta.');
+      }
+    } else {
+      print('Errore');
+    }
+  }
+
+  Future<void> deleteLavoro(AnnuncioDiLavoroDTO annuncio) async {
+    final response = await http.post(
+        Uri.parse('http://10.0.2.2:8080/gestioneLavoro/deleteLavoro'),
+        body: jsonEncode(annuncio));
+    if (response.statusCode == 200) {
+      setState(() {
+        annunci.remove(annuncio);
+      });
+    } else {
+      print("Eliminazione non andata a buon fine");
+    }
+  }
+
+  Future<void> modifyLavoro(AnnuncioDiLavoroDTO annuncio) async {
+    final response = await http.post(
+        Uri.parse('http://10.0.2.2:8080/gestioneLavoro/modifyLavoro'),
+        body: jsonEncode(annuncio));
+    if (response.statusCode == 200) {
+      setState(() {
+        for (AnnuncioDiLavoroDTO a in annunci) {
+          if (a.id == annuncio.id) {
+            annunci.remove(a);
+            break;
+          }
+        }
+        annunci.add(annuncio);
+      });
+    } else {
+      print("Modifica non andata a buon fine");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final AnnuncioDiLavoroDTO annuncio =
-        ModalRoute.of(context)?.settings.arguments as AnnuncioDiLavoroDTO;
+    ModalRoute
+        .of(context)
+        ?.settings
+        .arguments as AnnuncioDiLavoroDTO;
     return Scaffold(
       appBar: CaAppBar(
         showBackButton: true,
@@ -248,7 +325,30 @@ class DetailsLavoroPub extends StatelessWidget {
                         Text(annuncio.numTelefono),
                         const SizedBox(width: 8),
                         Text(
-                            '${annuncio.via}, ${annuncio.citta}, ${annuncio.provincia}'),
+                            '${annuncio.via}, ${annuncio.citta}, ${annuncio
+                                .provincia}'),
+                        // Aggiunta dei pulsanti sotto la sezione "Contatti"
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            IconButton(
+                              icon: const Icon(Icons.edit,
+                                  color: Colors.black, size: 40),
+                              onPressed: () {
+                                modifyLavoro(annuncio);
+                              },
+                            ),
+                            const SizedBox(width: 20),
+                            // Aggiungi uno spazio tra i pulsanti
+                            IconButton(
+                              icon: const Icon(Icons.delete,
+                                  color: Colors.red, size: 40),
+                              onPressed: () {
+                                deleteLavoro(annuncio);
+                              },
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                   ))),
