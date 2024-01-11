@@ -14,6 +14,8 @@ abstract class EventoService {
 
   Future<bool> modifyEvento(EventoDTO e);
 
+  Future<List<EventoDTO>> richiesteEventi();
+
   Future<String> approveEvento(int id_evento);
 
   Future<String> rejectEvento(int  id_evento);

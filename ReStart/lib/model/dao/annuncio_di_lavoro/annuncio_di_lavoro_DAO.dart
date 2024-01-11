@@ -26,6 +26,7 @@ abstract class AnnuncioDiLavoroDAO {
   /// Restituisce true se l'operazione di rimozione ha avuto successo, altrimenti false.
   Future<bool> removeById(int? id);
 
-  Future<List<AnnuncioDiLavoroDTO>> findByNotApprovato(String usernameCa);
+  Future<List<AnnuncioDiLavoroDTO>> findByNotApprovato();
+
   Future<List<AnnuncioDiLavoroDTO>> findByApprovato(String usernameCa);
 }

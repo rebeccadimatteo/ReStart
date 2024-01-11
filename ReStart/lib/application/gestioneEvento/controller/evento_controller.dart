@@ -14,12 +14,14 @@ class GestioneEventoController {
 
     _router.post('/visualizzaEventi', _visualizzaEventi);
     _router.post('/addEvento', _addEvento);
-    //_router.post('/dettagliEvento', _dettagliEvento);
+    _router.post('/eventiPubblicati', _eventiPubblicati);
     _router.post('/deleteEvento', _deleteEvento);
     _router.post('/modifyEvento', _modifyEvento);
     _router.post('/approveEvento', _approveEvento);
     _router.post('/rejectEvento', _rejectEvento);
+    _router.post('/rejectEvento', _richiesteEventi);
     _router.all('/ignored|.*>', _notFound);
+
   }
 
   shelf_router.Router get router => _router;
@@ -32,7 +34,7 @@ class GestioneEventoController {
           headers: {'Content-Type': 'application/json'});
     } catch (e) {
       return Response.internalServerError(
-          body: 'Errore durante la visualizzazione dei corsi: $e');
+          body: 'Errore durante la visualizzazione degli eventi: $e');
     }
   }
 
@@ -40,7 +42,7 @@ class GestioneEventoController {
     try {
       final String requestBody = await request.readAsString();
       final Map<String, dynamic> params = jsonDecode(requestBody);
-      final int id_ca = params['id_ca'] ?? '';
+      final int idCa = params['id_ca'] ?? '';
       final String nomeEvento = params['nome'] ?? '';
       final String descrizione = params['descrizione'] ?? '';
       final DateTime date = params['data'] ?? '';
@@ -53,7 +55,7 @@ class GestioneEventoController {
       final String provincia = params['provincia'] ?? '';
 
       EventoDTO evento = EventoDTO(
-          id_ca: id_ca,
+          id_ca: idCa,
           nomeEvento: nomeEvento,
           descrizione: descrizione,
           date: date,
@@ -78,7 +80,7 @@ class GestioneEventoController {
     } catch (e) {
       // Gestione degli errori durante la chiamata al servizio
       return Response.internalServerError(
-          body: 'Errore durante l\'inserimento del corso di formazione: $e');
+          body: 'Errore durante l\'inserimento dell\'evento: $e');
     }
   }
 
@@ -104,6 +106,7 @@ class GestioneEventoController {
           body: 'Errore durante l\'eliminazione dell\'evento: $e');
     }
   }
+
   Future<Response> _approveEvento(Request request) async {
     try {
       final String requestBody = await request.readAsString();
@@ -136,6 +139,7 @@ class GestioneEventoController {
           body: 'Errore durante l\'inserimento della Candidatura: $e');
     }
   }
+
   Future<Response> _rejectEvento(Request request) async {
     try {
       final String requestBody = await request.readAsString();
@@ -187,7 +191,7 @@ class GestioneEventoController {
 
       final int id =
           params['id'] != null ? int.parse(params['id'].toString()) : 0;
-      final int id_ca =
+      final int idCa =
           params['id_ca'] != null ? int.parse(params['id_ca'].toString()) : 0;
       final String immagine = params['immagine'] ?? '';
       final String nomeEvento = params['nomeEvento'] ?? '';
@@ -200,7 +204,7 @@ class GestioneEventoController {
       final String provincia = params['provincia'] ?? '';
       EventoDTO evento = EventoDTO(
         id: id,
-        id_ca: id_ca,
+        id_ca: idCa,
         immagine: immagine,
         nomeEvento: nomeEvento,
         descrizione: descrizione,
@@ -223,10 +227,45 @@ class GestioneEventoController {
             body: responseBody, headers: {'Content-Type': 'application/json'});
       }
     } catch (e) {
-      print(e);
+
       // Gestione degli errori durante la chiamata al servizio
       return Response.internalServerError(
           body: 'Errore durante la modifica dell\'evento: $e');
+    }
+  }
+
+  Future<Response> _eventiPubblicati(Request request) async {
+    try {
+      final String requestBody = await request.readAsString();
+      final Map<String, dynamic> params = jsonDecode(requestBody);
+
+      final String username = params['username'] ?? '';
+      final List<EventoDTO> listaEventi =
+      await _service.eventiPubblicati(username);
+
+      final responseBody = jsonEncode({'eventi': listaEventi});
+      return Response.ok(responseBody,
+          headers: {'Content-Type': 'application/json'});
+    } catch (e) {
+      return Response.internalServerError(
+          body:
+          'Errore durante la visualizzazione degli eventi pubblicati: $e');
+    }
+  }
+
+  Future<Response> _richiesteEventi(Request request) async {
+    try {
+
+      final List<EventoDTO> listaEventi =
+      await _service.richiesteEventi();
+
+      final responseBody = jsonEncode({'eventi': listaEventi});
+      return Response.ok(responseBody,
+          headers: {'Content-Type': 'application/json'});
+    } catch (e) {
+      return Response.internalServerError(
+          body:
+          'Errore durante la visualizzazione degli eventi da approvare: $e');
     }
   }
 
@@ -234,19 +273,19 @@ class GestioneEventoController {
     return Response.notFound('Endpoint non trovato',
         headers: {'Content-Type': 'text/plain'});
   }
-}
 
 // Funzione per il parsing dei dati di form
-Map<String, dynamic> parseFormBody(String body) {
-  final Map<String, dynamic> formData = {};
-  final List<String> pairs = body.split("&");
-  for (final String pair in pairs) {
-    final List<String> keyValue = pair.split("=");
-    if (keyValue.length == 2) {
-      final String key = Uri.decodeQueryComponent(keyValue[0]);
-      final String value = Uri.decodeQueryComponent(keyValue[1]);
-      formData[key] = value;
+  Map<String, dynamic> parseFormBody(String body) {
+    final Map<String, dynamic> formData = {};
+    final List<String> pairs = body.split("&");
+    for (final String pair in pairs) {
+      final List<String> keyValue = pair.split("=");
+      if (keyValue.length == 2) {
+        final String key = Uri.decodeQueryComponent(keyValue[0]);
+        final String value = Uri.decodeQueryComponent(keyValue[1]);
+        formData[key] = value;
+      }
     }
+    return formData;
   }
-  return formData;
 }

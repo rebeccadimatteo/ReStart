@@ -17,4 +17,6 @@ abstract class LavoroService {
   Future<String> approveLavoro(int  id_annuncio);
 
   Future<String> rejectLavoro(int  id_annuncio);
+
+  Future<List<AnnuncioDiLavoroDTO>> richiesteAnnunci();
 }

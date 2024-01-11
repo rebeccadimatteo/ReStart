@@ -10,7 +10,8 @@ import 'annuncio_di_lavoro_DAO.dart';
 
 /// Questa classe, `AnnuncioLavoroDAOImpl`, implementa l'interfaccia `AnnuncioDiLavoroDAO`
 /// e si occupa di gestire la persistenza degli annunci di lavoro in un database PostgreSQL.
-class AnnuncioLavoroDAOImpl implements AnnuncioDiLavoroDAO {
+///
+class AnnuncioDiLavoroDAOImpl implements AnnuncioDiLavoroDAO {
   Connector connector = Connector();
   ///metodo `add` che aggiunge un nuovo annuncio nel database
   @override
@@ -217,6 +218,7 @@ class AnnuncioLavoroDAOImpl implements AnnuncioDiLavoroDAO {
 
   @override
   Future<List<AnnuncioDiLavoroDTO>> findByApprovato(String usernameCa) async {
+
     try {
       CaDAO caDAO = CaDAOImpl();
       Future<CaDTO?> caDTO = caDAO.findByUsername(usernameCa);
@@ -245,20 +247,15 @@ class AnnuncioLavoroDAOImpl implements AnnuncioDiLavoroDAO {
   }
 
   @override
-  Future<List<AnnuncioDiLavoroDTO>> findByNotApprovato(String usernameCa) async {
+  Future<List<AnnuncioDiLavoroDTO>> findByNotApprovato() async {
     try {
-      CaDAO caDAO = CaDAOImpl();
-      Future<CaDTO?> caDTO = caDAO.findByUsername(usernameCa);
-      CaDTO? ca = await caDTO;
-      int? id = ca!.id;
       Connection connection = await connector.openConnection();
       var result = await connection.execute(
         Sql.named(
             'SELECT  a.id, a.id_ca, a.nome, a.descrizione, a.data, a.approvato, c.email, '
-                'c.sito, i.immagine, ind.via, ind.citta, ind.provincia, FROM public."AnnuncioDiLavoro" as a, public."Contatti" as c, '
-                'public."Immagine" as i, public."Indirizzo" as ind, public."CA" as ca '
-                'WHERE a.id = c.id_annuncio AND a.id = i.id_annuncio AND a.id = ind.id_annuncio AND a.id_ca = ca.@id AND a.approvato=false '),
-        parameters: {'id': id},
+            'c.sito, i.immagine, ind.via, ind.citta, ind.provincia, FROM public."AnnuncioDiLavoro" as a, public."Contatti" as c, '
+            'public."Immagine" as i, public."Indirizzo" as ind, public."CA" as ca '
+            'WHERE a.id = c.id_annuncio AND a.id = i.id_annuncio AND a.id = ind.id_annuncio AND a.id_ca = ca.id AND a.approvato=false '),
       );
       List<AnnuncioDiLavoroDTO> annunci = result.map((row) {
         return AnnuncioDiLavoroDTO.fromJson(row.toColumnMap());

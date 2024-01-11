@@ -254,20 +254,15 @@ class EventoDAOImpl implements EventoDAO {
   }
 
   @override
-  Future<List<EventoDTO>> findByNotAppovato(String usernameCa) async {
+  Future<List<EventoDTO>> findByNotAppovato() async {
     try {
-      CaDAO caDAO = CaDAOImpl();
-      Future<CaDTO?> caDTO = caDAO.findByUsername(usernameCa);
-      CaDTO? ca = await caDTO;
-      int? id = ca!.id;
       Connection connection = await connector.openConnection();
       var result = await connection.execute(
         Sql.named(
             'SELECT  e.id, e.id_ca, e.nome, e.descrizione, e.data, e.approvato, c.email,'
-                'c.sito, i.immagine, ind.via, ind.citta, ind.provincia, FROM public."Evento" as e, public."Contatti" as c, '
-                'public."Immagine" as i, public."Indirizzo" as ind, public."CA" as ca '
-                'WHERE e.id = c.id_evento AND e.id = i.id_evento AND e.id = ind.id_evento AND e.id_ca = ca.@id AND e.approvato=false '),
-        parameters: {'id': id},
+            'c.sito, i.immagine, ind.via, ind.citta, ind.provincia, FROM public."Evento" as e, public."Contatti" as c, '
+            'public."Immagine" as i, public."Indirizzo" as ind, public."CA" as ca '
+            'WHERE e.id = c.id_evento AND e.id = i.id_evento AND e.id = ind.id_evento AND e.id_ca = ca.id AND e.approvato=false '),
       );
       List<EventoDTO> eventi = result.map((row) {
         return EventoDTO.fromJson(row.toColumnMap());

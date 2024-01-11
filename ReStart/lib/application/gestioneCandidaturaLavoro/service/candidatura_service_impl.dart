@@ -16,7 +16,7 @@ class CandidaturaServiceImpl implements CandidaturaService {
 
   CandidaturaServiceImpl()
       : _utenteDAO = UtenteDAOImpl(),
-        _annuncioDiLavoroDAO = AnnuncioLavoroDAOImpl(),
+        _annuncioDiLavoroDAO = AnnuncioDiLavoroDAOImpl(),
         _candidaturaDAO = CandidaturaDAOImpl();
 
   @override
