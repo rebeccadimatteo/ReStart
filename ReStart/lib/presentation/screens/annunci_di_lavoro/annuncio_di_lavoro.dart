@@ -143,7 +143,7 @@ class DetailsLavoro extends StatelessWidget {
 
   Future<void> apply(int idL, BuildContext context) async {
     var token = SessionManager().get("token");
-    username = JWTUtils.getUserIdFromToken(accessToken: await token);
+    username = JWTUtils.getUserFromToken(accessToken: await token);
     Map<String, String> data = {
       'idLavoro': idL.toString(),
       'username': username,

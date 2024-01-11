@@ -2,13 +2,15 @@ import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 
 abstract class JWTUtils {
   static String generateAccessToken({
+    required String userId,
     required String username,
     required String secretKey,
-    required String userType, // Aggiungi il tipo di utente come parametro
+    required String userType,
   }) {
     final jwt = JWT({
+      'userId': userId,  // Aggiungi l'ID dell'utente al payload
       'username': username,
-      'userType': userType, // Aggiungi il tipo di utente al payload
+      'userType': userType,
     });
 
     return jwt.sign(
@@ -16,7 +18,6 @@ abstract class JWTUtils {
       expiresIn: const Duration(days: 1),
     );
   }
-
   static bool verifyAccessToken({required String accessToken, required String secretKey}) {
     try {
       JWT.verify(accessToken, SecretKey(secretKey));
@@ -26,7 +27,13 @@ abstract class JWTUtils {
     }
   }
 
-  static String getUserIdFromToken({required String accessToken}) {
+  static String getIdFromToken({required String accessToken}) {
+    final jwt = JWT.decode(accessToken);
+    // ignore: avoid_dynamic_calls
+    return jwt.payload['userId'] as String;
+  }
+
+  static String getUserFromToken({required String accessToken}) {
     final jwt = JWT.decode(accessToken);
     // ignore: avoid_dynamic_calls
     return jwt.payload['username'] as String;

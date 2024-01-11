@@ -56,7 +56,7 @@ class _ProfiloState extends State<Profilo> {
   }
 
   Future<void> fetchProfiloFromServer() async {
-    String user = JWTUtils.getUserIdFromToken(accessToken: await token);
+    String user = JWTUtils.getUserFromToken(accessToken: await token);
     final response = await http.post(
       Uri.parse('http://10.0.2.2:8080/autenticazione/visualizzaUtente'),
       body: jsonEncode(user),

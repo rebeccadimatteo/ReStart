@@ -51,17 +51,20 @@ class AutenticazioneController {
           jwtToken = JWTUtils.generateAccessToken(
               username: username,
               secretKey: JWTConstants.accessTokenSecretKeyForUtente,
-              userType: "Utente");
+              userType: "Utente",
+              userId: user.id.toString());
         } else if (user is CaDTO) {
           jwtToken = JWTUtils.generateAccessToken(
               username: username,
               secretKey: JWTConstants.accessTokenSecretKeyForCA,
-              userType: "CA");
+              userType: "CA",
+              userId: user.id.toString());
         } else if (user is AdsDTO) {
           jwtToken = JWTUtils.generateAccessToken(
               username: username,
               secretKey: JWTConstants.accessTokenSecretKeyForADS,
-              userType: "ADS");
+              userType: "ADS",
+              userId: user.id.toString());
         }
         final responseBody = jsonEncode({'token': jwtToken});
         return Response.ok(responseBody,
