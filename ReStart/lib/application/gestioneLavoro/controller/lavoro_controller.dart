@@ -19,6 +19,8 @@ class GestioneLavoroController {
     _router.post('/modifyLavoro', _modifyLavoro);
     _router.post('/approveLavoro', _approveLavoro);
     _router.post('/rejectLavoro', _rejectLavoro);
+    _router.post('/richiesteAnnunci',_richiesteAnnunci);
+    _router.post('/annunciPubblicati', _annunciPubblicati);
 
     _router.all('/<ignored|.*>', _notFound);
   }
@@ -219,6 +221,41 @@ class GestioneLavoroController {
       // Gestione degli errori durante la chiamata al servizio
       return Response.internalServerError(
           body: 'Errore durante l\'inserimento della Candidatura: $e');
+    }
+  }
+
+  Future<Response> _annunciPubblicati(Request request) async {
+    try {
+      final String requestBody = await request.readAsString();
+      final Map<String, dynamic> params = jsonDecode(requestBody);
+
+      final String username = params['username'] ?? '';
+      final List<AnnuncioDiLavoroDTO> listaAnnunci =
+      await _service.offertePubblicate(username);
+
+      final responseBody = jsonEncode({'annunci': listaAnnunci});
+      return Response.ok(responseBody,
+          headers: {'Content-Type': 'application/json'});
+    } catch (e) {
+      return Response.internalServerError(
+          body:
+          'Errore durante la visualizzazione degli annunci pubblicati: $e');
+    }
+  }
+
+  Future<Response> _richiesteAnnunci(Request request) async {
+    try {
+
+      final List<AnnuncioDiLavoroDTO> listaAnnunci =
+          await _service.richiesteAnnunci();
+
+      final responseBody = jsonEncode({'annunci': listaAnnunci});
+      return Response.ok(responseBody,
+          headers: {'Content-Type': 'application/json'});
+    } catch (e) {
+      return Response.internalServerError(
+          body:
+          'Errore durante la visualizzazione degli annunci da approvare: $e');
     }
   }
 

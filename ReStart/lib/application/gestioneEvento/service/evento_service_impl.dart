@@ -59,6 +59,12 @@ class EventoServiceImpl implements EventoService {
   }
 
   @override
+  Future<List<EventoDTO>> richiesteEventi() {
+
+    return _eventoDAO.findByNotAppovato();
+  }
+
+  @override
   Future<String> rejectEvento(int idEvento) async {
 
     if (await _eventoDAO.existById(idEvento) == false) return "L'evento non esiste";

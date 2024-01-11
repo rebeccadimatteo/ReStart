@@ -18,7 +18,7 @@ class LavoroServiceImpl implements LavoroService{
 
   LavoroServiceImpl()
 
-      : _lavoroDAO = AnnuncioLavoroDAOImpl(),
+      : _lavoroDAO = AnnuncioDiLavoroDAOImpl(),
         _caDAO = CaDAOImpl(),
         _utenteDAO = UtenteDAOImpl();
 
@@ -66,6 +66,8 @@ class LavoroServiceImpl implements LavoroService{
     return _lavoroDAO.findByApprovato(usernameCA);
   }
 
+
+
   @override
   Future<String> rejectLavoro(int id_annuncio) async {
 
@@ -92,5 +94,10 @@ class LavoroServiceImpl implements LavoroService{
       }
     }
     return userCandidati;
+  }
+
+  @override
+  Future<List<AnnuncioDiLavoroDTO>> richiesteAnnunci() {
+      return lavoroDAO.findByNotApprovato();
   }
 }
