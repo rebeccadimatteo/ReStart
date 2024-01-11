@@ -161,13 +161,9 @@ class ReintegrazioneController {
   }
 
   Future<Response> _addSupporto(Request request) async {
-    print("sono in aggiunta supporto");
-
     try {
       final String requestBody = await request.readAsString();
       final Map<String, dynamic> params = jsonDecode(requestBody);
-
-      print(params);
 
       final String nomeMedico = params['nome'] ?? '';
       final String cognomeMedico = params['cognome'] ?? '';
@@ -180,8 +176,6 @@ class ReintegrazioneController {
       final String immagine = params['immagine'] ?? '';
       final String email = params['email'] ?? '';
 
-      print("ho recuperato i parametri");
-
       SupportoMedicoDTO supporto = SupportoMedicoDTO(
           nomeMedico: nomeMedico,
           cognomeMedico: cognomeMedico,
@@ -193,8 +187,6 @@ class ReintegrazioneController {
           via: via,
           citta: citta,
           provincia: provincia);
-
-      print(supporto);
 
       if (await _service.addSupportoMedico(supporto)) {
         final responseBody = jsonEncode({'result': "Inserimento effettuato."});

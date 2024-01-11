@@ -195,8 +195,11 @@ class UtenteDTO {
       genere: json['genere'].toString().replaceAll('[', '').replaceAll(']', ''),
       username:
           json['username'].toString().replaceAll('[', '').replaceAll(']', ''),
-      password:
-          json['password'].toString().replaceAll('[', '').replaceAll(']', ''),
+      password: json['password']
+              ?.toString()
+              .replaceAll('[', '')
+              .replaceAll(']', '') ??
+          '',
       lavoro_adatto: json['lavoro_adatto']
           .toString()
           .replaceAll('[', '')
