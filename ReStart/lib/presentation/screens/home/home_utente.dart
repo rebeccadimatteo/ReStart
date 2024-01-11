@@ -81,6 +81,7 @@ class _HomeUtenteState extends State<HomeUtente> {
 
   @override
   Widget build(BuildContext context) {
+    checkUser(context);
     /// Restituisce uno scaffold, dove appbar e drawer presi dal file generic_app_bar.dart.
     /// Il tutto è ancora statico, manca la connessione al backend.
     return Scaffold(

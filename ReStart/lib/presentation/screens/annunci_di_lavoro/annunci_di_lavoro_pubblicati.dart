@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:restart_all_in_one/model/entity/annuncio_di_lavoro_DTO.dart';
+import '../../../utils/jwt_utils.dart';
 import '../../components/app_bar_ca.dart';
 import 'package:http/http.dart' as http;
 
@@ -13,6 +15,7 @@ class AnnunciDiLavoroPubblicati extends StatefulWidget {
 
 class _AnnunciDiLavoroState extends State<AnnunciDiLavoroPubblicati> {
   List<AnnuncioDiLavoroDTO> annunci = [];
+  var token = SessionManager().get("token");
 
   @override
   void initState() {
@@ -29,6 +32,7 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroPubblicati> {
   /// viene assegnata alla variabile di stato 'alloggi'. In caso di errori
   /// nella risposta, vengono stampati messaggi di errore sulla console.
   Future<void> fetchDataFromServer() async {
+    int idCa = JWTUtils.getIdFromToken(accessToken: await token);
     final response = await http.post(
         Uri.parse('http://10.0.2.2:8080/gestioneLavoro/visualizzaLavori'));
     if (response.statusCode == 200) {
@@ -41,7 +45,7 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroPubblicati> {
         setState(() {
           List<AnnuncioDiLavoroDTO> newData = [];
           for (AnnuncioDiLavoroDTO a in data) {
-            if (a.approvato) {
+            if (a.approvato && a.id_ca == idCa) {
               newData.add(a);
             }
           }
@@ -74,7 +78,13 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroPubblicati> {
         body: jsonEncode(annuncio));
     if (response.statusCode == 200) {
       setState(() {
-        annunci.remove(annuncio); // da modificare
+        for(AnnuncioDiLavoroDTO a in annunci) {
+          if(a.id == annuncio.id) {
+            annunci.remove(a);
+            break;
+          }
+        }
+        annunci.add(annuncio);
       });
     } else {
       print("Modifica non andata a buon fine");

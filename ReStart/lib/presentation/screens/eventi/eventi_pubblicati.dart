@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_session_manager/flutter_session_manager.dart';
+import 'package:restart_all_in_one/utils/jwt_utils.dart';
 import '../../../model/entity/evento_DTO.dart';
 import '../../components/app_bar_ca.dart';
 import 'package:http/http.dart' as http;
@@ -14,7 +16,7 @@ class CommunityEventsPubblicati extends StatefulWidget {
 /// Creazione dello stato di [CommunityEvents], costituito dalla lista degli eventi
 class _CommunityEventsState extends State<CommunityEventsPubblicati> {
   List<EventoDTO> eventi = [];
-
+  var token = SessionManager().get("token");
   /// Inizializzazione dello stato, con chiamata alla funzione [fetchDataFromServer]
   @override
   void initState() {
@@ -22,8 +24,9 @@ class _CommunityEventsState extends State<CommunityEventsPubblicati> {
     fetchDataFromServer();
   }
 
-  /// Metodo che permette di inviare la richiesta al server per ottenere la lista di tutti i [SupportoMedicoDTO] presenti nel database
+  /// Metodo che permette di inviare la richiesta al server per ottenere la lista di tutti i [EventoDTO] presenti nel database
   Future<void> fetchDataFromServer() async {
+    int idCa = JWTUtils.getIdFromToken(accessToken: await token);
     final response = await http.post(
         Uri.parse('http://10.0.2.2:8080/gestioneEvento/visualizzaEventi'));
     if (response.statusCode == 200) {
@@ -36,7 +39,7 @@ class _CommunityEventsState extends State<CommunityEventsPubblicati> {
         setState(() {
           List<EventoDTO> newData = [];
           for (EventoDTO e in data) {
-            if (e.approvato) {
+            if (e.approvato && e.id_ca == idCa) {
               newData.add(e);
               print(e);
             }
@@ -70,7 +73,13 @@ class _CommunityEventsState extends State<CommunityEventsPubblicati> {
         body: jsonEncode(evento));
     if (response.statusCode == 200) {
       setState(() {
-        eventi.remove(evento); // da modificare
+        for(EventoDTO e in eventi){
+          if(e.id == evento.id){
+            eventi.remove(e);
+            break;
+          }
+        }
+        eventi.add(evento);
       });
     } else {
       print("Mofifica non andata a buon fine");

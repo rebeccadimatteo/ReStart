@@ -35,10 +35,10 @@ class _HomeCaState extends State<HomeCa> {
             hasScrollBody: false,
             child: Column(
               children: [
-                _buildFullWidthItem(context, 'OFFERTE DI LAVORO\n    PUBBLICATE', AppRoutes.annunci),// va modificata
-                _buildFullWidthItem(context, 'COMMUNITY EVENTS\n    PUBBLICATI', AppRoutes.eventi),// va modificata
-                _buildFullWidthItem(context, 'AGGIUNGI EVENTO', AppRoutes.eventi), // va modificata
-                _buildFullWidthItem(context, 'AGGIUNGI OFFERTA\nDI LAVORO', AppRoutes.annunci),// va modificata
+                _buildFullWidthItem(context, 'OFFERTE DI LAVORO\n    PUBBLICATE', AppRoutes.annuncipubblicati),
+                _buildFullWidthItem(context, 'COMMUNITY EVENTS\n    PUBBLICATI', AppRoutes.eventipubblicati),
+                _buildFullWidthItem(context, 'AGGIUNGI EVENTO', AppRoutes.addevento),
+                _buildFullWidthItem(context, 'AGGIUNGI OFFERTA\nDI LAVORO', AppRoutes.addannuncio),
               ],
             ),
           ),

@@ -95,7 +95,7 @@ class CaAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
                 ListTile(
                   title: const Text(
-                    'Community Events',
+                    'Community Events Pubblicati',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily: 'Poppins',
@@ -105,13 +105,13 @@ class CaAppBar extends StatelessWidget implements PreferredSizeWidget {
                   onTap: () {
                     Navigator.pushNamed(
                       context,
-                      AppRoutes.eventi,
+                      AppRoutes.eventipubblicati,
                     );
                   },
                 ),
                 ListTile(
                   title: const Text(
-                    'Annunci di lavoro',
+                    'Annunci di lavoro Pubblicati',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily: 'Poppins',
@@ -121,7 +121,39 @@ class CaAppBar extends StatelessWidget implements PreferredSizeWidget {
                   onTap: () {
                     Navigator.pushNamed(
                       context,
-                      AppRoutes.annunci,
+                      AppRoutes.annuncipubblicati,
+                    );
+                  },
+                ),
+                ListTile(
+                  title: const Text(
+                    'Aggiungi Evento',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      AppRoutes.addevento,
+                    );
+                  },
+                ),
+                ListTile(
+                  title: const Text(
+                    'Aggiungi Offerta di Lavoro',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      AppRoutes.addannuncio,
                     );
                   },
                 ),
