@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ffi';
 import '../service/candidatura_service_impl.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart' as shelf_router;
@@ -24,7 +23,7 @@ class CandidaturaController {
     try {
       final String requestBody = await request.readAsString();
       final Map<String, dynamic> params = jsonDecode(requestBody);
-      final int? idLavoro = int.parse(params['idLavoro']);
+      final int idLavoro = int.parse(params['idLavoro']);
       final String username = params['username'] ?? '';
 
       String result = await _service.candidatura(username, idLavoro);

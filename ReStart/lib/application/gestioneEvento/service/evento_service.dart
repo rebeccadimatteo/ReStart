@@ -6,8 +6,6 @@ abstract class EventoService {
 
   Future<List<EventoDTO>> communityEvents();
 
-  //Future<EventoDTO?> detailsEvento(int id);
-
   Future<List<EventoDTO>> eventiPubblicati(String usernameCa);
 
   Future<bool> addEvento(EventoDTO e);
@@ -16,7 +14,7 @@ abstract class EventoService {
 
   Future<bool> modifyEvento(EventoDTO e);
 
-  Future<bool> approveEvento(int id_evento);
+  Future<String> approveEvento(int id_evento);
 
-  Future<bool> rejectEvento(int  id_evento);
+  Future<String> rejectEvento(int  id_evento);
 }

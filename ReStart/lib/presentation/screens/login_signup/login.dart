@@ -71,9 +71,9 @@ class _LoginPageState extends State<LoginPage> {
           AppRoutes.homeCA,
         );
       }
-    }else {
+    } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text(
             'Username o password errati',
             style: TextStyle(
@@ -120,10 +120,10 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   Padding(
                     padding: EdgeInsets.only(
-                      left: 15.0,
-                      right: 15.0,
-                      top: 15,
-                      bottom: _isUsernameValid ? 15 : 20),
+                        left: 15.0,
+                        right: 15.0,
+                        top: 15,
+                        bottom: _isUsernameValid ? 15 : 20),
                     child: TextFormField(
                       controller: usernameController,
                       onChanged: (value) {
@@ -144,8 +144,7 @@ class _LoginPageState extends State<LoginPage> {
                           errorText: _isUsernameValid
                               ? null
                               : 'Formato username non valido \n(ex: mariorossi1 [max 15 caratteri]',
-                          errorStyle: const TextStyle(color: Colors.red)
-                      ),
+                          errorStyle: const TextStyle(color: Colors.red)),
                       style: const TextStyle(
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.bold,
