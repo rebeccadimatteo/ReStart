@@ -14,10 +14,11 @@ import 'dart:convert';
 class InserisciSupporto extends StatefulWidget {
   _InserisciSupportoState createState() => _InserisciSupportoState();
 }
+
 /// Classe associata a [InserisciSupporto] e gestisce la logica e l'interazione
 /// dell'interfaccia utente per inserire un nuovo supporto medico.
 class _InserisciSupportoState extends State<InserisciSupporto> {
-  Uint8List? _image;
+  XFile? _image;
   final _formKey = GlobalKey<FormState>();
 
   final TextEditingController nomeMedicoController = TextEditingController();
@@ -32,40 +33,10 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
 
   /// Metodo per selezionare un'immagine dalla galleria.
   void selectImage() async {
-    Uint8List img = await pickImage(ImageSource.gallery);
-    _image = img;
-
-    /// Salva l'immagine nella cartella 'images'
-    await saveImageToFolder(_image!);
+    final imagePicker = ImagePicker();
+    _image = await imagePicker.pickImage(source: ImageSource.gallery);
   }
-  /// Metodo per salvare un'immagine nella cartella 'images'.
-  Future<String> saveImageToFolder(Uint8List image) async {
-    try {
-      final appDocumentsDirectory = await getApplicationDocumentsDirectory();
-      final destination = path.join(appDocumentsDirectory.path, 'images');
 
-      /// Crea la cartella 'images' se non esiste
-      await Directory(destination).create(recursive: true);
-
-      /// Genera un nome univoco per l'immagine
-      final fileName = 'avatar_${DateTime.now().millisecondsSinceEpoch}.png';
-
-      final imagePath = path.join(destination, fileName);
-
-      /// Crea e salva l'immagine nella nuova destinazione
-      final File imageFile = File(imagePath);
-      await imageFile.writeAsBytes(image);
-
-      print('Immagine salvata in: $imagePath');
-
-      /// Restituisci il percorso dell'immagine
-      return imagePath;
-    } catch (e) {
-      print('Errore durante il salvataggio dell\'immagine: $e');
-      /// Restituisce una stringa vuota in caso di errore
-      return '';
-    }
-  }
   /// Metodo per inviare il form al server.
   void submitForm() async {
     if (_formKey.currentState!.validate()) {
@@ -78,37 +49,28 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
       String citta = cittaController.text;
       String via = viaController.text;
       String provincia = provinciaController.text;
+      String imagePath = 'images/image_${nomeMedico}.jpg';
 
-      if (_image != null) {
-        final imagePath = await saveImageToFolder(_image!);
+      /// Crea il DTO con il percorso dell'immagine
+      SupportoMedicoDTO supporto = SupportoMedicoDTO(
+          immagine: imagePath,
+          nomeMedico: nomeMedico,
+          cognomeMedico: cognomeMedico,
+          descrizione: descrizione,
+          tipo: tipo,
+          email: email,
+          numTelefono: numTelefono,
+          citta: citta,
+          via: via,
+          provincia: provincia);
 
-        /// Crea il DTO con il percorso dell'immagine
-        SupportoMedicoDTO supporto = SupportoMedicoDTO(
-            immagine: imagePath,
-            nomeMedico: nomeMedico,
-            cognomeMedico: cognomeMedico,
-            descrizione: descrizione,
-            tipo: tipo,
-            email: email,
-            numTelefono: numTelefono,
-            citta: citta,
-            via: via,
-            provincia: provincia
-        );
-
-        print(supporto);
-
-        /// Invia i dati al server con il percorso dell'immagine
-        await sendDataToServer(supporto);
-
-        print("Supporto medico inserito");
-      } else {
-        print("Devi selezionare un'immagine");
-      }
+      /// Invia i dati al server con il percorso dell'immagine
+      await sendDataToServer(supporto);
     } else {
-      print("Supporto medico non inserito");
+      print("Errore creazione ogetto corso");
     }
   }
+
   /// Metodo per inviare i dati al server.
   Future<void> sendDataToServer(SupportoMedicoDTO supporto) async {
     final response = await http.post(
@@ -117,10 +79,25 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
       headers: {'Content-Type': 'application/json'},
     );
 
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> responseBody = json.decode(response.body);
-      if (responseBody.containsKey('result')) {
-        print("Funziona");
+    if (response.statusCode == 200  && _image != null) {
+      final imageUrl = Uri.parse('http://10.0.2.2:8080/gestioneReintegrazione/addImage');
+      final imageRequest = http.MultipartRequest('POST', imageUrl);
+
+      // Aggiungi l'immagine
+      imageRequest.files.add(await http.MultipartFile.fromPath('immagine', _image!.path));
+
+      // Aggiungi ID del corso e nome del corso come campi di testo
+      imageRequest.fields['nome'] = supporto.nomeMedico; // Assumi che 'nomeCorso' sia una proprietà di CorsoDiFormazioneDTO
+
+      final imageResponse = await imageRequest.send();
+      if (imageResponse.statusCode == 200) {
+        // L'immagine è stata caricata con successo
+        print("Immagine caricata con successo.");
+        // Aggiorna l'UI o esegui altre operazioni
+      } else {
+        // Si è verificato un errore nell'upload dell'immagine
+        print("Errore durante l'upload dell'immagine: ${imageResponse.statusCode}");
+        // Mostra un messaggio di errore o esegui altre operazioni di gestione dell'errore
       }
     }
   }
@@ -162,7 +139,7 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
                               height: avatarSize,
                               child: CircleAvatar(
                                 backgroundImage: _image != null
-                                    ? MemoryImage(_image!)
+                                    ? MemoryImage(File(_image!.path).readAsBytesSync())
                                     : Image.asset('images/avatar.png').image,
                               ),
                             ),
@@ -179,7 +156,7 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
                         TextFormField(
                             controller: nomeMedicoController,
                             decoration:
-                            const InputDecoration(labelText: 'Nome medico'),
+                                const InputDecoration(labelText: 'Nome medico'),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Inserisci il nome del medico';
@@ -189,8 +166,8 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
                         const SizedBox(height: 20),
                         TextFormField(
                             controller: cognomeMedicoController,
-                            decoration:
-                            const InputDecoration(labelText: 'Cognome medico'),
+                            decoration: const InputDecoration(
+                                labelText: 'Cognome medico'),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Inserisci il cognome del medico';
@@ -201,7 +178,7 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
                         TextFormField(
                             controller: descrizioneController,
                             decoration:
-                            const InputDecoration(labelText: 'Descrizione'),
+                                const InputDecoration(labelText: 'Descrizione'),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Inserisci la descrizione del supporto medico offerto';
@@ -212,7 +189,7 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
                         TextFormField(
                             controller: tipoController,
                             decoration:
-                            const InputDecoration(labelText: 'Tipo'),
+                                const InputDecoration(labelText: 'Tipo'),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Inserisci il tipo del supporto medico offerto';
@@ -231,7 +208,7 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
                         TextFormField(
                             controller: emailController,
                             decoration:
-                            const InputDecoration(labelText: 'Email'),
+                                const InputDecoration(labelText: 'Email'),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Inserisci la email del medico';
@@ -241,8 +218,8 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
                         const SizedBox(height: 20),
                         TextFormField(
                             controller: numTelefonoController,
-                            decoration:
-                            const InputDecoration(labelText: 'Numero di telefono'),
+                            decoration: const InputDecoration(
+                                labelText: 'Numero di telefono'),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Inserisci la email del medico';
@@ -253,7 +230,7 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
                         TextFormField(
                             controller: cittaController,
                             decoration:
-                            const InputDecoration(labelText: 'Città'),
+                                const InputDecoration(labelText: 'Città'),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Inserisci la città dove si trova il medico';
@@ -263,8 +240,7 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
                         const SizedBox(height: 20),
                         TextFormField(
                             controller: viaController,
-                            decoration:
-                            const InputDecoration(labelText: 'Via'),
+                            decoration: const InputDecoration(labelText: 'Via'),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Inserisci la via dove si trova il medico';
@@ -275,7 +251,7 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
                         TextFormField(
                             controller: provinciaController,
                             decoration:
-                            const InputDecoration(labelText: 'Provincia'),
+                                const InputDecoration(labelText: 'Provincia'),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Inserisci la provincia dove si trova il medico';
@@ -293,7 +269,7 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
                             shadowColor: Colors.grey,
                             elevation: 10,
                             minimumSize:
-                            Size(screenWidth * 0.1, screenWidth * 0.1),
+                                Size(screenWidth * 0.1, screenWidth * 0.1),
                           ),
                           child: const Text(
                             'INSERISCI',

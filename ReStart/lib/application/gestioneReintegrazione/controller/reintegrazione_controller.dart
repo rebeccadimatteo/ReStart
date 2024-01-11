@@ -125,7 +125,7 @@ class ReintegrazioneController {
       }
 
       final parts = await request.parts;
-      String? nomeCorso;
+      String? nome;
       List<int>? imageData;
 
       await for (final part in parts) {
@@ -133,16 +133,16 @@ class ReintegrazioneController {
           final contentDisposition = HeaderValue.parse(part.headers['content-disposition']!);
           final name = contentDisposition.parameters['name'];
 
-          if (name == 'nome_corso') {
-            nomeCorso = await part.toList().then((value) => utf8.decode(value.expand((i) => i).toList()));
+          if (name == 'nome') {
+            nome = await part.toList().then((value) => utf8.decode(value.expand((i) => i).toList()));
           } else if (name == 'immagine') {
             imageData = await part.toList().then((value) => value.expand((i) => i).toList());
           }
         }
       }
 
-      if (nomeCorso != null && imageData != null) {
-        final imagePath = 'images/image_${nomeCorso}.jpg';
+      if (nome != null && imageData != null) {
+        final imagePath = 'images/image_${nome}.jpg';
         final imageFile = File(imagePath);
         if (await imageFile.exists()) {
           // Elimina il file esistente

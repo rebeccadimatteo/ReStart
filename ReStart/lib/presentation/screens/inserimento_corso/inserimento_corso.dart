@@ -73,7 +73,7 @@ class _InserisciCorsoState extends State<InserisciCorso> {
       imageRequest.files.add(await http.MultipartFile.fromPath('immagine', _image!.path));
 
       // Aggiungi ID del corso e nome del corso come campi di testo
-      imageRequest.fields['nome_corso'] = corso.nomeCorso; // Assumi che 'nomeCorso' sia una proprietà di CorsoDiFormazioneDTO
+      imageRequest.fields['nome'] = corso.nomeCorso; // Assumi che 'nomeCorso' sia una proprietà di CorsoDiFormazioneDTO
 
       final imageResponse = await imageRequest.send();
       if (imageResponse.statusCode == 200) {

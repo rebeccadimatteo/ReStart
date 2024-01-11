@@ -20,7 +20,7 @@ class InserisciAlloggio extends StatefulWidget {
 /// dell'interfaccia utente per inserire un nuovo alloggio temporaneo.
 class _InserisciAlloggioState extends State<InserisciAlloggio> {
   final _formKey = GlobalKey<FormState>();
-  Uint8List? _image;
+  XFile? _image;
 
   final TextEditingController nomeAlloggioController = TextEditingController();
   final TextEditingController descrizioneController = TextEditingController();
@@ -33,38 +33,8 @@ class _InserisciAlloggioState extends State<InserisciAlloggio> {
 
   /// Metodo per selezionare un'immagine dalla galleria.
   void selectImage() async {
-    Uint8List img = await pickImage(ImageSource.gallery);
-    _image = img;
-
-    /// Salva l'immagine nella cartella 'images'
-    await saveImageToFolder(_image!);
-  }
-
-  /// Metodo per salvare un'immagine nella cartella 'images'.
-  Future<String> saveImageToFolder(Uint8List image) async {
-    try {
-      final appDocumentsDirectory = await getApplicationDocumentsDirectory();
-      final destination = path.join(appDocumentsDirectory.path, 'images');
-
-      // Crea la cartella 'images' se non esiste
-      await Directory(destination).create(recursive: true);
-
-      // Genera un nome univoco per l'immagine
-      final fileName = 'avatar_${DateTime.now().millisecondsSinceEpoch}.png';
-
-      final imagePath = path.join(destination, fileName);
-
-      // Crea e salva l'immagine nella nuova destinazione
-      final File imageFile = File(imagePath);
-      await imageFile.writeAsBytes(image);
-
-      print('Immagine salvata in: $imagePath');
-
-      return imagePath; // Restituisci il percorso dell'immagine
-    } catch (e) {
-      print('Errore durante il salvataggio dell\'immagine: $e');
-      return ''; // Restituisci una stringa vuota in caso di errore
-    }
+    final imagePicker = ImagePicker();
+    _image = await imagePicker.pickImage(source: ImageSource.gallery);
   }
 
   /// Metodo per inviare il form al server.
@@ -78,49 +48,52 @@ class _InserisciAlloggioState extends State<InserisciAlloggio> {
       String provincia = provinciaController.text;
       String email = emailController.text;
       String sito = sitoController.text;
+      String imagePath = 'images/image_${nome}.jpg';
 
-      if (_image != null) {
-        final imagePath = await saveImageToFolder(_image!);
-
-        // Crea il DTO con il percorso dell'immagine
-        AlloggioTemporaneoDTO alloggio = AlloggioTemporaneoDTO(
-          nome: nome,
-          descrizione: descrizione,
-          tipo: tipo,
-          citta: citta,
-          via: via,
-          provincia: provincia,
-          email: email,
-          sito: sito,
-          immagine: imagePath,
-        );
-
-        print(alloggio);
-
-        // Invia i dati al server con il percorso dell'immagine
-        await sendDataToServer(alloggio);
-
-        print("Alloggio inserito");
-      } else {
-        print("Devi selezionare un'immagine");
-      }
+      // Crea il DTO con il percorso dell'immagine
+      AlloggioTemporaneoDTO alloggio = AlloggioTemporaneoDTO(
+        nome: nome,
+        descrizione: descrizione,
+        tipo: tipo,
+        citta: citta,
+        via: via,
+        provincia: provincia,
+        email: email,
+        sito: sito,
+        immagine: imagePath,
+      );
+      // Invia i dati al server con il percorso dell'immagine
+      await sendDataToServer(alloggio);
     } else {
       print("Alloggio non inserito");
     }
   }
 
   /// Metodo per inviare i dati al server.
-  Future<void> sendDataToServer(AlloggioTemporaneoDTO corso) async {
+  Future<void> sendDataToServer(AlloggioTemporaneoDTO alloggio) async {
     final response = await http.post(
       Uri.parse('http://10.0.2.2:8080/gestioneReintegrazione/addAlloggio'),
-      body: jsonEncode(corso),
+      body: jsonEncode(alloggio),
       headers: {'Content-Type': 'application/json'},
     );
 
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> responseBody = json.decode(response.body);
-      if (responseBody.containsKey('result')) {
-        print("Funziona");
+    if (response.statusCode == 200 && _image != null) {
+      final imageUrl = Uri.parse('http://10.0.2.2:8080/gestioneReintegrazione/addImage');
+      final imageRequest = http.MultipartRequest('POST', imageUrl);
+
+      // Aggiungi l'immagine
+      imageRequest.files.add(await http.MultipartFile.fromPath('immagine', _image!.path));
+
+      // Aggiungi ID del corso e nome del corso come campi di testo
+      imageRequest.fields['nome'] = alloggio.nome; // Assumi che 'nomeCorso' sia una proprietà di CorsoDiFormazioneDTO
+
+      final imageResponse = await imageRequest.send();
+      if (imageResponse.statusCode == 200) {
+        // L'immagine è stata caricata con successo
+        print("Immagine caricata con successo.");
+      } else {
+        // Si è verificato un errore nell'upload dell'immagine
+        print("Errore durante l'upload dell'immagine: ${imageResponse.statusCode}");
       }
     }
   }
@@ -162,7 +135,7 @@ class _InserisciAlloggioState extends State<InserisciAlloggio> {
                               height: avatarSize,
                               child: CircleAvatar(
                                 backgroundImage: _image != null
-                                    ? MemoryImage(_image!)
+                                    ? MemoryImage(File(_image!.path).readAsBytesSync())
                                     : Image.asset('images/avatar.png').image,
                               ),
                             ),
@@ -177,40 +150,37 @@ class _InserisciAlloggioState extends State<InserisciAlloggio> {
                           ],
                         ),
                         TextFormField(
-                          controller: nomeAlloggioController,
-                          decoration:
-                              const InputDecoration(labelText: 'Nome alloggio'),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Inserisci il nome dell\'alloggio';
-                            }
-                            return null;
-                          }
-                        ),
+                            controller: nomeAlloggioController,
+                            decoration: const InputDecoration(
+                                labelText: 'Nome alloggio'),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Inserisci il nome dell\'alloggio';
+                              }
+                              return null;
+                            }),
                         const SizedBox(height: 20),
                         TextFormField(
                             controller: descrizioneController,
                             decoration:
-                            const InputDecoration(labelText: 'Descrizione'),
+                                const InputDecoration(labelText: 'Descrizione'),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Inserisci la descrizione dell\'alloggio';
                               }
                               return null;
-                            }
-                        ),
+                            }),
                         const SizedBox(height: 20),
                         TextFormField(
                             controller: tipoController,
                             decoration:
-                            const InputDecoration(labelText: 'Tipo'),
+                                const InputDecoration(labelText: 'Tipo'),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Inserisci il tipo dell\'alloggio';
                               }
                               return null;
-                            }
-                        ),
+                            }),
                         const SizedBox(height: 40),
                         const Text(
                           'Contatti',
@@ -223,61 +193,55 @@ class _InserisciAlloggioState extends State<InserisciAlloggio> {
                         TextFormField(
                             controller: emailController,
                             decoration:
-                            const InputDecoration(labelText: 'Email'),
+                                const InputDecoration(labelText: 'Email'),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Inserisci la mail dell\'alloggio';
                               }
                               return null;
-                            }
-                        ),
+                            }),
                         const SizedBox(height: 20),
                         TextFormField(
                             controller: sitoController,
                             decoration:
-                            const InputDecoration(labelText: 'Sito web'),
+                                const InputDecoration(labelText: 'Sito web'),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Inserisci il sito web dell\'alloggio';
                               }
                               return null;
-                            }
-                        ),
+                            }),
                         const SizedBox(height: 20),
                         TextFormField(
                             controller: cittaController,
                             decoration:
-                            const InputDecoration(labelText: 'Città'),
+                                const InputDecoration(labelText: 'Città'),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Inserisci la città dov\è situato l\'alloggio';
                               }
                               return null;
-                            }
-                        ),
+                            }),
                         TextFormField(
                             controller: viaController,
-                            decoration:
-                            const InputDecoration(labelText: 'Via'),
+                            decoration: const InputDecoration(labelText: 'Via'),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Inserisci la via dov\è situato l\'alloggio';
                               }
                               return null;
-                            }
-                        ),
+                            }),
                         const SizedBox(height: 20),
                         TextFormField(
                             controller: provinciaController,
                             decoration:
-                            const InputDecoration(labelText: 'Provincia'),
+                                const InputDecoration(labelText: 'Provincia'),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Inserisci la provincia dov\è situato l\'alloggio';
                               }
                               return null;
-                            }
-                        ),
+                            }),
                         SizedBox(height: screenWidth * 0.1),
                         ElevatedButton(
                           onPressed: () {
