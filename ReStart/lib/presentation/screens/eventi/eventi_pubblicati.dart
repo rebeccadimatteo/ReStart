@@ -281,6 +281,7 @@ class _DetailsEventoPub extends State<DetailsEventoPub> {
                               icon: const Icon(Icons.delete,
                                   color: Colors.red, size: 40),
                               onPressed: () {
+                                //Navigator.pushNamed(context, AppRoutes.modificaevento);
                                 deleteEvento(evento);
                               },
                             ),

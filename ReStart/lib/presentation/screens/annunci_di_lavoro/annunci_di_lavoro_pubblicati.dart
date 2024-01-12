@@ -163,7 +163,7 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroPubblicati> {
                               icon: const Icon(Icons.edit,
                                   color: Colors.black, size: 30),
                               onPressed: () {
-                                modifyLavoro(annuncio);
+                                Navigator.pushNamed(context, AppRoutes.modificalavoro, arguments: annuncio);
                               },
                             ),
                             IconButton(
@@ -201,37 +201,6 @@ class _DetailsLavoroPub extends State<DetailsLavoroPub> {
   @override
   void initState() {
     super.initState();
-    fetchDataFromServer();
-  }
-
-  Future<void> fetchDataFromServer() async {
-    String user = JWTUtils.getUserFromToken(accessToken: await token);
-    Map<String, dynamic> username = {"username": user};
-    final response = await http.post(
-        Uri.parse('http://10.0.2.2:8080/gestioneLavoro/annunciPubblicati'),
-        body: json.encode(username));
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> responseBody = json.decode(response.body);
-      if (responseBody.containsKey('annunci')) {
-        final List<AnnuncioDiLavoroDTO> data =
-        List<Map<String, dynamic>>.from(responseBody['annunci'])
-            .map((json) => AnnuncioDiLavoroDTO.fromJson(json))
-            .toList();
-        setState(() {
-          List<AnnuncioDiLavoroDTO> newData = [];
-          for (AnnuncioDiLavoroDTO a in data) {
-            //if (a.approvato && a.id_ca == idCa) {
-            newData.add(a);
-            //}
-          }
-          annunci = newData;
-        });
-      } else {
-        print('Chiave "annunci" non trovata nella risposta.');
-      }
-    } else {
-      print('Errore');
-    }
   }
 
   Future<void> deleteLavoro(AnnuncioDiLavoroDTO annuncio) async {
@@ -336,7 +305,7 @@ class _DetailsLavoroPub extends State<DetailsLavoroPub> {
                               icon: const Icon(Icons.edit,
                                   color: Colors.black, size: 40),
                               onPressed: () {
-                                modifyLavoro(annuncio);
+                                Navigator.pushNamed(context, AppRoutes.modificalavoro, arguments: annuncio);
                               },
                             ),
                             const SizedBox(width: 20),
