@@ -63,7 +63,6 @@ class EventoDAOImpl implements EventoDAO {
       }
       return false;
     } catch (e) {
-      print(e);
       developer.log(e.toString());
       return false;
     } finally {
@@ -287,7 +286,7 @@ class EventoDAOImpl implements EventoDAO {
       var result = await connection.execute(
         Sql.named('DELETE FROM public."Evento" WHERE data < CURRENT_TIMESTAMP'),
       );
-      if (result.affectedRows != 0) {
+      if (result.affectedRows >= 0) {
         return true;
       }
       return false;

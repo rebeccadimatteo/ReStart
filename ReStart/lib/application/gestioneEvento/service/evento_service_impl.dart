@@ -75,7 +75,9 @@ class EventoServiceImpl implements EventoService {
 
     EventoDTO? evento = await _eventoDAO.findById(idEvento);
 
-    evento?.approvato = true;
+    if(evento == null) return "Evento non trovato";
+
+    evento.approvato = true;
 
     if (await _eventoDAO.update(evento)) return "Approvazione effettuata";
 

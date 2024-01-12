@@ -39,7 +39,9 @@ class LavoroServiceImpl implements LavoroService{
     }
     AnnuncioDiLavoroDTO? lavoro = await _lavoroDAO.findById(id_annuncio);
 
-    lavoro?.approvato = true;
+    if(lavoro == null) return "Evento non trovato";
+
+    lavoro.approvato = true;
 
     if(await _lavoroDAO.update(lavoro)) return "Approvazione effettuata";
 
