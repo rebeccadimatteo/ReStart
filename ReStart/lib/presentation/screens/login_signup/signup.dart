@@ -1,10 +1,11 @@
 import 'dart:convert';
 import "package:flutter/material.dart";
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 import '../../../model/entity/utente_DTO.dart';
 import '../routes/routes.dart';
-
+import 'dart:io';
 
 class SignUpPage extends StatefulWidget {
   _SignUpState createState() => _SignUpState();
@@ -14,14 +15,29 @@ class _SignUpState extends State<SignUpPage> {
   final _formKey = GlobalKey<FormState>();
   String? _selectedGender;
   DateTime? selectedDate;
+  XFile? _image;
 
+  void selectImage() async {
+    final imagePicker = ImagePicker();
+    _image = await imagePicker.pickImage(source: ImageSource.gallery);
+  }
 
   Future<void> _selectDate(BuildContext context) async {
+    DateTime now = DateTime.now();
+    DateTime eighteenYearsAgo = now.subtract(const Duration(days: 365 * 18));
+
+    DateTime initialDate = DateTime(2006, 01, 01);
+    DateTime lastDate = now.isAfter(eighteenYearsAgo) ? eighteenYearsAgo : now;
+    DateTime firstAllowedDate = DateTime(now.year - 18, now.month, now.day);
+
     final DateTime? pickedDate = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
+      initialDate: initialDate,
       firstDate: DateTime(1940, 12, 31),
-      lastDate: DateTime(2070, 12, 31),
+      lastDate: lastDate,
+      selectableDayPredicate: (DateTime day) {
+        return day.isBefore(firstAllowedDate);
+      },
     );
 
     if (pickedDate != null && pickedDate != selectedDate) {
@@ -61,6 +77,7 @@ class _SignUpState extends State<SignUpPage> {
   bool _isCittaValid = true;
   bool _isProvinciaValid = true;
   bool _isTelefonoValid = true;
+  bool _isDataValid = true;
 
   //bool _isImmagineValid = true;
   bool _isNomeValid = true;
@@ -75,7 +92,7 @@ class _SignUpState extends State<SignUpPage> {
   }
 
   bool validateEmail(String email) {
-    RegExp regex = RegExp(r'^[A-z0-9, %+-]+@[A-z0-9,-]+\.[A-z]{6,40}$');
+    RegExp regex = RegExp(r'^[A-Za-z0-9_]+@[A-Za-z0-9.-]+\.[A-Za-z]{3,}$');
     return regex.hasMatch(email);
   }
 
@@ -124,8 +141,8 @@ class _SignUpState extends State<SignUpPage> {
     return password.length <= 15 && password.length >= 3;
   }
 
-  bool validateLuogoNascita(String password) {
-    return password.length <= 20 && password.length >= 3;
+  bool validateLuogoNascita(String luogo) {
+    return luogo.length <= 20 && luogo.length >= 3;
   }
 
   void submitForm() async {
@@ -184,9 +201,11 @@ class _SignUpState extends State<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double avatarSize = screenWidth * 0.4;
     return Scaffold(
-        body: SingleChildScrollView(
-            child: Form(
+      body: SingleChildScrollView(
+        child: Form(
           key: _formKey,
           child: Column(
             children: <Widget>[
@@ -217,6 +236,31 @@ class _SignUpState extends State<SignUpPage> {
                     fontSize: 17,
                     fontWeight: FontWeight.bold,
                   ),
+                ),
+              ),
+              Container(
+                width: avatarSize,
+                height: avatarSize,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    CircleAvatar(
+                      radius: avatarSize / 3,
+                      backgroundImage: _image != null
+                          ? MemoryImage(
+                        File(_image!.path).readAsBytesSync(),
+                      )
+                          : Image.asset('images/avatar.png').image,
+                    ),
+                    Positioned(
+                      bottom: screenWidth * 0.03,
+                      left: screenWidth * 0.22,
+                      child: IconButton(
+                        onPressed: selectImage,
+                        icon: const Icon(Icons.add_a_photo_sharp),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               const Padding(
@@ -304,45 +348,46 @@ class _SignUpState extends State<SignUpPage> {
                 children: [
                   Expanded(
                     child: Padding(
-                    padding: EdgeInsets.only(
-                        left: 15.0,
-                        right: 15.0,
-                        top: 15,
-                        bottom: _isLuogoNascitaValid ? 15 : 20),
-                    child: GestureDetector(
-                      onTap: () {
-                        _selectDate(context);
-                      },
-                      child: TextFormField(
-                        readOnly: true,
-                        controller: dataNascitaController,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(30)),
-                          ),
-                          labelText: 'Data di nascita',
-                          labelStyle: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.bold,
-                          ),
-                          hintText: 'Inserisci la tua data di nascita...',
-                          suffixIcon: Icon(Icons.date_range),
-                        ),
-                        style: const TextStyle(
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.bold,
-                        ),
+                      padding: EdgeInsets.only(
+                          left: 15.0,
+                          right: 15.0,
+                          top: 15,
+                          bottom: _isLuogoNascitaValid ? 15 : 20),
+                      child: GestureDetector(
                         onTap: () {
                           _selectDate(context);
                         },
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Data di nascita';
-                          }
-                          return null;
-                        },
+                        child: TextFormField(
+                          readOnly: true,
+                          controller: dataNascitaController,
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(30)),
+                            ),
+                            labelText: 'Data di nascita',
+                            labelStyle: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.bold,
+                            ),
+                            hintText: 'Inserisci la tua data di nascita...',
+                            suffixIcon: Icon(Icons.date_range),
+                          ),
+                          style: const TextStyle(
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.bold,
+                          ),
+                          onTap: () {
+                            _selectDate(context);
+                          },
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Data di nascita';
+                            }
+                            return null;
+                          },
+                        ),
                       ),
-                    ),
                     ),
                   ),
                 ],
