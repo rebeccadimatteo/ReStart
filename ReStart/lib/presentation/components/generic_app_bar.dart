@@ -13,7 +13,7 @@ class GenericAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: Colors.blue[200],
+      backgroundColor: Colors.lightBlue[100],
       automaticallyImplyLeading: showBackButton,
       title: GestureDetector(
         onTap: () {
@@ -51,8 +51,8 @@ class GenericAppBar extends StatelessWidget implements PreferredSizeWidget {
                         begin: Alignment.topRight,
                         end: Alignment.bottomLeft,
                         colors: [
-                          Colors.purple,
-                          Colors.blue,
+                          Color(0xFFCE93D8),
+                          Color(0xFF80DEEA),
                         ],
                       ),
                     ),
@@ -65,7 +65,7 @@ class GenericAppBar extends StatelessWidget implements PreferredSizeWidget {
                             Shadow(
                               offset: Offset(1, 1),
                               blurRadius: 2.0,
-                              color: Color.fromARGB(255, 128, 0, 128),
+                              color: Color(0xFFFAFAFA), //fromARGB(255, 128, 0, 128),
                             ),
                           ],
                           fontFamily: 'Poppins',

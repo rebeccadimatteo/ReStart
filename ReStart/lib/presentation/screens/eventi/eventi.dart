@@ -78,6 +78,7 @@ class _CommunityEventsState extends State<CommunityEvents> {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 20,
+                  fontFamily: 'Poppins',
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -97,20 +98,50 @@ class _CommunityEventsState extends State<CommunityEvents> {
                       arguments: evento,
                     );
                   },
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 5, bottom: 5, right: 5),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      gradient: LinearGradient(
+                        colors: [Colors.blue[50]!, Colors.blue[100]!],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.2),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
                     child: ListTile(
                       visualDensity: const VisualDensity(vertical: 4, horizontal: 4),
                       minVerticalPadding: 50,
                       minLeadingWidth: 80,
-                      tileColor: Colors.grey,
+                      tileColor: Colors.transparent, // Imposta il colore del ListTile su trasparente
                       leading: CircleAvatar(
                         radius: 35,
                         backgroundImage: AssetImage(evento.immagine),
                       ),
-                      title: Text(evento.nomeEvento,
-                          style: const TextStyle(fontWeight: FontWeight.bold)),
-                      subtitle: Text(evento.descrizione),
+                      title: Text(
+                        evento.nomeEvento,
+                        style: const TextStyle(
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                          color: Colors.black, // Cambia il colore del testo se necessario
+                        ),
+                      ),
+                      subtitle: Text(
+                        evento.descrizione,
+                        style: const TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 14,
+                          color: Colors.black, // Cambia il colore del testo se necessario
+                        ),
+                      ),
                     ),
                   ),
                 );
@@ -174,6 +205,7 @@ class _DetailsEventoState extends State<DetailsEvento> {
           Text(
             evento.nomeEvento,
             style: const TextStyle(
+              fontFamily: 'Poppins',
               fontWeight: FontWeight.bold,
               fontSize: 30,
             ),
@@ -194,7 +226,10 @@ class _DetailsEventoState extends State<DetailsEvento> {
                         const Text(
                           'Contatti',
                           style: TextStyle(
-                              fontSize: 25, fontWeight: FontWeight.bold),
+                              fontSize: 25,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.bold
+                          ),
                         ),
                         Text(evento.email),
                         Text(evento.sito),
@@ -202,7 +237,10 @@ class _DetailsEventoState extends State<DetailsEvento> {
                         const Text(
                           'Informazioni',
                           style: TextStyle(
-                              fontSize: 25, fontWeight: FontWeight.bold),
+                              fontSize: 25,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.bold
+                          ),
                         ),
                         Text(dataBuona),
                       ],

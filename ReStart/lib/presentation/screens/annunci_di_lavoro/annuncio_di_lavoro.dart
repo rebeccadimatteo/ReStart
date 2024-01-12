@@ -105,22 +105,50 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoro> {
                       arguments: annuncio,
                     );
                   },
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.only(left: 5, bottom: 5, right: 5),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      gradient: LinearGradient(
+                        colors: [Colors.blue[50]!, Colors.blue[100]!],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.2),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
                     child: ListTile(
-                      visualDensity:
-                          const VisualDensity(vertical: 4, horizontal: 4),
+                      visualDensity: const VisualDensity(vertical: 4, horizontal: 4),
                       minVerticalPadding: 50,
                       minLeadingWidth: 80,
-                      tileColor: Colors.grey,
+                      tileColor: Colors.transparent, // Imposta il colore del ListTile su trasparente
                       leading: CircleAvatar(
                         radius: 35,
                         backgroundImage: AssetImage(annuncio.immagine),
                       ),
-                      title: Text(annuncio.nome,
-                          style: const TextStyle(fontWeight: FontWeight.bold)),
-                      subtitle: Text(annuncio.descrizione),
+                      title: Text(
+                        annuncio.nome,
+                        style: const TextStyle(
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                          color: Colors.black, // Cambia il colore del testo se necessario
+                        ),
+                      ),
+                      subtitle: Text(
+                        annuncio.descrizione,
+                        style: const TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 14,
+                          color: Colors.black, // Cambia il colore del testo se necessario
+                        ),
+                      ),
                     ),
                   ),
                 );
