@@ -122,15 +122,15 @@ class UtenteDAOImpl implements UtenteDAO {
     try {
       Connection connection = await connector.openConnection();
       var result = await connection.execute(Sql.named(
-          'SELECT u.*, c.email, c.num_telefono, i.via, i.citta, i.provincia FROM public."Utente" u, '
-          'public."Contatti" c, public."Indirizzo" i WHERE u.id = c.id_utente AND u.id = i.id_utente'));
+          'SELECT u.id, u.nome, u.cognome, u.cod_fiscale, u.data_nascita, u.luogo_nascita, u.genere, u.username,u.lavoro_adatto, c.email, c.num_telefono, im.immagine, i.via, i.citta, i.provincia FROM public."Utente" u, '
+          'public."Contatti" c, public."Indirizzo" i, public."Immagine" im WHERE u.id = c.id_utente AND u.id = i.id_utente AND im.id_utente = u.id'));
 
       // Mappa i risultati della query in oggetti Utente_DTO
-      List<UtenteDTO> ads = result.map((row) {
+      List<UtenteDTO> list = result.map((row) {
         return UtenteDTO.fromJson(row.toColumnMap());
       }).toList();
 
-      return ads;
+      return list;
     } catch (e) {
       developer.log(e.toString());
       return [];

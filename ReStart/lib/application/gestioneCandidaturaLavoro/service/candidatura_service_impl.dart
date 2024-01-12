@@ -40,4 +40,9 @@ class CandidaturaServiceImpl implements CandidaturaService {
 
     return "fallito";
   }
+
+  @override
+  Future<List<UtenteDTO>> listaCandidati(int idLavoro) {
+    return _candidaturaDAO.findCandidati(idLavoro);
+  }
 }

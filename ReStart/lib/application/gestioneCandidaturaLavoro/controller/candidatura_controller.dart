@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:restart_all_in_one/model/entity/utente_DTO.dart';
+
 import '../service/candidatura_service_impl.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart' as shelf_router;
@@ -13,6 +15,7 @@ class CandidaturaController {
 
     // Associa i vari metodi alle route
     _router.post('/apply', _candidatura);
+    _router.post('/listaCandidati', _findCandidati);
     // Aggiungi la route di fallback per le richieste non corrispondenti
     _router.all('/<ignored|.*>', _notFound);
   }
@@ -50,6 +53,26 @@ class CandidaturaController {
       // Gestione degli errori durante la chiamata al servizio
       return Response.internalServerError(
           body: 'Errore durante l\'inserimento della Candidatura: $e');
+    }
+  }
+
+  Future<Response> _findCandidati(Request request) async {
+    try {
+      final String requestBody = await request.readAsString();
+      final Map<String, dynamic> params = jsonDecode(requestBody);
+      final int idLavoro = int.parse(params['idLavoro']);
+
+      final List<UtenteDTO> listaCandidati =
+      await _service.listaCandidati(idLavoro);
+
+      // Creazione della risposta con il corpo JSON contenente la lista di candidati
+      final responseBody = jsonEncode({'candidati': listaCandidati});
+      return Response.ok(responseBody,
+          headers: {'Content-Type': 'application/json'});
+    } catch (e) {
+      // Gestione degli errori durante la chiamata al servizio
+      return Response.internalServerError(
+          body: 'Errore durante la visualizzazione dei candidati: $e');
     }
   }
 
