@@ -176,38 +176,6 @@ class _DetailsEventoPub extends State<DetailsEventoPub> {
   @override
   void initState() {
     super.initState();
-    fetchDataFromServer();
-  }
-
-  /// Metodo che permette di inviare la richiesta al server per ottenere la lista di tutti i [EventoDTO] presenti nel database
-  Future<void> fetchDataFromServer() async {
-    String user = JWTUtils.getUserFromToken(accessToken: await token);
-    Map<String, dynamic> username = {"username": user};
-    final response = await http.post(
-        Uri.parse('http://10.0.2.2:8080/gestioneEvento/eventiPubblicati'),
-        body: json.encode(username));
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> responseBody = json.decode(response.body);
-      if (responseBody.containsKey('eventi')) {
-        final List<EventoDTO> data =
-        List<Map<String, dynamic>>.from(responseBody['eventi'])
-            .map((json) => EventoDTO.fromJson(json))
-            .toList();
-        setState(() {
-          List<EventoDTO> newData = [];
-          for (EventoDTO e in data) {
-            //if (e.approvato && e.id_ca == idCa) {
-            newData.add(e);
-            //}
-          }
-          eventi = newData;
-        });
-      } else {
-        print('Chiave "eventi" non trovata nella risposta.');
-      }
-    } else {
-      print('Errore');
-    }
   }
 
   Future<void> deleteEvento(EventoDTO evento) async {
@@ -304,6 +272,7 @@ class _DetailsEventoPub extends State<DetailsEventoPub> {
                               icon: const Icon(Icons.delete,
                                   color: Colors.red, size: 40),
                               onPressed: () {
+                                //Navigator.pushNamed(context, AppRoutes.modificaevento);
                                 deleteEvento(evento);
                               },
                             ),

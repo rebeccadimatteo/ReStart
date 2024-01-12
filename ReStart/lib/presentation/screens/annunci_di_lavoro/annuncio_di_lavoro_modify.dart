@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:restart_all_in_one/model/entity/annuncio_di_lavoro_DTO.dart';
 import 'package:restart_all_in_one/utils/jwt_utils.dart';
 import '../../../model/entity/evento_DTO.dart';
 import '../../../utils/auth_service.dart';
@@ -12,15 +13,15 @@ import 'package:http/http.dart' as http;
 import '../routes/routes.dart';
 
 ///Classe che rappresenta la schermata per inserire un [Evento]
-class ModifyEvento extends StatefulWidget {
+class ModifyLavoro extends StatefulWidget {
 
   @override
-  _ModifyEventoState createState() => _ModifyEventoState();
+  _ModifyLavoroState createState() => _ModifyLavoroState();
 }
 
-/// Classe associata a [ModifyEvento] e gestisce la logica e l'interazione
+/// Classe associata a [ModifyLavoro] e gestisce la logica e l'interazione
 /// dell'interfaccia utente per inserire un nuovo evento temporaneo.
-class _ModifyEventoState extends State<ModifyEvento> {
+class _ModifyLavoroState extends State<ModifyLavoro> {
   late int idCa;
   var token;
 
@@ -45,7 +46,7 @@ class _ModifyEventoState extends State<ModifyEvento> {
   final TextEditingController descrizioneController = TextEditingController();
   final TextEditingController dataController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
-  final TextEditingController sitoController = TextEditingController();
+  final TextEditingController numTelefonoController = TextEditingController();
   final TextEditingController cittaController = TextEditingController();
   final TextEditingController viaController = TextEditingController();
   final TextEditingController provinciaController = TextEditingController();
@@ -57,7 +58,7 @@ class _ModifyEventoState extends State<ModifyEvento> {
   }
 
   /// Metodo per inviare il form al server.
-  void submitForm(EventoDTO event) async {
+  void submitForm(AnnuncioDiLavoroDTO lavoro) async {
     if (_formKey.currentState!.validate()) {
       String nome = nomeController.text;
       String descrizione = descrizioneController.text;
@@ -65,36 +66,35 @@ class _ModifyEventoState extends State<ModifyEvento> {
       String via = viaController.text;
       String provincia = provinciaController.text;
       String email = emailController.text;
-      String sito = sitoController.text;
+      String numTelefono = numTelefonoController.text;
       String imagePath = 'images/image_${nome}.jpg';
 
       // Crea il DTO con il percorso dell'immagine
-      EventoDTO evento = EventoDTO(
-        id: event.id,
-        nomeEvento: nome,
+      AnnuncioDiLavoroDTO annuncio = AnnuncioDiLavoroDTO(
+        id: lavoro.id,
+        nomeLavoro: nome,
         descrizione: descrizione,
         approvato: true,
         citta: citta,
         via: via,
         provincia: provincia,
         email: email,
-        sito: sito,
         immagine: imagePath,
         id_ca: JWTUtils.getIdFromToken(accessToken: await token),
-        date: DateTime.now(),
+        numTelefono: numTelefono,
       );
       // Invia i dati al server con il percorso dell'immagine
-      await sendDataToServer(evento);
+      await sendDataToServer(annuncio);
     } else {
-      print("Evento non inserito");
+      print("Lavoro non inserito");
     }
   }
 
   /// Metodo per inviare i dati al server.
-  Future<void> sendDataToServer(EventoDTO evento) async {
+  Future<void> sendDataToServer(AnnuncioDiLavoroDTO annuncio) async {
     final response = await http.post(
-      Uri.parse('http://10.0.2.2:8080/gestioneEvento/modifyEvento'),
-      body: jsonEncode(evento),
+      Uri.parse('http://10.0.2.2:8080/gestioneEvento/ModifyLavoro'),
+      body: jsonEncode(annuncio),
       headers: {'Content-Type': 'application/json'},
     );
 
@@ -107,8 +107,8 @@ class _ModifyEventoState extends State<ModifyEvento> {
       imageRequest.files
           .add(await http.MultipartFile.fromPath('immagine', _image!.path));
 
-      // Aggiungi ID del corso e nome del'evento come campi di testo
-      imageRequest.fields['nome'] = evento.nomeEvento;
+      // Aggiungi ID del corso e nome del'adl come campi di testo
+      imageRequest.fields['nome'] = annuncio.nome;
 
       final imageResponse = await imageRequest.send();
       if (imageResponse.statusCode == 200) {
@@ -126,19 +126,19 @@ class _ModifyEventoState extends State<ModifyEvento> {
   /// Costruisce la UI per la schermata di inserimento di un evento temporaneo.
   @override
   Widget build(BuildContext context) {
-    EventoDTO evento = ModalRoute
+    AnnuncioDiLavoroDTO annuncio = ModalRoute
         .of(context)
         ?.settings
-        .arguments as EventoDTO;
+        .arguments as AnnuncioDiLavoroDTO;
 
-    print(evento);
-    nomeController.text = evento.nomeEvento;
-    descrizioneController.text = evento.descrizione;
-    cittaController.text = evento.citta;
-    viaController.text = evento.via;
-    provinciaController.text = evento.provincia;
-    emailController.text = evento.email;
-    sitoController.text = evento.sito;
+    print(annuncio);
+    nomeController.text = annuncio.nome;
+    descrizioneController.text = annuncio.descrizione;
+    cittaController.text = annuncio.citta;
+    viaController.text = annuncio.via;
+    provinciaController.text = annuncio.provincia;
+    emailController.text = annuncio.email;
+    numTelefonoController.text = annuncio.numTelefono;
 
 
     double screenWidth = MediaQuery
@@ -160,7 +160,7 @@ class _ModifyEventoState extends State<ModifyEvento> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const Text(
-                    'Modifica Evento',
+                    'Modifica Annuncio di Lavoro',
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
@@ -197,15 +197,15 @@ class _ModifyEventoState extends State<ModifyEvento> {
                         ),
                         TextFormField(
                           //initialValue: evento.nomeEvento,
-                          controller: nomeController,
-                          decoration:
-                          const InputDecoration(labelText: 'Nome evento'),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
+                            controller: nomeController,
+                            decoration:
+                            const InputDecoration(labelText: 'Nome Annuncio di Lavoro'),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
 
+                              }
+                              return null;
                             }
-                            return null;
-                          }
                         ),
                         const SizedBox(height: 20),
                         TextFormField(
@@ -214,7 +214,7 @@ class _ModifyEventoState extends State<ModifyEvento> {
                             const InputDecoration(labelText: 'Descrizione'),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Inserisci la descrizione dell\'evento';
+                                return 'Inserisci la descrizione dell\'annuncio di lavoro';
                               }
                               return null;
                             }),
@@ -233,18 +233,18 @@ class _ModifyEventoState extends State<ModifyEvento> {
                             const InputDecoration(labelText: 'Email'),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Inserisci la mail dell\'evento';
+                                return 'Inserisci la mail dell\'annuncio di lavoro';
                               }
                               return null;
                             }),
                         const SizedBox(height: 20),
                         TextFormField(
-                            controller: sitoController,
+                            controller: numTelefonoController,
                             decoration:
-                            const InputDecoration(labelText: 'Sito web'),
+                            const InputDecoration(labelText: 'Numero di Telefono'),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Inserisci il sito web dell\'evento';
+                                return 'Inserisci il numero di telefono dell\'annuncio di lavoro';
                               }
                               return null;
                             }),
@@ -255,7 +255,7 @@ class _ModifyEventoState extends State<ModifyEvento> {
                             const InputDecoration(labelText: 'Città'),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Inserisci la città dov\è situato l\'evento';
+                                return 'Inserisci la città dov\è situato l\'annuncio di lavoro';
                               }
                               return null;
                             }),
@@ -264,7 +264,7 @@ class _ModifyEventoState extends State<ModifyEvento> {
                             decoration: const InputDecoration(labelText: 'Via'),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Inserisci la via dov\è situato l\'evento';
+                                return 'Inserisci la via dov\è situato l\'annuncio di lavoro';
                               }
                               return null;
                             }),
@@ -275,14 +275,14 @@ class _ModifyEventoState extends State<ModifyEvento> {
                             const InputDecoration(labelText: 'Provincia'),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Inserisci la provincia dov\è situato l\'evento';
+                                return 'Inserisci la provincia dov\è situato l\'annuncio di lavoro';
                               }
                               return null;
                             }),
                         SizedBox(height: screenWidth * 0.1),
                         ElevatedButton(
                           onPressed: () {
-                            submitForm(evento);
+                            submitForm(annuncio);
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.blue[200],
