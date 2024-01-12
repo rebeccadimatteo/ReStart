@@ -163,7 +163,7 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroPubblicati> {
                               icon: const Icon(Icons.edit,
                                   color: Colors.black, size: 30),
                               onPressed: () {
-                                modifyLavoro(annuncio); //
+                                modifyLavoro(annuncio);
                               },
                             ),
                             IconButton(

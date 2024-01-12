@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
 import 'package:restart_all_in_one/presentation/screens/annunci_di_lavoro/annunci_di_lavoro_pubblicati.dart';
 import 'package:restart_all_in_one/presentation/screens/eventi/eventi_pubblicati.dart';
 import 'package:restart_all_in_one/presentation/screens/home/home_ads.dart';
@@ -11,6 +12,7 @@ import '../corsi_di_formazione/corso_di_formazione.dart';
 import '../corsi_di_formazione/corso_di_formazione_ads.dart';
 import '../eventi/eventi.dart';
 import '../eventi/eventi_ads.dart';
+import '../eventi/evento_modify.dart';
 import '../home/home_utente.dart';
 import '../login_signup/login.dart';
 import '../login_signup/signup.dart';
@@ -64,6 +66,7 @@ class AppRoutes {
   static const String addevento = '/aggiungiEvento';
   static const String addannuncio = '/aggiungiAnnuncio';
 
+  static const String modificaevento = '/modifyEvento';
   /// Definizione di tutte le [AppRoutes]
   static Map<String, WidgetBuilder> getRoutes() {
     return {
@@ -103,6 +106,7 @@ class AppRoutes {
       supportiAds: (context) => SupportoMedicoAds(),
       dettaglisupportoAds: (context) => DetailsSupportoAds(),
       richiesteAds: (context) => Richieste(),
+      modificaevento: (context) => ModifyEvento(),
     };
   }
 }

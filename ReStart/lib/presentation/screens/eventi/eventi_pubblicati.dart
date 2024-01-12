@@ -69,25 +69,6 @@ class _CommunityEventsState extends State<CommunityEventsPubblicati> {
     }
   }
 
-  Future<void> modifyEvento(EventoDTO evento) async {
-    final response = await http.post(
-        Uri.parse('http://10.0.2.2:8080/gestioneEvento/modifyEvento'),
-        body: jsonEncode(evento));
-    if (response.statusCode == 200) {
-      setState(() {
-        for (EventoDTO e in eventi) {
-          if (e.id == evento.id) {
-            eventi.remove(e);
-            break;
-          }
-        }
-        eventi.add(evento);
-      });
-    } else {
-      print("Mofifica non andata a buon fine");
-    }
-  }
-
   /// Build del widget principale della sezione [CommunityEvents], contenente tutta l'interfaccia grafica
   @override
   Widget build(BuildContext context) {
@@ -154,7 +135,7 @@ class _CommunityEventsState extends State<CommunityEventsPubblicati> {
                               icon: const Icon(Icons.edit,
                                   color: Colors.black, size: 30),
                               onPressed: () {
-                                modifyEvento(evento);
+                                Navigator.pushNamed(context, AppRoutes.modificaevento);
                               },
                             ),
                             IconButton(
@@ -240,24 +221,6 @@ class _DetailsEventoPub extends State<DetailsEventoPub> {
     }
   }
 
-  Future<void> modifyEvento(EventoDTO evento) async {
-    final response = await http.post(
-        Uri.parse('http://10.0.2.2:8080/gestioneEvento/modifyEvento'),
-        body: jsonEncode(evento));
-    if (response.statusCode == 200) {
-      setState(() {
-        for (EventoDTO e in eventi) {
-          if (e.id == evento.id) {
-            eventi.remove(e);
-            break;
-          }
-        }
-        eventi.add(evento);
-      });
-    } else {
-      print("Mofifica non andata a buon fine");
-    }
-  }
   @override
   Widget build(BuildContext context) {
     final EventoDTO evento =
@@ -330,7 +293,7 @@ class _DetailsEventoPub extends State<DetailsEventoPub> {
                               icon: const Icon(Icons.edit,
                                   color: Colors.black, size: 40),
                               onPressed: () {
-                                modifyEvento(evento);
+                                Navigator.pushNamed(context, AppRoutes.modificaevento);
                               },
                             ),
                             const SizedBox(width: 20),
