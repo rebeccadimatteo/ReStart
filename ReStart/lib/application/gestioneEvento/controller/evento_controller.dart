@@ -15,6 +15,7 @@ class GestioneEventoController {
     _router.post('/visualizzaEventi', _visualizzaEventi);
     _router.post('/addEvento', _addEvento);
     _router.post('/eventiPubblicati', _eventiPubblicati);
+    _router.post('/eventiSettimanali', _eventiSettimanali);
     _router.post('/deleteEvento', _deleteEvento);
     _router.post('/modifyEvento', _modifyEvento);
     _router.post('/approveEvento', _approveEvento);
@@ -265,6 +266,20 @@ class GestioneEventoController {
     }
   }
 
+  Future<Response> _eventiSettimanali(Request request) async {
+
+    try {
+      final List<EventoDTO> listaEventi = await _service.communityEvents();
+      final responseBody = jsonEncode({'eventi': listaEventi});
+
+      return Response.ok(responseBody,
+          headers: {'Content-Type': 'application/json'});
+    } catch (e) {
+      return Response.internalServerError(
+          body: 'Errore durante la visualizzazione degli eventi: $e');
+    }
+  }
+
   Future<Response> _notFound(Request request) async {
     return Response.notFound('Endpoint non trovato',
         headers: {'Content-Type': 'text/plain'});
@@ -284,4 +299,6 @@ class GestioneEventoController {
     }
     return formData;
   }
+
+
 }

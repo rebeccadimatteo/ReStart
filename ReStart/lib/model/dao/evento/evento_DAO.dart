@@ -17,4 +17,6 @@ abstract class EventoDAO {
   Future<List<EventoDTO>> findByApprovato(String usernameCa);
   ///Metodo che permette la ricerca di tutti gli eventi non ancora approvati da un Ca
   Future<List<EventoDTO>> findByNotAppovato();
+  ///Metodo che permette l'eliminazione degli eventi non più accessibili
+  Future<bool> removeEventiScaduti();
 }

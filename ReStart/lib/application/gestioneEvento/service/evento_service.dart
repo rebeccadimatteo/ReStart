@@ -16,6 +16,10 @@ abstract class EventoService {
 
   Future<List<EventoDTO>> richiesteEventi();
 
+  Future<List<EventoDTO>> eventiSettimanali();
+
+  Future<bool> removeEventiScaduti();
+
   Future<String> approveEvento(int id_evento);
 
   Future<String> rejectEvento(int  id_evento);

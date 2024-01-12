@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import '../../../model/entity/evento_DTO.dart';
 import '../../../utils/auth_service.dart';
 import '../../components/generic_app_bar.dart';
@@ -174,8 +175,9 @@ class _DetailsEventoState extends State<DetailsEvento> {
   @override
   Widget build(BuildContext context) {
     final EventoDTO evento = ModalRoute.of(context)?.settings.arguments as EventoDTO;
-    final String data = evento.date.toIso8601String();
-    final String dataBuona = data.substring(0,10);
+    final DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm:ss');
+    final String data = formatter.format(evento.date);
+
     return Scaffold(
       appBar: GenericAppBar(
         showBackButton: true,
@@ -240,7 +242,7 @@ class _DetailsEventoState extends State<DetailsEvento> {
                               fontWeight: FontWeight.bold
                           ),
                         ),
-                        Text(dataBuona),
+                        Text(data),
                       ],
                     ),
                   )))

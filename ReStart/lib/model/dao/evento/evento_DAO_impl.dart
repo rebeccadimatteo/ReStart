@@ -240,14 +240,12 @@ class EventoDAOImpl implements EventoDAO {
                 'WHERE e.id = c.id_evento AND e.id = i.id_evento AND e.id = ind.id_evento AND e.id_ca = @id AND e.approvato=true '),
         parameters: {'id': id},
       );
-      print(result);
       List<EventoDTO> eventi = result.map((row) {
         return EventoDTO.fromJson(row.toColumnMap());
       }).toList();
 
       return eventi;
     } catch (e) {
-      print(e);
       developer.log(e.toString());
       return [];
     } finally {
@@ -277,5 +275,27 @@ class EventoDAOImpl implements EventoDAO {
     } finally {
       await connector.closeConnection();
     }
+  }
+
+  @override
+  Future<bool> removeEventiScaduti() async {
+
+    try {
+      Connection connection = await connector.openConnection();
+      var result = await connection.execute(
+        Sql.named('DELETE FROM public."Evento" WHERE data < CURRENT_TIMESTAMP'),
+      );
+      if (result.affectedRows != 0) {
+        return true;
+      }
+      return false;
+    } catch (e) {
+      developer.log(e.toString());
+      return false;
+    } finally {
+      await connector.closeConnection();
+    }
+
+
   }
 }
