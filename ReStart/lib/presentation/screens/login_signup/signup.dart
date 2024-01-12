@@ -128,12 +128,12 @@ class _SignUpState extends State<SignUpPage> {
   }
 
   bool validateNome(String nome) {
-    RegExp regex = RegExp(r'^[A-z À-ù ‘-]{2,20}$');
+    RegExp regex = RegExp(r'^[A-z À-ù‘-]{2,20}$');
     return regex.hasMatch(nome);
   }
 
   bool validateCognome(String cognome) {
-    RegExp regex = RegExp(r'^[A-z À-ù ‘-]{2,20}$');
+    RegExp regex = RegExp(r'^[A-z À-ù‘-]{2,20}$');
     return regex.hasMatch(cognome);
   }
 

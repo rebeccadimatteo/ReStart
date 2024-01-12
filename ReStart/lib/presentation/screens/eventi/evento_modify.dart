@@ -5,7 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:restart_all_in_one/utils/jwt_utils.dart';
 import '../../../model/entity/evento_DTO.dart';
 import '../../../utils/auth_service.dart';
-import '../../components/generic_app_bar.dart';
+import '../../components/app_bar_ca.dart';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 
@@ -23,6 +23,7 @@ class ModifyEvento extends StatefulWidget {
 class _ModifyEventoState extends State<ModifyEvento> {
   late int idCa;
   var token;
+
   @override
   void initState() {
     super.initState();
@@ -34,9 +35,9 @@ class _ModifyEventoState extends State<ModifyEvento> {
     bool isUserValid = await AuthService.checkUserCA();
     if (!isUserValid) {
       Navigator.pushNamed(context, AppRoutes.home);
-
     }
   }
+
 /*
   Future<void> modifyEvento(EventoDTO evento) async {
     final response = await http.post(
@@ -118,7 +119,7 @@ class _ModifyEventoState extends State<ModifyEvento> {
 
     if (response.statusCode == 200 && _image != null) {
       final imageUrl =
-          Uri.parse('http://10.0.2.2:8080/gestionerReintegrazione/addImage');
+      Uri.parse('http://10.0.2.2:8080/gestionerReintegrazione/addImage');
       final imageRequest = http.MultipartRequest('POST', imageUrl);
 
       // Aggiungi l'immagine
@@ -135,7 +136,8 @@ class _ModifyEventoState extends State<ModifyEvento> {
       } else {
         // Si è verificato un errore nell'upload dell'immagine
         print(
-            "Errore durante l'upload dell'immagine: ${imageResponse.statusCode}");
+            "Errore durante l'upload dell'immagine: ${imageResponse
+                .statusCode}");
       }
     }
   }
@@ -143,15 +145,33 @@ class _ModifyEventoState extends State<ModifyEvento> {
   /// Costruisce la UI per la schermata di inserimento di un evento temporaneo.
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
+    EventoDTO evento = ModalRoute
+        .of(context)
+        ?.settings
+        .arguments as EventoDTO;
+
+    print(evento);
+    nomeController.text = evento.nomeEvento;
+    descrizioneController.text = evento.descrizione;
+    cittaController.text = evento.citta;
+    viaController.text = evento.via;
+    provinciaController.text = evento.provincia;
+    emailController.text = evento.email;
+    sitoController.text = evento.sito;
+
+
+    double screenWidth = MediaQuery
+        .of(context)
+        .size
+        .width;
     double avatarSize = screenWidth * 0.3;
 
     return MaterialApp(
       home: Scaffold(
-        appBar: GenericAppBar(
+        appBar: CaAppBar(
           showBackButton: true,
         ),
-        endDrawer: GenericAppBar.buildDrawer(context),
+        endDrawer: CaAppBar.buildDrawer(context),
         body: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.all(screenWidth * 0.08),
@@ -178,8 +198,10 @@ class _ModifyEventoState extends State<ModifyEvento> {
                               child: CircleAvatar(
                                 backgroundImage: _image != null
                                     ? MemoryImage(
-                                        File(_image!.path).readAsBytesSync())
-                                    : Image.asset('images/avatar.png').image,
+                                    File(_image!.path).readAsBytesSync())
+                                    : Image
+                                    .asset('images/avatar.png')
+                                    .image,
                               ),
                             ),
                             Positioned(
@@ -193,20 +215,22 @@ class _ModifyEventoState extends State<ModifyEvento> {
                           ],
                         ),
                         TextFormField(
-                            controller: nomeController,
-                            decoration:
-                                const InputDecoration(labelText: 'Nome evento'),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Inserisci il nome dell\'evento';
-                              }
-                              return null;
-                            }),
+                          //initialValue: evento.nomeEvento,
+                          controller: nomeController,
+                          decoration:
+                          const InputDecoration(labelText: 'Nome evento'),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+
+                            }
+                            return null;
+                          }
+                        ),
                         const SizedBox(height: 20),
                         TextFormField(
                             controller: descrizioneController,
                             decoration:
-                                const InputDecoration(labelText: 'Descrizione'),
+                            const InputDecoration(labelText: 'Descrizione'),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Inserisci la descrizione dell\'evento';
@@ -225,7 +249,7 @@ class _ModifyEventoState extends State<ModifyEvento> {
                         TextFormField(
                             controller: emailController,
                             decoration:
-                                const InputDecoration(labelText: 'Email'),
+                            const InputDecoration(labelText: 'Email'),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Inserisci la mail dell\'evento';
@@ -236,7 +260,7 @@ class _ModifyEventoState extends State<ModifyEvento> {
                         TextFormField(
                             controller: sitoController,
                             decoration:
-                                const InputDecoration(labelText: 'Sito web'),
+                            const InputDecoration(labelText: 'Sito web'),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Inserisci il sito web dell\'evento';
@@ -247,7 +271,7 @@ class _ModifyEventoState extends State<ModifyEvento> {
                         TextFormField(
                             controller: cittaController,
                             decoration:
-                                const InputDecoration(labelText: 'Città'),
+                            const InputDecoration(labelText: 'Città'),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Inserisci la città dov\è situato l\'evento';
@@ -267,7 +291,7 @@ class _ModifyEventoState extends State<ModifyEvento> {
                         TextFormField(
                             controller: provinciaController,
                             decoration:
-                                const InputDecoration(labelText: 'Provincia'),
+                            const InputDecoration(labelText: 'Provincia'),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Inserisci la provincia dov\è situato l\'evento';
@@ -285,7 +309,7 @@ class _ModifyEventoState extends State<ModifyEvento> {
                             shadowColor: Colors.grey,
                             elevation: 10,
                             minimumSize:
-                                Size(screenWidth * 0.1, screenWidth * 0.1),
+                            Size(screenWidth * 0.1, screenWidth * 0.1),
                           ),
                           child: const Text(
                             'INSERISCI',

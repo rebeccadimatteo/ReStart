@@ -208,7 +208,13 @@ class _DetailsCorsoState extends State<DetailsCorso> {
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: Text(corso.descrizione,
-                textAlign: TextAlign.center),
+                style: const TextStyle(
+                  fontSize: 15,
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center
+            ),
           ),
           Expanded(
               child: Align(
@@ -226,7 +232,13 @@ class _DetailsCorsoState extends State<DetailsCorso> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        Text(corso.urlCorso),
+                        Text(corso.urlCorso,
+                        style: const TextStyle(
+                            fontSize: 13,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ],
                     ),
                   )))

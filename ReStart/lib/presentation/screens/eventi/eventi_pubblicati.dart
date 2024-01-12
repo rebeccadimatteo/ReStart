@@ -135,7 +135,9 @@ class _CommunityEventsState extends State<CommunityEventsPubblicati> {
                               icon: const Icon(Icons.edit,
                                   color: Colors.black, size: 30),
                               onPressed: () {
-                                Navigator.pushNamed(context, AppRoutes.modificaevento);
+                                Navigator.pushNamed(
+                                    context, AppRoutes.modificaevento,
+                                    arguments: evento);
                               },
                             ),
                             IconButton(
