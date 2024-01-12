@@ -13,7 +13,7 @@ class GenericAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: Colors.lightBlue[100],
+      backgroundColor: const Color(0xFF80DEEA),
       automaticallyImplyLeading: showBackButton,
       title: GestureDetector(
         onTap: () {
@@ -35,49 +35,46 @@ class GenericAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   /// Costruisce un [Drawer] che contiene varie opzioni di navigazione.
   static Widget buildDrawer(BuildContext context) {
-    return Drawer(
-      child: Column(
-        children: <Widget>[
-          Expanded(
-            child: ListView(
-              padding: EdgeInsets.zero,
-              children: <Widget>[
-                const SizedBox(
-                  height: 150, // Imposta l'altezza desiderata
-                  child: DrawerHeader(
-                    curve: Curves.easeOutCirc,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topRight,
-                        end: Alignment.bottomLeft,
-                        colors: [
-                          Color(0xFFCE93D8),
-                          Color(0xFF80DEEA),
-                        ],
-                      ),
+     return Drawer(
+      child: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.bottomRight,
+            end: Alignment.topLeft,
+            colors: [
+              Color(0xFFCE93D8),
+              Color(0xFF80DEEA),
+            ],
+          ),
+        ),
+        child: Column(
+          children: <Widget>[
+            const SizedBox(height: 40),
+            const Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Text(
+                'SCEGLI IL SERVIZIO CHE FA PER TE',
+                style: TextStyle(
+                  shadows: <Shadow>[
+                    Shadow(
+                      offset: Offset(1, 1),
+                      blurRadius: 2.0,
+                      color: Color(0xFFFAFAFA),
                     ),
-                    child: Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Text(
-                        'Scegli il servizio che fa per te',
-                        style: TextStyle(
-                          shadows: <Shadow>[
-                            Shadow(
-                              offset: Offset(1, 1),
-                              blurRadius: 2.0,
-                              color: Color(0xFFFAFAFA), //fromARGB(255, 128, 0, 128),
-                            ),
-                          ],
-                          fontFamily: 'Poppins',
-                          color: Colors.black,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
+                  ],
+                  fontFamily: 'Poppins',
+                  color: Colors.black,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
                 ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            const SizedBox(height: 50),
+            Expanded(
+              child: ListView(
+                padding: EdgeInsets.zero,
+                children: <Widget>[
                 ListTile(
                   title: const Text(
                     'Community Events',
@@ -219,6 +216,7 @@ class GenericAppBar extends StatelessWidget implements PreferredSizeWidget {
             ),
           ),
         ],
+      ),
       ),
     );
   }

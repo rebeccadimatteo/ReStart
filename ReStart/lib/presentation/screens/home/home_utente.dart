@@ -1,12 +1,9 @@
 import 'dart:convert';
-
+import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:restart_all_in_one/model/entity/annuncio_di_lavoro_DTO.dart';
 import '../../../model/entity/evento_DTO.dart';
 import '../../../utils/auth_service.dart';
-import '../../../utils/jwt_constants.dart';
-import '../../../utils/jwt_utils.dart';
 import '../../components/generic_app_bar.dart';
 import '../routes/routes.dart';
 import "package:http/http.dart" as http;
@@ -95,8 +92,9 @@ class _HomeUtenteState extends State<HomeUtente> {
                 'QUESTA SETTIMANA...',
                 textAlign: TextAlign.right,
                 style: TextStyle(
-                  fontSize: 20,
+                  fontFamily: 'Poppins',
                   fontWeight: FontWeight.bold,
+                  fontSize: 20,
                 ),
               ),
             ),
@@ -132,8 +130,9 @@ class _HomeUtenteState extends State<HomeUtente> {
                 'COSA ASPETTI?',
                 textAlign: TextAlign.right,
                 style: TextStyle(
-                  fontSize: 20,
+                  fontFamily: 'Poppins',
                   fontWeight: FontWeight.bold,
+                  fontSize: 20,
                 ),
               ),
             ),
@@ -179,19 +178,53 @@ class _HomeUtenteState extends State<HomeUtente> {
                 child: Container(
                   padding: const EdgeInsets.all(10),
                   margin: const EdgeInsets.all(10),
-                  color: Colors.blue[200],
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    gradient: LinearGradient(
+                      colors: [Colors.blue[50]!, Colors.blue[100]!],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                        offset: Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                  child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                  child: Container(
+                      decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                      colors: [Colors.blue[50]!, Colors.blue[100]!],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                  ),
+                  ),
                   child: const Center(
+                  child: Center(
                     child: Text(
                       'SCOPRI IL LAVORO CHE FA PER TE!',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: 16,
+                        fontFamily: 'Poppins',
                         fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: Colors.black,
+                      ),
                       ),
                     ),
+                    ),
+                  ),
                   ),
                 ),
               ),
+    ),
               GestureDetector(
                 onTap: () {
                   Navigator.pushNamed(
@@ -202,14 +235,30 @@ class _HomeUtenteState extends State<HomeUtente> {
                 child: Container(
                   padding: const EdgeInsets.all(10),
                   margin: const EdgeInsets.all(10),
-                  color: Colors.blue[200],
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    gradient: LinearGradient(
+                      colors: [Colors.blue[50]!, Colors.blue[100]!],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                        offset: Offset(0, 2),
+                      ),
+                    ],
+                  ),
                   child: const Center(
                     child: Text(
                       'TROVA UN ALLOGGIO',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: 16,
+                        fontFamily: 'Poppins',
                         fontWeight: FontWeight.bold,
+                        fontSize: 16,
                       ),
                     ),
                   ),
@@ -225,14 +274,30 @@ class _HomeUtenteState extends State<HomeUtente> {
                 child: Container(
                   padding: const EdgeInsets.all(10),
                   margin: const EdgeInsets.all(10),
-                  color: Colors.blue[200],
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    gradient: LinearGradient(
+                      colors: [Colors.blue[50]!, Colors.blue[100]!],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                        offset: Offset(0, 2),
+                      ),
+                    ],
+                  ),
                   child: const Center(
                     child: Text(
                       'IMPARA QUALCOSA DI NUOVO',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: 16,
+                        fontFamily: 'Poppins',
                         fontWeight: FontWeight.bold,
+                        fontSize: 16,
                       ),
                     ),
                   ),
@@ -248,23 +313,40 @@ class _HomeUtenteState extends State<HomeUtente> {
                 child: Container(
                   padding: const EdgeInsets.all(10),
                   margin: const EdgeInsets.all(10),
-                  color: Colors.blue[200],
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    gradient: LinearGradient(
+                      colors: [Colors.blue[50]!, Colors.blue[100]!],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                        offset: Offset(0, 2),
+                      ),
+                    ],
+                  ),
                   child: const Center(
                     child: Text(
                       'PRENDITI CURA DI TE STESSO',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: 16,
+                        fontFamily: 'Poppins',
                         fontWeight: FontWeight.bold,
+                        fontSize: 16,
                       ),
                     ),
                   ),
                 ),
               ),
-            ]),
-          ),
-        ],
-      ),
-    );
+                ],
+                ),
+                ),
+              ],
+                )
+              );
   }
 }
