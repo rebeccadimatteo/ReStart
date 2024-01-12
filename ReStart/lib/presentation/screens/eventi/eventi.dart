@@ -139,7 +139,7 @@ class _CommunityEventsState extends State<CommunityEvents> {
                         evento.descrizione,
                         style: const TextStyle(
                           fontFamily: 'Poppins',
-                          fontSize: 14,
+                          fontSize: 15,
                           color: Colors.black, // Cambia il colore del testo se necessario
                         ),
                       ),
@@ -227,7 +227,7 @@ class _DetailsEventoState extends State<DetailsEvento> {
                         const Text(
                           'Contatti',
                           style: TextStyle(
-                              fontSize: 25,
+                              fontSize: 20,
                               fontFamily: 'Poppins',
                               fontWeight: FontWeight.bold
                           ),
@@ -238,7 +238,7 @@ class _DetailsEventoState extends State<DetailsEvento> {
                         const Text(
                           'Informazioni',
                           style: TextStyle(
-                              fontSize: 25,
+                              fontSize: 20,
                               fontFamily: 'Poppins',
                               fontWeight: FontWeight.bold
                           ),

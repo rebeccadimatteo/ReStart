@@ -202,6 +202,7 @@ class _DetailsSupportoState extends State<DetailsSupporto> {
           Text(
             supporto.nomeMedico,
             style: const TextStyle(
+              fontFamily: 'Poppins',
               fontWeight: FontWeight.bold,
               fontSize: 30,
             ),
@@ -209,6 +210,7 @@ class _DetailsSupportoState extends State<DetailsSupporto> {
           Text(
             supporto.cognomeMedico,
             style: const TextStyle(
+              fontFamily: 'Poppins',
               fontWeight: FontWeight.bold,
               fontSize: 30,
             ),
@@ -216,7 +218,12 @@ class _DetailsSupportoState extends State<DetailsSupporto> {
           const SizedBox(height: 10),
           Padding(
             padding: const EdgeInsets.all(10.0),
-            child: Text(supporto.descrizione),
+            child: Text(supporto.descrizione,
+               style: const TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 14,
+                          ),
+            ),
           ),
           Expanded(
               child: Align(
@@ -229,17 +236,33 @@ class _DetailsSupportoState extends State<DetailsSupporto> {
                         const Text(
                           'Contatti',
                           style: TextStyle(
+                            fontFamily: 'Poppins',
                             fontSize: 25,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         const SizedBox(width: 8),
-                        Text(supporto.email),
+                        Text(supporto.email,
+                          style: const TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 14,
+                          ),
+                        ),
                         const SizedBox(width: 8),
-                        Text(supporto.numTelefono),
+                        Text(supporto.numTelefono,
+                         style: const TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 14,
+                          ),
+                        ),
                         const SizedBox(width: 8),
                         Text(
-                            '${supporto.via}, ${supporto.citta}, ${supporto.provincia}'),
+                            '${supporto.via}, ${supporto.citta}, ${supporto.provincia}',
+                         style: const TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 14,
+                          ),
+                        ),
                       ],
                     ),
                   )))

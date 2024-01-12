@@ -280,13 +280,25 @@ class _DetailsLavoroState extends State<DetailsLavoro> {
             annuncio.nome,
             style: const TextStyle(
               fontWeight: FontWeight.bold,
+              fontFamily: 'Poppins',
               fontSize: 30,
             ),
           ),
           const SizedBox(height: 10),
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Text(annuncio.descrizione, textAlign: TextAlign.center),
+          Align(
+            alignment: Alignment.center,
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Text(
+                annuncio.descrizione,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Poppins',
+                  fontSize: 15,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
           ),
           Expanded(
               child: Align(
@@ -299,29 +311,48 @@ class _DetailsLavoroState extends State<DetailsLavoro> {
                         const Text(
                           'Contatti',
                           style: TextStyle(
-                            fontSize: 25,
+                            fontFamily: 'Poppins',
+                            fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         const SizedBox(width: 8),
                         // Aggiungi uno spazio tra il testo e gli altri elementi
-                        Text(annuncio.email),
+                        Text(annuncio.email,
+                          style: const TextStyle(
+                            fontFamily: 'Poppins',
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                         const SizedBox(width: 8),
-                        Text(annuncio.numTelefono),
+                        Text(annuncio.numTelefono,
+                             style: const TextStyle(
+                            fontFamily: 'Poppins',
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                         const SizedBox(width: 8),
                         Text(
-                            '${annuncio.via}, ${annuncio.citta}, ${annuncio.provincia}'),
+                            '${annuncio.via}, ${annuncio.citta}, ${annuncio.provincia}',
+                            style: const TextStyle(
+                            fontFamily: 'Poppins',
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ],
                     ),
                   ))),
           const SizedBox(height: 20),
           Container(
-            padding: const EdgeInsets.only(bottom: 40),
+            padding: const EdgeInsets.only(bottom: 45),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blue[200],
                 shadowColor: Colors.grey,
-                elevation: 10,
+                elevation: 15,
               ),
               onPressed: () {
                 apply(annuncio.id!, context);
@@ -329,6 +360,8 @@ class _DetailsLavoroState extends State<DetailsLavoro> {
               child: const Text('CANDIDATI',
                   style: TextStyle(
                     color: Colors.black,
+                    fontFamily: 'Poppins',
+                    fontSize: 20,
                     fontWeight: FontWeight.bold,
                   )),
             ),
