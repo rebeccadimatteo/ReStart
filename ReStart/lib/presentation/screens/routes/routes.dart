@@ -106,7 +106,7 @@ class AppRoutes {
       supportiAds: (context) => SupportoMedicoAds(),
       dettaglisupportoAds: (context) => DetailsSupportoAds(),
       richiesteAds: (context) => Richieste(),
-      modificaevento: (context) => ModifyEvento(),
+      // modificaevento: (context) => ModifyEvento(),
     };
   }
 }

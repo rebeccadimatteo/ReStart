@@ -13,7 +13,6 @@ import '../routes/routes.dart';
 
 ///Classe che rappresenta la schermata per inserire un [Evento]
 class ModifyEvento extends StatefulWidget {
-
   @override
   _ModifyEventoState createState() => _ModifyEventoState();
 }
@@ -23,6 +22,19 @@ class ModifyEvento extends StatefulWidget {
 class _ModifyEventoState extends State<ModifyEvento> {
   late int idCa;
   var token;
+  List<EventoDTO> eventi = [];
+  late EventoDTO evento;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    // Access the context at an appropriate time
+    evento = ModalRoute.of(context)?.settings.arguments as EventoDTO;
+
+    // Set controller values here
+    setControllerValues(evento);
+  }
 
   @override
   void initState() {
@@ -38,37 +50,27 @@ class _ModifyEventoState extends State<ModifyEvento> {
     }
   }
 
-/*
-  Future<void> modifyEvento(EventoDTO evento) async {
-    final response = await http.post(
-        Uri.parse('http://10.0.2.2:8080/gestioneEvento/modifyEvento'),
-        body: jsonEncode(evento));
-    if (response.statusCode == 200) {
-      setState(() {
-        for (EventoDTO e in eventi) {
-          if (e.id == evento.id) {
-            eventi.remove(e);
-            break;
-          }
-        }
-        eventi.add(evento);
-      });
-    } else {
-      print("Mofifica non andata a buon fine");
-    }
-  }*/
-
   final _formKey = GlobalKey<FormState>();
   XFile? _image;
 
-  final TextEditingController nomeController = TextEditingController();
-  final TextEditingController descrizioneController = TextEditingController();
-  final TextEditingController dataController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController sitoController = TextEditingController();
-  final TextEditingController cittaController = TextEditingController();
-  final TextEditingController viaController = TextEditingController();
-  final TextEditingController provinciaController = TextEditingController();
+  TextEditingController nomeController = TextEditingController();
+  TextEditingController descrizioneController = TextEditingController();
+  TextEditingController dataController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController sitoController = TextEditingController();
+  TextEditingController cittaController = TextEditingController();
+  TextEditingController viaController = TextEditingController();
+  TextEditingController provinciaController = TextEditingController();
+
+  void setControllerValues(EventoDTO evento) {
+    nomeController.text = evento.nomeEvento;
+    descrizioneController.text = evento.descrizione;
+    cittaController.text = evento.citta;
+    viaController.text = evento.via;
+    provinciaController.text = evento.provincia;
+    emailController.text = evento.email;
+    sitoController.text = evento.sito;
+  }
 
   /// Metodo per selezionare un'immagine dalla galleria.
   void selectImage() async {
@@ -77,7 +79,7 @@ class _ModifyEventoState extends State<ModifyEvento> {
   }
 
   /// Metodo per inviare il form al server.
-  void submitForm() async {
+  void submitForm(EventoDTO event) async {
     if (_formKey.currentState!.validate()) {
       String nome = nomeController.text;
       String descrizione = descrizioneController.text;
@@ -90,6 +92,7 @@ class _ModifyEventoState extends State<ModifyEvento> {
 
       // Crea il DTO con il percorso dell'immagine
       EventoDTO evento = EventoDTO(
+        id: event.id,
         nomeEvento: nome,
         descrizione: descrizione,
         approvato: true,
@@ -103,7 +106,7 @@ class _ModifyEventoState extends State<ModifyEvento> {
         date: DateTime.now(),
       );
       // Invia i dati al server con il percorso dell'immagine
-      await sendDataToServer(evento);
+      sendDataToServer(evento);
     } else {
       print("Evento non inserito");
     }
@@ -112,14 +115,15 @@ class _ModifyEventoState extends State<ModifyEvento> {
   /// Metodo per inviare i dati al server.
   Future<void> sendDataToServer(EventoDTO evento) async {
     final response = await http.post(
-      Uri.parse('http://10.0.2.2:8080/gestioneEvento/addEvento'),
+      Uri.parse('http://10.0.2.2:8080/gestioneEvento/modifyEvento'),
       body: jsonEncode(evento),
       headers: {'Content-Type': 'application/json'},
     );
 
     if (response.statusCode == 200 && _image != null) {
+      print(response);
       final imageUrl =
-      Uri.parse('http://10.0.2.2:8080/gestionerReintegrazione/addImage');
+          Uri.parse('http://10.0.2.2:8080/gestioneReintegrazione/addImage');
       final imageRequest = http.MultipartRequest('POST', imageUrl);
 
       // Aggiungi l'immagine
@@ -133,11 +137,11 @@ class _ModifyEventoState extends State<ModifyEvento> {
       if (imageResponse.statusCode == 200) {
         // L'immagine è stata caricata con successo
         print("Immagine caricata con successo.");
+        Navigator.pushNamed(context, AppRoutes.eventipubblicati);
       } else {
         // Si è verificato un errore nell'upload dell'immagine
         print(
-            "Errore durante l'upload dell'immagine: ${imageResponse
-                .statusCode}");
+            "Errore durante l'upload dell'immagine: ${imageResponse.statusCode}");
       }
     }
   }
@@ -145,184 +149,160 @@ class _ModifyEventoState extends State<ModifyEvento> {
   /// Costruisce la UI per la schermata di inserimento di un evento temporaneo.
   @override
   Widget build(BuildContext context) {
-    EventoDTO evento = ModalRoute
-        .of(context)
-        ?.settings
-        .arguments as EventoDTO;
-
-    print(evento);
-    nomeController.text = evento.nomeEvento;
-    descrizioneController.text = evento.descrizione;
-    cittaController.text = evento.citta;
-    viaController.text = evento.via;
-    provinciaController.text = evento.provincia;
-    emailController.text = evento.email;
-    sitoController.text = evento.sito;
-
-
-    double screenWidth = MediaQuery
-        .of(context)
-        .size
-        .width;
+    double screenWidth = MediaQuery.of(context).size.width;
     double avatarSize = screenWidth * 0.3;
 
-    return MaterialApp(
-      home: Scaffold(
-        appBar: CaAppBar(
-          showBackButton: true,
-        ),
-        endDrawer: CaAppBar.buildDrawer(context),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.all(screenWidth * 0.08),
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
+    return Scaffold(
+      appBar: CaAppBar(
+        showBackButton: true,
+      ),
+      endDrawer: CaAppBar.buildDrawer(context),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.all(screenWidth * 0.08),
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+            const Text(
+              'Inserisci evento',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            Form(
+              key: _formKey,
+              child: Column(
                 children: [
+                  Stack(
+                    children: [
+                      Container(
+                        width: avatarSize,
+                        height: avatarSize,
+                        child: CircleAvatar(
+                          backgroundImage: _image != null
+                              ? MemoryImage(
+                                  File(_image!.path).readAsBytesSync())
+                              : Image.asset('images/avatar.png').image,
+                        ),
+                      ),
+                      Positioned(
+                        bottom: -1,
+                        left: screenWidth * 0.18,
+                        child: IconButton(
+                          onPressed: selectImage,
+                          icon: Icon(Icons.add_a_photo_sharp),
+                        ),
+                      )
+                    ],
+                  ),
+                  TextFormField(
+                    controller: nomeController,
+                    decoration: const InputDecoration(labelText: 'Nome evento'),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {}
+                      return null;
+                    },
+                    onChanged: (value) {
+                      // Aggiorna lo stato del widget quando il testo cambia
+                      setState(() {
+                          nomeController.text = value;
+                          // Nessuna azione specifica richiesta qui, poiché stai già utilizzando il controller
+                        },
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                  TextFormField(
+                      controller: descrizioneController,
+                      decoration:
+                          const InputDecoration(labelText: 'Descrizione'),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Inserisci la descrizione dell\'evento';
+                        }
+                        return null;
+                      }),
+                  const SizedBox(height: 40),
                   const Text(
-                    'Inserisci evento',
+                    'Contatti',
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
-                    textAlign: TextAlign.center,
                   ),
-                  Form(
-                    key: _formKey,
-                    child: Column(
-                      children: [
-                        Stack(
-                          children: [
-                            Container(
-                              width: avatarSize,
-                              height: avatarSize,
-                              child: CircleAvatar(
-                                backgroundImage: _image != null
-                                    ? MemoryImage(
-                                    File(_image!.path).readAsBytesSync())
-                                    : Image
-                                    .asset('images/avatar.png')
-                                    .image,
-                              ),
-                            ),
-                            Positioned(
-                              bottom: -1,
-                              left: screenWidth * 0.18,
-                              child: IconButton(
-                                onPressed: selectImage,
-                                icon: Icon(Icons.add_a_photo_sharp),
-                              ),
-                            )
-                          ],
-                        ),
-                        TextFormField(
-                          //initialValue: evento.nomeEvento,
-                          controller: nomeController,
-                          decoration:
-                          const InputDecoration(labelText: 'Nome evento'),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-
-                            }
-                            return null;
-                          }
-                        ),
-                        const SizedBox(height: 20),
-                        TextFormField(
-                            controller: descrizioneController,
-                            decoration:
-                            const InputDecoration(labelText: 'Descrizione'),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Inserisci la descrizione dell\'evento';
-                              }
-                              return null;
-                            }),
-                        const SizedBox(height: 40),
-                        const Text(
-                          'Contatti',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-                        TextFormField(
-                            controller: emailController,
-                            decoration:
-                            const InputDecoration(labelText: 'Email'),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Inserisci la mail dell\'evento';
-                              }
-                              return null;
-                            }),
-                        const SizedBox(height: 20),
-                        TextFormField(
-                            controller: sitoController,
-                            decoration:
-                            const InputDecoration(labelText: 'Sito web'),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Inserisci il sito web dell\'evento';
-                              }
-                              return null;
-                            }),
-                        const SizedBox(height: 20),
-                        TextFormField(
-                            controller: cittaController,
-                            decoration:
-                            const InputDecoration(labelText: 'Città'),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Inserisci la città dov\è situato l\'evento';
-                              }
-                              return null;
-                            }),
-                        TextFormField(
-                            controller: viaController,
-                            decoration: const InputDecoration(labelText: 'Via'),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Inserisci la via dov\è situato l\'evento';
-                              }
-                              return null;
-                            }),
-                        const SizedBox(height: 20),
-                        TextFormField(
-                            controller: provinciaController,
-                            decoration:
-                            const InputDecoration(labelText: 'Provincia'),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Inserisci la provincia dov\è situato l\'evento';
-                              }
-                              return null;
-                            }),
-                        SizedBox(height: screenWidth * 0.1),
-                        ElevatedButton(
-                          onPressed: () {
-                            submitForm;
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue[200],
-                            foregroundColor: Colors.black,
-                            shadowColor: Colors.grey,
-                            elevation: 10,
-                            minimumSize:
-                            Size(screenWidth * 0.1, screenWidth * 0.1),
-                          ),
-                          child: const Text(
-                            'INSERISCI',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ],
+                  const SizedBox(height: 20),
+                  TextFormField(
+                      controller: emailController,
+                      decoration: const InputDecoration(labelText: 'Email'),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Inserisci la mail dell\'evento';
+                        }
+                        return null;
+                      }),
+                  const SizedBox(height: 20),
+                  TextFormField(
+                      controller: sitoController,
+                      decoration: const InputDecoration(labelText: 'Sito web'),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Inserisci il sito web dell\'evento';
+                        }
+                        return null;
+                      }),
+                  const SizedBox(height: 20),
+                  TextFormField(
+                      controller: cittaController,
+                      decoration: const InputDecoration(labelText: 'Città'),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Inserisci la città dov\è situato l\'evento';
+                        }
+                        return null;
+                      }),
+                  TextFormField(
+                      controller: viaController,
+                      decoration: const InputDecoration(labelText: 'Via'),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Inserisci la via dov\è situato l\'evento';
+                        }
+                        return null;
+                      }),
+                  const SizedBox(height: 20),
+                  TextFormField(
+                      controller: provinciaController,
+                      decoration: const InputDecoration(labelText: 'Provincia'),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Inserisci la provincia dov\è situato l\'evento';
+                        }
+                        return null;
+                      }),
+                  SizedBox(height: screenWidth * 0.1),
+                  ElevatedButton(
+                    onPressed: () {
+                      submitForm(evento);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue[200],
+                      foregroundColor: Colors.black,
+                      shadowColor: Colors.grey,
+                      elevation: 10,
+                      minimumSize: Size(screenWidth * 0.1, screenWidth * 0.1),
+                    ),
+                    child: const Text(
+                      'INSERISCI',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                ]),
-          ),
+                ],
+              ),
+            ),
+          ]),
         ),
       ),
     );

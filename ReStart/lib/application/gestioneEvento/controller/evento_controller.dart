@@ -22,7 +22,6 @@ class GestioneEventoController {
     _router.post('/rejectEvento', _rejectEvento);
     _router.post('/rejectEvento', _richiesteEventi);
     _router.all('/ignored|.*>', _notFound);
-
   }
 
   shelf_router.Router get router => _router;
@@ -192,7 +191,7 @@ class GestioneEventoController {
       final int idCa =
           params['id_ca'] != null ? int.parse(params['id_ca'].toString()) : 0;
       final String immagine = params['immagine'] ?? '';
-      final String nomeEvento = params['nomeEvento'] ?? '';
+      final String nomeEvento = params['nome'] ?? '';
       final String descrizione = params['descrizione'] ?? '';
       final bool approvato = params['approvato'] ?? 'false';
       final String email = params['email'] ?? '';
@@ -225,7 +224,6 @@ class GestioneEventoController {
             body: responseBody, headers: {'Content-Type': 'application/json'});
       }
     } catch (e) {
-
       // Gestione degli errori durante la chiamata al servizio
       return Response.internalServerError(
           body: 'Errore durante la modifica dell\'evento: $e');
@@ -239,22 +237,20 @@ class GestioneEventoController {
 
       final String username = params['username'] ?? '';
       final List<EventoDTO> listaEventi =
-      await _service.eventiPubblicati(username);
+          await _service.eventiPubblicati(username);
       final responseBody = jsonEncode({'eventi': listaEventi});
       return Response.ok(responseBody,
           headers: {'Content-Type': 'application/json'});
     } catch (e) {
       return Response.internalServerError(
           body:
-          'Errore durante la visualizzazione degli eventi pubblicati: $e');
+              'Errore durante la visualizzazione degli eventi pubblicati: $e');
     }
   }
 
   Future<Response> _richiesteEventi(Request request) async {
     try {
-
-      final List<EventoDTO> listaEventi =
-      await _service.richiesteEventi();
+      final List<EventoDTO> listaEventi = await _service.richiesteEventi();
 
       final responseBody = jsonEncode({'eventi': listaEventi});
       return Response.ok(responseBody,
@@ -262,12 +258,11 @@ class GestioneEventoController {
     } catch (e) {
       return Response.internalServerError(
           body:
-          'Errore durante la visualizzazione degli eventi da approvare: $e');
+              'Errore durante la visualizzazione degli eventi da approvare: $e');
     }
   }
 
   Future<Response> _eventiSettimanali(Request request) async {
-
     try {
       final List<EventoDTO> listaEventi = await _service.communityEvents();
       final responseBody = jsonEncode({'eventi': listaEventi});
@@ -299,6 +294,4 @@ class GestioneEventoController {
     }
     return formData;
   }
-
-
 }
