@@ -1,5 +1,4 @@
-import 'package:restart_all_in_one/model/entity/utente_DTO.dart';
-
+import '../../../model/entity/utente_DTO.dart';
 import '../../../model/dao/annuncio_di_lavoro/annuncio_di_lavoro_DAO.dart';
 import '../../../model/dao/annuncio_di_lavoro/annuncio_di_lavoro_DAO_impl.dart';
 import '../../../model/dao/autenticazione/utente/utente_DAO.dart';

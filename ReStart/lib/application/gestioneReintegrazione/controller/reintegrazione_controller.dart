@@ -10,8 +10,6 @@ import '../../../model/entity/corso_di_formazione_DTO.dart';
 import '../../../model/entity/supporto_medico_DTO.dart';
 import '../service/reintegrazione/reintegrazione_service_impl.dart';
 
-
-
 class ReintegrazioneController {
   late final ReintegrazioneServiceImpl _service;
   late final shelf_router.Router _router;
@@ -22,11 +20,14 @@ class ReintegrazioneController {
 
     // Associa i vari metodi alle route
     _router.post('/visualizzaCorsi', _visualizzaCorsi);
-    _router.post('/addCorso', _addCorso);
-    _router.post('/addSupporto', _addSupporto);
     _router.post('/visualizzaAlloggi', _visualizzaAlloggi);
     _router.post('/visualizzaSupporti', _visualizzaSupporti);
+    _router.post('/addCorso', _addCorso);
+    _router.post('/addSupporto', _addSupporto);
     _router.post('/addImage', _uploadImage);
+    _router.post('/deleteCorso', _deleteCorso);
+    _router.post('/deleteAlloggio', _deleteAlloggio);
+    _router.post('/_deleteSupporto', _deleteSupporto);
 
     // Aggiungi la route di fallback per le richieste non corrispondenti
     _router.all('/<ignored|.*>', _notFound);
@@ -38,7 +39,7 @@ class ReintegrazioneController {
     try {
       // Chiamata al servizio per ottenere la lista di corsi
       final List<CorsoDiFormazioneDTO> listaCorsi =
-      await _service.corsiDiFormazione();
+          await _service.corsiDiFormazione();
       // Creazione della risposta con il corpo JSON contenente la lista di corsi
       final responseBody = jsonEncode({'corsi': listaCorsi});
       return Response.ok(responseBody,
@@ -54,7 +55,7 @@ class ReintegrazioneController {
     try {
       // Chiamata al servizio per ottenere la lista di alloggi
       final List<SupportoMedicoDTO> listaSupporti =
-      await _service.supportiMedici();
+          await _service.supportiMedici();
       // Creazione della risposta con il corpo JSON contenente la lista di supporti
       final responseBody = jsonEncode({'supporti': listaSupporti});
       return Response.ok(responseBody,
@@ -70,7 +71,7 @@ class ReintegrazioneController {
     try {
       // Chiamata al servizio per ottenere la lista di alloggi
       final List<AlloggioTemporaneoDTO> listaAlloggi =
-      await _service.alloggiTemporanei();
+          await _service.alloggiTemporanei();
       // Creazione della risposta con il corpo JSON contenente la lista di alloggi
       final responseBody = jsonEncode({'alloggi': listaAlloggi});
       return Response.ok(responseBody,
@@ -107,7 +108,7 @@ class ReintegrazioneController {
             headers: {'Content-Type': 'application/json'});
       } else {
         final responseBody =
-        jsonEncode({'result': 'Inserimento non effettuato'});
+            jsonEncode({'result': 'Inserimento non effettuato'});
         return Response.badRequest(
             body: responseBody, headers: {'Content-Type': 'application/json'});
       }
@@ -130,13 +131,18 @@ class ReintegrazioneController {
 
       await for (final part in parts) {
         if (part.headers.containsKey('content-disposition')) {
-          final contentDisposition = HeaderValue.parse(part.headers['content-disposition']!);
+          final contentDisposition =
+              HeaderValue.parse(part.headers['content-disposition']!);
           final name = contentDisposition.parameters['name'];
 
           if (name == 'nome') {
-            nome = await part.toList().then((value) => utf8.decode(value.expand((i) => i).toList()));
+            nome = await part
+                .toList()
+                .then((value) => utf8.decode(value.expand((i) => i).toList()));
           } else if (name == 'immagine') {
-            imageData = await part.toList().then((value) => value.expand((i) => i).toList());
+            imageData = await part
+                .toList()
+                .then((value) => value.expand((i) => i).toList());
           }
         }
       }
@@ -194,14 +200,89 @@ class ReintegrazioneController {
             headers: {'Content-Type': 'application/json'});
       } else {
         final responseBody =
-        jsonEncode({'result': 'Inserimento non effettuato'});
+            jsonEncode({'result': 'Inserimento non effettuato'});
         return Response.badRequest(
             body: responseBody, headers: {'Content-Type': 'application/json'});
       }
     } catch (e) {
       // Gestione degli errori durante la chiamata al servizio
       return Response.internalServerError(
-          body: 'Errore durante l\'inserimento del corso di formazione: $e');
+          body: 'Errore durante l\'inserimento del supporto medico: $e');
+    }
+  }
+
+  Future<Response> _deleteCorso(Request request) async {
+    try {
+      final String requestBody = await request.readAsString();
+      final Map<String, dynamic> params = jsonDecode(requestBody);
+
+      final int idCorso =
+          params['id'] != null ? int.parse(params['id'].toString()) : 0;
+
+      if (await _service.deleteCorso(idCorso)) {
+        final responseBody = jsonEncode({'result': "Eliminazione effettuata."});
+        return Response.ok(responseBody,
+            headers: {'Content-Type': 'application/json'});
+      } else {
+        final responseBody =
+            jsonEncode({'result': 'Eliminazione non effettuata'});
+        return Response.badRequest(
+            body: responseBody, headers: {'Content-Type': 'application/json'});
+      }
+    } catch (e) {
+      // Gestione degli errori durante la chiamata al servizio
+      return Response.internalServerError(
+          body: 'Errore durante l\'eliminazione del corso: $e');
+    }
+  }
+
+  Future<Response> _deleteAlloggio(Request request) async {
+    try {
+      final String requestBody = await request.readAsString();
+      final Map<String, dynamic> params = jsonDecode(requestBody);
+
+      final int idAlloggio =
+          params['id'] != null ? int.parse(params['id'].toString()) : 0;
+
+      if (await _service.deleteCorso(idAlloggio)) {
+        final responseBody = jsonEncode({'result': "Eliminazione effettuata."});
+        return Response.ok(responseBody,
+            headers: {'Content-Type': 'application/json'});
+      } else {
+        final responseBody =
+            jsonEncode({'result': 'Eliminazione non effettuata'});
+        return Response.badRequest(
+            body: responseBody, headers: {'Content-Type': 'application/json'});
+      }
+    } catch (e) {
+      // Gestione degli errori durante la chiamata al servizio
+      return Response.internalServerError(
+          body: 'Errore durante l\'eliminazione dell\'alloggio: $e');
+    }
+  }
+
+  Future<Response> _deleteSupporto(Request request) async {
+    try {
+      final String requestBody = await request.readAsString();
+      final Map<String, dynamic> params = jsonDecode(requestBody);
+
+      final int idSupporto =
+          params['id'] != null ? int.parse(params['id'].toString()) : 0;
+
+      if (await _service.deleteCorso(idSupporto)) {
+        final responseBody = jsonEncode({'result': "Eliminazione effettuata."});
+        return Response.ok(responseBody,
+            headers: {'Content-Type': 'application/json'});
+      } else {
+        final responseBody =
+            jsonEncode({'result': 'Eliminazione non effettuata'});
+        return Response.badRequest(
+            body: responseBody, headers: {'Content-Type': 'application/json'});
+      }
+    } catch (e) {
+      // Gestione degli errori durante la chiamata al servizio
+      return Response.internalServerError(
+          body: 'Errore durante l\'eliminazione del supporto medico: $e');
     }
   }
 
@@ -210,19 +291,19 @@ class ReintegrazioneController {
     return Response.notFound('Endpoint not found',
         headers: {'Content-Type': 'text/plain'});
   }
-}
 
 // Funzione per il parsing dei dati di form
-Map<String, dynamic> parseFormBody(String body) {
-  final Map<String, dynamic> formData = {};
-  final List<String> pairs = body.split("&");
-  for (final String pair in pairs) {
-    final List<String> keyValue = pair.split("=");
-    if (keyValue.length == 2) {
-      final String key = Uri.decodeQueryComponent(keyValue[0]);
-      final String value = Uri.decodeQueryComponent(keyValue[1]);
-      formData[key] = value;
+  Map<String, dynamic> parseFormBody(String body) {
+    final Map<String, dynamic> formData = {};
+    final List<String> pairs = body.split("&");
+    for (final String pair in pairs) {
+      final List<String> keyValue = pair.split("=");
+      if (keyValue.length == 2) {
+        final String key = Uri.decodeQueryComponent(keyValue[0]);
+        final String value = Uri.decodeQueryComponent(keyValue[1]);
+        formData[key] = value;
+      }
     }
+    return formData;
   }
-  return formData;
 }

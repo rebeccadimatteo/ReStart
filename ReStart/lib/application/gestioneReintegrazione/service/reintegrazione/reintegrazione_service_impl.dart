@@ -55,4 +55,19 @@ class ReintegrazioneServiceImpl implements ReintegrazioneService {
   Future<List<SupportoMedicoDTO>> supportiMedici() {
     return _supportoDAO.findAll();
   }
+
+  @override
+  Future<bool> deleteAlloggio(int idAlloggio) {
+    return _alloggioDAO.removeById(idAlloggio);
+  }
+
+  @override
+  Future<bool> deleteCorso(int idCorso) {
+    return _corsoDAO.removeById(idCorso);
+  }
+
+  @override
+  Future<bool> deleteSupporto(int idSupporto) {
+    return _supportoDAO.removeById(idSupporto);
+  }
 }

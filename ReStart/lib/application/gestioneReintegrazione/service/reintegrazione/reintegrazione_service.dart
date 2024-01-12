@@ -15,4 +15,12 @@ abstract class ReintegrazioneService {
   Future<bool> addSupportoMedico(SupportoMedicoDTO sm);
 
   Future<bool> addAlloggio(AlloggioTemporaneoDTO at);
+
+  Future<bool> deleteAlloggio(int idAlloggio);
+
+  Future<bool> deleteCorso(int idCorso);
+
+  Future<bool> deleteSupporto(int idSupporto);
+
+
 }
