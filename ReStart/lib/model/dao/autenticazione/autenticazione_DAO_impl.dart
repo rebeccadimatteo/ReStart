@@ -166,6 +166,7 @@ class AutenticazioneDAOImpl implements AutenticazioneDAO {
         case "CA":
           {
             CaDAOImpl dao = CaDAOImpl();
+            CaDTO? ca = await dao.findByUsername(username);
             return dao.findByUsername(username);
           }
         case "ADS":

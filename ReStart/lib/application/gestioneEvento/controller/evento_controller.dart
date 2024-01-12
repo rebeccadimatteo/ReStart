@@ -239,7 +239,6 @@ class GestioneEventoController {
       final String username = params['username'] ?? '';
       final List<EventoDTO> listaEventi =
       await _service.eventiPubblicati(username);
-
       final responseBody = jsonEncode({'eventi': listaEventi});
       return Response.ok(responseBody,
           headers: {'Content-Type': 'application/json'});

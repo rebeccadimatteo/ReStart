@@ -227,11 +227,11 @@ class GestioneLavoroController {
     try {
       final String requestBody = await request.readAsString();
       final Map<String, dynamic> params = jsonDecode(requestBody);
-
       final String username = params['username'] ?? '';
       final List<AnnuncioDiLavoroDTO> listaAnnunci =
       await _service.offertePubblicate(username);
 
+      print(listaAnnunci);
       final responseBody = jsonEncode({'annunci': listaAnnunci});
       return Response.ok(responseBody,
           headers: {'Content-Type': 'application/json'});

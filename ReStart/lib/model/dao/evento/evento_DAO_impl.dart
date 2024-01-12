@@ -234,18 +234,20 @@ class EventoDAOImpl implements EventoDAO {
       Connection connection = await connector.openConnection();
       var result = await connection.execute(
         Sql.named(
-            'SELECT  e.id, e.id_ca, e.nome, e.descrizione, e.data, e.approvato, c.email, '
-                'c.sito, i.immagine, ind.via, ind.citta, ind.provincia, FROM public."Evento" as e, public."Contatti" as c, '
+            'SELECT DISTINCT e.id, e.id_ca, e.nome, e.descrizione, e.data, e.approvato, c.email, '
+                'c.sito, i.immagine, ind.via, ind.citta, ind.provincia FROM public."Evento" as e, public."Contatti" as c, '
                 'public."Immagine" as i, public."Indirizzo" as ind, public."CA" as ca '
-                'WHERE e.id = c.id_evento AND e.id = i.id_evento AND e.id = ind.id_evento AND e.id_ca = ca.@id AND e.approvato=true '),
+                'WHERE e.id = c.id_evento AND e.id = i.id_evento AND e.id = ind.id_evento AND e.id_ca = @id AND e.approvato=true '),
         parameters: {'id': id},
       );
+      print(result);
       List<EventoDTO> eventi = result.map((row) {
         return EventoDTO.fromJson(row.toColumnMap());
       }).toList();
 
       return eventi;
     } catch (e) {
+      print(e);
       developer.log(e.toString());
       return [];
     } finally {

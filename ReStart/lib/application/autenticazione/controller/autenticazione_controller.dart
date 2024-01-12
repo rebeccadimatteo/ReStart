@@ -44,7 +44,6 @@ class AutenticazioneController {
 
       // Esegui l'autenticazione
       final dynamic user = await _authService.login(username, password);
-
       if (user != null) {
         String jwtToken = '';
         if (user is UtenteDTO) {

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:restart_all_in_one/model/entity/annuncio_di_lavoro_DTO.dart';
+import 'package:restart_all_in_one/utils/jwt_utils.dart';
 
 //import '../../../utils/jwt_utils.dart';
 import '../../components/app_bar_ca.dart';
@@ -33,30 +34,32 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroPubblicati> {
   /// viene assegnata alla variabile di stato 'alloggi'. In caso di errori
   /// nella risposta, vengono stampati messaggi di errore sulla console.
   Future<void> fetchDataFromServer() async {
-    //int idCa = JWTUtils.getIdFromToken(accessToken: await token);
+    String user = JWTUtils.getUserFromToken(accessToken: await token);
+    Map<String, dynamic> username = {"username": user};
     final response = await http.post(
-        Uri.parse('http://10.0.2.2:8080/gestioneLavoro/annunciPubblicati'));
+        Uri.parse('http://10.0.2.2:8080/gestioneLavoro/annunciPubblicati'),
+        body: json.encode(username));
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseBody = json.decode(response.body);
       if (responseBody.containsKey('annunci')) {
         final List<AnnuncioDiLavoroDTO> data =
-        List<Map<String, dynamic>>.from(responseBody['annunci'])
-            .map((json) => AnnuncioDiLavoroDTO.fromJson(json))
-            .toList();
+            List<Map<String, dynamic>>.from(responseBody['annunci'])
+                .map((json) => AnnuncioDiLavoroDTO.fromJson(json))
+                .toList();
         setState(() {
           List<AnnuncioDiLavoroDTO> newData = [];
           for (AnnuncioDiLavoroDTO a in data) {
             //if (a.approvato && a.id_ca == idCa) {
-              newData.add(a);
+            newData.add(a);
             //}
           }
           annunci = newData;
         });
+      } else {
+        print('Chiave "annunci" non trovata nella risposta.');
+      }
     } else {
-    print('Chiave "annunci" non trovata nella risposta.');
-    }
-    } else {
-    print('Errore');
+      print('Errore');
     }
   }
 
@@ -131,16 +134,16 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroPubblicati> {
                   onTap: () {
                     Navigator.pushNamed(
                       context,
-                      AppRoutes.dettagliannuncio,
+                      AppRoutes.dettagliannunciopub,
                       arguments: annuncio,
                     );
                   },
                   child: Padding(
                     padding:
-                    const EdgeInsets.only(left: 5, bottom: 5, right: 5),
+                        const EdgeInsets.only(left: 5, bottom: 5, right: 5),
                     child: ListTile(
                       visualDensity:
-                      const VisualDensity(vertical: 4, horizontal: 4),
+                          const VisualDensity(vertical: 4, horizontal: 4),
                       minVerticalPadding: 50,
                       minLeadingWidth: 80,
                       tileColor: Colors.grey,
@@ -186,12 +189,12 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroPubblicati> {
 }
 
 /// Visualizza i dettagli di [AnnunciDiLavoro]
-class DetailsLavoroPub extends StatefulWidget{
+class DetailsLavoroPub extends StatefulWidget {
   @override
   _DetailsLavoroPub createState() => _DetailsLavoroPub();
-
 }
-class _DetailsLavoroPub  extends State<AnnunciDiLavoroPubblicati> {
+
+class _DetailsLavoroPub extends State<DetailsLavoroPub> {
   List<AnnuncioDiLavoroDTO> annunci = [];
   var token = SessionManager().get("token");
 
@@ -202,9 +205,11 @@ class _DetailsLavoroPub  extends State<AnnunciDiLavoroPubblicati> {
   }
 
   Future<void> fetchDataFromServer() async {
-    //int idCa = JWTUtils.getIdFromToken(accessToken: await token);
+    String user = JWTUtils.getUserFromToken(accessToken: await token);
+    Map<String, dynamic> username = {"username": user};
     final response = await http.post(
-        Uri.parse('http://10.0.2.2:8080/gestioneLavoro/annunciPubblicati'));
+        Uri.parse('http://10.0.2.2:8080/gestioneLavoro/annunciPubblicati'),
+        body: json.encode(username));
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseBody = json.decode(response.body);
       if (responseBody.containsKey('annunci')) {
@@ -264,10 +269,7 @@ class _DetailsLavoroPub  extends State<AnnunciDiLavoroPubblicati> {
   @override
   Widget build(BuildContext context) {
     final AnnuncioDiLavoroDTO annuncio =
-    ModalRoute
-        .of(context)
-        ?.settings
-        .arguments as AnnuncioDiLavoroDTO;
+        ModalRoute.of(context)?.settings.arguments as AnnuncioDiLavoroDTO;
     return Scaffold(
       appBar: CaAppBar(
         showBackButton: true,
@@ -325,8 +327,7 @@ class _DetailsLavoroPub  extends State<AnnunciDiLavoroPubblicati> {
                         Text(annuncio.numTelefono),
                         const SizedBox(width: 8),
                         Text(
-                            '${annuncio.via}, ${annuncio.citta}, ${annuncio
-                                .provincia}'),
+                            '${annuncio.via}, ${annuncio.citta}, ${annuncio.provincia}'),
                         // Aggiunta dei pulsanti sotto la sezione "Contatti"
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -352,23 +353,6 @@ class _DetailsLavoroPub  extends State<AnnunciDiLavoroPubblicati> {
                       ],
                     ),
                   ))),
-          const SizedBox(height: 20),
-          Container(
-            padding: const EdgeInsets.only(bottom: 40),
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue[200],
-                shadowColor: Colors.grey,
-                elevation: 10,
-              ),
-              onPressed: () {},
-              child: const Text('CANDIDATI',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                  )),
-            ),
-          ),
         ],
       ),
     );

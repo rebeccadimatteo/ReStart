@@ -268,7 +268,7 @@ class CaDAOImpl implements CaDAO {
       Connection connection = await connector.openConnection();
       var result1 = await connection.execute(
         Sql.named(
-            'SELECT ca.id, ca.nome FROM public."CA" ca WHERE ca.username = @username'),
+            'SELECT ca.id FROM public."CA" ca WHERE ca.username = @username'),
         parameters: {'username': username},
       );
       if (result1.isNotEmpty) {

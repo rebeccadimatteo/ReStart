@@ -27,9 +27,11 @@ class _CommunityEventsState extends State<CommunityEventsPubblicati> {
 
   /// Metodo che permette di inviare la richiesta al server per ottenere la lista di tutti i [EventoDTO] presenti nel database
   Future<void> fetchDataFromServer() async {
-    int idCa = JWTUtils.getIdFromToken(accessToken: await token);
+    String user = JWTUtils.getUserFromToken(accessToken: await token);
+    Map<String, dynamic> username = {"username": user};
     final response = await http.post(
-        Uri.parse('http://10.0.2.2:8080/gestioneEvento/eventiPubblicati'));
+        Uri.parse('http://10.0.2.2:8080/gestioneEvento/eventiPubblicati'),
+        body: json.encode(username));
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseBody = json.decode(response.body);
       if (responseBody.containsKey('eventi')) {
@@ -40,10 +42,9 @@ class _CommunityEventsState extends State<CommunityEventsPubblicati> {
         setState(() {
           List<EventoDTO> newData = [];
           for (EventoDTO e in data) {
-            if (e.approvato && e.id_ca == idCa) {
+            //if (e.approvato && e.id_ca == idCa) {
               newData.add(e);
-              print(e);
-            }
+            //}
           }
           eventi = newData;
         });
@@ -124,7 +125,7 @@ class _CommunityEventsState extends State<CommunityEventsPubblicati> {
                   onTap: () {
                     Navigator.pushNamed(
                       context,
-                      AppRoutes.dettaglievento,
+                      AppRoutes.dettaglieventipub,
                       arguments: evento,
                     );
                   },
@@ -184,7 +185,7 @@ class DetailsEventoPub extends StatefulWidget{
 }
 /// Build del widget che viene visualizzato quando viene selezionato un determinato evento dalla sezione [CommunityEvents]
 /// Permette di visualizzare i dettagli dell'evento selezionato
-class _DetailsEventoPub extends State<CommunityEventsPubblicati> {
+class _DetailsEventoPub extends State<DetailsEventoPub> {
   List<EventoDTO> eventi = [];
   var token = SessionManager().get("token");
 
@@ -197,9 +198,11 @@ class _DetailsEventoPub extends State<CommunityEventsPubblicati> {
 
   /// Metodo che permette di inviare la richiesta al server per ottenere la lista di tutti i [EventoDTO] presenti nel database
   Future<void> fetchDataFromServer() async {
-    //int idCa = JWTUtils.getIdFromToken(accessToken: await token);
+    String user = JWTUtils.getUserFromToken(accessToken: await token);
+    Map<String, dynamic> username = {"username": user};
     final response = await http.post(
-        Uri.parse('http://10.0.2.2:8080/gestioneEvento/eventiPubblicati'));
+        Uri.parse('http://10.0.2.2:8080/gestioneEvento/eventiPubblicati'),
+        body: json.encode(username));
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseBody = json.decode(response.body);
       if (responseBody.containsKey('eventi')) {
@@ -211,8 +214,7 @@ class _DetailsEventoPub extends State<CommunityEventsPubblicati> {
           List<EventoDTO> newData = [];
           for (EventoDTO e in data) {
             //if (e.approvato && e.id_ca == idCa) {
-              newData.add(e);
-              print(e);
+            newData.add(e);
             //}
           }
           eventi = newData;
