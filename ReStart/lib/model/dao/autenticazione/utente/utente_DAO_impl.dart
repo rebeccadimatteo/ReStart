@@ -52,9 +52,19 @@ class UtenteDAOImpl implements UtenteDAO {
             'telefono': u.num_telefono,
           });
 
+      var result4 = await connection.execute(
+          Sql.named('INSERT INTO public."Immagine" (immagine, id_utente)'
+              'VALUES (@immagine, @id)'),
+          parameters: {
+            'immagine': u.immagine,
+            'id': id
+          }
+      );
+
       if (result1.affectedRows != 0 &&
           result2.affectedRows != 0 &&
-          result3.affectedRows != 0) {
+          result3.affectedRows != 0 &&
+          result4.affectedRows != 0) {
         return true;
       }
       return false;

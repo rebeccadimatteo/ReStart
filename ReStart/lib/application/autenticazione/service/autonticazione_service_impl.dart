@@ -17,9 +17,7 @@ class AutenticazioneServiceImpl implements AutenticazioneService {
 
   @override
   Future<dynamic> login(String user, String psw) async {
-    print("service: "+user);print(psw);
     dynamic utente = await _autenticazioneDAO.findByUsername(user);
-    print(utente);
     if (utente == null) {
       return null;
     } else {

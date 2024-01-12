@@ -72,7 +72,6 @@ class AutenticazioneController {
         return Response.forbidden('Credenziali non valide');
       }
     } catch (e) {
-      print(e);
       return Response.internalServerError(body: 'Errore durante il login: $e');
     }
   }

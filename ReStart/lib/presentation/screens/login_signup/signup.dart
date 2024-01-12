@@ -158,6 +158,7 @@ class _SignUpState extends State<SignUpPage> {
       String via = viaController.text;
       String citta = cittaController.text;
       String provincia = provinciaController.text;
+      String imagePath = 'images/image_${username}.jpg';
 
       UtenteDTO utente = UtenteDTO(
         email: email,
@@ -171,13 +172,11 @@ class _SignUpState extends State<SignUpPage> {
         password: password,
         cod_fiscale: cf,
         num_telefono: numTelefono,
-        immagine: 'images/avatar.png',
+        immagine: imagePath,
         via: via,
         citta: citta,
         provincia: provincia,
       );
-
-      print(utente);
 
       sendDataToServer(utente);
     }
@@ -191,10 +190,25 @@ class _SignUpState extends State<SignUpPage> {
       headers: {'Content-Type': 'application/json'},
     );
 
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> responseBody = json.decode(response.body);
-      if (responseBody.containsKey('result')) {
-        print("Funziona");
+    if (response.statusCode == 200 && _image != null) {
+      final imageUrl = Uri.parse('http://10.0.2.2:8080/registrazione/addImage');
+      final imageRequest = http.MultipartRequest('POST', imageUrl);
+
+      // Aggiungi l'immagine
+      imageRequest.files.add(await http.MultipartFile.fromPath('immagine', _image!.path));
+
+      // Aggiungi ID del corso e nome del corso come campi di testo
+      imageRequest.fields['nome'] = utente.username; // Assumi che 'nomeCorso' sia una proprietà di CorsoDiFormazioneDTO
+
+      final imageResponse = await imageRequest.send();
+      if (imageResponse.statusCode == 200) {
+        // L'immagine è stata caricata con successo
+        print("Immagine caricata con successo.");
+        // Aggiorna l'UI o esegui altre operazioni
+      } else {
+        // Si è verificato un errore nell'upload dell'immagine
+        print("Errore durante l'upload dell'immagine: ${imageResponse.statusCode}");
+        // Mostra un messaggio di errore o esegui altre operazioni di gestione dell'errore
       }
     }
   }
