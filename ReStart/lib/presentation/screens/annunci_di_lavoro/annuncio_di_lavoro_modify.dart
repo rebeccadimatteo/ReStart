@@ -12,7 +12,6 @@ import '../routes/routes.dart';
 
 ///Classe che rappresenta la schermata per inserire un [Evento]
 class ModifyLavoro extends StatefulWidget {
-
   @override
   _ModifyLavoroState createState() => _ModifyLavoroState();
 }
@@ -22,12 +21,56 @@ class ModifyLavoro extends StatefulWidget {
 class _ModifyLavoroState extends State<ModifyLavoro> {
   late int idCa;
   var token;
+  late AnnuncioDiLavoroDTO annuncio;
+
+  late TextEditingController? nomeController;
+  late TextEditingController? descrizioneController;
+  late TextEditingController? emailController;
+  late TextEditingController? numTelefonoController;
+  late TextEditingController? cittaController;
+  late TextEditingController? viaController;
+  late TextEditingController? provinciaController;
 
   @override
   void initState() {
     super.initState();
     _checkUserAndNavigate();
+    nomeController = null;
+    descrizioneController = null;
+    emailController = null;
+    numTelefonoController = null;
+    cittaController = null;
+    viaController = null;
+    provinciaController = null;
     token = SessionManager().get("token");
+  }
+
+  @override
+  void dispose() {
+    nomeController?.dispose();
+    descrizioneController?.dispose();
+    emailController?.dispose();
+    numTelefonoController?.dispose();
+    cittaController?.dispose();
+    viaController?.dispose();
+    provinciaController?.dispose();
+    super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    annuncio =
+        ModalRoute.of(context)?.settings.arguments as AnnuncioDiLavoroDTO;
+    if (nomeController == null) {
+      nomeController = TextEditingController(text: annuncio.nome);
+      descrizioneController = TextEditingController(text: annuncio.descrizione);
+      cittaController = TextEditingController(text: annuncio.citta);
+      viaController = TextEditingController(text: annuncio.via);
+      provinciaController = TextEditingController(text: annuncio.provincia);
+      emailController = TextEditingController(text: annuncio.email);
+      numTelefonoController = TextEditingController(text: annuncio.numTelefono);
+    }
   }
 
   void _checkUserAndNavigate() async {
@@ -40,15 +83,6 @@ class _ModifyLavoroState extends State<ModifyLavoro> {
   final _formKey = GlobalKey<FormState>();
   XFile? _image;
 
-  final TextEditingController nomeController = TextEditingController();
-  final TextEditingController descrizioneController = TextEditingController();
-  final TextEditingController dataController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController numTelefonoController = TextEditingController();
-  final TextEditingController cittaController = TextEditingController();
-  final TextEditingController viaController = TextEditingController();
-  final TextEditingController provinciaController = TextEditingController();
-
   /// Metodo per selezionare un'immagine dalla galleria.
   void selectImage() async {
     final imagePicker = ImagePicker();
@@ -58,13 +92,13 @@ class _ModifyLavoroState extends State<ModifyLavoro> {
   /// Metodo per inviare il form al server.
   void submitForm(AnnuncioDiLavoroDTO lavoro) async {
     if (_formKey.currentState!.validate()) {
-      String nome = nomeController.text;
-      String descrizione = descrizioneController.text;
-      String citta = cittaController.text;
-      String via = viaController.text;
-      String provincia = provinciaController.text;
-      String email = emailController.text;
-      String numTelefono = numTelefonoController.text;
+      String nome = nomeController!.text;
+      String descrizione = descrizioneController!.text;
+      String citta = cittaController!.text;
+      String via = viaController!.text;
+      String provincia = provinciaController!.text;
+      String email = emailController!.text;
+      String numTelefono = numTelefonoController!.text;
       String imagePath = 'images/image_${nome}.jpg';
 
       // Crea il DTO con il percorso dell'immagine
@@ -91,14 +125,14 @@ class _ModifyLavoroState extends State<ModifyLavoro> {
   /// Metodo per inviare i dati al server.
   Future<void> sendDataToServer(AnnuncioDiLavoroDTO annuncio) async {
     final response = await http.post(
-      Uri.parse('http://10.0.2.2:8080/gestioneEvento/modifyLavoro'),
+      Uri.parse('http://10.0.2.2:8080/gestioneLavoro/modifyLavoro'),
       body: jsonEncode(annuncio),
       headers: {'Content-Type': 'application/json'},
     );
 
     if (response.statusCode == 200 && _image != null) {
       final imageUrl =
-      Uri.parse('http://10.0.2.2:8080/gestioneReintegrazione/addImage');
+          Uri.parse('http://10.0.2.2:8080/gestioneReintegrazione/addImage');
       final imageRequest = http.MultipartRequest('POST', imageUrl);
 
       // Aggiungi l'immagine
@@ -115,8 +149,7 @@ class _ModifyLavoroState extends State<ModifyLavoro> {
       } else {
         // Si è verificato un errore nell'upload dell'immagine
         print(
-            "Errore durante l'upload dell'immagine: ${imageResponse
-                .statusCode}");
+            "Errore durante l'upload dell'immagine: ${imageResponse.statusCode}");
       }
     }
   }
@@ -124,25 +157,7 @@ class _ModifyLavoroState extends State<ModifyLavoro> {
   /// Costruisce la UI per la schermata di inserimento di un evento temporaneo.
   @override
   Widget build(BuildContext context) {
-    AnnuncioDiLavoroDTO annuncio = ModalRoute
-        .of(context)
-        ?.settings
-        .arguments as AnnuncioDiLavoroDTO;
-
-    print(annuncio);
-    nomeController.text = annuncio.nome;
-    descrizioneController.text = annuncio.descrizione;
-    cittaController.text = annuncio.citta;
-    viaController.text = annuncio.via;
-    provinciaController.text = annuncio.provincia;
-    emailController.text = annuncio.email;
-    numTelefonoController.text = annuncio.numTelefono;
-
-
-    double screenWidth = MediaQuery
-        .of(context)
-        .size
-        .width;
+    double screenWidth = MediaQuery.of(context).size.width;
     double avatarSize = screenWidth * 0.3;
 
     return MaterialApp(
@@ -177,10 +192,8 @@ class _ModifyLavoroState extends State<ModifyLavoro> {
                               child: CircleAvatar(
                                 backgroundImage: _image != null
                                     ? MemoryImage(
-                                    File(_image!.path).readAsBytesSync())
-                                    : Image
-                                    .asset('images/avatar.png')
-                                    .image,
+                                        File(_image!.path).readAsBytesSync())
+                                    : Image.asset('images/avatar.png').image,
                               ),
                             ),
                             Positioned(
@@ -194,22 +207,19 @@ class _ModifyLavoroState extends State<ModifyLavoro> {
                           ],
                         ),
                         TextFormField(
-                          //initialValue: evento.nomeEvento,
+                            //initialValue: evento.nomeEvento,
                             controller: nomeController,
-                            decoration:
-                            const InputDecoration(labelText: 'Nome Annuncio di Lavoro'),
+                            decoration: const InputDecoration(
+                                labelText: 'Nome Annuncio di Lavoro'),
                             validator: (value) {
-                              if (value == null || value.isEmpty) {
-
-                              }
+                              if (value == null || value.isEmpty) {}
                               return null;
-                            }
-                        ),
+                            }),
                         const SizedBox(height: 20),
                         TextFormField(
                             controller: descrizioneController,
                             decoration:
-                            const InputDecoration(labelText: 'Descrizione'),
+                                const InputDecoration(labelText: 'Descrizione'),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Inserisci la descrizione dell\'annuncio di lavoro';
@@ -228,7 +238,7 @@ class _ModifyLavoroState extends State<ModifyLavoro> {
                         TextFormField(
                             controller: emailController,
                             decoration:
-                            const InputDecoration(labelText: 'Email'),
+                                const InputDecoration(labelText: 'Email'),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Inserisci la mail dell\'annuncio di lavoro';
@@ -238,8 +248,8 @@ class _ModifyLavoroState extends State<ModifyLavoro> {
                         const SizedBox(height: 20),
                         TextFormField(
                             controller: numTelefonoController,
-                            decoration:
-                            const InputDecoration(labelText: 'Numero di Telefono'),
+                            decoration: const InputDecoration(
+                                labelText: 'Numero di Telefono'),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Inserisci il numero di telefono dell\'annuncio di lavoro';
@@ -250,7 +260,7 @@ class _ModifyLavoroState extends State<ModifyLavoro> {
                         TextFormField(
                             controller: cittaController,
                             decoration:
-                            const InputDecoration(labelText: 'Città'),
+                                const InputDecoration(labelText: 'Città'),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Inserisci la città dov\è situato l\'annuncio di lavoro';
@@ -270,7 +280,7 @@ class _ModifyLavoroState extends State<ModifyLavoro> {
                         TextFormField(
                             controller: provinciaController,
                             decoration:
-                            const InputDecoration(labelText: 'Provincia'),
+                                const InputDecoration(labelText: 'Provincia'),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Inserisci la provincia dov\è situato l\'annuncio di lavoro';
@@ -288,7 +298,7 @@ class _ModifyLavoroState extends State<ModifyLavoro> {
                             shadowColor: Colors.grey,
                             elevation: 10,
                             minimumSize:
-                            Size(screenWidth * 0.1, screenWidth * 0.1),
+                                Size(screenWidth * 0.1, screenWidth * 0.1),
                           ),
                           child: const Text(
                             'INSERISCI',

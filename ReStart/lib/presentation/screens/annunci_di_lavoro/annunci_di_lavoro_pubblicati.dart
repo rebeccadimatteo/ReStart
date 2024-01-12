@@ -147,11 +147,9 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroPubblicati> {
                       minVerticalPadding: 50,
                       minLeadingWidth: 80,
                       tileColor: Colors.grey,
-                      leading: const CircleAvatar(
-                        radius: 35,
-                        backgroundImage: NetworkImage(
-                            'https://img.freepik.com/free-vector/men-success-laptop-relieve-work-from-home-computer-great_10045-646.jpg?size=338&ext=jpg&ga=GA1.1.1546980028.1703635200&semt=ais'),
-                      ),
+                      leading: CircleAvatar(
+                          radius: 35,
+                          backgroundImage: AssetImage(annuncio.immagine)),
                       title: Text(annuncio.nome,
                           style: const TextStyle(fontWeight: FontWeight.bold)),
                       subtitle: Text(annuncio.descrizione),
@@ -163,7 +161,9 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroPubblicati> {
                               icon: const Icon(Icons.edit,
                                   color: Colors.black, size: 30),
                               onPressed: () {
-                                Navigator.pushNamed(context, AppRoutes.modificalavoro, arguments: annuncio);
+                                Navigator.pushNamed(
+                                    context, AppRoutes.modificalavoro,
+                                    arguments: annuncio);
                               },
                             ),
                             IconButton(
@@ -251,13 +251,10 @@ class _DetailsLavoroPub extends State<DetailsLavoroPub> {
             child: Container(
               width: 200,
               height: 200,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: NetworkImage(
-                      'https://img.freepik.com/free-vector/men-success-laptop-relieve-work-from-home-computer-great_10045-646.jpg?size=338&ext=jpg&ga=GA1.1.1546980028.1703635200&semt=ais'),
-                ),
+                    fit: BoxFit.cover, image: AssetImage(annuncio.immagine)),
               ),
             ),
           ),
@@ -305,7 +302,9 @@ class _DetailsLavoroPub extends State<DetailsLavoroPub> {
                               icon: const Icon(Icons.edit,
                                   color: Colors.black, size: 40),
                               onPressed: () {
-                                Navigator.pushNamed(context, AppRoutes.modificalavoro, arguments: annuncio);
+                                Navigator.pushNamed(
+                                    context, AppRoutes.modificalavoro,
+                                    arguments: annuncio);
                               },
                             ),
                             const SizedBox(width: 20),

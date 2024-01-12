@@ -132,7 +132,7 @@ class GestioneLavoroController {
           params['id'] != null ? int.parse(params['id'].toString()) : 0;
       final int id_ca =
           params['id_ca'] != null ? int.parse(params['id_ca'].toString()) : 0;
-      final String nomeLavoro = params['nomeLavoro'] ?? '';
+      final String nomeLavoro = params['nome'] ?? '';
       final String descrizione = params['descrizione'] ?? '';
       final bool approvato = params['approvato'] ?? 'false';
       final String via = params['via'] ?? '';

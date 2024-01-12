@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:date_field/date_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:image_picker/image_picker.dart';
@@ -22,25 +23,58 @@ class ModifyEvento extends StatefulWidget {
 class _ModifyEventoState extends State<ModifyEvento> {
   late int idCa;
   var token;
-  List<EventoDTO> eventi = [];
   late EventoDTO evento;
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+  late TextEditingController? nomeController;
+  late TextEditingController? descrizioneController;
+  late TextEditingController? dataController;
+  late TextEditingController? emailController;
+  late TextEditingController? sitoController;
+  late TextEditingController? cittaController;
+  late TextEditingController? viaController;
+  late TextEditingController? provinciaController;
 
-    // Access the context at an appropriate time
-    evento = ModalRoute.of(context)?.settings.arguments as EventoDTO;
-
-    // Set controller values here
-    setControllerValues(evento);
-  }
+  DateTime? selectedDate;
 
   @override
   void initState() {
     super.initState();
     _checkUserAndNavigate();
+    nomeController = null;
+    descrizioneController = null;
+    emailController = null;
+    cittaController = null;
+    viaController = null;
+    provinciaController = null;
+    sitoController = null;
     token = SessionManager().get("token");
+  }
+
+  @override
+  void dispose() {
+    nomeController?.dispose();
+    descrizioneController?.dispose();
+    emailController?.dispose();
+    cittaController?.dispose();
+    viaController?.dispose();
+    provinciaController?.dispose();
+    sitoController?.dispose();
+    super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    evento = ModalRoute.of(context)?.settings.arguments as EventoDTO;
+    if (nomeController == null) {
+      nomeController = TextEditingController(text: evento.nomeEvento);
+      descrizioneController = TextEditingController(text: evento.descrizione);
+      cittaController = TextEditingController(text: evento.citta);
+      viaController = TextEditingController(text: evento.via);
+      provinciaController = TextEditingController(text: evento.provincia);
+      emailController = TextEditingController(text: evento.email);
+      sitoController = TextEditingController(text: evento.sito);
+    }
   }
 
   void _checkUserAndNavigate() async {
@@ -53,25 +87,6 @@ class _ModifyEventoState extends State<ModifyEvento> {
   final _formKey = GlobalKey<FormState>();
   XFile? _image;
 
-  TextEditingController nomeController = TextEditingController();
-  TextEditingController descrizioneController = TextEditingController();
-  TextEditingController dataController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController sitoController = TextEditingController();
-  TextEditingController cittaController = TextEditingController();
-  TextEditingController viaController = TextEditingController();
-  TextEditingController provinciaController = TextEditingController();
-
-  void setControllerValues(EventoDTO evento) {
-    nomeController.text = evento.nomeEvento;
-    descrizioneController.text = evento.descrizione;
-    cittaController.text = evento.citta;
-    viaController.text = evento.via;
-    provinciaController.text = evento.provincia;
-    emailController.text = evento.email;
-    sitoController.text = evento.sito;
-  }
-
   /// Metodo per selezionare un'immagine dalla galleria.
   void selectImage() async {
     final imagePicker = ImagePicker();
@@ -81,13 +96,14 @@ class _ModifyEventoState extends State<ModifyEvento> {
   /// Metodo per inviare il form al server.
   void submitForm(EventoDTO event) async {
     if (_formKey.currentState!.validate()) {
-      String nome = nomeController.text;
-      String descrizione = descrizioneController.text;
-      String citta = cittaController.text;
-      String via = viaController.text;
-      String provincia = provinciaController.text;
-      String email = emailController.text;
-      String sito = sitoController.text;
+      String nome = nomeController!.text;
+      String descrizione = descrizioneController!.text;
+      String citta = cittaController!.text;
+      String via = viaController!.text;
+      String provincia = provinciaController!.text;
+      String email = emailController!.text;
+      String sito = sitoController!.text;
+      // DateTime data = dataController!.text;
       String imagePath = 'images/image_${nome}.jpg';
 
       // Crea il DTO con il percorso dell'immagine
@@ -103,7 +119,7 @@ class _ModifyEventoState extends State<ModifyEvento> {
         sito: sito,
         immagine: imagePath,
         id_ca: JWTUtils.getIdFromToken(accessToken: await token),
-        date: DateTime.now(),
+        date: selectedDate as DateTime,
       );
       // Invia i dati al server con il percorso dell'immagine
       sendDataToServer(evento);
@@ -203,14 +219,6 @@ class _ModifyEventoState extends State<ModifyEvento> {
                       if (value == null || value.isEmpty) {}
                       return null;
                     },
-                    onChanged: (value) {
-                      // Aggiorna lo stato del widget quando il testo cambia
-                      setState(() {
-                          nomeController.text = value;
-                          // Nessuna azione specifica richiesta qui, poiché stai già utilizzando il controller
-                        },
-                      );
-                    },
                   ),
                   const SizedBox(height: 20),
                   TextFormField(
@@ -223,6 +231,20 @@ class _ModifyEventoState extends State<ModifyEvento> {
                         }
                         return null;
                       }),
+                  const SizedBox(height: 20),
+                  DateTimeFormField(
+                    initialValue: evento.date,
+                    decoration: const InputDecoration(
+                      labelText: 'Data dell\'evento',
+                    ),
+                    firstDate: DateTime.now().add(const Duration(days: 10)),
+                    lastDate: DateTime.now().add(const Duration(days: 40)),
+                    initialPickerDateTime:
+                        DateTime.now().add(const Duration(days: 20)),
+                    onChanged: (DateTime? value) {
+                      selectedDate = value;
+                    },
+                  ),
                   const SizedBox(height: 40),
                   const Text(
                     'Contatti',

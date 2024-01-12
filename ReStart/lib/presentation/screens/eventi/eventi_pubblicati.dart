@@ -46,7 +46,7 @@ class _CommunityEventsState extends State<CommunityEventsPubblicati> {
           List<EventoDTO> newData = [];
           for (EventoDTO e in data) {
             //if (e.approvato && e.id_ca == idCa) {
-              newData.add(e);
+            newData.add(e);
             //}
           }
           eventi = newData;
@@ -122,11 +122,9 @@ class _CommunityEventsState extends State<CommunityEventsPubblicati> {
                       minVerticalPadding: 50,
                       minLeadingWidth: 80,
                       tileColor: Colors.grey,
-                      leading: const CircleAvatar(
+                      leading: CircleAvatar(
                         radius: 35,
-                        backgroundImage: NetworkImage(
-                            'https://img.freepik.com/free-vector/men-success-laptop-relieve-work-from-home-computer-great_10045-646.jpg?size=338&ext=jpg&ga=GA1.1.1546980028.1703635200&semt=ais'),
-                      ),
+                        backgroundImage: AssetImage(evento.immagine)),
                       title: Text(evento.nomeEvento,
                           style: const TextStyle(fontWeight: FontWeight.bold)),
                       subtitle: Text(evento.descrizione),
@@ -164,11 +162,12 @@ class _CommunityEventsState extends State<CommunityEventsPubblicati> {
     );
   }
 }
-class DetailsEventoPub extends StatefulWidget{
+
+class DetailsEventoPub extends StatefulWidget {
   @override
   _DetailsEventoPub createState() => _DetailsEventoPub();
-
 }
+
 /// Build del widget che viene visualizzato quando viene selezionato un determinato evento dalla sezione [CommunityEvents]
 /// Permette di visualizzare i dettagli dell'evento selezionato
 class _DetailsEventoPub extends State<DetailsEventoPub> {
@@ -213,19 +212,17 @@ class _DetailsEventoPub extends State<DetailsEventoPub> {
             child: Container(
               width: 200,
               height: 200,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: NetworkImage(
-                      'https://img.freepik.com/free-vector/men-success-laptop-relieve-work-from-home-computer-great_10045-646.jpg?size=338&ext=jpg&ga=GA1.1.1546980028.1703635200&semt=ais'),
-                ),
+                    fit: BoxFit.cover, image: AssetImage(evento.immagine)),
               ),
             ),
           ),
           const SizedBox(height: 20),
           Text(
             evento.nomeEvento,
+            textAlign: TextAlign.center,
             style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 30,
@@ -266,7 +263,9 @@ class _DetailsEventoPub extends State<DetailsEventoPub> {
                               icon: const Icon(Icons.edit,
                                   color: Colors.black, size: 40),
                               onPressed: () {
-                                Navigator.pushNamed(context, AppRoutes.modificaevento, arguments: evento);
+                                Navigator.pushNamed(
+                                    context, AppRoutes.modificaevento,
+                                    arguments: evento);
                               },
                             ),
                             const SizedBox(width: 20),
