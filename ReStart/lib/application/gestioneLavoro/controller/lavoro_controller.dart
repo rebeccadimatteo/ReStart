@@ -49,7 +49,7 @@ class GestioneLavoroController {
       final String descrizione = params['descrizione'] ?? '';
       final bool approvato = params['approvato'] == 'true';
       final String via = params['via'] ?? '';
-      final String citta = params['città'] ?? '';
+      final String citta = params['citta'] ?? '';
       final String provincia = params['provincia'] ?? '';
       final String immagine = params['immagine'] ?? '';
       final String email = params['email'] ?? '';

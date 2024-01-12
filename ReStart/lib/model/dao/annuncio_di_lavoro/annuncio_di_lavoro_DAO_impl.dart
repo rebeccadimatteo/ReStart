@@ -34,7 +34,7 @@ class AnnuncioDiLavoroDAOImpl implements AnnuncioDiLavoroDAO {
       var result2 = await connection.execute(
           Sql.named('INSERT INTO public."Immagine" (immagine, id_annuncio) '
               'VALUES (@immagine, @id_annuncio)'),
-          parameters: {'immagine': annuncio.immagine, 'id_supporto': id});
+          parameters: {'immagine': annuncio.immagine, 'id_annuncio': annuncio.id,});
 
       var result3 = await connection.execute(
           Sql.named(
@@ -44,7 +44,7 @@ class AnnuncioDiLavoroDAOImpl implements AnnuncioDiLavoroDAO {
             'via': annuncio.via,
             'citta': annuncio.citta,
             'provincia': annuncio.provincia,
-            'id_supporto': id
+            'id_annuncio': annuncio.id,
           });
 
       var result4 = await connection.execute(
@@ -54,7 +54,7 @@ class AnnuncioDiLavoroDAOImpl implements AnnuncioDiLavoroDAO {
           parameters: {
             'email': annuncio.email,
             'num_telefono': annuncio.numTelefono,
-            'id_annuncio': id
+            'id_annuncio': annuncio.id,
           });
 
       if (result1.affectedRows != 0 &&
@@ -65,6 +65,7 @@ class AnnuncioDiLavoroDAOImpl implements AnnuncioDiLavoroDAO {
       }
       return false;
     } catch (e) {
+      print(e);
       developer.log(e.toString());
       return false;
     } finally {

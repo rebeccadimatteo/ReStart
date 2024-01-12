@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:restart_all_in_one/presentation/screens/annunci_di_lavoro/annunci_di_lavoro_pubblicati.dart';
+import 'package:restart_all_in_one/presentation/screens/annunci_di_lavoro/annuncio_di_lavoro_modify.dart';
 import 'package:restart_all_in_one/presentation/screens/eventi/eventi_pubblicati.dart';
 import 'package:restart_all_in_one/presentation/screens/home/home_ads.dart';
 import 'package:restart_all_in_one/presentation/screens/home/home_ca.dart';
@@ -14,6 +15,8 @@ import '../eventi/eventi.dart';
 import '../eventi/eventi_ads.dart';
 import '../eventi/evento_modify.dart';
 import '../home/home_utente.dart';
+import '../inserimento_annuncio/inserimento_annuncio.dart';
+import '../inserimento_evento/inserimento_evento.dart';
 import '../login_signup/login.dart';
 import '../login_signup/signup.dart';
 import '../login_signup/start.dart';
@@ -67,6 +70,7 @@ class AppRoutes {
   static const String addannuncio = '/aggiungiAnnuncio';
 
   static const String modificaevento = '/modifyEvento';
+  static const String modificalavoro = '/modifyAnnuncio';
   /// Definizione di tutte le [AppRoutes]
   static Map<String, WidgetBuilder> getRoutes() {
     return {
@@ -92,8 +96,8 @@ class AppRoutes {
       eventipubblicati: (context) => CommunityEventsPubblicati(),
       dettagliannunciopub: (context) => DetailsLavoroPub(),
       dettaglieventipub: (context) => DetailsEventoPub(),
-      // addevento: (context) => InserisciEvento(),
-      // addannuncio: (context) => InserisciAnnuncio(),
+      addevento: (context) => InserisciEvento(),
+      addannuncio: (context) => InserisciLavoro(),
 
       annunciAds: (context) => AnnunciDiLavoroAds(),
       dettagliannuncioAds: (context) => DetailsLavoroAds(),
@@ -106,7 +110,8 @@ class AppRoutes {
       supportiAds: (context) => SupportoMedicoAds(),
       dettaglisupportoAds: (context) => DetailsSupportoAds(),
       richiesteAds: (context) => Richieste(),
-      // modificaevento: (context) => ModifyEvento(),
+      modificaevento: (context) => ModifyEvento(),
+      modificalavoro: (context) => ModifyLavoro()
     };
   }
 }

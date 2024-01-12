@@ -42,10 +42,20 @@ class GestioneEventoController {
     try {
       final String requestBody = await request.readAsString();
       final Map<String, dynamic> params = jsonDecode(requestBody);
+      var rawData = params['data'] ?? '';
+      DateTime parsedDate;
+
+      if (rawData is DateTime) {
+        parsedDate = rawData;
+      } else if (rawData is String) {
+        parsedDate = DateTime.parse(rawData);
+      } else {
+        // Puoi gestire altri tipi o scenari a tua discrezione
+        parsedDate = DateTime.now();
+      }
       final int idCa = params['id_ca'] ?? '';
       final String nomeEvento = params['nome'] ?? '';
       final String descrizione = params['descrizione'] ?? '';
-      final DateTime date = params['data'] ?? '';
       final bool approvato = params['approvato'] ?? '';
       final String email = params['email'] ?? '';
       final String sito = params['sito'] ?? '';
@@ -58,7 +68,7 @@ class GestioneEventoController {
           id_ca: idCa,
           nomeEvento: nomeEvento,
           descrizione: descrizione,
-          date: date,
+          date: parsedDate,
           approvato: approvato,
           email: email,
           sito: sito,

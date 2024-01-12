@@ -22,6 +22,7 @@ class EventoDAOImpl implements EventoDAO {
             'INSERT INTO public."Evento" (id_ca, nome, descrizione, data, approvato) '
                 'VALUES (@id_ca, @nome, @descrizione, @data, @approvato) RETURNING id'),
         parameters: {
+          'id_ca': e.id_ca,
           'nome': e.nomeEvento,
           'descrizione': e.descrizione,
           'data': e.date,
@@ -62,6 +63,7 @@ class EventoDAOImpl implements EventoDAO {
       }
       return false;
     } catch (e) {
+      print(e);
       developer.log(e.toString());
       return false;
     } finally {

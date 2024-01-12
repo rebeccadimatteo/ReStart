@@ -4,12 +4,10 @@ import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:restart_all_in_one/model/entity/annuncio_di_lavoro_DTO.dart';
 import 'package:restart_all_in_one/utils/jwt_utils.dart';
-import '../../../model/entity/evento_DTO.dart';
 import '../../../utils/auth_service.dart';
 import '../../components/app_bar_ca.dart';
 import 'dart:io';
 import 'package:http/http.dart' as http;
-
 import '../routes/routes.dart';
 
 ///Classe che rappresenta la schermata per inserire un [Evento]
@@ -93,7 +91,7 @@ class _ModifyLavoroState extends State<ModifyLavoro> {
   /// Metodo per inviare i dati al server.
   Future<void> sendDataToServer(AnnuncioDiLavoroDTO annuncio) async {
     final response = await http.post(
-      Uri.parse('http://10.0.2.2:8080/gestioneEvento/ModifyLavoro'),
+      Uri.parse('http://10.0.2.2:8080/gestioneEvento/modifyLavoro'),
       body: jsonEncode(annuncio),
       headers: {'Content-Type': 'application/json'},
     );
