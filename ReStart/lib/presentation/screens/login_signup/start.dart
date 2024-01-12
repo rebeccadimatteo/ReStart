@@ -153,6 +153,7 @@ class Home extends StatelessWidget {
               child: const Text(
                 'REGISTRATI',
                 style: TextStyle(
+                  fontWeight: FontWeight.bold,
                   fontFamily: 'Poppins',
                   color: Colors.white,
                   fontSize: 23,
