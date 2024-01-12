@@ -14,9 +14,11 @@ abstract class LavoroService {
 
   Future<List<UtenteDTO?>?> utentiCandidati(AnnuncioDiLavoroDTO annuncio);
 
-  Future<String> approveLavoro(int  id_annuncio);
+  Future<String> approveLavoro(int id_annuncio);
 
-  Future<String> rejectLavoro(int  id_annuncio);
+  Future<String> rejectLavoro(int id_annuncio);
+
+  Future<List<AnnuncioDiLavoroDTO>> annunciApprovati();
 
   Future<List<AnnuncioDiLavoroDTO>> richiesteAnnunci();
 }

@@ -13,6 +13,7 @@ class GestioneEventoController {
     _router = shelf_router.Router();
 
     _router.post('/visualizzaEventi', _visualizzaEventi);
+    _router.post('/eventiApprovati', _eventiApprovati);
     _router.post('/addEvento', _addEvento);
     _router.post('/eventiPubblicati', _eventiPubblicati);
     _router.post('/eventiSettimanali', _eventiSettimanali);
@@ -177,6 +178,18 @@ class GestioneEventoController {
       // Gestione degli errori durante la chiamata al servizio
       return Response.internalServerError(
           body: 'Errore durante il rifiuto dell\'evento: $e');
+    }
+  }
+
+  Future<Response> _eventiApprovati(Request request) async {
+    try {
+      final List<EventoDTO> listaEventi = await _service.eventiApprovati();
+      final responseBody = jsonEncode({'eventi': listaEventi});
+      return Response.ok(responseBody,
+          headers: {'Content-Type': 'application/json'});
+    } catch (e) {
+      return Response.internalServerError(
+          body: 'Errore durante la visualizzazione degli eventi: $e');
     }
   }
 

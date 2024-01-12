@@ -13,12 +13,13 @@ class GestioneLavoroController {
     _router = shelf_router.Router();
 
     _router.post('/visualizzaLavori', _visualizzaLavori);
+    _router.post('/annunciApprovati', _annunciApprovati);
     _router.post('/addLavoro', _addLavoro);
     _router.post('/deleteLavoro', _deleteLavoro);
     _router.post('/modifyLavoro', _modifyLavoro);
     _router.post('/approveLavoro', _approveLavoro);
     _router.post('/rejectLavoro', _rejectLavoro);
-    _router.post('/richiesteAnnunci',_richiesteAnnunci);
+    _router.post('/richiesteAnnunci', _richiesteAnnunci);
     _router.post('/annunciPubblicati', _annunciPubblicati);
 
     _router.all('/<ignored|.*>', _notFound);
@@ -108,6 +109,20 @@ class GestioneLavoroController {
     }
   }
 
+  Future<Response> _annunciApprovati(Request request) async {
+    try {
+      final List<AnnuncioDiLavoroDTO> listaAnnunci =
+          await _service.annunciApprovati();
+      final responseBody = jsonEncode({'annunci': listaAnnunci});
+      return Response.ok(responseBody,
+          headers: {'Content-Type': 'application/json'});
+    } catch (e) {
+      return Response.internalServerError(
+          body:
+              'Errore durante la visualizzazione degli annunci di lavoro: $e');
+    }
+  }
+
   Future<Response> _modifyLavoro(Request request) async {
     try {
       final String requestBody = await request.readAsString();
@@ -190,7 +205,6 @@ class GestioneLavoroController {
   }
 
   Future<Response> _rejectLavoro(Request request) async {
-
     try {
       final String requestBody = await request.readAsString();
       final Map<String, dynamic> params = jsonDecode(requestBody);
@@ -229,7 +243,7 @@ class GestioneLavoroController {
       final Map<String, dynamic> params = jsonDecode(requestBody);
       final String username = params['username'] ?? '';
       final List<AnnuncioDiLavoroDTO> listaAnnunci =
-      await _service.offertePubblicate(username);
+          await _service.offertePubblicate(username);
 
       print(listaAnnunci);
       final responseBody = jsonEncode({'annunci': listaAnnunci});
@@ -238,13 +252,12 @@ class GestioneLavoroController {
     } catch (e) {
       return Response.internalServerError(
           body:
-          'Errore durante la visualizzazione degli annunci pubblicati: $e');
+              'Errore durante la visualizzazione degli annunci pubblicati: $e');
     }
   }
 
   Future<Response> _richiesteAnnunci(Request request) async {
     try {
-
       final List<AnnuncioDiLavoroDTO> listaAnnunci =
           await _service.richiesteAnnunci();
 
@@ -254,7 +267,7 @@ class GestioneLavoroController {
     } catch (e) {
       return Response.internalServerError(
           body:
-          'Errore durante la visualizzazione degli annunci da approvare: $e');
+              'Errore durante la visualizzazione degli annunci da approvare: $e');
     }
   }
 

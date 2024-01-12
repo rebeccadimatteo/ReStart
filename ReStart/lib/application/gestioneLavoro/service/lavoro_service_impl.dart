@@ -66,7 +66,19 @@ class LavoroServiceImpl implements LavoroService{
     return _lavoroDAO.findByApprovato(usernameCA);
   }
 
+  @override
+  Future<List<AnnuncioDiLavoroDTO>> annunciApprovati() async {
+    List<AnnuncioDiLavoroDTO> list = await _lavoroDAO.findAll();
 
+    // Controlla se l'evento è stato approvato altrimenti non deve essere visualizzato
+    for (AnnuncioDiLavoroDTO a in list) {
+      if (!a.approvato) {
+        list.remove(a);
+      }
+    }
+
+    return list;
+  }
 
   @override
   Future<String> rejectLavoro(int id_annuncio) async {

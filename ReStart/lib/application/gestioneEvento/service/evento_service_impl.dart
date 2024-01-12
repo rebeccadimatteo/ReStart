@@ -55,9 +55,23 @@ class EventoServiceImpl implements EventoService {
   }
 
   @override
-  Future<String> approveEvento(int idEvento) async {
+  Future<List<EventoDTO>> eventiApprovati() async {
+    List<EventoDTO> list = await _eventoDAO.findAll();
 
-    if (await _eventoDAO.existById(idEvento) == false) return "L'evento non esiste";
+    // Controlla se l'evento è stato approvato altrimenti non deve essere visualizzato
+    for (EventoDTO e in list) {
+      if (!e.approvato) {
+        list.remove(e);
+      }
+    }
+
+    return list;
+  }
+
+  @override
+  Future<String> approveEvento(int idEvento) async {
+    if (await _eventoDAO.existById(idEvento) == false)
+      return "L'evento non esiste";
 
     EventoDTO? evento = await _eventoDAO.findById(idEvento);
 
@@ -80,8 +94,8 @@ class EventoServiceImpl implements EventoService {
 
   @override
   Future<String> rejectEvento(int idEvento) async {
-
-    if (await _eventoDAO.existById(idEvento) == false) return "L'evento non esiste";
+    if (await _eventoDAO.existById(idEvento) == false)
+      return "L'evento non esiste";
 
     if (await _eventoDAO.removeById(idEvento)) return "Rifiuto effettuato";
 
