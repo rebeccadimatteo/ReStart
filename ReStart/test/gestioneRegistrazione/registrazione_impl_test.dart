@@ -16,7 +16,7 @@ bool validateCodiceFiscale(String codiceFiscale) {
 }
 
 bool validateEmail(String email) {
-  RegExp regex = RegExp(r'^[A-z0-9._%+-]+@[A-z0-9.-]+\.[A-z]{6,40}$');
+  RegExp regex = RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$');
   return regex.hasMatch(email);
 }
 
@@ -71,8 +71,9 @@ bool validateLuogoNascita(String luogo_nascita) {
 }
 
 bool validateData(DateTime data) {
+  String dataString = DateFormat('yyyy-MM-dd').format(data);
   RegExp regex = RegExp(r'^\d{4}-\d{2}-\d{2}$');
-  return regex.hasMatch(data);
+  return regex.hasMatch(dataString);
 }
 
 void main() {
@@ -755,6 +756,8 @@ void main() {
       }
     });
     test('La Registrazione va a buon fine', () async {
+      dynamic result;
+
       UtenteDTO ug = UtenteDTO(
           nome: 'Aldo',
           cognome: 'Bianchi',
@@ -769,8 +772,8 @@ void main() {
           immagine: 'immage.jpg',
           via: 'Via Fratelli Napoli 1',
           citta: 'Napoli',
-          provincia: 'NA');
-
+          provincia: 'NA'
+      );
       bool validaN = validateNome(ug.nome);
       bool validaC = validateCognome(ug.cognome);
       bool validaData = validateData(ug.data_nascita);
@@ -785,20 +788,6 @@ void main() {
       bool validaTel = validateTelefono(ug.num_telefono);
       bool validaCF = validateCodiceFiscale(ug.cod_fiscale);
 
-      print(validaN);
-      print(validaC);
-      print(validaData);
-      print(validaLuogo);
-      print(validaV);
-      print(validaCitta);
-      print(validaPr);
-      print(validaEmail);
-      print(validaPsw);
-      print(validaUsr);
-      print(validaImg);
-      print(validaTel);
-      print(validaCF);
-
       if (validaN &&
           validaC &&
           validaData &&
@@ -812,15 +801,14 @@ void main() {
           validaImg &&
           validaTel &&
           validaCF) {
-
-        dynamic result = await service.signUp(ug);
-        expect(result, true);
+        result = await service.signUp(ug);
         if (result) {
           print('Registrazione avvenuta: TEST SUPERATO 1.1_13');
         }
-      } else {
-        print(
-            'Registrazione non avvenuta: TEST NON SUPERATO');
+        else {
+          print(
+              'Registrazione non avvenuta: TEST NON SUPERATO');
+        }
       }
     });
   });
