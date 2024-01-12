@@ -19,7 +19,7 @@ class Connector {
           host: 'localhost',
           database: 'ReStart',
           username: 'postgres',
-          password: 'APP'
+          password: '0000'
       ),
       settings: ConnectionSettings(sslMode: SslMode.disable),
     );
