@@ -28,6 +28,9 @@ class AutenticazioneController {
     _router.post('/visualizzaUtente', _visualizzaUtente);
     _router.post('/modifyUtente', _modifyUtente);
     _router.post('/addImage', _uploadImage);
+    _router.post('/checkUserUtente', _checkUserUtente);
+    _router.post('/checkUserCA', _checkUserCA);
+    _router.post('/checkUserADS', _checkUserADS);
     _router.all('/<ignored|.*>', _notFound);
   }
 
@@ -78,8 +81,6 @@ class AutenticazioneController {
 
   Future<Response> _deleteUtente(Request request) async {
     try {
-      print('sono in delete utente');
-
       final String requestBody = await request.readAsString();
       final Map<String, dynamic> params = jsonDecode(requestBody);
 
@@ -144,18 +145,21 @@ class AutenticazioneController {
     try {
       final String requestBody = await request.readAsString();
       final Map<String, dynamic> params = jsonDecode(requestBody);
-      final int id = params['id'] != null ? int.parse(params['id'].toString()) : 0;
+      final int id =
+          params['id'] != null ? int.parse(params['id'].toString()) : 0;
       final String nome = params['nome'] ?? '';
       final String cognome = params['cognome'] ?? '';
-      final String cod_fiscale = params['cod_fiscale'] ?? '';
-      final DateTime? data_nascita = params['data_nascita'] != null ? DateTime.parse(params['data_nascita']) : null;
-      final String luogo_nascita = params['luogo_nascita'] ?? '';
+      final String codFiscale = params['cod_fiscale'] ?? '';
+      final DateTime? dataNascita = params['data_nascita'] != null
+          ? DateTime.parse(params['data_nascita'])
+          : null;
+      final String luogoNascita = params['luogo_nascita'] ?? '';
       final String genere = params['genere'] ?? '';
       final String username = params['username'] ?? '';
       final String password = params['password'] ?? '';
-      final String lavoro_adatto = params['lavoro_adatto'] ?? '';
+      final String lavoroAdatto = params['lavoro_adatto'] ?? '';
       final String email = params['email'] ?? '';
-      final String num_telefono = params['num_telefono'] ?? '';
+      final String numTelefono = params['num_telefono'] ?? '';
       final String immagine = params['immagine'] ?? '';
       final String via = params['via'] ?? '';
       final String citta = params['citta'] ?? '';
@@ -165,20 +169,19 @@ class AutenticazioneController {
           id: id,
           nome: nome,
           cognome: cognome,
-          cod_fiscale: cod_fiscale,
-          data_nascita: data_nascita!,
-          luogo_nascita: luogo_nascita,
+          cod_fiscale: codFiscale,
+          data_nascita: dataNascita!,
+          luogo_nascita: luogoNascita,
           genere: genere,
           username: username,
           password: password,
-          lavoro_adatto: lavoro_adatto,
+          lavoro_adatto: lavoroAdatto,
           email: email,
-          num_telefono: num_telefono,
+          num_telefono: numTelefono,
           immagine: immagine,
           via: via,
           citta: citta,
           provincia: provincia);
-
 
       if (await _authService.modifyUtente(utente)) {
         final responseBody = jsonEncode({'result': "Modifica effettuata."});
@@ -202,25 +205,30 @@ class AutenticazioneController {
         return Response.badRequest(body: 'Tipo di contenuto non valido.');
       }
 
-      final parts = await request.parts;
+      final parts = request.parts;
       String? username;
       List<int>? imageData;
 
       await for (final part in parts) {
         if (part.headers.containsKey('content-disposition')) {
-          final contentDisposition = HeaderValue.parse(part.headers['content-disposition']!);
+          final contentDisposition =
+              HeaderValue.parse(part.headers['content-disposition']!);
           final name = contentDisposition.parameters['name'];
 
           if (name == 'username') {
-            username = await part.toList().then((value) => utf8.decode(value.expand((i) => i).toList()));
+            username = await part
+                .toList()
+                .then((value) => utf8.decode(value.expand((i) => i).toList()));
           } else if (name == 'immagine') {
-            imageData = await part.toList().then((value) => value.expand((i) => i).toList());
+            imageData = await part
+                .toList()
+                .then((value) => value.expand((i) => i).toList());
           }
         }
       }
 
       if (username != null && imageData != null) {
-        final imagePath = 'images/image_${username}.jpg';
+        final imagePath = 'images/image_$username.jpg';
         final imageFile = File(imagePath);
         if (await imageFile.exists()) {
           // Elimina il file esistente
@@ -234,6 +242,60 @@ class AutenticazioneController {
       }
     } catch (e) {
       return Response.internalServerError(body: 'Errore server: $e');
+    }
+  }
+
+  Future<Response> _checkUserUtente(Request request) async {
+    try {
+      String requestBody = await request.readAsString();
+
+      String token = jsonDecode(requestBody);
+
+      if (await _authService.checkUserUtente(token)) {
+        return Response.ok(jsonEncode({'result': " Successo"}));
+      } else {
+        return Response.badRequest(body: jsonEncode({'result': " Fallito "}));
+      }
+    } catch (e) {
+      // Gestione degli errori durante la chiamata al servizio
+      return Response.internalServerError(
+          body: 'Errore durante la verifica del token: $e');
+    }
+  }
+
+  Future<Response> _checkUserCA(Request request) async {
+    try {
+      String requestBody = await request.readAsString();
+
+      String token = jsonDecode(requestBody);
+
+      if (await _authService.checkUserCA(token)) {
+        return Response.ok(jsonEncode({'result': " Successo"}));
+      } else {
+        return Response.badRequest(body: jsonEncode({'result': " Fallito "}));
+      }
+    } catch (e) {
+      // Gestione degli errori durante la chiamata al servizio
+      return Response.internalServerError(
+          body: 'Errore durante la verifica del token: $e');
+    }
+  }
+
+  Future<Response> _checkUserADS(Request request) async {
+    try {
+      String requestBody = await request.readAsString();
+
+      String token = jsonDecode(requestBody);
+
+      if (await _authService.checkUserADS(token)) {
+        return Response.ok(jsonEncode({'result': " Successo"}));
+      } else {
+        return Response.badRequest(body: jsonEncode({'result': " Fallito "}));
+      }
+    } catch (e) {
+      // Gestione degli errori durante la chiamata al servizio
+      return Response.internalServerError(
+          body: 'Errore durante la verifica del token: $e');
     }
   }
 
