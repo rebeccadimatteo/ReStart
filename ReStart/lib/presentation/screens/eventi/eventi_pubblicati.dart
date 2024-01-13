@@ -1,11 +1,8 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:restart_all_in_one/utils/jwt_utils.dart';
 import '../../../model/entity/evento_DTO.dart';
-import '../../../utils/auth_service.dart';
 import '../../components/app_bar_ca.dart';
 import 'package:http/http.dart' as http;
 import '../routes/routes.dart';
@@ -26,6 +23,19 @@ class _CommunityEventsState extends State<CommunityEventsPubblicati> {
   void initState() {
     super.initState();
     fetchDataFromServer();
+    _checkUserAndNavigate();
+  }
+
+  void _checkUserAndNavigate() async {
+    String token = await SessionManager().get('token');
+    final response = await http.post(
+        Uri.parse('http://10.0.2.2:8080/autenticazione/checkUserCA'),
+        body: jsonEncode(token),
+        headers: {'Content-Type': 'application/json'}
+    );
+    if(response.statusCode != 200){
+      Navigator.pushNamed(context, AppRoutes.home);
+    }
   }
 
   /// Metodo che permette di inviare la richiesta al server per ottenere la lista di tutti i [EventoDTO] presenti nel database

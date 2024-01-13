@@ -1,12 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
-import 'package:restart_all_in_one/model/entity/alloggio_temporaneo_DTO.dart';
+import '../../../model/entity/alloggio_temporaneo_DTO.dart';
 import '../../../utils/auth_service.dart';
-import '../../../utils/jwt_constants.dart';
-import '../../../utils/jwt_utils.dart';
+import "package:http/http.dart" as http;
 import '../../components/generic_app_bar.dart';
-import 'package:http/http.dart' as http;
 import '../routes/routes.dart';
 
 class AlloggiTemporanei extends StatefulWidget {
@@ -25,8 +23,13 @@ class _AlloggiTemporaneiState extends State<AlloggiTemporanei> {
   }
 
   void _checkUserAndNavigate() async {
-    bool isUserValid = await AuthService.checkUserUtente();
-    if (!isUserValid) {
+    String token = await SessionManager().get('token');
+    final response = await http.post(
+        Uri.parse('http://10.0.2.2:8080/autenticazione/checkUserUtente'),
+        body: jsonEncode(token),
+        headers: {'Content-Type': 'application/json'}
+    );
+    if(response.statusCode != 200){
       Navigator.pushNamed(context, AppRoutes.home);
     }
   }
@@ -176,8 +179,12 @@ class _DetailsAlloggioState extends State<DetailsAlloggio> {
   }
 
   void _checkUserAndNavigate() async {
-    bool isUserValid = await AuthService.checkUserUtente();
-    if (!isUserValid) {
+    String token = await SessionManager().get('token');
+    final response = await http.post(
+        Uri.parse('http://10.0.2.2:8080/autenticazione/checkUserUtente'),
+        body: jsonEncode(token),
+        headers: {'Content-Type': 'application/json'});
+    if (response.statusCode != 200) {
       Navigator.pushNamed(context, AppRoutes.home);
     }
   }

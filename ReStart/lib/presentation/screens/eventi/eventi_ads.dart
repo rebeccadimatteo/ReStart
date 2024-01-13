@@ -1,9 +1,11 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import '../../../model/entity/evento_DTO.dart';
-import '../../../utils/auth_service.dart';
-import '../../components/app_bar_ads.dart';
+import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:http/http.dart' as http;
+
+import '../../../model/entity/evento_DTO.dart';
+import '../../components/app_bar_ads.dart';
 import '../routes/routes.dart';
 
 /// Classe che implementa la sezione [CommunityEvents]
@@ -25,8 +27,12 @@ class _CommunityEventsState extends State<CommunityEventsAds> {
   }
 
   void _checkUserAndNavigate() async {
-    bool isUserValid = await AuthService.checkUserADS();
-    if (!isUserValid) {
+    String token = await SessionManager().get('token');
+    final response = await http.post(
+        Uri.parse('http://10.0.2.2:8080/autenticazione/checkUserADS'),
+        body: jsonEncode(token),
+        headers: {'Content-Type': 'application/json'});
+    if (response.statusCode != 200) {
       Navigator.pushNamed(context, AppRoutes.home);
     }
   }
@@ -162,6 +168,22 @@ class DetailsEventoAds extends StatefulWidget {
 }
 
 class _DetailsEventoAdsState extends State<DetailsEventoAds> {
+  @override
+  void initState() {
+    super.initState();
+    _checkUserAndNavigate();
+  }
+
+  void _checkUserAndNavigate() async {
+    String token = await SessionManager().get('token');
+    final response = await http.post(
+        Uri.parse('http://10.0.2.2:8080/autenticazione/checkUserUtente'),
+        body: jsonEncode(token),
+        headers: {'Content-Type': 'application/json'});
+    if (response.statusCode != 200) {
+      Navigator.pushNamed(context, AppRoutes.home);
+    }
+  }
 
   Future<void> deleteEvento(EventoDTO evento) async {
     final response = await http.post(

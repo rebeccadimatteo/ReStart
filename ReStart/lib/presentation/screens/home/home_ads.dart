@@ -1,8 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
-import '../../../utils/auth_service.dart';
-import '../../../utils/jwt_constants.dart';
-import '../../../utils/jwt_utils.dart';
+import "package:http/http.dart" as http;
 import '../../components/app_bar_ads.dart';
 import '../routes/routes.dart';
 class HomeAds extends StatefulWidget {
@@ -17,9 +17,15 @@ class _HomeAdsState extends State<HomeAds> {
     super.initState();
     _checkUserAndNavigate();
   }
+
   void _checkUserAndNavigate() async {
-    bool isUserValid = await AuthService.checkUserADS();
-    if (!isUserValid) {
+    String token = await SessionManager().get('token');
+    final response = await http.post(
+        Uri.parse('http://10.0.2.2:8080/autenticazione/checkUserADS'),
+        body: jsonEncode(token),
+        headers: {'Content-Type': 'application/json'}
+    );
+    if(response.statusCode != 200){
       Navigator.pushNamed(context, AppRoutes.home);
     }
   }

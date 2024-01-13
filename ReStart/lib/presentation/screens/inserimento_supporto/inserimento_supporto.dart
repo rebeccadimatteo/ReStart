@@ -1,14 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import '../../../model/entity/supporto_medico_DTO.dart';
-import '../../../utils/auth_service.dart';
-import '../../components/generic_app_bar.dart';
-import 'package:http/http.dart' as http;
-import 'dart:io';
-import 'package:path_provider/path_provider.dart';
-import 'package:path/path.dart' as path;
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_session_manager/flutter_session_manager.dart';
+import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
+
+import '../../../model/entity/supporto_medico_DTO.dart';
+import '../../components/generic_app_bar.dart';
 import '../routes/routes.dart';
 
 ///Classe che rappresenta la schermata per inserire un SupportoMedico
@@ -25,8 +24,12 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
     _checkUserAndNavigate();
   }
   void _checkUserAndNavigate() async {
-    bool isUserValid = await AuthService.checkUserADS();
-    if (!isUserValid) {
+    String token = await SessionManager().get('token');
+    final response = await http.post(
+        Uri.parse('http://10.0.2.2:8080/autenticazione/checkUserADS'),
+        body: jsonEncode(token),
+        headers: {'Content-Type': 'application/json'});
+    if (response.statusCode != 200) {
       Navigator.pushNamed(context, AppRoutes.home);
     }
   }

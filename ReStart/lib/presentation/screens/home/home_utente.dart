@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:restart_all_in_one/model/entity/annuncio_di_lavoro_DTO.dart';
 import '../../../model/entity/evento_DTO.dart';
-import '../../../utils/auth_service.dart';
 import '../../components/generic_app_bar.dart';
 import '../routes/routes.dart';
 import "package:http/http.dart" as http;
@@ -19,6 +18,7 @@ class _HomeUtenteState extends State<HomeUtente> {
   List<EventoDTO> eventi = [];
   List<AnnuncioDiLavoroDTO> annunci = [];
 
+  @override
   void initState(){
     super.initState();
     fetchEventiFromServer();
