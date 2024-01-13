@@ -802,6 +802,7 @@ void main() {
           validaTel &&
           validaCF) {
         result = await service.signUp(ug);
+        expect(result, true);
         if (result) {
           print('Registrazione avvenuta: TEST SUPERATO 1.1_13');
         }
