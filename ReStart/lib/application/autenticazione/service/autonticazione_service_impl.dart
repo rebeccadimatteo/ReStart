@@ -1,5 +1,3 @@
-import 'package:flutter_session_manager/flutter_session_manager.dart';
-
 import '../../../model/dao/autenticazione/autenticazione_DAO.dart';
 import '../../../model/dao/autenticazione/autenticazione_DAO_impl.dart';
 import '../../../model/dao/autenticazione/utente/utente_DAO.dart';
@@ -69,7 +67,6 @@ class AutenticazioneServiceImpl implements AutenticazioneService {
 
   @override
   Future<bool> checkUserUtente(var token) async {
-
     if (token != null) {
       return JWTUtils.verifyAccessToken(
           accessToken: await token,

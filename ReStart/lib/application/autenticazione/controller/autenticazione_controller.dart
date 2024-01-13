@@ -247,9 +247,7 @@ class AutenticazioneController {
     try {
       String requestBody = await request.readAsString();
 
-      Map<String, dynamic> requestData = jsonDecode(requestBody);
-
-      final String token = requestData['token'];
+      String token = jsonDecode(requestBody);
 
       if (await _authService.checkUserUtente(token)) {
         return Response.ok(jsonEncode({'result': " Successo"}));
@@ -267,9 +265,7 @@ class AutenticazioneController {
     try {
       String requestBody = await request.readAsString();
 
-      Map<String, dynamic> requestData = jsonDecode(requestBody);
-
-      final String token = requestData['token'];
+      String token = jsonDecode(requestBody);
 
       if (await _authService.checkUserCA(token)) {
         return Response.ok(jsonEncode({'result': " Successo"}));
@@ -287,9 +283,7 @@ class AutenticazioneController {
     try {
       String requestBody = await request.readAsString();
 
-      Map<String, dynamic> requestData = jsonDecode(requestBody);
-
-      final String token = requestData['token'];
+      String token = jsonDecode(requestBody);
 
       if (await _authService.checkUserADS(token)) {
         return Response.ok(jsonEncode({'result': " Successo"}));
