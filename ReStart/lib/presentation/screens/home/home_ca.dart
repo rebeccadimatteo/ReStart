@@ -1,9 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
-import '../../../utils/jwt_constants.dart';
-import '../../../utils/jwt_utils.dart';
 import '../../components/app_bar_ca.dart';
 import '../routes/routes.dart';
+import "package:http/http.dart" as http;
 
 class HomeCa extends StatefulWidget {
   const HomeCa({super.key});
@@ -13,22 +14,25 @@ class HomeCa extends StatefulWidget {
 }
 
 class _HomeCaState extends State<HomeCa> {
-  Future<void> checkUser(BuildContext context) async {
-    var token = await SessionManager().get("token");
-    if (token != null) {
-      if (!JWTUtils.verifyAccessToken(
-          accessToken: await token,
-          secretKey: JWTConstants.accessTokenSecretKeyForCA)) {
-        Navigator.pushNamed(context, AppRoutes.home);
-      }
-    } else {
+
+  void initState(){
+    super.initState();
+    _checkUserAndNavigate();
+  }
+  void _checkUserAndNavigate() async {
+    String token = await SessionManager().get('token');
+    final response = await http.post(
+        Uri.parse('http://10.0.2.2:8080/autenticazione/checkUserCA'),
+        body: jsonEncode(token),
+        headers: {'Content-Type': 'application/json'}
+    );
+    if(response.statusCode != 200){
       Navigator.pushNamed(context, AppRoutes.home);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    checkUser(context);
     return Scaffold(
       appBar: CaAppBar(
         showBackButton: false,

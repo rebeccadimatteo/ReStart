@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_session_manager/flutter_session_manager.dart';
 import '../../../model/entity/utente_DTO.dart';
-import '../../../utils/auth_service.dart';
 import '../../components/generic_app_bar.dart';
 import 'package:http/http.dart' as http;
 
@@ -23,12 +23,19 @@ class _ListaUtentiState extends State<ListaUtenti> {
     fetchDataFromServer();
     _checkUserAndNavigate();
   }
+
   void _checkUserAndNavigate() async {
-    bool isUserValid = await AuthService.checkUserADS();
-    if (!isUserValid) {
+    String token = await SessionManager().get('token');
+    final response = await http.post(
+        Uri.parse('http://10.0.2.2:8080/autenticazione/checkUserUtente'),
+        body: jsonEncode(token),
+        headers: {'Content-Type': 'application/json'}
+    );
+    if(response.statusCode != 200){
       Navigator.pushNamed(context, AppRoutes.home);
     }
   }
+
   Future<void> fetchDataFromServer() async {
     final response = await http
         .post(Uri.parse('http://10.0.2.2:8080/autenticazione/listaUtenti'));

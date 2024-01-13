@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_session_manager/flutter_session_manager.dart';
 import '../../../model/entity/supporto_medico_DTO.dart';
 import '../../../utils/auth_service.dart';
 import '../../components/app_bar_ads.dart';
@@ -25,12 +26,19 @@ class _SupportoMedicoState extends State<SupportoMedicoAds> {
     fetchDataFromServer();
     _checkUserAndNavigate();
   }
+
   void _checkUserAndNavigate() async {
-    bool isUserValid = await AuthService.checkUserADS();
-    if (!isUserValid) {
+    String token = await SessionManager().get('token');
+    final response = await http.post(
+        Uri.parse('http://10.0.2.2:8080/autenticazione/checkUserADS'),
+        body: jsonEncode(token),
+        headers: {'Content-Type': 'application/json'}
+    );
+    if(response.statusCode != 200){
       Navigator.pushNamed(context, AppRoutes.home);
     }
   }
+
   /// Metodo che permette di inviare la richiesta al server per ottenere la lista di tutti i [SupportoMedicoDTO] presenti nel database
   Future<void> fetchDataFromServer() async {
     final response = await http.post(Uri.parse(

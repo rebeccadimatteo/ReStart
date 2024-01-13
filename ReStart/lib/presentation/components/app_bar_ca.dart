@@ -177,7 +177,7 @@ class CaAppBar extends StatelessWidget implements PreferredSizeWidget {
                 print("logout riuscito");
                 Navigator.pushNamed(
                   context,
-                  AppRoutes.homeCA,
+                  AppRoutes.home,
                 );
               },
             ),

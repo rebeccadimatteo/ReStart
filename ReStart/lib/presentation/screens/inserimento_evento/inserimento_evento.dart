@@ -2,9 +2,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:restart_all_in_one/utils/jwt_utils.dart';
 import '../../../model/entity/evento_DTO.dart';
-import '../../../utils/auth_service.dart';
+import '../../../utils/jwt_utils.dart';
 import '../../components/app_bar_ca.dart';
 import 'dart:io';
 import 'package:http/http.dart' as http;
@@ -31,8 +30,13 @@ class _InserisciEventoState extends State<InserisciEvento> {
   }
 
   void _checkUserAndNavigate() async {
-    bool isUserValid = await AuthService.checkUserCA();
-    if (!isUserValid) {
+    String token = await SessionManager().get('token');
+    final response = await http.post(
+        Uri.parse('http://10.0.2.2:8080/autenticazione/checkUserCA'),
+        body: jsonEncode(token),
+        headers: {'Content-Type': 'application/json'}
+    );
+    if(response.statusCode != 200){
       Navigator.pushNamed(context, AppRoutes.home);
     }
   }

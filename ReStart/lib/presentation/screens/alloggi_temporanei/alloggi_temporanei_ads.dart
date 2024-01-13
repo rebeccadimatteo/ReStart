@@ -1,13 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
-import 'package:restart_all_in_one/model/entity/alloggio_temporaneo_DTO.dart';
+import '../../../model/entity/alloggio_temporaneo_DTO.dart';
 import '../../../utils/auth_service.dart';
-import '../../../utils/jwt_constants.dart';
-import '../../../utils/jwt_utils.dart';
 import '../../components/app_bar_ads.dart';
-import '../../components/generic_app_bar.dart';
-import 'package:http/http.dart' as http;
+import "package:http/http.dart" as http;
 import '../routes/routes.dart';
 
 class AlloggiTemporaneiAds extends StatefulWidget {
@@ -26,8 +23,13 @@ class _AlloggiTemporaneiState extends State<AlloggiTemporaneiAds> {
   }
 
   void _checkUserAndNavigate() async {
-    bool isUserValid = await AuthService.checkUserADS();
-    if (!isUserValid) {
+    String token = await SessionManager().get('token');
+    final response = await http.post(
+        Uri.parse('http://10.0.2.2:8080/autenticazione/checkUserADS'),
+        body: jsonEncode(token),
+        headers: {'Content-Type': 'application/json'}
+    );
+    if(response.statusCode != 200){
       Navigator.pushNamed(context, AppRoutes.home);
     }
   }

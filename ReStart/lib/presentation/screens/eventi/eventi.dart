@@ -1,11 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-//import 'package:flutter_session_manager/flutter_session_manager.dart';
+import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:intl/intl.dart';
 import '../../../model/entity/evento_DTO.dart';
 import '../../../utils/auth_service.dart';
-//import '../../../utils/jwt_constants.dart';
-//import '../../../utils/jwt_utils.dart';
 import '../../components/generic_app_bar.dart';
 import 'package:http/http.dart' as http;
 import '../routes/routes.dart';
@@ -29,8 +27,13 @@ class _CommunityEventsState extends State<CommunityEvents> {
   }
 
   void _checkUserAndNavigate() async {
-    bool isUserValid = await AuthService.checkUserUtente();
-    if (!isUserValid) {
+    String token = await SessionManager().get('token');
+    final response = await http.post(
+        Uri.parse('http://10.0.2.2:8080/autenticazione/checkUserUtente'),
+        body: jsonEncode(token),
+        headers: {'Content-Type': 'application/json'}
+    );
+    if(response.statusCode != 200){
       Navigator.pushNamed(context, AppRoutes.home);
     }
   }
@@ -170,11 +173,16 @@ class _DetailsEventoState extends State<DetailsEvento> {
   }
 
   void _checkUserAndNavigate() async {
-    bool isUserValid = await AuthService.checkUserUtente();
-    if (!isUserValid) {
+    String token = await SessionManager().get('token');
+    final response = await http.post(
+        Uri.parse('http://10.0.2.2:8080/autenticazione/checkUserADS'),
+        body: jsonEncode(token),
+        headers: {'Content-Type': 'application/json'});
+    if (response.statusCode != 200) {
       Navigator.pushNamed(context, AppRoutes.home);
     }
   }
+
   @override
   Widget build(BuildContext context) {
     final EventoDTO evento = ModalRoute.of(context)?.settings.arguments as EventoDTO;

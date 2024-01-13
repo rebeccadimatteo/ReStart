@@ -1,12 +1,11 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:restart_all_in_one/model/entity/corso_di_formazione_DTO.dart';
-import '../../../utils/auth_service.dart';
+import '../../../model/entity/corso_di_formazione_DTO.dart';
 import '../../components/generic_app_bar.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io';
-
 import '../routes/routes.dart';
 
 class InserisciCorso extends StatefulWidget {
@@ -21,8 +20,13 @@ class _InserisciCorsoState extends State<InserisciCorso> {
     _checkUserAndNavigate();
   }
   void _checkUserAndNavigate() async {
-    bool isUserValid = await AuthService.checkUserADS();
-    if (!isUserValid) {
+    String token = await SessionManager().get('token');
+    final response = await http.post(
+        Uri.parse('http://10.0.2.2:8080/autenticazione/checkUserADS'),
+        body: jsonEncode(token),
+        headers: {'Content-Type': 'application/json'}
+    );
+    if(response.statusCode != 200){
       Navigator.pushNamed(context, AppRoutes.home);
     }
   }
