@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:path/path.dart';
-import 'package:restart_all_in_one/presentation/screens/annunci_di_lavoro/annunci_di_lavoro_pubblicati.dart';
-import 'package:restart_all_in_one/presentation/screens/annunci_di_lavoro/annuncio_di_lavoro_modify.dart';
-import 'package:restart_all_in_one/presentation/screens/eventi/eventi_pubblicati.dart';
-import 'package:restart_all_in_one/presentation/screens/home/home_ads.dart';
-import 'package:restart_all_in_one/presentation/screens/home/home_ca.dart';
 import '../alloggi_temporanei/alloggi_temporanei.dart';
 import '../alloggi_temporanei/alloggi_temporanei_ads.dart';
+import '../annunci_di_lavoro/annunci_di_lavoro_pubblicati.dart';
 import '../annunci_di_lavoro/annuncio_di_lavoro.dart';
 import '../annunci_di_lavoro/annuncio_di_lavoro_ads.dart';
 import '../corsi_di_formazione/corso_di_formazione.dart';
 import '../corsi_di_formazione/corso_di_formazione_ads.dart';
 import '../eventi/eventi.dart';
 import '../eventi/eventi_ads.dart';
+import '../eventi/eventi_pubblicati.dart';
 import '../eventi/evento_modify.dart';
+import '../home/home_ads.dart';
+import '../home/home_ca.dart';
 import '../home/home_utente.dart';
 import '../inserimento_annuncio/inserimento_annuncio.dart';
 import '../inserimento_evento/inserimento_evento.dart';
@@ -111,7 +109,6 @@ class AppRoutes {
       dettaglisupportoAds: (context) => DetailsSupportoAds(),
       richiesteAds: (context) => Richieste(),
       modificaevento: (context) => ModifyEvento(),
-      modificalavoro: (context) => ModifyLavoro()
     };
   }
 }
