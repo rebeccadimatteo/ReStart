@@ -17,6 +17,10 @@ class Profilo extends StatefulWidget {
 }
 
 class _ProfiloState extends State<Profilo> {
+  late UtenteDTO? utente;
+  late DateTime? selectedDate;
+  var token = SessionManager().get('token');
+  TextEditingController dataNascitaController = TextEditingController();
 
   void _checkUserAndNavigate() async {
     bool isUserValid = await AuthService.checkUserUtente();
@@ -25,12 +29,37 @@ class _ProfiloState extends State<Profilo> {
     }
   }
 
-  late UtenteDTO? utente;
-  var token = SessionManager().get('token');
+  Future<void> _selectedDate(BuildContext context) async {
+    DateTime now = DateTime.now();
+    DateTime eighteenYearsAgo = now.subtract(const Duration(days: 365 * 18));
+
+    DateTime initialDate = DateTime(2006, 01, 01);
+    DateTime lastDate = now.isAfter(eighteenYearsAgo) ? eighteenYearsAgo : now;
+    DateTime firstAllowedDate = DateTime(now.year - 18, now.month, now.day);
+
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: initialDate,
+      firstDate: DateTime(1940, 12, 31),
+      lastDate: lastDate,
+      selectableDayPredicate: (DateTime day) {
+        return day.isBefore(firstAllowedDate);
+      },
+    );
+
+    if (pickedDate != null && pickedDate != selectedDate) {
+      setState(() {
+        selectedDate = pickedDate;
+        dataNascitaController.text =
+            DateFormat('yyyy-MM-dd').format(selectedDate!);
+      });
+    }
+  }
 
   @override
   void initState() {
     super.initState();
+    selectedDate = DateTime.now();
     utente = UtenteDTO(
         nome: 'nome',
         cognome: 'cognome',
@@ -55,7 +84,7 @@ class _ProfiloState extends State<Profilo> {
     String user = JWTUtils.getUserFromToken(accessToken: await token);
     final response = await http.post(
       Uri.parse('http://10.0.2.2:8080/autenticazione/visualizzaUtente'),
-      body: jsonEncode(user),
+      body: jsonEncode({'user': user}),
     );
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseBody = json.decode(response.body);
@@ -91,7 +120,7 @@ class _ProfiloState extends State<Profilo> {
     );
   }
 
-  @override
+@override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double buttonWidth = screenWidth * 0.1;
@@ -113,13 +142,15 @@ class _ProfiloState extends State<Profilo> {
               if (utente != null)
                 ListTile(
                   leading: CircleAvatar(
-                    radius: screenWidth * 0.15,
+                    radius: screenWidth * 0.10,
                     backgroundImage: AssetImage(utente!.immagine),
                   ),
                   title: Text(
                     utente!.username,
                     style: const TextStyle(
-                        fontFamily: 'Poppins', fontWeight: FontWeight.bold),
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold
+                    ),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -131,10 +162,13 @@ class _ProfiloState extends State<Profilo> {
                       utente!.email,
                       const TextStyle(
                         fontFamily: 'Poppins',
+                        fontSize:15,
                         fontWeight: FontWeight.bold,
                       ),
                       const TextStyle(
                         fontFamily: 'Poppins',
+                          fontSize:15,
+                        fontWeight: FontWeight.bold,
                       ),
                       screenWidth),
                   buildProfileField(
@@ -281,19 +315,37 @@ class _ProfiloState extends State<Profilo> {
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue[200],
+                  backgroundColor: Colors.transparent,
                   foregroundColor: Colors.black,
-                  shadowColor: Colors.grey,
                   elevation: 10,
-                  minimumSize: Size(buttonWidth, buttonHeight),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
+                  padding: EdgeInsets.zero,
                 ),
-                child: const Text(
-                  'MODIFICA',
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    color: Colors.white,
-                    fontSize: 23,
-                    fontWeight: FontWeight.bold,
+                child: Ink(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [Colors.blue[50]!, Colors.blue[100]!],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
+                  child: Container(
+                    width: screenWidth * 0.60,
+                    height: screenWidth * 0.1,
+                    padding: const EdgeInsets.all(10),
+                    child: const Center(
+                      child: Text(
+                        'MODIFICA',
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -481,13 +533,16 @@ class _ProfiloEditState extends State<ProfiloEdit> {
                         )
                       ],
                     ),
+                    const SizedBox(height: 20),
                     TextFormField(
                       controller: usernameController,
+                      obscureText: true,
                       decoration: const InputDecoration(
                         labelText: 'Username',
                       ),
                       style: const TextStyle(
                         fontFamily: 'Poppins',
+                        fontSize:15,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -498,6 +553,7 @@ class _ProfiloEditState extends State<ProfiloEdit> {
                       ),
                       style: const TextStyle(
                         fontFamily: 'Poppins',
+                        fontSize:15,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -508,6 +564,7 @@ class _ProfiloEditState extends State<ProfiloEdit> {
                       ),
                       style: const TextStyle(
                         fontFamily: 'Poppins',
+                        fontSize:15,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -518,86 +575,123 @@ class _ProfiloEditState extends State<ProfiloEdit> {
                       ),
                       style: const TextStyle(
                         fontFamily: 'Poppins',
+                        fontSize:15,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     TextFormField(
                       controller: cfController,
+                      obscureText: true,
                       decoration: const InputDecoration(
                         labelText: 'Codice fiscale',
                       ),
                       style: const TextStyle(
                         fontFamily: 'Poppins',
+                        fontSize:15,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    Row(children: [
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () {
-                            _selectDate(context);
-                          },
-                          child: TextFormField(
-                            readOnly: true,
-                            controller: dataNascitaController,
-                            decoration: const InputDecoration(
-                              labelText: 'Data di nascita',
-                            ),
-                            onTap: () {
-                              _selectDate(context);
-                            },
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Seleziona la data di nascita';
-                              }
-                              return null;
-                            },
-                            style: const TextStyle(
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.bold,
+                    const SizedBox(height: 15),
+                    InkWell(
+                      onTap: () {
+                        _selectDate(context);
+                      },
+                      child: InputDecorator(
+                        decoration: const InputDecoration(
+                          labelStyle: TextStyle(
+                            fontFamily: 'Poppins',
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          border: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.black,
+                              width: 2.0,
                             ),
                           ),
                         ),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: TextFormField(
+                                readOnly: true,
+                                controller: dataNascitaController,
+                                style: const TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                decoration: const InputDecoration(
+                                  hintText: 'Data di nascita',
+                                  border: InputBorder.none,
+                                ),
+                                onTap: () {
+                                  _selectDate(context);
+                                },
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Data di nascita';
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.only(left: 6.0),
+                              child: Icon(
+                                Icons.date_range,
+                                size: 20.0, // Adjust the size as needed
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ]),
+                    ),
+                    const SizedBox(height: 15),
                     TextFormField(
                       controller: luogoNascitaController,
+                      obscureText: true,
                       decoration: const InputDecoration(
                         labelText: 'Luogo di nascita',
                       ),
+                      style: const TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize:15,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(
-                          left: 15.0, right: 15.0, bottom: 15),
-                      child: DropdownButtonFormField<String>(
-                        value: _selectedGender,
-                        onChanged: (newValue) {
-                          setState(() {
-                            _selectedGender = newValue as String;
-                          });
-                        },
-                        items: ['Maschio', 'Femmina', 'Non specificato']
-                            .map<DropdownMenuItem<String>>(
-                              (String value) => DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(
-                                  value,
-                                  style: const TextStyle(
-                                    fontFamily: 'Poppins',
-                                  ),
-                                ),
-                              ),
-                            )
-                            .toList(),
+                      padding: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20),
+                      child: InputDecorator(
                         decoration: const InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(30)),
-                          ),
                           labelText: 'Genere',
                           labelStyle: TextStyle(
                             fontFamily: 'Poppins',
+                            fontSize: 15,
                             fontWeight: FontWeight.bold,
                           ),
+                          border: InputBorder.none,
+                        ),
+                        child: DropdownButtonFormField<String>(
+                          value: _selectedGender,
+                          onChanged: (newValue) {
+                            setState(() {
+                              _selectedGender = newValue as String;
+                            });
+                          },
+                          items: ['Maschio', 'Femmina', 'Non specificato']
+                              .map<DropdownMenuItem<String>>(
+                                (String value) => DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(
+                                value,
+                                style: const TextStyle(
+                                  fontFamily: 'Poppins',
+                                ),
+                              ),
+                            ),
+                          )
+                              .toList(),
                         ),
                       ),
                     ),
@@ -609,6 +703,7 @@ class _ProfiloEditState extends State<ProfiloEdit> {
                       ),
                       style: const TextStyle(
                         fontFamily: 'Poppins',
+                        fontSize:15,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -619,6 +714,7 @@ class _ProfiloEditState extends State<ProfiloEdit> {
                       ),
                       style: const TextStyle(
                         fontFamily: 'Poppins',
+                        fontSize:15,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -629,6 +725,7 @@ class _ProfiloEditState extends State<ProfiloEdit> {
                       ),
                       style: const TextStyle(
                         fontFamily: 'Poppins',
+                        fontSize:15,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -639,13 +736,14 @@ class _ProfiloEditState extends State<ProfiloEdit> {
                       ),
                       style: const TextStyle(
                         fontFamily: 'Poppins',
+                        fontSize:15,
                         fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
+                         ),
+                  ),
+                ],
               ),
-              SizedBox(height: screenWidth * 0.1),
+            ),
+        SizedBox(height: screenWidth * 0.1),
               ElevatedButton(
                 onPressed: () {
                   submitForm();
@@ -655,19 +753,38 @@ class _ProfiloEditState extends State<ProfiloEdit> {
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green,
+                  backgroundColor: Colors.transparent,
                   foregroundColor: Colors.black,
-                  shadowColor: Colors.grey,
                   elevation: 10,
                   minimumSize: Size(screenWidth * 0.1, screenWidth * 0.1),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
+                  padding: EdgeInsets.zero,
                 ),
-                child: const Text(
-                  'APPLICA MODIFICHE',
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    color: Colors.white,
-                    fontSize: 23,
-                    fontWeight: FontWeight.bold,
+                child: Ink(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [Colors.blue[50]!, Colors.blue[100]!],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
+                  child: Container(
+                    width: screenWidth * 0.60,
+                    height: screenWidth * 0.1,
+                    padding: const EdgeInsets.all(10),
+                    child: const Center(
+                      child: Text(
+                        'APPLICA MODIFICHE',
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -677,7 +794,6 @@ class _ProfiloEditState extends State<ProfiloEdit> {
       ),
     );
   }
-}
 
 Widget buildProfileField(String label, String value, double screenWidth) {
   return ListTile(
@@ -702,4 +818,5 @@ Widget buildProfileField(String label, String value, double screenWidth) {
       ],
     ),
   );
+}
 }

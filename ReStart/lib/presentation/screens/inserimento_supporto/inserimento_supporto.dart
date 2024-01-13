@@ -1,9 +1,7 @@
-import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../model/entity/supporto_medico_DTO.dart';
 import '../../../utils/auth_service.dart';
-import '../../../utils/utils.dart';
 import '../../components/generic_app_bar.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io';
@@ -137,11 +135,13 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
                   const Text(
                     'Inserisci Supporto Medico',
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: 23,
+                      fontFamily: 'Poppins',
                       fontWeight: FontWeight.bold,
                     ),
                     textAlign: TextAlign.center,
                   ),
+                  const SizedBox(height: 20),
                   Form(
                     key: _formKey,
                     child: Column(
@@ -167,10 +167,18 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
                             )
                           ],
                         ),
+                        const SizedBox(height: 15),
                         TextFormField(
                             controller: nomeMedicoController,
                             decoration:
-                                const InputDecoration(labelText: 'Nome medico'),
+                                const InputDecoration(
+                                    labelText: 'Nome medico',
+                                  labelStyle: TextStyle(
+                                    fontSize: 15,
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Inserisci il nome del medico';
@@ -181,7 +189,13 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
                         TextFormField(
                             controller: cognomeMedicoController,
                             decoration: const InputDecoration(
-                                labelText: 'Cognome medico'),
+                                labelText: 'Cognome medico',
+                              labelStyle: TextStyle(
+                                fontSize: 15,
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Inserisci il cognome del medico';
@@ -192,7 +206,14 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
                         TextFormField(
                             controller: descrizioneController,
                             decoration:
-                                const InputDecoration(labelText: 'Descrizione'),
+                                const InputDecoration(
+                                    labelText: 'Descrizione',
+                                  labelStyle: TextStyle(
+                                    fontSize: 15,
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Inserisci la descrizione del supporto medico offerto';
@@ -203,7 +224,14 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
                         TextFormField(
                             controller: tipoController,
                             decoration:
-                                const InputDecoration(labelText: 'Tipo'),
+                                const InputDecoration(
+                                    labelText: 'Tipo',
+                                  labelStyle: TextStyle(
+                                    fontSize: 15,
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Inserisci il tipo del supporto medico offerto';
@@ -215,6 +243,7 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
                           'Contatti',
                           style: TextStyle(
                             fontSize: 20,
+                            fontFamily: 'Poppins',
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -222,7 +251,14 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
                         TextFormField(
                             controller: emailController,
                             decoration:
-                                const InputDecoration(labelText: 'Email'),
+                                const InputDecoration(
+                                    labelText: 'Email',
+                                  labelStyle: TextStyle(
+                                    fontSize: 15,
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Inserisci la email del medico';
@@ -233,7 +269,13 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
                         TextFormField(
                             controller: numTelefonoController,
                             decoration: const InputDecoration(
-                                labelText: 'Numero di telefono'),
+                                labelText: 'Numero di telefono',
+                              labelStyle: TextStyle(
+                                fontSize: 15,
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Inserisci la email del medico';
@@ -244,7 +286,14 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
                         TextFormField(
                             controller: cittaController,
                             decoration:
-                                const InputDecoration(labelText: 'Città'),
+                                const InputDecoration(
+                                    labelText: 'Città',
+                                  labelStyle: TextStyle(
+                                    fontSize: 15,
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Inserisci la città dove si trova il medico';
@@ -254,7 +303,14 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
                         const SizedBox(height: 20),
                         TextFormField(
                             controller: viaController,
-                            decoration: const InputDecoration(labelText: 'Via'),
+                            decoration: const InputDecoration(
+                                labelText: 'Via',
+                              labelStyle: TextStyle(
+                                fontSize: 15,
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Inserisci la via dove si trova il medico';
@@ -265,7 +321,14 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
                         TextFormField(
                             controller: provinciaController,
                             decoration:
-                                const InputDecoration(labelText: 'Provincia'),
+                                const InputDecoration(
+                                    labelText: 'Provincia',
+                                  labelStyle: TextStyle(
+                                    fontSize: 15,
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Inserisci la provincia dove si trova il medico';
@@ -278,17 +341,38 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
                             submitForm;
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue[200],
+                            backgroundColor: Colors.transparent,
                             foregroundColor: Colors.black,
-                            shadowColor: Colors.grey,
                             elevation: 10,
-                            minimumSize:
-                                Size(screenWidth * 0.1, screenWidth * 0.1),
+                            minimumSize: Size(screenWidth * 0.1, screenWidth * 0.1),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                            ),
+                            padding: EdgeInsets.zero,
                           ),
-                          child: const Text(
-                            'INSERISCI',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
+                          child: Ink(
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [Colors.blue[50]!, Colors.blue[100]!],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ),
+                              borderRadius: BorderRadius.circular(30.0),
+                            ),
+                            child: Container(
+                              width: screenWidth * 0.60,
+                              height: screenWidth * 0.1,
+                              padding: const EdgeInsets.all(10),
+                              child: const Center(
+                                child: Text(
+                                  'INSERISCI',
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
                         ),

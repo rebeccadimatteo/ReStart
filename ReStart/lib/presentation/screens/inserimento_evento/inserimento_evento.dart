@@ -128,7 +128,8 @@ class _InserisciEventoState extends State<InserisciEvento> {
     double screenWidth = MediaQuery.of(context).size.width;
     double avatarSize = screenWidth * 0.3;
 
-    return Scaffold(
+    return MaterialApp(
+        home: Scaffold(
       appBar: CaAppBar(
         showBackButton: true,
       ),
@@ -141,11 +142,13 @@ class _InserisciEventoState extends State<InserisciEvento> {
             const Text(
               'Inserisci evento',
               style: TextStyle(
-                fontSize: 20,
+                fontSize: 23,
+                fontFamily: 'Poppins',
                 fontWeight: FontWeight.bold,
               ),
               textAlign: TextAlign.center,
             ),
+            const SizedBox(height: 20),
             Form(
               key: _formKey,
               child: Column(
@@ -172,19 +175,25 @@ class _InserisciEventoState extends State<InserisciEvento> {
                       )
                     ],
                   ),
+                  const SizedBox(height: 20),
                   TextFormField(
                     controller: nomeController,
-                    decoration: const InputDecoration(labelText: 'Nome evento'),
+                    decoration: const InputDecoration(
+                        labelText: 'Nome evento',
+                      labelStyle: TextStyle(
+                        fontSize: 15,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {}
                       return null;
                     },
                     onChanged: (value) {
-                      // Aggiorna lo stato del widget quando il testo cambia
                       setState(() {
                         nomeController.text = value;
-                        // Nessuna azione specifica richiesta qui, poiché stai già utilizzando il controller
-                      },
+                        },
                       );
                     },
                   ),
@@ -192,7 +201,14 @@ class _InserisciEventoState extends State<InserisciEvento> {
                   TextFormField(
                       controller: descrizioneController,
                       decoration:
-                      const InputDecoration(labelText: 'Descrizione'),
+                      const InputDecoration(
+                          labelText: 'Descrizione',
+                        labelStyle: TextStyle(
+                          fontSize: 15,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Inserisci la descrizione dell\'evento';
@@ -204,13 +220,21 @@ class _InserisciEventoState extends State<InserisciEvento> {
                     'Contatti',
                     style: TextStyle(
                       fontSize: 20,
+                      fontFamily: 'Poppins',
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   const SizedBox(height: 20),
                   TextFormField(
                       controller: emailController,
-                      decoration: const InputDecoration(labelText: 'Email'),
+                      decoration: const InputDecoration(
+                          labelText: 'Email',
+                        labelStyle: TextStyle(
+                          fontSize: 15,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Inserisci la mail dell\'evento';
@@ -220,7 +244,14 @@ class _InserisciEventoState extends State<InserisciEvento> {
                   const SizedBox(height: 20),
                   TextFormField(
                       controller: sitoController,
-                      decoration: const InputDecoration(labelText: 'Sito web'),
+                      decoration: const InputDecoration(
+                          labelText: 'Sito web',
+                        labelStyle: TextStyle(
+                          fontSize: 15,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Inserisci il sito web dell\'evento';
@@ -230,7 +261,14 @@ class _InserisciEventoState extends State<InserisciEvento> {
                   const SizedBox(height: 20),
                   TextFormField(
                       controller: cittaController,
-                      decoration: const InputDecoration(labelText: 'Città'),
+                      decoration: const InputDecoration(
+                          labelText: 'Città',
+                        labelStyle: TextStyle(
+                          fontSize: 15,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Inserisci la città dov\è situato l\'evento';
@@ -239,7 +277,14 @@ class _InserisciEventoState extends State<InserisciEvento> {
                       }),
                   TextFormField(
                       controller: viaController,
-                      decoration: const InputDecoration(labelText: 'Via'),
+                      decoration: const InputDecoration(
+                          labelText: 'Via',
+                        labelStyle: TextStyle(
+                          fontSize: 15,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Inserisci la via dov\è situato l\'evento';
@@ -249,7 +294,14 @@ class _InserisciEventoState extends State<InserisciEvento> {
                   const SizedBox(height: 20),
                   TextFormField(
                       controller: provinciaController,
-                      decoration: const InputDecoration(labelText: 'Provincia'),
+                      decoration: const InputDecoration(
+                          labelText: 'Provincia',
+                        labelStyle: TextStyle(
+                          fontSize: 15,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Inserisci la provincia dov\è situato l\'evento';
@@ -259,19 +311,41 @@ class _InserisciEventoState extends State<InserisciEvento> {
                   SizedBox(height: screenWidth * 0.1),
                   ElevatedButton(
                     onPressed: () {
-                      submitForm();
+                      submitForm;
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue[200],
+                      backgroundColor: Colors.transparent,
                       foregroundColor: Colors.black,
-                      shadowColor: Colors.grey,
                       elevation: 10,
                       minimumSize: Size(screenWidth * 0.1, screenWidth * 0.1),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
+                      padding: EdgeInsets.zero,
                     ),
-                    child: const Text(
-                      'INSERISCI',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
+                    child: Ink(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [Colors.blue[50]!, Colors.blue[100]!],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
+                      child: Container(
+                        width: screenWidth * 0.60,
+                        height: screenWidth * 0.1,
+                        padding: const EdgeInsets.all(10),
+                        child: const Center(
+                          child: Text(
+                            'INSERISCI',
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -281,6 +355,10 @@ class _InserisciEventoState extends State<InserisciEvento> {
           ]),
         ),
       ),
+        ),
     );
   }
+}
+void main(){
+  runApp(InserisciEvento());
 }

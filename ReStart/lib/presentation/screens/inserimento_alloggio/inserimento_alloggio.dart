@@ -129,7 +129,8 @@ class _InserisciAlloggioState extends State<InserisciAlloggio> {
                   const Text(
                     'Inserisci Alloggio',
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: 23,
+                      fontFamily: 'Poppins',
                       fontWeight: FontWeight.bold,
                     ),
                     textAlign: TextAlign.center,
@@ -154,15 +155,22 @@ class _InserisciAlloggioState extends State<InserisciAlloggio> {
                               left: screenWidth * 0.18,
                               child: IconButton(
                                 onPressed: selectImage,
-                                icon: Icon(Icons.add_a_photo_sharp),
+                                icon: const Icon(Icons.add_a_photo_sharp),
                               ),
                             )
                           ],
                         ),
+                        const SizedBox(height: 20),
                         TextFormField(
                             controller: nomeAlloggioController,
                             decoration: const InputDecoration(
-                                labelText: 'Nome alloggio'),
+                              labelText: 'Nome alloggio',
+                              labelStyle: TextStyle(
+                              fontSize: 15,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.bold,
+                            ),
+                            ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Inserisci il nome dell\'alloggio';
@@ -173,7 +181,13 @@ class _InserisciAlloggioState extends State<InserisciAlloggio> {
                         TextFormField(
                             controller: descrizioneController,
                             decoration:
-                                const InputDecoration(labelText: 'Descrizione'),
+                                const InputDecoration(labelText: 'Descrizione',
+                                  labelStyle: TextStyle(
+                                    fontSize: 15,
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Inserisci la descrizione dell\'alloggio';
@@ -184,7 +198,13 @@ class _InserisciAlloggioState extends State<InserisciAlloggio> {
                         TextFormField(
                             controller: tipoController,
                             decoration:
-                                const InputDecoration(labelText: 'Tipo'),
+                                const InputDecoration(labelText: 'Tipo',
+                                  labelStyle: TextStyle(
+                                    fontSize: 15,
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Inserisci il tipo dell\'alloggio';
@@ -196,6 +216,7 @@ class _InserisciAlloggioState extends State<InserisciAlloggio> {
                           'Contatti',
                           style: TextStyle(
                             fontSize: 20,
+                            fontFamily: 'Poppins',
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -203,7 +224,14 @@ class _InserisciAlloggioState extends State<InserisciAlloggio> {
                         TextFormField(
                             controller: emailController,
                             decoration:
-                                const InputDecoration(labelText: 'Email'),
+                                const InputDecoration(
+                                  labelText: 'Email',
+                                  labelStyle: TextStyle(
+                                  fontSize: 15,
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Inserisci la mail dell\'alloggio';
@@ -214,7 +242,14 @@ class _InserisciAlloggioState extends State<InserisciAlloggio> {
                         TextFormField(
                             controller: sitoController,
                             decoration:
-                                const InputDecoration(labelText: 'Sito web'),
+                                const InputDecoration(
+                                  labelText: 'Sito web',
+                                  labelStyle: TextStyle(
+                                    fontSize: 15,
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Inserisci il sito web dell\'alloggio';
@@ -225,7 +260,14 @@ class _InserisciAlloggioState extends State<InserisciAlloggio> {
                         TextFormField(
                             controller: cittaController,
                             decoration:
-                                const InputDecoration(labelText: 'Città'),
+                                const InputDecoration(
+                                    labelText: 'Città',
+                                  labelStyle: TextStyle(
+                                    fontSize: 15,
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Inserisci la città dov\è situato l\'alloggio';
@@ -234,7 +276,14 @@ class _InserisciAlloggioState extends State<InserisciAlloggio> {
                             }),
                         TextFormField(
                             controller: viaController,
-                            decoration: const InputDecoration(labelText: 'Via'),
+                            decoration: const InputDecoration(
+                              labelText: 'Via',
+                              labelStyle: TextStyle(
+                                fontSize: 15,
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Inserisci la via dov\è situato l\'alloggio';
@@ -245,7 +294,14 @@ class _InserisciAlloggioState extends State<InserisciAlloggio> {
                         TextFormField(
                             controller: provinciaController,
                             decoration:
-                                const InputDecoration(labelText: 'Provincia'),
+                                const InputDecoration(
+                                    labelText: 'Provincia',
+                                  labelStyle: TextStyle(
+                                    fontSize: 15,
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Inserisci la provincia dov\è situato l\'alloggio';
@@ -257,25 +313,47 @@ class _InserisciAlloggioState extends State<InserisciAlloggio> {
                           onPressed: () {
                             submitForm;
                           },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue[200],
-                            foregroundColor: Colors.black,
-                            shadowColor: Colors.grey,
-                            elevation: 10,
-                            minimumSize:
-                                Size(screenWidth * 0.1, screenWidth * 0.1),
-                          ),
-                          child: const Text(
-                            'INSERISCI',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.transparent,
+                              foregroundColor: Colors.black,
+                              elevation: 10,
+                              minimumSize: Size(screenWidth * 0.1, screenWidth * 0.1),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30.0),
+                              ),
+                              padding: EdgeInsets.zero,
+                            ),
+                          child: Ink(
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [Colors.blue[50]!, Colors.blue[100]!],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ),
+                              borderRadius: BorderRadius.circular(30.0),
+                            ),
+                            child: Container(
+                              width: screenWidth * 0.60,
+                              height: screenWidth * 0.1,
+                              padding: const EdgeInsets.all(10),
+                              child: const Center(
+                                child: Text(
+                                  'INSERISCI',
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
                         ),
                       ],
                     ),
                   ),
-                ]),
+                ]
+            ),
           ),
         ),
       ),
