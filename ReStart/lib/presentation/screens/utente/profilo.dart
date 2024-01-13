@@ -29,33 +29,6 @@ class _ProfiloState extends State<Profilo> {
     }
   }
 
-  Future<void> _selectedDate(BuildContext context) async {
-    DateTime now = DateTime.now();
-    DateTime eighteenYearsAgo = now.subtract(const Duration(days: 365 * 18));
-
-    DateTime initialDate = DateTime(2006, 01, 01);
-    DateTime lastDate = now.isAfter(eighteenYearsAgo) ? eighteenYearsAgo : now;
-    DateTime firstAllowedDate = DateTime(now.year - 18, now.month, now.day);
-
-    final DateTime? pickedDate = await showDatePicker(
-      context: context,
-      initialDate: initialDate,
-      firstDate: DateTime(1940, 12, 31),
-      lastDate: lastDate,
-      selectableDayPredicate: (DateTime day) {
-        return day.isBefore(firstAllowedDate);
-      },
-    );
-
-    if (pickedDate != null && pickedDate != selectedDate) {
-      setState(() {
-        selectedDate = pickedDate;
-        dataNascitaController.text =
-            DateFormat('yyyy-MM-dd').format(selectedDate!);
-      });
-    }
-  }
-
   @override
   void initState() {
     super.initState();
@@ -123,8 +96,6 @@ class _ProfiloState extends State<Profilo> {
 @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    double buttonWidth = screenWidth * 0.1;
-    double buttonHeight = screenWidth * 0.1;
     final String data = utente!.data_nascita.toIso8601String();
     final String dataBuona = data.substring(0, 10);
     return Scaffold(

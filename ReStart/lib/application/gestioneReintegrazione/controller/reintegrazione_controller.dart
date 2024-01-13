@@ -27,7 +27,7 @@ class ReintegrazioneController {
     _router.post('/addImage', _uploadImage);
     _router.post('/deleteCorso', _deleteCorso);
     _router.post('/deleteAlloggio', _deleteAlloggio);
-    _router.post('/_deleteSupporto', _deleteSupporto);
+    _router.post('/deleteSupporto', _deleteSupporto);
 
     // Aggiungi la route di fallback per le richieste non corrispondenti
     _router.all('/<ignored|.*>', _notFound);
@@ -269,7 +269,7 @@ class ReintegrazioneController {
       final int idSupporto =
           params['id'] != null ? int.parse(params['id'].toString()) : 0;
 
-      if (await _service.deleteCorso(idSupporto)) {
+      if (await _service.deleteSupporto(idSupporto)) {
         final responseBody = jsonEncode({'result': "Eliminazione effettuata."});
         return Response.ok(responseBody,
             headers: {'Content-Type': 'application/json'});

@@ -117,7 +117,8 @@ class AutenticazioneController {
   _visualizzaUtente(Request request) async {
     try {
       final String requestBody = await request.readAsString();
-      final String username = jsonDecode(requestBody);
+      final Map<String, dynamic> params = jsonDecode(requestBody);
+      String username = params['user'];
 
       UtenteDTO? utente = await _authService.visualizzaUtente(username);
 
@@ -132,6 +133,7 @@ class AutenticazioneController {
             body: responseBody, headers: {'Content-Type': 'application/json'});
       }
     } catch (e) {
+      print(e);
       // Gestione degli errori durante la chiamata al servizio
       return Response.internalServerError(
           body: 'Errore durante l\'eliminazione dell\'utente: $e');

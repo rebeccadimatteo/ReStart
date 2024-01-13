@@ -98,10 +98,10 @@ class SupportoMedicoDAOImpl implements SupportoMedicoDAO {
     try {
       Connection connection = await connector.openConnection();
       var result = await connection.execute(Sql.named(
-          'SELECT  sm.id, sm.nome, sm.cognome, sm.descrizione, sm.tipo, c.id, c.num_telefono, c.email,'
-          'c.sito, i.id, i.immagine, ind.id, ind.via, ind.citta, ind.provincia FROM public."SupportoMedico" as sm, public."Contatti" as c,'
+          'SELECT  sm.id, sm.nome, sm.cognome, sm.descrizione, sm.tipo, c.num_telefono, c.email,'
+          'c.sito, i.immagine, ind.via, ind.citta, ind.provincia FROM public."SupportoMedico" as sm, public."Contatti" as c,'
           ' public."Immagine" as i, public."Indirizzo" as ind '
-          'WHERE sm.id = c.id_supporto AND sm.id = i.id_supporto AND sm.id = ind.id_supporto')); // verificare se funziona
+          'WHERE sm.id = c.id_supporto AND sm.id = i.id_supporto AND sm.id = ind.id_supporto AND sm.id = i.id_supporto'));
 
       List<SupportoMedicoDTO> supportiMedici = result.map((row) {
         return SupportoMedicoDTO.fromJson(row.toColumnMap());

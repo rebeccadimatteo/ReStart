@@ -63,7 +63,7 @@ class _AlloggiTemporaneiState extends State<AlloggiTemporaneiAds> {
 
   Future<void> deleteAlloggio(AlloggioTemporaneoDTO alloggio) async {
     final response = await http.post(
-        Uri.parse('http://10.0.2.2:8080/gestioneLavoro/deleteLavoro'),
+        Uri.parse('http://10.0.2.2:8080/gestioneReintegrazione/deleteAlloggio'),
         body: jsonEncode(alloggio));
     if (response.statusCode == 200) {
       setState(() {
@@ -179,6 +179,19 @@ class _DetailsAlloggioAdsState extends State<DetailsAlloggioAds> {
     }
   }
 
+  Future<void> deleteAlloggio(AlloggioTemporaneoDTO alloggio) async {
+    final response = await http.post(
+        Uri.parse('http://10.0.2.2:8080/gestioneReintegrazione/deleteAlloggio'),
+        body: jsonEncode(alloggio));
+    if (response.statusCode == 200) {
+      setState(() {
+        print("Eliminaziona andata a buon fine");
+      });
+    } else {
+      print("Eliminazione non andata a buon fine");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final AlloggioTemporaneoDTO alloggio =
@@ -242,19 +255,46 @@ class _DetailsAlloggioAdsState extends State<DetailsAlloggioAds> {
           Container(
             padding: const EdgeInsets.only(bottom: 40),
             child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red,
-                shadowColor: Colors.grey,
-                elevation: 10,
-              ),
               onPressed: () {
-                // deleteAlloggio(alloggio);
+                deleteAlloggio(alloggio);
               },
-              child: const Text('ELIMINA',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                  )),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.transparent,
+                foregroundColor: Colors.black,
+                elevation: 10,
+                minimumSize: Size(MediaQuery.of(context).size.width * 0.1,
+                    MediaQuery.of(context).size.width * 0.1),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
+                padding: EdgeInsets.zero,
+              ),
+              child: Ink(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Colors.blue[50]!, Colors.blue[100]!],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
+                child: Container(
+                  width: MediaQuery.of(context).size.width *
+                      0.4, // Regola la larghezza del pulsante
+                  height: MediaQuery.of(context).size.width * 0.1,
+                  padding: const EdgeInsets.all(10),
+                  child: const Center(
+                    child: Text(
+                      'ELIMINA',
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ),
           ),
         ],

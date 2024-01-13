@@ -133,7 +133,8 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroAds> {
                       leading: CircleAvatar(
                           radius: 35,
                           backgroundImage: AssetImage(annuncio.immagine)),
-                      title: Text(annuncio.nome,
+                      title: Text(
+                        annuncio.nome,
                         style: const TextStyle(
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.bold,
@@ -141,7 +142,7 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroAds> {
                         ),
                       ),
                       subtitle: Text(
-                          annuncio.descrizione,
+                        annuncio.descrizione,
                         style: const TextStyle(
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.bold,
@@ -150,7 +151,7 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroAds> {
                       ),
                       trailing: IconButton(
                         icon: const Icon(Icons.delete,
-                            color: Colors.black, size: 25),
+                            color: Colors.red, size: 30),
                         onPressed: () {
                           deleteLavoro(annuncio);
                         },
@@ -169,7 +170,23 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroAds> {
 
 /// Visualizza i dettagli di [AnnunciDiLavoro]
 
-class DetailsLavoroAds extends StatelessWidget {
+class DetailsLavoroAds extends StatefulWidget {
+  @override
+  State<DetailsLavoroAds> createState() => _DetailsLavoroAdsState();
+}
+
+class _DetailsLavoroAdsState extends State<DetailsLavoroAds> {
+  Future<void> deleteLavoro(AnnuncioDiLavoroDTO annuncio) async {
+    final response = await http.post(
+        Uri.parse('http://10.0.2.2:8080/gestioneLavoro/deleteLavoro'),
+        body: jsonEncode(annuncio));
+    if (response.statusCode == 200) {
+      print("Annuncio eliminato correttamente");
+    } else {
+      print("Eliminazione non andata a buon fine");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final AnnuncioDiLavoroDTO annuncio =
@@ -206,8 +223,9 @@ class DetailsLavoroAds extends StatelessWidget {
           const SizedBox(height: 10),
           Padding(
             padding: const EdgeInsets.all(10.0),
-            child: Text(annuncio.descrizione,
-                textAlign: TextAlign.center,
+            child: Text(
+              annuncio.descrizione,
+              textAlign: TextAlign.center,
               style: const TextStyle(
                 fontFamily: 'Poppins',
                 fontWeight: FontWeight.bold,
@@ -242,7 +260,7 @@ class DetailsLavoroAds extends StatelessWidget {
                         ),
                         const SizedBox(width: 8),
                         Text(
-                            annuncio.numTelefono,
+                          annuncio.numTelefono,
                           style: const TextStyle(
                             fontSize: 15,
                             fontFamily: 'Poppins',
@@ -251,7 +269,7 @@ class DetailsLavoroAds extends StatelessWidget {
                         ),
                         const SizedBox(width: 8),
                         Text(
-                            '${annuncio.via}, ${annuncio.citta}, ${annuncio.provincia}',
+                          '${annuncio.via}, ${annuncio.citta}, ${annuncio.provincia}',
                           style: const TextStyle(
                             fontSize: 15,
                             fontFamily: 'Poppins',
@@ -266,13 +284,14 @@ class DetailsLavoroAds extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: 40),
             child: ElevatedButton(
               onPressed: () {
-                //deleteLavoro(annuncio);   //dà errore
+                deleteLavoro(annuncio);
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.transparent,
                 foregroundColor: Colors.black,
                 elevation: 10,
-                minimumSize: Size(MediaQuery.of(context).size.width * 0.1, MediaQuery.of(context).size.width * 0.1),
+                minimumSize: Size(MediaQuery.of(context).size.width * 0.1,
+                    MediaQuery.of(context).size.width * 0.1),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30.0),
                 ),
@@ -288,7 +307,8 @@ class DetailsLavoroAds extends StatelessWidget {
                   borderRadius: BorderRadius.circular(30.0),
                 ),
                 child: Container(
-                  width: MediaQuery.of(context).size.width * 0.4, // Regola la larghezza del pulsante
+                  width: MediaQuery.of(context).size.width *
+                      0.4, // Regola la larghezza del pulsante
                   height: MediaQuery.of(context).size.width * 0.1,
                   padding: const EdgeInsets.all(10),
                   child: const Center(
@@ -305,15 +325,9 @@ class DetailsLavoroAds extends StatelessWidget {
               ),
             ),
           ),
-
         ],
       ),
     );
   }
 }
 
-void main() {
-  runApp(MaterialApp(
-    home: AnnunciDiLavoroAds(),
-  ));
-}
