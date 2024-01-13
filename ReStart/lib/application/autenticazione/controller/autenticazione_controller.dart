@@ -28,6 +28,9 @@ class AutenticazioneController {
     _router.post('/visualizzaUtente', _visualizzaUtente);
     _router.post('/modifyUtente', _modifyUtente);
     _router.post('/addImage', _uploadImage);
+    _router.post('/checkUserUtente', _checkUserUtente);
+    _router.post('/checkUserCA', _checkUserCA);
+    _router.post('/checkUserADS', _checkUserADS);
     _router.all('/<ignored|.*>', _notFound);
   }
 
@@ -78,8 +81,6 @@ class AutenticazioneController {
 
   Future<Response> _deleteUtente(Request request) async {
     try {
-      print('sono in delete utente');
-
       final String requestBody = await request.readAsString();
       final Map<String, dynamic> params = jsonDecode(requestBody);
 
@@ -142,11 +143,14 @@ class AutenticazioneController {
     try {
       final String requestBody = await request.readAsString();
       final Map<String, dynamic> params = jsonDecode(requestBody);
-      final int id = params['id'] != null ? int.parse(params['id'].toString()) : 0;
+      final int id =
+          params['id'] != null ? int.parse(params['id'].toString()) : 0;
       final String nome = params['nome'] ?? '';
       final String cognome = params['cognome'] ?? '';
       final String cod_fiscale = params['cod_fiscale'] ?? '';
-      final DateTime? data_nascita = params['data_nascita'] != null ? DateTime.parse(params['data_nascita']) : null;
+      final DateTime? data_nascita = params['data_nascita'] != null
+          ? DateTime.parse(params['data_nascita'])
+          : null;
       final String luogo_nascita = params['luogo_nascita'] ?? '';
       final String genere = params['genere'] ?? '';
       final String username = params['username'] ?? '';
@@ -177,7 +181,6 @@ class AutenticazioneController {
           citta: citta,
           provincia: provincia);
 
-
       if (await _authService.modifyUtente(utente)) {
         final responseBody = jsonEncode({'result': "Modifica effettuata."});
         return Response.ok(responseBody,
@@ -206,13 +209,18 @@ class AutenticazioneController {
 
       await for (final part in parts) {
         if (part.headers.containsKey('content-disposition')) {
-          final contentDisposition = HeaderValue.parse(part.headers['content-disposition']!);
+          final contentDisposition =
+              HeaderValue.parse(part.headers['content-disposition']!);
           final name = contentDisposition.parameters['name'];
 
           if (name == 'username') {
-            username = await part.toList().then((value) => utf8.decode(value.expand((i) => i).toList()));
+            username = await part
+                .toList()
+                .then((value) => utf8.decode(value.expand((i) => i).toList()));
           } else if (name == 'immagine') {
-            imageData = await part.toList().then((value) => value.expand((i) => i).toList());
+            imageData = await part
+                .toList()
+                .then((value) => value.expand((i) => i).toList());
           }
         }
       }
@@ -232,6 +240,66 @@ class AutenticazioneController {
       }
     } catch (e) {
       return Response.internalServerError(body: 'Errore server: $e');
+    }
+  }
+
+  Future<Response> _checkUserUtente(Request request) async {
+    try {
+      String requestBody = await request.readAsString();
+
+      Map<String, dynamic> requestData = jsonDecode(requestBody);
+
+      final String token = requestData['token'];
+
+      if (await _authService.checkUserUtente(token)) {
+        return Response.ok(jsonEncode({'result': " Successo"}));
+      } else {
+        return Response.badRequest(body: jsonEncode({'result': " Fallito "}));
+      }
+    } catch (e) {
+      // Gestione degli errori durante la chiamata al servizio
+      return Response.internalServerError(
+          body: 'Errore durante la verifica del token: $e');
+    }
+  }
+
+  Future<Response> _checkUserCA(Request request) async {
+    try {
+      String requestBody = await request.readAsString();
+
+      Map<String, dynamic> requestData = jsonDecode(requestBody);
+
+      final String token = requestData['token'];
+
+      if (await _authService.checkUserCA(token)) {
+        return Response.ok(jsonEncode({'result': " Successo"}));
+      } else {
+        return Response.badRequest(body: jsonEncode({'result': " Fallito "}));
+      }
+    } catch (e) {
+      // Gestione degli errori durante la chiamata al servizio
+      return Response.internalServerError(
+          body: 'Errore durante la verifica del token: $e');
+    }
+  }
+
+  Future<Response> _checkUserADS(Request request) async {
+    try {
+      String requestBody = await request.readAsString();
+
+      Map<String, dynamic> requestData = jsonDecode(requestBody);
+
+      final String token = requestData['token'];
+
+      if (await _authService.checkUserADS(token)) {
+        return Response.ok(jsonEncode({'result': " Successo"}));
+      } else {
+        return Response.badRequest(body: jsonEncode({'result': " Fallito "}));
+      }
+    } catch (e) {
+      // Gestione degli errori durante la chiamata al servizio
+      return Response.internalServerError(
+          body: 'Errore durante la verifica del token: $e');
     }
   }
 
