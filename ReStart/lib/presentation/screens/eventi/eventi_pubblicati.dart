@@ -288,9 +288,3 @@ class _DetailsEventoPub extends State<DetailsEventoPub> {
     );
   }
 }
-
-void main() {
-  runApp(MaterialApp(
-    home: CommunityEventsPubblicati(),
-  ));
-}

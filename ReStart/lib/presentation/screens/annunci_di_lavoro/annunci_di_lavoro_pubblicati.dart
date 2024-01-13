@@ -216,25 +216,6 @@ class _DetailsLavoroPub extends State<DetailsLavoroPub> {
     }
   }
 
-  Future<void> modifyLavoro(AnnuncioDiLavoroDTO annuncio) async {
-    final response = await http.post(
-        Uri.parse('http://10.0.2.2:8080/gestioneLavoro/modifyLavoro'),
-        body: jsonEncode(annuncio));
-    if (response.statusCode == 200) {
-      setState(() {
-        for (AnnuncioDiLavoroDTO a in annunci) {
-          if (a.id == annuncio.id) {
-            annunci.remove(a);
-            break;
-          }
-        }
-        annunci.add(annuncio);
-      });
-    } else {
-      print("Modifica non andata a buon fine");
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final AnnuncioDiLavoroDTO annuncio =

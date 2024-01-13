@@ -93,7 +93,7 @@ class _ProfiloState extends State<Profilo> {
     );
   }
 
-@override
+  @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     final String data = utente!.data_nascita.toIso8601String();
@@ -119,9 +119,7 @@ class _ProfiloState extends State<Profilo> {
                   title: Text(
                     utente!.username,
                     style: const TextStyle(
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.bold
-                    ),
+                        fontFamily: 'Poppins', fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -133,12 +131,12 @@ class _ProfiloState extends State<Profilo> {
                       utente!.email,
                       const TextStyle(
                         fontFamily: 'Poppins',
-                        fontSize:15,
+                        fontSize: 15,
                         fontWeight: FontWeight.bold,
                       ),
                       const TextStyle(
                         fontFamily: 'Poppins',
-                          fontSize:15,
+                        fontSize: 15,
                         fontWeight: FontWeight.bold,
                       ),
                       screenWidth),
@@ -336,11 +334,88 @@ class ProfiloEdit extends StatefulWidget {
 }
 
 class _ProfiloEditState extends State<ProfiloEdit> {
+  final _formKey = GlobalKey<FormState>();
+  DateTime? selectedDate;
+  String? _selectedGender;
+  XFile? _image;
+  late UtenteDTO utente;
+
+  late TextEditingController? emailController;
+  late TextEditingController? nomeController;
+  late TextEditingController? cognomeController;
+  late TextEditingController? luogoNascitaController;
+  late TextEditingController? genereController;
+  late TextEditingController? passwordController;
+  late TextEditingController? lavoroAdattoController;
+  late TextEditingController? usernameController;
+  late TextEditingController? cfController;
+  late TextEditingController? numTelefonoController;
+  late TextEditingController? viaController;
+  late TextEditingController? cittaController;
+  late TextEditingController? provinciaController;
+  TextEditingController dataNascitaController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
+    emailController = null;
+    nomeController = null;
+    cognomeController = null;
+    luogoNascitaController = null;
+    genereController = null;
+    passwordController = null;
+    lavoroAdattoController = null;
+    usernameController = null;
+    cfController = null;
+    numTelefonoController = null;
+    viaController = null;
+    cittaController = null;
+    provinciaController = null;
     _checkUserAndNavigate();
+  }
+
+  @override
+  void dispose() {
+    nomeController?.dispose();
+    cognomeController?.dispose();
+    emailController?.dispose();
+    cittaController?.dispose();
+    viaController?.dispose();
+    provinciaController?.dispose();
+    luogoNascitaController?.dispose();
+    genereController?.dispose();
+    usernameController?.dispose();
+    passwordController?.dispose();
+    cfController?.dispose();
+    lavoroAdattoController?.dispose();
+    numTelefonoController?.dispose();
+    super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    utente = ModalRoute.of(context)?.settings.arguments as UtenteDTO;
+    if (nomeController == null) {
+      _selectedGender = utente.genere;
+      selectedDate = utente.data_nascita;
+      final DateFormat formatter = DateFormat('yyyy-MM-dd');
+      final String data = formatter.format(utente.data_nascita);
+      dataNascitaController = TextEditingController(text: data);
+      nomeController = TextEditingController(text: utente.nome);
+      cognomeController = TextEditingController(text: utente.cognome);
+      cittaController = TextEditingController(text: utente.citta);
+      viaController = TextEditingController(text: utente.via);
+      provinciaController = TextEditingController(text: utente.provincia);
+      emailController = TextEditingController(text: utente.email);
+      usernameController = TextEditingController(text: utente.username);
+      passwordController = TextEditingController(text: utente.password);
+      luogoNascitaController = TextEditingController(text: utente.luogo_nascita);
+      cfController = TextEditingController(text: utente.cod_fiscale);
+      numTelefonoController = TextEditingController(text: utente.num_telefono);
+      lavoroAdattoController = TextEditingController(text: utente.lavoro_adatto);
+      genereController = TextEditingController(text: utente.genere);
+    }
   }
 
   void _checkUserAndNavigate() async {
@@ -349,32 +424,11 @@ class _ProfiloEditState extends State<ProfiloEdit> {
       Navigator.pushNamed(context, AppRoutes.home);
     }
   }
-  XFile? _image;
 
   void selectImage() async {
     final imagePicker = ImagePicker();
     _image = await imagePicker.pickImage(source: ImageSource.gallery);
   }
-
-  final _formKey = GlobalKey<FormState>();
-  DateTime? selectedDate;
-  String? _selectedGender = 'Maschio';
-
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController nomeController = TextEditingController();
-  final TextEditingController cognomeController = TextEditingController();
-  final TextEditingController dataNascitaController = TextEditingController();
-  final TextEditingController luogoNascitaController = TextEditingController();
-  final TextEditingController genereController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  final TextEditingController lavoroAdattoController = TextEditingController();
-  final TextEditingController usernameController = TextEditingController();
-  final TextEditingController cfController = TextEditingController();
-  final TextEditingController numTelefonoController = TextEditingController();
-  final TextEditingController viaController = TextEditingController();
-  final TextEditingController cittaController = TextEditingController();
-  final TextEditingController provinciaController = TextEditingController();
-
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
@@ -397,18 +451,18 @@ class _ProfiloEditState extends State<ProfiloEdit> {
     final UtenteDTO u = ModalRoute.of(context)?.settings.arguments as UtenteDTO;
 
     if (_formKey.currentState!.validate()) {
-      String email = emailController.text;
-      String nome = nomeController.text;
-      String cognome = cognomeController.text;
-      String luogoNascita = luogoNascitaController.text;
-      String lavoroAdatto = lavoroAdattoController.text;
-      String password = passwordController.text;
-      String username = usernameController.text;
-      String cf = cfController.text;
-      String numTelefono = numTelefonoController.text;
-      String via = viaController.text;
-      String citta = cittaController.text;
-      String provincia = provinciaController.text;
+      String email = emailController!.text;
+      String nome = nomeController!.text;
+      String cognome = cognomeController!.text;
+      String luogoNascita = luogoNascitaController!.text;
+      String lavoroAdatto = lavoroAdattoController!.text;
+      String password = passwordController!.text;
+      String username = usernameController!.text;
+      String cf = cfController!.text;
+      String numTelefono = numTelefonoController!.text;
+      String via = viaController!.text;
+      String citta = cittaController!.text;
+      String provincia = provinciaController!.text;
       String imagePath = 'images/image_${username}.jpg';
 
       UtenteDTO utenteEdit = UtenteDTO(
@@ -507,13 +561,12 @@ class _ProfiloEditState extends State<ProfiloEdit> {
                     const SizedBox(height: 20),
                     TextFormField(
                       controller: usernameController,
-                      obscureText: true,
                       decoration: const InputDecoration(
                         labelText: 'Username',
                       ),
                       style: const TextStyle(
                         fontFamily: 'Poppins',
-                        fontSize:15,
+                        fontSize: 15,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -524,7 +577,7 @@ class _ProfiloEditState extends State<ProfiloEdit> {
                       ),
                       style: const TextStyle(
                         fontFamily: 'Poppins',
-                        fontSize:15,
+                        fontSize: 15,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -535,7 +588,7 @@ class _ProfiloEditState extends State<ProfiloEdit> {
                       ),
                       style: const TextStyle(
                         fontFamily: 'Poppins',
-                        fontSize:15,
+                        fontSize: 15,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -546,23 +599,21 @@ class _ProfiloEditState extends State<ProfiloEdit> {
                       ),
                       style: const TextStyle(
                         fontFamily: 'Poppins',
-                        fontSize:15,
+                        fontSize: 15,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     TextFormField(
                       controller: cfController,
-                      obscureText: true,
                       decoration: const InputDecoration(
                         labelText: 'Codice fiscale',
                       ),
                       style: const TextStyle(
                         fontFamily: 'Poppins',
-                        fontSize:15,
+                        fontSize: 15,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: 15),
                     InkWell(
                       onTap: () {
                         _selectDate(context);
@@ -572,12 +623,11 @@ class _ProfiloEditState extends State<ProfiloEdit> {
                           labelStyle: TextStyle(
                             fontFamily: 'Poppins',
                             fontSize: 15,
-                            fontWeight: FontWeight.bold,
                           ),
                           border: UnderlineInputBorder(
                             borderSide: BorderSide(
                               color: Colors.black,
-                              width: 2.0,
+                              width: 1,
                             ),
                           ),
                         ),
@@ -621,18 +671,17 @@ class _ProfiloEditState extends State<ProfiloEdit> {
                     const SizedBox(height: 15),
                     TextFormField(
                       controller: luogoNascitaController,
-                      obscureText: true,
                       decoration: const InputDecoration(
                         labelText: 'Luogo di nascita',
                       ),
                       style: const TextStyle(
                         fontFamily: 'Poppins',
-                        fontSize:15,
+                        fontSize: 15,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20),
+                      padding: const EdgeInsets.only(bottom: 1),
                       child: InputDecorator(
                         decoration: const InputDecoration(
                           labelText: 'Genere',
@@ -653,15 +702,16 @@ class _ProfiloEditState extends State<ProfiloEdit> {
                           items: ['Maschio', 'Femmina', 'Non specificato']
                               .map<DropdownMenuItem<String>>(
                                 (String value) => DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(
-                                value,
-                                style: const TextStyle(
-                                  fontFamily: 'Poppins',
+                                  value: value,
+                                  child: Text(
+                                    value,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'Poppins',
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                          )
+                              )
                               .toList(),
                         ),
                       ),
@@ -674,7 +724,7 @@ class _ProfiloEditState extends State<ProfiloEdit> {
                       ),
                       style: const TextStyle(
                         fontFamily: 'Poppins',
-                        fontSize:15,
+                        fontSize: 15,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -685,7 +735,7 @@ class _ProfiloEditState extends State<ProfiloEdit> {
                       ),
                       style: const TextStyle(
                         fontFamily: 'Poppins',
-                        fontSize:15,
+                        fontSize: 15,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -696,7 +746,7 @@ class _ProfiloEditState extends State<ProfiloEdit> {
                       ),
                       style: const TextStyle(
                         fontFamily: 'Poppins',
-                        fontSize:15,
+                        fontSize: 15,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -707,14 +757,14 @@ class _ProfiloEditState extends State<ProfiloEdit> {
                       ),
                       style: const TextStyle(
                         fontFamily: 'Poppins',
-                        fontSize:15,
+                        fontSize: 15,
                         fontWeight: FontWeight.bold,
-                         ),
-                  ),
-                ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-        SizedBox(height: screenWidth * 0.1),
+              SizedBox(height: screenWidth * 0.1),
               ElevatedButton(
                 onPressed: () {
                   submitForm();
@@ -766,28 +816,28 @@ class _ProfiloEditState extends State<ProfiloEdit> {
     );
   }
 
-Widget buildProfileField(String label, String value, double screenWidth) {
-  return ListTile(
-    title: Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          '$label: ',
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
+  Widget buildProfileField(String label, String value, double screenWidth) {
+    return ListTile(
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            '$label: ',
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
           ),
-        ),
-        Text(
-          value,
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-            fontWeight: FontWeight.normal,
-            fontStyle: FontStyle.italic,
+          Text(
+            value,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              fontWeight: FontWeight.normal,
+              fontStyle: FontStyle.italic,
+            ),
           ),
-        ),
-      ],
-    ),
-  );
-}
+        ],
+      ),
+    );
+  }
 }
