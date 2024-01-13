@@ -78,7 +78,8 @@ class _SupportoMedicoState extends State<SupportoMedico> {
                 'Supporto Medico',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 22,
+                  fontFamily: 'Poppins',
                   fontWeight: FontWeight.bold,
                 ),
               ),

@@ -95,6 +95,7 @@ class _CommunityEventsState extends State<CommunityEventsAds> {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 20,
+                  fontFamily: 'Poppins',
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -127,7 +128,12 @@ class _CommunityEventsState extends State<CommunityEventsAds> {
                           radius: 35,
                           backgroundImage: AssetImage(evento.immagine)),
                       title: Text(evento.nomeEvento,
-                          style: const TextStyle(fontWeight: FontWeight.bold)),
+                          style: const TextStyle(
+                              fontSize: 20,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.bold
+                          ),
+                      ),
                       subtitle: Text(evento.descrizione),
                       trailing: IconButton(
                         icon: const Icon(Icons.delete,
@@ -181,8 +187,9 @@ class DetailsEventoAds extends StatelessWidget {
           Text(
             evento.nomeEvento,
             style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 30,
+                fontSize: 30,
+                fontFamily: 'Poppins',
+                fontWeight: FontWeight.bold
             ),
           ),
           const SizedBox(height: 10),
@@ -201,7 +208,10 @@ class DetailsEventoAds extends StatelessWidget {
                         const Text(
                           'Contatti',
                           style: TextStyle(
-                              fontSize: 25, fontWeight: FontWeight.bold),
+                              fontSize: 25,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.bold
+                          ),
                         ),
                         Text(evento.email),
                         Text(evento.sito),
@@ -209,7 +219,10 @@ class DetailsEventoAds extends StatelessWidget {
                         const Text(
                           'Informazioni',
                           style: TextStyle(
-                              fontSize: 25, fontWeight: FontWeight.bold),
+                              fontSize: 25,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.bold
+                          ),
                         ),
                         Text(dataBuona),
                       ],

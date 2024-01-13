@@ -152,10 +152,18 @@ class _InserisciCorsoState extends State<InserisciCorso> {
                             )
                           ],
                         ),
+                        const SizedBox(height: 15),
                         TextFormField(
                             controller: nomeCorsoController,
                             decoration:
-                            const InputDecoration(labelText: 'Nome corso'),
+                            const InputDecoration(
+                              labelText: 'Nome corso',
+                              labelStyle: TextStyle(
+                                fontSize: 15,
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Inserisci il nome del corso';
@@ -166,7 +174,13 @@ class _InserisciCorsoState extends State<InserisciCorso> {
                         TextFormField(
                             controller: nomeResponsabileController,
                             decoration: const InputDecoration(
-                                labelText: 'Nome responsabile'),
+                                labelText: 'Nome responsabile',
+                              labelStyle: TextStyle(
+                                fontSize: 15,
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                             validator: (nomeResponsabile) {
                               if (nomeResponsabile == null ||
                                   nomeResponsabile.isEmpty) {
@@ -178,7 +192,13 @@ class _InserisciCorsoState extends State<InserisciCorso> {
                         TextFormField(
                             controller: cognomeResponsabileController,
                             decoration: const InputDecoration(
-                                labelText: 'Cognome responsabile'),
+                                labelText: 'Cognome responsabile',
+                              labelStyle: TextStyle(
+                                fontSize: 15,
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Inserisci il cognome del responsabile';
@@ -189,7 +209,14 @@ class _InserisciCorsoState extends State<InserisciCorso> {
                         TextFormField(
                             controller: descrizioneController,
                             decoration:
-                            const InputDecoration(labelText: 'Descrizione'),
+                            const InputDecoration(
+                                labelText: 'Descrizione',
+                              labelStyle: TextStyle(
+                                fontSize: 15,
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                             validator: (descrizione) {
                               if (descrizione == null || descrizione.isEmpty) {
                                 return 'Inserisci la descrizione del corso';
@@ -201,6 +228,7 @@ class _InserisciCorsoState extends State<InserisciCorso> {
                           'Contatti',
                           style: TextStyle(
                             fontSize: 20,
+                            fontFamily: 'Poppins',
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -208,7 +236,14 @@ class _InserisciCorsoState extends State<InserisciCorso> {
                         TextFormField(
                             controller: emailController,
                             decoration:
-                            const InputDecoration(labelText: 'Email'),
+                            const InputDecoration(
+                                labelText: 'Email',
+                              labelStyle: TextStyle(
+                                fontSize: 15,
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                             validator: (email) {
                               if (email == null || email.isEmpty) {
                                 return 'Inserisci la email';
@@ -219,7 +254,13 @@ class _InserisciCorsoState extends State<InserisciCorso> {
                         TextFormField(
                             controller: numTelefonoController,
                             decoration: const InputDecoration(
-                                labelText: 'Numero di telefono'),
+                                labelText: 'Numero di telefono',
+                              labelStyle: TextStyle(
+                              fontSize: 15,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.bold,
+                            ),
+                            ),
                             validator: (numTelefono) {
                               if (numTelefono == null || numTelefono.isEmpty) {
                                 return 'Inserisci il numero di telefono';
@@ -230,7 +271,14 @@ class _InserisciCorsoState extends State<InserisciCorso> {
                         TextFormField(
                             controller: urlCorsoController,
                             decoration:
-                            const InputDecoration(labelText: 'Sito'),
+                            const InputDecoration(
+                                labelText: 'Sito',
+                              labelStyle: TextStyle(
+                                fontSize: 15,
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                             validator: (urlCorso) {
                               if (urlCorso == null || urlCorso.isEmpty) {
                                 return 'Inserisci il sito web del corso';
@@ -240,20 +288,41 @@ class _InserisciCorsoState extends State<InserisciCorso> {
                         SizedBox(height: screenWidth * 0.1),
                         ElevatedButton(
                           onPressed: () {
-                            submitForm();
+                            submitForm;
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue[200],
+                            backgroundColor: Colors.transparent,
                             foregroundColor: Colors.black,
-                            shadowColor: Colors.grey,
                             elevation: 10,
-                            minimumSize:
-                            Size(screenWidth * 0.1, screenWidth * 0.1),
+                            minimumSize: Size(screenWidth * 0.1, screenWidth * 0.1),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                            ),
+                            padding: EdgeInsets.zero,
                           ),
-                          child: const Text(
-                            'INSERISCI',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
+                          child: Ink(
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [Colors.blue[50]!, Colors.blue[100]!],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ),
+                              borderRadius: BorderRadius.circular(30.0),
+                            ),
+                            child: Container(
+                              width: screenWidth * 0.60,
+                              height: screenWidth * 0.1,
+                              padding: const EdgeInsets.all(10),
+                              child: const Center(
+                                child: Text(
+                                  'INSERISCI',
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
                         ),

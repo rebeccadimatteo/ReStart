@@ -84,6 +84,7 @@ class _CorsoDiFormazioneState extends State<CorsoDiFormazioneAds> {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 20,
+                  fontFamily: 'Poppins',
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -116,7 +117,11 @@ class _CorsoDiFormazioneState extends State<CorsoDiFormazioneAds> {
                           radius: 35,
                           backgroundImage: AssetImage(corso.immagine)),
                       title: Text(corso.nomeCorso,
-                          style: const TextStyle(fontWeight: FontWeight.bold)),
+                          style: const TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold),
+                      ),
                       subtitle: Text(corso.descrizione),
                       trailing: IconButton(
                         icon: const Icon(Icons.delete,
@@ -189,7 +194,9 @@ class DetailsCorsoAds extends StatelessWidget {
                         const Text(
                           'Contatti',
                           style: TextStyle(
-                              fontSize: 25, fontWeight: FontWeight.bold),
+                              fontSize: 25,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.bold),
                         ),
                         Text(corso.urlCorso),
                       ],

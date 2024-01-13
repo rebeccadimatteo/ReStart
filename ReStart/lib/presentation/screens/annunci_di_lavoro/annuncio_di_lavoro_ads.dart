@@ -101,6 +101,7 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroAds> {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 20,
+                  fontFamily: 'Poppins',
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -133,11 +134,23 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroAds> {
                           radius: 35,
                           backgroundImage: AssetImage(annuncio.immagine)),
                       title: Text(annuncio.nome,
-                          style: const TextStyle(fontWeight: FontWeight.bold)),
-                      subtitle: Text(annuncio.descrizione),
+                        style: const TextStyle(
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
+                      ),
+                      subtitle: Text(
+                          annuncio.descrizione,
+                        style: const TextStyle(
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                        ),
+                      ),
                       trailing: IconButton(
                         icon: const Icon(Icons.delete,
-                            color: Colors.red, size: 30),
+                            color: Colors.black, size: 25),
                         onPressed: () {
                           deleteLavoro(annuncio);
                         },
@@ -185,6 +198,7 @@ class DetailsLavoroAds extends StatelessWidget {
           Text(
             annuncio.nome,
             style: const TextStyle(
+              fontFamily: 'Poppins',
               fontWeight: FontWeight.bold,
               fontSize: 30,
             ),
@@ -192,7 +206,14 @@ class DetailsLavoroAds extends StatelessWidget {
           const SizedBox(height: 10),
           Padding(
             padding: const EdgeInsets.all(10.0),
-            child: Text(annuncio.descrizione, textAlign: TextAlign.center),
+            child: Text(annuncio.descrizione,
+                textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontFamily: 'Poppins',
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+              ),
+            ),
           ),
           Expanded(
               child: Align(
@@ -205,18 +226,38 @@ class DetailsLavoroAds extends StatelessWidget {
                         const Text(
                           'Contatti',
                           style: TextStyle(
-                            fontSize: 25,
+                            fontSize: 20,
+                            fontFamily: 'Poppins',
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         const SizedBox(width: 8),
-                        // Aggiungi uno spazio tra il testo e gli altri elementi
-                        Text(annuncio.email),
-                        const SizedBox(width: 8),
-                        Text(annuncio.numTelefono),
+                        Text(
+                          annuncio.email,
+                          style: const TextStyle(
+                            fontSize: 15,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                         const SizedBox(width: 8),
                         Text(
-                            '${annuncio.via}, ${annuncio.citta}, ${annuncio.provincia}'),
+                            annuncio.numTelefono,
+                          style: const TextStyle(
+                            fontSize: 15,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                            '${annuncio.via}, ${annuncio.citta}, ${annuncio.provincia}',
+                          style: const TextStyle(
+                            fontSize: 15,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ],
                     ),
                   ))),
@@ -224,21 +265,47 @@ class DetailsLavoroAds extends StatelessWidget {
           Container(
             padding: const EdgeInsets.only(bottom: 40),
             child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red,
-                shadowColor: Colors.grey,
-                elevation: 10,
-              ),
               onPressed: () {
-                // deleteCorso(corso);
+                //deleteLavoro(annuncio);   //dà errore
               },
-              child: const Text('ELIMINA',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                  )),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.transparent,
+                foregroundColor: Colors.black,
+                elevation: 10,
+                minimumSize: Size(MediaQuery.of(context).size.width * 0.1, MediaQuery.of(context).size.width * 0.1),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
+                padding: EdgeInsets.zero,
+              ),
+              child: Ink(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Colors.blue[50]!, Colors.blue[100]!],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
+                child: Container(
+                  width: MediaQuery.of(context).size.width * 0.4, // Regola la larghezza del pulsante
+                  height: MediaQuery.of(context).size.width * 0.1,
+                  padding: const EdgeInsets.all(10),
+                  child: const Center(
+                    child: Text(
+                      'ELIMINA',
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ),
           ),
+
         ],
       ),
     );

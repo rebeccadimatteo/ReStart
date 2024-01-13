@@ -86,7 +86,7 @@ class _AlloggiTemporaneiState extends State<AlloggiTemporanei> {
                 style: TextStyle(
                   fontFamily: 'Poppins',
                   fontWeight: FontWeight.bold,
-                  fontSize: 20,
+                  fontSize: 22,
                 ),
               ),
             ),

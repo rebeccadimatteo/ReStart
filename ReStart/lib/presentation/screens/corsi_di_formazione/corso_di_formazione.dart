@@ -72,7 +72,7 @@ class _CorsoDiFormazioneState extends State<CorsoDiFormazione> {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontFamily: 'Poppins',
-                  fontSize: 20,
+                  fontSize: 22,
                   fontWeight: FontWeight.bold,
                 ),
               ),

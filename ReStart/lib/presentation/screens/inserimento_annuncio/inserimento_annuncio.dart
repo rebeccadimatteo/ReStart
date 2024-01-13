@@ -66,7 +66,7 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
       String numTelefono = numTelefonoController.text;
       String imagePath = 'images/image_${nome}.jpg';
 
-      // Crea il DTO con il percorso dell'immagine
+      /// Crea il DTO con il percorso dell'immagine
       AnnuncioDiLavoroDTO annuncio = AnnuncioDiLavoroDTO(
         nomeLavoro: nome,
         descrizione: descrizione,
@@ -79,7 +79,8 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
         id_ca: JWTUtils.getIdFromToken(accessToken: await token),
         numTelefono: numTelefono,
       );
-      // Invia i dati al server con il percorso dell'immagine
+
+      /// Invia i dati al server con il percorso dell'immagine
       await sendDataToServer(annuncio);
     } else {
       print("Lavoro non inserito");
@@ -99,27 +100,27 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
           Uri.parse('http://10.0.2.2:8080/gestioneReintegrazione/addImage');
       final imageRequest = http.MultipartRequest('POST', imageUrl);
 
-      // Aggiungi l'immagine
+
       imageRequest.files
           .add(await http.MultipartFile.fromPath('immagine', _image!.path));
 
-      // Aggiungi ID del corso e nome del'adl come campi di testo
+
       imageRequest.fields['nome'] = annuncio.nome;
 
       final imageResponse = await imageRequest.send();
       if (imageResponse.statusCode == 200) {
-        // L'immagine è stata caricata con successo
+
         print("Immagine caricata con successo.");
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text(
               'Richiesta inviata con successo',
               style: TextStyle(
-                color: Colors.white, // Colore del testo
-                fontSize: 16, // Dimensione del testo
+                color: Colors.white,
+                fontSize: 16,
               ),
             ),
-            backgroundColor: Colors.red, // Colore di sfondo della snackbar
+            backgroundColor: Colors.red,
             duration: Duration(seconds: 3),
           ),
         );
@@ -129,15 +130,15 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
             content: Text(
               'Impossibile inviare la richiesta. Riprovare',
               style: TextStyle(
-                color: Colors.white, // Colore del testo
-                fontSize: 16, // Dimensione del testo
+                color: Colors.white,
+                fontSize: 16,
               ),
             ),
-            backgroundColor: Colors.red, // Colore di sfondo della snackbar
+            backgroundColor: Colors.red,
             duration: Duration(seconds: 3),
           ),
         );
-        // Si è verificato un errore nell'upload dell'immagine
+
         print(
             "Errore durante l'upload dell'immagine: ${imageResponse.statusCode}");
       }
@@ -147,11 +148,11 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
           content: Text(
             'Richiesta inviata con successo',
             style: TextStyle(
-              color: Colors.white, // Colore del testo
-              fontSize: 16, // Dimensione del testo
+              color: Colors.white,
+              fontSize: 16,
             ),
           ),
-          backgroundColor: Colors.blue, // Colore di sfondo della snackbar
+          backgroundColor: Colors.blue,
           duration: Duration(seconds: 3),
         ),
       );
@@ -161,24 +162,25 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
           content: Text(
             'Impossibile inviare la richiesta. Riprovare',
             style: TextStyle(
-              color: Colors.white, // Colore del testo
-              fontSize: 16, // Dimensione del testo
+              color: Colors.white,
+              fontSize: 16,
             ),
           ),
-          backgroundColor: Colors.red, // Colore di sfondo della snackbar
+          backgroundColor: Colors.red,
           duration: Duration(seconds: 3),
         ),
       );
     }
   }
 
-  /// Costruisce la UI per la schermata di inserimento di un evento temporaneo.
+  /// Costruisce la UI per la schermata di inserimento di un annuncio di lavoro.
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double avatarSize = screenWidth * 0.3;
 
-    return Scaffold(
+    return MaterialApp(
+        home: Scaffold(
       appBar: CaAppBar(
         showBackButton: true,
       ),
@@ -189,14 +191,16 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
             const Text(
-              'Modifica Annuncio di Lavoro',
+              'Inserisci Annuncio di Lavoro',
               style: TextStyle(
                 fontSize: 20,
+                fontFamily: 'Poppins',
                 fontWeight: FontWeight.bold,
               ),
               textAlign: TextAlign.center,
             ),
-            Form(
+                const SizedBox(height: 20),
+                Form(
               key: _formKey,
               child: Column(
                 children: [
@@ -222,11 +226,18 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
                       )
                     ],
                   ),
+                  const SizedBox(height: 20),
                   TextFormField(
                       //initialValue: evento.nomeEvento,
                       controller: nomeController,
                       decoration: const InputDecoration(
-                          labelText: 'Nome Annuncio di Lavoro'),
+                          labelText: 'Nome Annuncio di Lavoro',
+                        labelStyle: TextStyle(
+                          fontSize: 15,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Inserisci il nome dell\'annuncio di lavoro';
@@ -237,7 +248,13 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
                   TextFormField(
                       controller: descrizioneController,
                       decoration:
-                          const InputDecoration(labelText: 'Descrizione'),
+                          const InputDecoration(labelText: 'Descrizione',
+                            labelStyle: TextStyle(
+                              fontSize: 15,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Inserisci la descrizione dell\'annuncio di lavoro';
@@ -249,6 +266,7 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
                     'Contatti',
                     style: TextStyle(
                       fontSize: 20,
+                      fontFamily: 'Poppins',
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -266,7 +284,13 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
                   TextFormField(
                       controller: numTelefonoController,
                       decoration: const InputDecoration(
-                          labelText: 'Numero di Telefono'),
+                          labelText: 'Numero di Telefono',
+                        labelStyle: TextStyle(
+                          fontSize: 15,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Inserisci il numero di telefono dell\'annuncio di lavoro';
@@ -276,7 +300,13 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
                   const SizedBox(height: 20),
                   TextFormField(
                       controller: cittaController,
-                      decoration: const InputDecoration(labelText: 'Città'),
+                      decoration: const InputDecoration(labelText: 'Città',
+                        labelStyle: TextStyle(
+                          fontSize: 15,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Inserisci la città dov\è situato l\'annuncio di lavoro';
@@ -285,7 +315,14 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
                       }),
                   TextFormField(
                       controller: viaController,
-                      decoration: const InputDecoration(labelText: 'Via'),
+                      decoration: const InputDecoration(
+                        labelText: 'Via',
+                        labelStyle: TextStyle(
+                          fontSize: 15,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Inserisci la via dov\è situato l\'annuncio di lavoro';
@@ -295,7 +332,14 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
                   const SizedBox(height: 20),
                   TextFormField(
                       controller: provinciaController,
-                      decoration: const InputDecoration(labelText: 'Provincia'),
+                      decoration: const InputDecoration(
+                        labelText: 'Provincia',
+                        labelStyle: TextStyle(
+                          fontSize: 15,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Inserisci la provincia dov\è situato l\'annuncio di lavoro';
@@ -306,18 +350,44 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
                   ElevatedButton(
                     onPressed: () {
                       submitForm();
+                      Navigator.pushNamed(
+                        context,
+                        AppRoutes.profilo,
+                      );
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue[200],
+                      backgroundColor: Colors.transparent,
                       foregroundColor: Colors.black,
-                      shadowColor: Colors.grey,
                       elevation: 10,
                       minimumSize: Size(screenWidth * 0.1, screenWidth * 0.1),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
+                      padding: EdgeInsets.zero,
                     ),
-                    child: const Text(
-                      'INSERISCI',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
+                    child: Ink(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [Colors.blue[50]!, Colors.blue[100]!],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
+                      child: Container(
+                        width: screenWidth * 0.60,
+                        height: screenWidth * 0.1,
+                        padding: const EdgeInsets.all(10),
+                        child: const Center(
+                          child: Text(
+                            'INSERISCI',
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -327,6 +397,10 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
           ]),
         ),
       ),
+        ),
     );
   }
+}
+void main(){
+  runApp(InserisciLavoro());
 }
