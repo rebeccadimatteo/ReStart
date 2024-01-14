@@ -54,8 +54,8 @@ class _ProfiloState extends State<Profilo> {
         citta: 'citta',
         provincia: 'provincia',
         lavoro_adatto: 'lavoro_adatto');
-    fetchProfiloFromServer();
     _checkUserAndNavigate();
+    fetchProfiloFromServer();
   }
 
   Future<void> fetchProfiloFromServer() async {

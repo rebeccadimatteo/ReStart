@@ -173,7 +173,7 @@ class GenericAppBar extends StatelessWidget implements PreferredSizeWidget {
                     onTap: () {
                       Navigator.pushNamed(
                         context,
-                        AppRoutes.supporti,
+                        AppRoutes.lavoroadatto,
                       );
                     },
                   ),
