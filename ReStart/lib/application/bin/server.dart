@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:restart_all_in_one/application/gestioneLavoro/controller/lavoro_controller.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart' as shelf_io;
@@ -9,6 +7,7 @@ import '../gestioneCandidaturaLavoro/controller/candidatura_controller.dart';
 import '../gestioneRegistrazione/controller/registrazione_controller.dart';
 import '../gestioneReintegrazione/controller/reintegrazione_controller.dart';
 import '../gestioneEvento/controller/evento_controller.dart';
+import '../lavoroAdatto/controller/lavoro_adatto_controller.dart';
 
 void main() {
   final app = shelf_router.Router();
@@ -18,7 +17,7 @@ void main() {
   app.mount('/gestioneEvento', GestioneEventoController().router);
   app.mount('/gestioneLavoro', GestioneLavoroController().router);
   app.mount('/gestioneReintegrazione', ReintegrazioneController().router);
-  //app.mount('/lavoroAdatto', LavoroAdattoController().router);
+  app.mount('/lavoroAdatto', LavoroAdattoController().router);
   app.mount('/registrazione', RegistrazioneController().router);
 
   // Aggiungi la route di fallback per le richieste non corrispondenti
@@ -27,38 +26,10 @@ void main() {
         headers: {'Content-Type': 'text/plain'});
   });
 
-  app.post('/addCorso', (Request request) async {
-    var bodyBytes = await request.read().toList();
-
-    // Percorso in cui desideri salvare l'immagine sul server
-    var directoryPath = 'images'; // Sostituisci con il percorso reale
-
-    // Assicurati che la cartella di destinazione esista, altrimenti creala
-    var directory = Directory(directoryPath);
-    if (!directory.existsSync()) {
-      directory.createSync(recursive: true);
-    }
-
-    // Crea un nome univoco per il file
-    var fileName = 'immagine_${DateTime.now().millisecondsSinceEpoch}.jpg';
-    var filePath = '$directoryPath/$fileName'; // Percorso completo del file
-
-    // Scrivi i byte dell'immagine su disco
-    var file = File(filePath);
-    await file.writeAsBytes(bodyBytes.expand((element) => element).toList());
-
-    // Ora l'immagine è stata salvata su disco
-    return Response.ok('Immagine salvata su disco con successo: $filePath',
-        headers: {'Content-Type': 'text/plain'});
-  });
-
-
-
-
   // Aggiungi middleware per registrare le richieste
-  final handler = Pipeline()
+  final handler = const Pipeline()
       .addMiddleware(logRequests())
-      .addHandler(app);
+      .addHandler(app.call);
 
   shelf_io.serve(handler, '127.0.0.1', 8080).then((server) {
     print('Server listening on http://${server.address.host}:${server.port}');

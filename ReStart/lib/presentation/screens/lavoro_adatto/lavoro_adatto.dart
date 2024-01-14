@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
-import 'package:intl/intl.dart';
 import '../../../model/entity/utente_DTO.dart';
 import '../../../utils/jwt_utils.dart';
 import '../../components/generic_app_bar.dart';
@@ -45,9 +44,29 @@ class _LavoroAdattoState extends State<LavoroAdatto> {
         'Education Level': educazione,
         'Years Of Experience': _yearsOfExperience,
         'Senior': _hasBeenLeader,
-        'selectedSkills': _selectedSkills,
+        'Adobe Creative Suite':
+            _selectedSkills.contains('Adobe Creative Suite') ? 1 : 0,
+        'Back-end Development':
+            _selectedSkills.contains('Back-end Development') ? 1 : 0,
+        'Budget Management':
+            _selectedSkills.contains('Budget Management') ? 1 : 0,
+        'Business Analysis':
+            _selectedSkills.contains('Business Analysis') ? 1 : 0,
+        'CRM Software': _selectedSkills.contains('CRM Software') ? 1 : 0,
+        'Client Relations':
+            _selectedSkills.contains('Client Relations') ? 1 : 0,
+        'Communication': _selectedSkills.contains('Communication') ? 1 : 0,
+        'Communication Skills':
+            _selectedSkills.contains('Communication Skills') ? 1 : 0,
+        'Content Creation':
+            _selectedSkills.contains('Content Creation') ? 1 : 0,
+        'Copywriting': _selectedSkills.contains('Copywriting') ? 1 : 0,
+        'Customer Service':
+            _selectedSkills.contains('Customer Service') ? 1 : 0,
+        'Customer Support':
+            _selectedSkills.contains('Customer Support') ? 1 : 0,
+        'Data Analysis': _selectedSkills.contains('Data Analysis') ? 1 : 0
       };
-      print(formData);
       sendDataToServer(formData);
     } else {
       print("Evento non inserito");
@@ -68,14 +87,18 @@ class _LavoroAdattoState extends State<LavoroAdatto> {
   Future<void> sendDataToServer(Map<String, dynamic> formData) async {
     final response = await http.post(
       Uri.parse('http://10.0.2.2:8080/lavoroAdatto/findLavoroAdatto'),
-      body: jsonEncode(formData),
+      body: json.encode({'id': utente.id, 'form': formData}),
       headers: {'Content-Type': 'application/json'},
     );
 
     if (response.statusCode == 200) {
-      print('Form mandato con successo');
-    } else {
-      print('Errore');
+      final Map<String, dynamic> responseBody = json.decode(response.body);
+      if (responseBody.containsKey('result')) {
+        final String lavoroAdatto = responseBody['result'];
+        print(lavoroAdatto);
+      } else {
+        print('Errore');
+      }
     }
   }
 

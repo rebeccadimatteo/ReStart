@@ -178,7 +178,7 @@ class _HomeUtenteState extends State<HomeUtente> {
                 onTap: () {
                   Navigator.pushNamed(
                     context,
-                    AppRoutes.eventi,
+                    AppRoutes.lavoroadatto,
                   );
                 },
                 child: Container(
