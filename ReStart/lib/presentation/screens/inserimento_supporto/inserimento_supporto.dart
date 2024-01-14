@@ -10,7 +10,7 @@ import '../../../model/entity/supporto_medico_DTO.dart';
 import '../../components/generic_app_bar.dart';
 import '../routes/routes.dart';
 
-///Classe che rappresenta la schermata per inserire un SupportoMedico
+///Classe che rappresenta la schermata per inserire un [SupportoMedico]
 class InserisciSupporto extends StatefulWidget {
   _InserisciSupportoState createState() => _InserisciSupportoState();
 }
@@ -66,7 +66,6 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
       String provincia = provinciaController.text;
       String imagePath = 'images/image_${nomeMedico}.jpg';
 
-      /// Crea il DTO con il percorso dell'immagine
       SupportoMedicoDTO supporto = SupportoMedicoDTO(
           immagine: imagePath,
           nomeMedico: nomeMedico,
@@ -98,21 +97,17 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
       final imageUrl = Uri.parse('http://10.0.2.2:8080/gestioneReintegrazione/addImage');
       final imageRequest = http.MultipartRequest('POST', imageUrl);
 
-      // Aggiungi l'immagine
+
       imageRequest.files.add(await http.MultipartFile.fromPath('immagine', _image!.path));
 
-      // Aggiungi ID del corso e nome del corso come campi di testo
-      imageRequest.fields['nome'] = supporto.nomeMedico; // Assumi che 'nomeCorso' sia una proprietà di CorsoDiFormazioneDTO
+
+      imageRequest.fields['nome'] = supporto.nomeMedico;
 
       final imageResponse = await imageRequest.send();
       if (imageResponse.statusCode == 200) {
-        // L'immagine è stata caricata con successo
         print("Immagine caricata con successo.");
-        // Aggiorna l'UI o esegui altre operazioni
       } else {
-        // Si è verificato un errore nell'upload dell'immagine
         print("Errore durante l'upload dell'immagine: ${imageResponse.statusCode}");
-        // Mostra un messaggio di errore o esegui altre operazioni di gestione dell'errore
       }
     }
   }

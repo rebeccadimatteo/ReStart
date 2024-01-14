@@ -5,7 +5,6 @@ import '../../../model/entity/utente_DTO.dart';
 import '../../../utils/jwt_utils.dart';
 import '../../components/generic_app_bar.dart';
 import 'package:http/http.dart' as http;
-
 import '../routes/routes.dart';
 
 class LavoroAdatto extends StatefulWidget {
@@ -233,24 +232,53 @@ class _LavoroAdattoState extends State<LavoroAdatto> {
                     ElevatedButton(
                       onPressed: () {
                         submitForm();
+                        Navigator.pushNamed(
+                          context,
+                          AppRoutes.profilo,
+                        );
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blue[200],
+                        backgroundColor: Colors.transparent,
                         foregroundColor: Colors.black,
-                        shadowColor: Colors.grey,
                         elevation: 10,
                         minimumSize: Size(screenWidth * 0.1, screenWidth * 0.1),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                        padding: EdgeInsets.zero,
                       ),
-                      child: const Text(
-                        'INSERISCI',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
+                      child: Ink(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [Colors.blue[50]!, Colors.blue[100]!],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                        child: Container(
+                          width: screenWidth * 0.60,
+                          height: screenWidth * 0.1,
+                          padding: const EdgeInsets.all(10),
+                          child: const Center(
+                            child: Text(
+                              'INSERISCI',
+                              style: TextStyle(
+                                fontFamily: 'Poppins',
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     ),
                     const SizedBox(height: 20),
                   ],
-                ))));
+                ),
+            ),
+        ),
+    );
   }
 
   Widget _buildCheckboxListTile(String skill) {

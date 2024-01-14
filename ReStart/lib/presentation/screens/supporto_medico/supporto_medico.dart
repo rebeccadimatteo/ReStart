@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import '../../../model/entity/supporto_medico_DTO.dart';
 import '../../../utils/auth_service.dart';
-import '../../../utils/jwt_constants.dart';
-import '../../../utils/jwt_utils.dart';
 import '../../components/generic_app_bar.dart';
 import 'package:http/http.dart' as http;
 
@@ -16,7 +14,8 @@ class SupportoMedico extends StatefulWidget {
   _SupportoMedicoState createState() => _SupportoMedicoState();
 }
 
-/// Creazione dello stato di [SupportoMedico], costituito dalla lista dei supporti
+/// Creazione dello stato di [SupportoMedico], costituito
+/// dalla lista dei supporti
 class _SupportoMedicoState extends State<SupportoMedico> {
   List<SupportoMedicoDTO> supporti = [];
 
@@ -40,7 +39,8 @@ class _SupportoMedicoState extends State<SupportoMedico> {
     }
   }
 
-  /// Metodo che permette di inviare la richiesta al server per ottenere la lista di tutti i [SupportoMedicoDTO] presenti nel database
+  /// Metodo che permette di inviare la richiesta al server per ottenere
+  /// la lista di tutti i [SupportoMedicoDTO] presenti nel database
   Future<void> fetchDataFromServer() async {
     final response = await http.post(Uri.parse(
         'http://10.0.2.2:8080/gestioneReintegrazione/visualizzaSupporti'));
@@ -62,7 +62,8 @@ class _SupportoMedicoState extends State<SupportoMedico> {
     }
   }
 
-  /// Build del widget principale della sezione [SupportoMedico], contenente tutta l'interfaccia grafica
+  /// Build del widget principale della sezione [SupportoMedico],
+  /// contenente tutta l'interfaccia grafica
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,6 +73,7 @@ class _SupportoMedicoState extends State<SupportoMedico> {
       endDrawer: GenericAppBar.buildDrawer(context),
       body: Stack(
         children: [
+          const SizedBox(height: 20),
           Positioned(
             top: 0,
             left: 0,
@@ -126,10 +128,10 @@ class _SupportoMedicoState extends State<SupportoMedico> {
                       visualDensity: const VisualDensity(vertical: 4, horizontal: 4),
                       minVerticalPadding: 50,
                       minLeadingWidth: 80,
-                      tileColor: Colors.transparent, // Imposta il colore del ListTile su trasparente
+                      tileColor: Colors.transparent,
                       leading: CircleAvatar(
                         radius: 35,
-                        backgroundImage: AssetImage(supporto.immagine),
+                        backgroundImage: AssetImage('images/'+supporto.immagine),
                       ),
                       title: Text(
                         supporto.nomeMedico,
@@ -137,7 +139,7 @@ class _SupportoMedicoState extends State<SupportoMedico> {
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.bold,
                           fontSize: 18,
-                          color: Colors.black, // Cambia il colore del testo se necessario
+                          color: Colors.black,
                         ),
                       ),
                       subtitle: Text(
@@ -145,7 +147,7 @@ class _SupportoMedicoState extends State<SupportoMedico> {
                         style: const TextStyle(
                           fontFamily: 'Poppins',
                           fontSize: 14,
-                          color: Colors.black, // Cambia il colore del testo se necessario
+                          color: Colors.black,
                         ),
                       ),
                     ),
@@ -191,6 +193,7 @@ class _DetailsSupportoState extends State<DetailsSupporto> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          const SizedBox(width: 20),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
@@ -200,7 +203,7 @@ class _DetailsSupportoState extends State<DetailsSupporto> {
                 shape: BoxShape.circle,
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: AssetImage(supporto.immagine)),
+                  image: AssetImage('images/'+supporto.immagine)),
               ),
             ),
           ),
@@ -227,7 +230,8 @@ class _DetailsSupportoState extends State<DetailsSupporto> {
             child: Text(supporto.descrizione,
                style: const TextStyle(
                           fontFamily: 'Poppins',
-                          fontSize: 14,
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
                           ),
             ),
           ),
@@ -248,17 +252,19 @@ class _DetailsSupportoState extends State<DetailsSupporto> {
                           ),
                         ),
                         const SizedBox(width: 8),
-                        Text(supporto.email,
+                        Text(supporto.numTelefono,
                           style: const TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 14,
+                            fontFamily: 'Poppins',
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                         const SizedBox(width: 8),
-                        Text(supporto.numTelefono,
-                         style: const TextStyle(
+                        Text(supporto.email,
+                          style: const TextStyle(
                           fontFamily: 'Poppins',
-                          fontSize: 14,
+                          fontSize: 13,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                         const SizedBox(width: 8),
@@ -266,7 +272,8 @@ class _DetailsSupportoState extends State<DetailsSupporto> {
                             '${supporto.via}, ${supporto.citta}, ${supporto.provincia}',
                          style: const TextStyle(
                           fontFamily: 'Poppins',
-                          fontSize: 14,
+                          fontSize: 15,
+                           fontWeight: FontWeight.bold,
                           ),
                         ),
                       ],

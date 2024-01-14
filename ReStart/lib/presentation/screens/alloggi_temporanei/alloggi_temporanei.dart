@@ -2,16 +2,18 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import '../../../model/entity/alloggio_temporaneo_DTO.dart';
-import '../../../utils/auth_service.dart';
 import "package:http/http.dart" as http;
 import '../../components/generic_app_bar.dart';
 import '../routes/routes.dart';
 
+/// Classe che implementa la sezione [AlloggiTemporanei]
 class AlloggiTemporanei extends StatefulWidget {
   @override
   _AlloggiTemporaneiState createState() => _AlloggiTemporaneiState();
 }
 
+/// Creazione dello stato di [AlloggiTemporanei], costituito
+/// dalla lista degli alloggi
 class _AlloggiTemporaneiState extends State<AlloggiTemporanei> {
   List<AlloggioTemporaneoDTO> alloggi = [];
 
@@ -130,10 +132,10 @@ class _AlloggiTemporaneiState extends State<AlloggiTemporanei> {
                       visualDensity: const VisualDensity(vertical: 4, horizontal: 4),
                       minVerticalPadding: 50,
                       minLeadingWidth: 80,
-                      tileColor: Colors.transparent, // Imposta il colore del ListTile su trasparente
+                      tileColor: Colors.transparent,
                       leading: CircleAvatar(
                         radius: 35,
-                        backgroundImage: AssetImage(alloggio.immagine),
+                        backgroundImage: AssetImage('images/'+alloggio.immagine),
                       ),
                       title: Text(
                         alloggio.nome,
@@ -141,7 +143,7 @@ class _AlloggiTemporaneiState extends State<AlloggiTemporanei> {
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.bold,
                           fontSize: 18,
-                          color: Colors.black, // Cambia il colore del testo se necessario
+                          color: Colors.black,
                         ),
                       ),
                       subtitle: Text(
@@ -149,7 +151,7 @@ class _AlloggiTemporaneiState extends State<AlloggiTemporanei> {
                         style: const TextStyle(
                           fontFamily: 'Poppins',
                           fontSize: 14,
-                          color: Colors.black, // Cambia il colore del testo se necessario
+                          color: Colors.black,
                         ),
                       ),
                     ),
@@ -200,6 +202,7 @@ class _DetailsAlloggioState extends State<DetailsAlloggio> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          const SizedBox(height: 20),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
@@ -209,7 +212,7 @@ class _DetailsAlloggioState extends State<DetailsAlloggio> {
                 shape: BoxShape.circle,
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: AssetImage(alloggio.immagine),
+                  image: AssetImage('images/'+alloggio.immagine),
                 ),
               ),
             ),
@@ -245,21 +248,21 @@ class _DetailsAlloggioState extends State<DetailsAlloggio> {
                 const Text(
                   'Contatti',
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 22,
                     fontFamily: 'Poppins',
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 Text(alloggio.email,
                   style: const TextStyle(
-                    fontSize: 13,
+                    fontSize: 15,
                     fontFamily: 'Poppins',
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 Text(alloggio.sito,
                   style: const TextStyle(
-                    fontSize: 13,
+                    fontSize: 15,
                     fontFamily: 'Poppins',
                     fontWeight: FontWeight.bold,
                   ),

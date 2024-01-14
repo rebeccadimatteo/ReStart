@@ -122,7 +122,7 @@ class _HomeUtenteState extends State<HomeUtente> {
                     },
                     child: Container(
                       margin: const EdgeInsets.all(10),
-                      child:  Image.asset(evento.immagine),
+                      child:  Image.asset('images/'+evento.immagine),
                     ),
                   );
                 },
@@ -160,7 +160,7 @@ class _HomeUtenteState extends State<HomeUtente> {
                     },
                     child: Container(
                       margin: const EdgeInsets.all(10),
-                      child: Image.asset(annuncio.immagine),
+                      child: Image.asset('images/'+annuncio.immagine),
                     ),
                   );
                 },
