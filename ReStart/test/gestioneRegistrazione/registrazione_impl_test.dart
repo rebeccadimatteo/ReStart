@@ -772,8 +772,7 @@ void main() {
           immagine: 'immage.jpg',
           via: 'Via Fratelli Napoli 1',
           citta: 'Napoli',
-          provincia: 'NA'
-      );
+          provincia: 'NA');
       bool validaN = validateNome(ug.nome);
       bool validaC = validateCognome(ug.cognome);
       bool validaData = validateData(ug.data_nascita);
@@ -805,10 +804,8 @@ void main() {
         expect(result, true);
         if (result) {
           print('Registrazione avvenuta: TEST SUPERATO 1.1_13');
-        }
-        else {
-          print(
-              'Registrazione non avvenuta: TEST NON SUPERATO');
+        } else {
+          print('Registrazione non avvenuta: TEST NON SUPERATO');
         }
       }
     });
