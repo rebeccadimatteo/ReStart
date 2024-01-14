@@ -4,11 +4,11 @@ import joblib
 
 app = Flask(__name__)
 
-model = joblib.load('C:\\Users\\tulli\\IdeaProjects\\ReStart\\LavoroAdattoIA\\Model\\model.joblib')
+model = joblib.load('C:\\Users\\Gianfranco\\IdeaProjects\\ReStart\\LavoroAdattoIA\\Model\\model.joblib')
 
-label_encoder = joblib.load('C:\\Users\\tulli\\IdeaProjects\\ReStart\\LavoroAdattoIA\\Model\\label_encoder.joblib')
+label_encoder = joblib.load('C:\\Users\\Gianfranco\\IdeaProjects\\ReStart\\LavoroAdattoIA\\Model\\label_encoder.joblib')
 
-model_columns = joblib.load('C:\\Users\\tulli\\IdeaProjects\\ReStart\\LavoroAdattoIA\\Model\\model_columns.joblib')
+model_columns = joblib.load('C:\\Users\\Gianfranco\\IdeaProjects\\ReStart\\LavoroAdattoIA\\Model\\model_columns.joblib')
 
 
 @app.route('/predict', methods=['POST'])

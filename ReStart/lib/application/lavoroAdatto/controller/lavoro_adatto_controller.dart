@@ -24,7 +24,6 @@ class LavoroAdattoController {
   Future<Response> _findLavoroAdatto(Request request) async {
     try {
       final String requestBody = await request.readAsString();
-      print(requestBody);
       final Map<String, dynamic> params = jsonDecode(requestBody);
       int id = params['id'];
       Map<String, dynamic> data = params['form'];
