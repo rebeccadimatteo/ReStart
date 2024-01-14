@@ -15,8 +15,8 @@ class InserisciLavoro extends StatefulWidget {
   _InserisciLavoroState createState() => _InserisciLavoroState();
 }
 
-/// Classe associata a [ModifyLavoro] e gestisce la logica e l'interazione
-/// dell'interfaccia utente per inserire un nuovo evento temporaneo.
+/// Classe associata a [InserisciLavoro] e gestisce la logica e l'interazione
+/// dell'interfaccia utente per inserire un nuovo annuncio di lavoro.
 class _InserisciLavoroState extends State<InserisciLavoro> {
   late int idCa;
   var token;
@@ -70,7 +70,6 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
       String numTelefono = numTelefonoController.text;
       String imagePath = 'images/image_${nome}.jpg';
 
-      /// Crea il DTO con il percorso dell'immagine
       AnnuncioDiLavoroDTO annuncio = AnnuncioDiLavoroDTO(
         nomeLavoro: nome,
         descrizione: descrizione,

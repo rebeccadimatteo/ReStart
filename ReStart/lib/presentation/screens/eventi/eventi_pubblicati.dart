@@ -7,13 +7,14 @@ import '../../components/app_bar_ca.dart';
 import 'package:http/http.dart' as http;
 import '../routes/routes.dart';
 
-/// Classe che implementa la sezione [CommunityEvents]
+/// Classe che implementa la sezione [CommunityEventsPubblicati]
 class CommunityEventsPubblicati extends StatefulWidget {
   @override
   _CommunityEventsState createState() => _CommunityEventsState();
 }
 
-/// Creazione dello stato di [CommunityEvents], costituito dalla lista degli eventi
+/// Creazione dello stato di [CommunityEventsPubblicati],
+/// costituito dalla lista degli eventi pubblicati
 class _CommunityEventsState extends State<CommunityEventsPubblicati> {
   List<EventoDTO> eventi = [];
   var token = SessionManager().get("token");
@@ -38,7 +39,8 @@ class _CommunityEventsState extends State<CommunityEventsPubblicati> {
     }
   }
 
-  /// Metodo che permette di inviare la richiesta al server per ottenere la lista di tutti i [EventoDTO] presenti nel database
+  /// Metodo che permette di inviare la richiesta al server per ottenere
+  /// la lista di tutti gli [EventoDTO] presenti nel database
   Future<void> fetchDataFromServer() async {
     String user = JWTUtils.getUserFromToken(accessToken: await token);
     Map<String, dynamic> username = {"username": user};
@@ -82,10 +84,12 @@ class _CommunityEventsState extends State<CommunityEventsPubblicati> {
     }
   }
 
-  /// Build del widget principale della sezione [CommunityEvents], contenente tutta l'interfaccia grafica
+  /// Build del widget principale della sezione [CommunityEvents],
+  /// contenente tutta l'interfaccia grafica
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return MaterialApp(
+        home : Scaffold(
       appBar: CaAppBar(
         showBackButton: true,
       ),
@@ -103,7 +107,8 @@ class _CommunityEventsState extends State<CommunityEventsPubblicati> {
                 'GESTISCI I TUOI EVENTI',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 22,
+                  fontFamily: 'Poppins',
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -119,27 +124,56 @@ class _CommunityEventsState extends State<CommunityEventsPubblicati> {
                   onTap: () {
                     Navigator.pushNamed(
                       context,
-                      AppRoutes.dettaglieventipub,
+                      AppRoutes.dettaglievento,
                       arguments: evento,
                     );
                   },
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.only(left: 5, bottom: 5, right: 5),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      gradient: LinearGradient(
+                        colors: [Colors.blue[50]!, Colors.blue[100]!],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.2),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
                     child: ListTile(
-                      visualDensity:
-                          const VisualDensity(vertical: 4, horizontal: 4),
+                      visualDensity: const VisualDensity(vertical: 4, horizontal: 4),
                       minVerticalPadding: 50,
                       minLeadingWidth: 80,
-                      tileColor: Colors.grey,
+                      tileColor: Colors.transparent,
                       leading: CircleAvatar(
                         radius: 35,
-                        backgroundImage: AssetImage(evento.immagine)),
-                      title: Text(evento.nomeEvento,
-                          style: const TextStyle(fontWeight: FontWeight.bold)),
-                      subtitle: Text(evento.descrizione),
+                        backgroundImage: AssetImage('images/'+evento.immagine),
+                      ),
+                      title: Text(
+                        evento.nomeEvento,
+                        style: const TextStyle(
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                          color: Colors.black,
+                        ),
+                      ),
+                      subtitle: Text(
+                        evento.descrizione,
+                        style: const TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 15,
+                          color: Colors.black,
+                        ),
+                      ),
                       trailing: Container(
-                        width: 100, // o un'altra dimensione adeguata
+                        width: 100,
                         child: Row(
                           children: [
                             IconButton(
@@ -153,7 +187,7 @@ class _CommunityEventsState extends State<CommunityEventsPubblicati> {
                             ),
                             IconButton(
                               icon: const Icon(Icons.delete,
-                                  color: Colors.red, size: 30),
+                                  color: Colors.black, size: 30),
                               onPressed: () {
                                 deleteEvento(evento);
                               },
@@ -169,6 +203,7 @@ class _CommunityEventsState extends State<CommunityEventsPubblicati> {
           ),
         ],
       ),
+        ),
     );
   }
 }
@@ -178,7 +213,8 @@ class DetailsEventoPub extends StatefulWidget {
   _DetailsEventoPub createState() => _DetailsEventoPub();
 }
 
-/// Build del widget che viene visualizzato quando viene selezionato un determinato evento dalla sezione [CommunityEvents]
+/// Build del widget che viene visualizzato quando viene selezionato un
+/// determinato evento dalla sezione [CommunityEvents]
 /// Permette di visualizzare i dettagli dell'evento selezionato
 class _DetailsEventoPub extends State<DetailsEventoPub> {
   List<EventoDTO> eventi = [];
@@ -209,7 +245,8 @@ class _DetailsEventoPub extends State<DetailsEventoPub> {
         ModalRoute.of(context)?.settings.arguments as EventoDTO;
     final String data = evento.date.toIso8601String();
     final String dataBuona = data.substring(0, 10);
-    return Scaffold(
+    return MaterialApp(
+      home : Scaffold(
       appBar: CaAppBar(
         showBackButton: true,
       ),
@@ -235,13 +272,21 @@ class _DetailsEventoPub extends State<DetailsEventoPub> {
             textAlign: TextAlign.center,
             style: const TextStyle(
               fontWeight: FontWeight.bold,
+              fontFamily: 'Poppins',
               fontSize: 30,
             ),
           ),
           const SizedBox(height: 10),
           Padding(
             padding: const EdgeInsets.all(10.0),
-            child: Text(evento.descrizione),
+            child: Text(
+              evento.descrizione,
+              style: const TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 15,
+                color: Colors.black,
+              ),
+            ),
           ),
           Expanded(
               child: Align(
@@ -254,18 +299,41 @@ class _DetailsEventoPub extends State<DetailsEventoPub> {
                         const Text(
                           'Contatti',
                           style: TextStyle(
-                              fontSize: 25, fontWeight: FontWeight.bold),
+                              fontSize: 20,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.bold),
                         ),
-                        Text(evento.email),
-                        Text(evento.sito),
+                        Text(
+                            evento.email,
+                          style: const TextStyle(
+                            fontFamily: 'Poppins',
+                            fontSize: 15,
+                            color: Colors.black,
+                          ),
+                        ),
+                        Text(
+                            evento.sito,
+                          style: const TextStyle(
+                            fontFamily: 'Poppins',
+                            fontSize: 15,
+                            color: Colors.black,
+                          ),
+                        ),
                         const SizedBox(height: 20),
                         const Text(
                           'Informazioni',
                           style: TextStyle(
-                              fontSize: 25, fontWeight: FontWeight.bold),
+                              fontSize: 20,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.bold),
                         ),
-                        Text(dataBuona),
-                        // Aggiunta dei pulsanti sotto la sezione "Contatti"
+                        Text(dataBuona,
+                          style: const TextStyle(
+                            fontFamily: 'Poppins',
+                            fontSize: 15,
+                            color: Colors.black,
+                          ),
+                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -279,12 +347,12 @@ class _DetailsEventoPub extends State<DetailsEventoPub> {
                               },
                             ),
                             const SizedBox(width: 20),
-                            // Aggiungi uno spazio tra i pulsanti
+
                             IconButton(
                               icon: const Icon(Icons.delete,
-                                  color: Colors.red, size: 40),
+                                  color: Colors.black, size: 40),
                               onPressed: () {
-                                //Navigator.pushNamed(context, AppRoutes.modificaevento);
+                                Navigator.pushNamed(context, AppRoutes.modificaevento);
                                 deleteEvento(evento);
                               },
                             ),
@@ -292,9 +360,16 @@ class _DetailsEventoPub extends State<DetailsEventoPub> {
                         ),
                       ],
                     ),
-                  )))
+                  ),
+              ),
+          ),
         ],
       ),
+    ),
     );
   }
+}
+
+void main(){
+  runApp(CommunityEventsPubblicati());
 }

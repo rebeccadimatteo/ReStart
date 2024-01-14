@@ -7,11 +7,14 @@ import '../../components/app_bar_ads.dart';
 import "package:http/http.dart" as http;
 import '../routes/routes.dart';
 
+/// Classe che implementa la sezione [AlloggiTemporaneiAds]
 class AlloggiTemporaneiAds extends StatefulWidget {
   @override
   _AlloggiTemporaneiState createState() => _AlloggiTemporaneiState();
 }
 
+/// Creazione dello stato di [AlloggiTemporaneiAds], costituito
+/// dalla lista degli alloggi
 class _AlloggiTemporaneiState extends State<AlloggiTemporaneiAds> {
   List<AlloggioTemporaneoDTO> alloggi = [];
 
@@ -89,6 +92,7 @@ class _AlloggiTemporaneiState extends State<AlloggiTemporaneiAds> {
       endDrawer: AdsAppBar.buildDrawer(context),
       body: Stack(
         children: [
+          const SizedBox(height: 20),
           Positioned(
             top: 0,
             left: 0,
@@ -117,34 +121,58 @@ class _AlloggiTemporaneiState extends State<AlloggiTemporaneiAds> {
                   onTap: () {
                     Navigator.pushNamed(
                       context,
-                      AppRoutes.dettaglialloggioAds,
+                      AppRoutes.dettaglialloggio,
                       arguments: alloggio,
                     );
                   },
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.only(left: 5, bottom: 5, right: 5),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      gradient: LinearGradient(
+                        colors: [Colors.blue[50]!, Colors.blue[100]!],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.2),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
                     child: ListTile(
-                      visualDensity:
-                          const VisualDensity(vertical: 4, horizontal: 4),
+                      visualDensity: const VisualDensity(vertical: 4, horizontal: 4),
                       minVerticalPadding: 50,
                       minLeadingWidth: 80,
-                      tileColor: Colors.grey,
+                      tileColor: Colors.transparent,
                       leading: CircleAvatar(
-                          radius: 35,
-                          backgroundImage: AssetImage(alloggio.immagine)),
+                        radius: 35,
+                        backgroundImage: AssetImage('images/'+alloggio.immagine),
+                      ),
                       title: Text(
                         alloggio.nome,
                         style: const TextStyle(
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.bold,
-                          fontSize: 20,
+                          fontSize: 18,
+                          color: Colors.black,
                         ),
                       ),
-                      subtitle: Text(alloggio.descrizione),
+                      subtitle: Text(
+                        alloggio.descrizione,
+                        style: const TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 14,
+                          color: Colors.black,
+                        ),
+                      ),
                       trailing: IconButton(
                         icon: const Icon(Icons.delete,
-                            color: Colors.red, size: 30),
+                            color: Colors.black, size: 30
+                        ),
                         onPressed: () {
                           deleteAlloggio(alloggio);
                         },
@@ -281,8 +309,7 @@ class _DetailsAlloggioAdsState extends State<DetailsAlloggioAds> {
                   borderRadius: BorderRadius.circular(30.0),
                 ),
                 child: Container(
-                  width: MediaQuery.of(context).size.width *
-                      0.4, // Regola la larghezza del pulsante
+                  width: MediaQuery.of(context).size.width * 0.4,
                   height: MediaQuery.of(context).size.width * 0.1,
                   padding: const EdgeInsets.all(10),
                   child: const Center(

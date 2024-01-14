@@ -4,14 +4,17 @@ import 'package:flutter_session_manager/flutter_session_manager.dart';
 import '../../../model/entity/annuncio_di_lavoro_DTO.dart';
 import '../../components/app_bar_ads.dart';
 import 'package:http/http.dart' as http;
-
 import '../routes/routes.dart';
 
+
+/// Classe che implementa la sezione [AnnunciDiLavoroAds]
 class AnnunciDiLavoroAds extends StatefulWidget {
   @override
   _AnnunciDiLavoroState createState() => _AnnunciDiLavoroState();
 }
 
+/// Creazione dello stato di [AnnunciDiLavoroAds], costituito
+/// dalla lista degli annunci
 class _AnnunciDiLavoroState extends State<AnnunciDiLavoroAds> {
   List<AnnuncioDiLavoroDTO> annunci = [];
 
@@ -34,13 +37,13 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroAds> {
     }
   }
 
-  /// Effettua una richiesta asincrona al server per ottenere dati sugli alloggi.
+  /// Effettua una richiesta asincrona al server per ottenere dati sugli annunci.
   /// Questa funzione esegue una richiesta POST al server specificato,
   /// interpreta la risposta e aggiorna lo stato dell'oggetto corrente con
   /// i dati ricevuti, se la risposta è valida (status code 200).
   ///
   /// In caso di successo, la lista di [AnnuncioDiLavoroDTO] risultante
-  /// viene assegnata alla variabile di stato 'alloggi'. In caso di errori
+  /// viene assegnata alla variabile di stato 'annunci'. In caso di errori
   /// nella risposta, vengono stampati messaggi di errore sulla console.
   Future<void> fetchDataFromServer() async {
     final response = await http.post(
@@ -94,6 +97,7 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroAds> {
       endDrawer: AdsAppBar.buildDrawer(context),
       body: Stack(
         children: [
+          const SizedBox(height: 20),
           Positioned(
             top: 0,
             left: 0,
@@ -122,41 +126,57 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroAds> {
                   onTap: () {
                     Navigator.pushNamed(
                       context,
-                      AppRoutes.dettagliannuncioAds,
+                      AppRoutes.dettagliannuncio,
                       arguments: annuncio,
                     );
                   },
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.only(left: 5, bottom: 5, right: 5),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      gradient: LinearGradient(
+                        colors: [Colors.blue[50]!, Colors.blue[100]!],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.2),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
                     child: ListTile(
-                      visualDensity:
-                          const VisualDensity(vertical: 4, horizontal: 4),
+                      visualDensity: const VisualDensity(vertical: 4, horizontal: 4),
                       minVerticalPadding: 50,
                       minLeadingWidth: 80,
-                      tileColor: Colors.grey,
+                      tileColor: Colors.transparent, // Imposta il colore del ListTile su trasparente
                       leading: CircleAvatar(
-                          radius: 35,
-                          backgroundImage: AssetImage(annuncio.immagine)),
+                        radius: 35,
+                        backgroundImage: AssetImage('images/'+annuncio.immagine),
+                      ),
                       title: Text(
                         annuncio.nome,
                         style: const TextStyle(
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.bold,
-                          fontSize: 20,
+                          fontSize: 18,
+                          color: Colors.black, // Cambia il colore del testo se necessario
                         ),
                       ),
                       subtitle: Text(
                         annuncio.descrizione,
                         style: const TextStyle(
                           fontFamily: 'Poppins',
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
+                          fontSize: 14,
+                          color: Colors.black, // Cambia il colore del testo se necessario
                         ),
                       ),
                       trailing: IconButton(
                         icon: const Icon(Icons.delete,
-                            color: Colors.red, size: 30),
+                            color: Colors.black, size: 30),
                         onPressed: () {
                           deleteLavoro(annuncio);
                         },
@@ -204,6 +224,7 @@ class _DetailsLavoroAdsState extends State<DetailsLavoroAds> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          const SizedBox(height: 20),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
@@ -212,7 +233,7 @@ class _DetailsLavoroAdsState extends State<DetailsLavoroAds> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
-                    fit: BoxFit.cover, image: AssetImage(annuncio.immagine)),
+                    fit: BoxFit.cover, image: AssetImage('images/'+annuncio.immagine)),
               ),
             ),
           ),
@@ -312,8 +333,7 @@ class _DetailsLavoroAdsState extends State<DetailsLavoroAds> {
                   borderRadius: BorderRadius.circular(30.0),
                 ),
                 child: Container(
-                  width: MediaQuery.of(context).size.width *
-                      0.4, // Regola la larghezza del pulsante
+                  width: MediaQuery.of(context).size.width * 0.4,
                   height: MediaQuery.of(context).size.width * 0.1,
                   padding: const EdgeInsets.all(10),
                   child: const Center(
@@ -335,4 +355,3 @@ class _DetailsLavoroAdsState extends State<DetailsLavoroAds> {
     );
   }
 }
-

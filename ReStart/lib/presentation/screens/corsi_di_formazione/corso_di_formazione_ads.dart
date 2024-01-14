@@ -1,9 +1,7 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:http/http.dart' as http;
-
 import '../../../model/entity/corso_di_formazione_DTO.dart';
 import '../../components/app_bar_ads.dart';
 import '../routes/routes.dart';
@@ -78,6 +76,7 @@ class _CorsoDiFormazioneState extends State<CorsoDiFormazioneAds> {
       endDrawer: AdsAppBar.buildDrawer(context),
       body: Stack(
         children: [
+          const SizedBox(height: 20),
           Positioned(
             top: 0,
             left: 0,
@@ -106,32 +105,57 @@ class _CorsoDiFormazioneState extends State<CorsoDiFormazioneAds> {
                   onTap: () {
                     Navigator.pushNamed(
                       context,
-                      AppRoutes.dettaglicorsoAds,
+                      AppRoutes.dettaglicorso,  //non funziona
                       arguments: corso,
                     );
                   },
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.only(left: 5, bottom: 5, right: 5),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      gradient: LinearGradient(
+                        colors: [Colors.blue[50]!, Colors.blue[100]!],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.2),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
                     child: ListTile(
-                      visualDensity:
-                          const VisualDensity(vertical: 4, horizontal: 4),
+                      visualDensity: const VisualDensity(vertical: 4, horizontal: 4),
                       minVerticalPadding: 50,
                       minLeadingWidth: 80,
-                      tileColor: Colors.grey,
+                      tileColor: Colors.transparent, // Imposta il colore del ListTile su trasparente
                       leading: CircleAvatar(
-                          radius: 35,
-                          backgroundImage: AssetImage(corso.immagine)),
-                      title: Text(corso.nomeCorso,
-                          style: const TextStyle(
-                              fontFamily: 'Poppins',
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold),
+                        radius: 35,
+                        backgroundImage: AssetImage('images/'+corso.immagine),
                       ),
-                      subtitle: Text(corso.descrizione),
+                      title: Text(
+                        corso.nomeCorso,
+                        style: const TextStyle(
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                          color: Colors.black, // Cambia il colore del testo se necessario
+                        ),
+                      ),
+                      subtitle: Text(
+                        corso.descrizione,
+                        style: const TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 14,
+                          color: Colors.black, // Cambia il colore del testo se necessario
+                        ),
+                      ),
                       trailing: IconButton(
                         icon: const Icon(Icons.delete,
-                            color: Colors.red, size: 30),
+                            color: Colors.black, size: 25),
                         onPressed: () {
                           deleteCorso(corso);
                         },
@@ -197,6 +221,7 @@ class _DetailsCorsoAdsState extends State<DetailsCorsoAds> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          const SizedBox(height: 20),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
@@ -205,7 +230,7 @@ class _DetailsCorsoAdsState extends State<DetailsCorsoAds> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
-                    fit: BoxFit.cover, image: AssetImage(corso.immagine)),
+                    fit: BoxFit.cover, image: AssetImage('images/'+corso.immagine)),
               ),
             ),
           ),
@@ -215,13 +240,22 @@ class _DetailsCorsoAdsState extends State<DetailsCorsoAds> {
             textAlign: TextAlign.center,
             style: const TextStyle(
               fontWeight: FontWeight.bold,
+              fontFamily: 'Poppins',
               fontSize: 30,
             ),
           ),
           const SizedBox(height: 10),
           Padding(
             padding: const EdgeInsets.all(10.0),
-            child: Text(corso.descrizione, textAlign: TextAlign.center),
+            child: Text(
+              corso.descrizione,
+                textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontFamily: 'Poppins',
+                fontWeight: FontWeight.bold,
+                fontSize: 15,
+              ),
+            ),
           ),
           Expanded(
               child: Align(
@@ -238,7 +272,14 @@ class _DetailsCorsoAdsState extends State<DetailsCorsoAds> {
                               fontFamily: 'Poppins',
                               fontWeight: FontWeight.bold),
                         ),
-                        Text(corso.urlCorso),
+                        Text(
+                          corso.urlCorso,
+                          style: const TextStyle(
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          ),
+                        ),
                       ],
                     ),
                   ))),
@@ -270,8 +311,7 @@ class _DetailsCorsoAdsState extends State<DetailsCorsoAds> {
                   borderRadius: BorderRadius.circular(30.0),
                 ),
                 child: Container(
-                  width: MediaQuery.of(context).size.width *
-                      0.4, // Regola la larghezza del pulsante
+                  width: MediaQuery.of(context).size.width * 0.4,
                   height: MediaQuery.of(context).size.width * 0.1,
                   padding: const EdgeInsets.all(10),
                   child: const Center(
@@ -290,6 +330,6 @@ class _DetailsCorsoAdsState extends State<DetailsCorsoAds> {
           ),
         ],
       ),
-    );
+        );
   }
 }

@@ -5,14 +5,16 @@ import '../../../model/entity/annuncio_di_lavoro_DTO.dart';
 import '../../../utils/jwt_utils.dart';
 import '../../components/app_bar_ca.dart';
 import 'package:http/http.dart' as http;
-
 import '../routes/routes.dart';
 
+/// Classe che implementa la sezione [AnnunciDiLavoroPubblicati]
 class AnnunciDiLavoroPubblicati extends StatefulWidget {
   @override
   _AnnunciDiLavoroState createState() => _AnnunciDiLavoroState();
 }
 
+/// Creazione dello stato di [AnnunciDiLavoroPubblicati], costituito dalla
+/// lista degli annunci pubblicati
 class _AnnunciDiLavoroState extends State<AnnunciDiLavoroPubblicati> {
   List<AnnuncioDiLavoroDTO> annunci = [];
   var token = SessionManager().get("token");
@@ -36,13 +38,13 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroPubblicati> {
     }
   }
 
-  /// Effettua una richiesta asincrona al server per ottenere dati sugli alloggi.
+  /// Effettua una richiesta asincrona al server per ottenere dati sugli annunci.
   /// Questa funzione esegue una richiesta POST al server specificato,
   /// interpreta la risposta e aggiorna lo stato dell'oggetto corrente con
   /// i dati ricevuti, se la risposta è valida (status code 200).
   ///
   /// In caso di successo, la lista di [AnnuncioDiLavoroDTO] risultante
-  /// viene assegnata alla variabile di stato 'alloggi'. In caso di errori
+  /// viene assegnata alla variabile di stato 'annunci'. In caso di errori
   /// nella risposta, vengono stampati messaggi di errore sulla console.
   Future<void> fetchDataFromServer() async {
     String user = JWTUtils.getUserFromToken(accessToken: await token);
@@ -106,7 +108,7 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroPubblicati> {
     }
   }
 
-  /// Costruisce la schermata che visualizza la lista degli annunci di lavoro disponibili.
+  /// Costruisce la schermata che visualizza la lista degli annunci di lavoro pubblicati.
   /// La lista viene costruita dinamicamente utilizzando i dati presenti nella
   /// lista 'annunci'.
   @override
@@ -130,6 +132,7 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroPubblicati> {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 20,
+                  fontFamily: 'Poppins',
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -161,11 +164,24 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroPubblicati> {
                       leading: CircleAvatar(
                           radius: 35,
                           backgroundImage: AssetImage(annuncio.immagine)),
-                      title: Text(annuncio.nome,
-                          style: const TextStyle(fontWeight: FontWeight.bold)),
-                      subtitle: Text(annuncio.descrizione),
+                      title: Text(
+                        annuncio.nome,
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                            fontFamily: 'Poppins',
+                            fontSize: 20,
+                          ),
+                      ),
+                      subtitle: Text(
+                          annuncio.descrizione,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Poppins',
+                          fontSize: 15,
+                        ),
+                      ),
                       trailing: SizedBox(
-                        width: 100, // o un'altra dimensione adeguata
+                        width: 100,
                         child: Row(
                           children: [
                             IconButton(
@@ -179,7 +195,7 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroPubblicati> {
                             ),
                             IconButton(
                               icon: const Icon(Icons.delete,
-                                  color: Colors.red, size: 30),
+                                  color: Colors.black, size: 30),
                               onPressed: () {
                                 deleteLavoro(annuncio);
                               },
@@ -267,13 +283,22 @@ class _DetailsLavoroPub extends State<DetailsLavoroPub> {
             annuncio.nome,
             style: const TextStyle(
               fontWeight: FontWeight.bold,
+              fontFamily: 'Poppins',
               fontSize: 30,
             ),
           ),
           const SizedBox(height: 10),
           Padding(
             padding: const EdgeInsets.all(10.0),
-            child: Text(annuncio.descrizione, textAlign: TextAlign.center),
+            child: Text(
+                annuncio.descrizione,
+                textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontFamily: 'Poppins',
+                fontSize: 20,
+              ),
+            ),
           ),
           Expanded(
               child: Align(
@@ -287,18 +312,38 @@ class _DetailsLavoroPub extends State<DetailsLavoroPub> {
                           'Contatti',
                           style: TextStyle(
                             fontSize: 25,
+                            fontFamily: 'Poppins',
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         const SizedBox(width: 8),
-                        // Aggiungi uno spazio tra il testo e gli altri elementi
-                        Text(annuncio.email),
-                        const SizedBox(width: 8),
-                        Text(annuncio.numTelefono),
+                        Text(
+                            annuncio.numTelefono,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Poppins',
+                            fontSize: 15,
+                          ),
+                        ),
                         const SizedBox(width: 8),
                         Text(
-                            '${annuncio.via}, ${annuncio.citta}, ${annuncio.provincia}'),
-                        // Aggiunta dei pulsanti sotto la sezione "Contatti"
+                            annuncio.email,
+                        style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Poppins',
+                        fontSize: 13,
+                        ),
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                            '${annuncio.via}, ${annuncio.citta}, ${annuncio.provincia}',
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Poppins',
+                            fontSize: 15,
+                          ),
+                        ),
+
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -312,10 +357,10 @@ class _DetailsLavoroPub extends State<DetailsLavoroPub> {
                               },
                             ),
                             const SizedBox(width: 20),
-                            // Aggiungi uno spazio tra i pulsanti
+
                             IconButton(
                               icon: const Icon(Icons.delete,
-                                  color: Colors.red, size: 40),
+                                  color: Colors.black, size: 40),
                               onPressed: () {
                                 deleteLavoro(annuncio);
                               },
@@ -324,7 +369,9 @@ class _DetailsLavoroPub extends State<DetailsLavoroPub> {
                         ),
                       ],
                     ),
-                  ))),
+                  ),
+    ),
+    ),
         ],
       ),
     );

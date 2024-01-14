@@ -9,14 +9,14 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import '../routes/routes.dart';
 
-///Classe che rappresenta la schermata per inserire un [Evento]
+///Classe che rappresenta la schermata per modificare un [AnnuncioDiLavoro]
 class ModifyLavoro extends StatefulWidget {
   @override
   _ModifyLavoroState createState() => _ModifyLavoroState();
 }
 
 /// Classe associata a [ModifyLavoro] e gestisce la logica e l'interazione
-/// dell'interfaccia utente per inserire un nuovo evento temporaneo.
+/// dell'interfaccia utente per modificare un [AnnuncioDiLavoro].
 class _ModifyLavoroState extends State<ModifyLavoro> {
   late int idCa;
   var token;
@@ -139,26 +139,26 @@ class _ModifyLavoroState extends State<ModifyLavoro> {
           Uri.parse('http://10.0.2.2:8080/gestioneReintegrazione/addImage');
       final imageRequest = http.MultipartRequest('POST', imageUrl);
 
-      // Aggiungi l'immagine
+
       imageRequest.files
           .add(await http.MultipartFile.fromPath('immagine', _image!.path));
 
-      // Aggiungi ID del corso e nome del'adl come campi di testo
+
       imageRequest.fields['nome'] = annuncio.nome;
 
       final imageResponse = await imageRequest.send();
       if (imageResponse.statusCode == 200) {
-        // L'immagine è stata caricata con successo
+
         print("Immagine caricata con successo.");
       } else {
-        // Si è verificato un errore nell'upload dell'immagine
+
         print(
             "Errore durante l'upload dell'immagine: ${imageResponse.statusCode}");
       }
     }
   }
 
-  /// Costruisce la UI per la schermata di inserimento di un evento temporaneo.
+  /// Costruisce la UI per la schermata della modifica di un lavoro.
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -180,6 +180,7 @@ class _ModifyLavoroState extends State<ModifyLavoro> {
                     'Modifica Annuncio di Lavoro',
                     style: TextStyle(
                       fontSize: 20,
+                      fontFamily: 'Poppins',
                       fontWeight: FontWeight.bold,
                     ),
                     textAlign: TextAlign.center,
@@ -214,7 +215,13 @@ class _ModifyLavoroState extends State<ModifyLavoro> {
                             //initialValue: evento.nomeEvento,
                             controller: nomeController,
                             decoration: const InputDecoration(
-                                labelText: 'Nome Annuncio di Lavoro'),
+                                labelText: 'Nome Annuncio di Lavoro',
+                              labelStyle: TextStyle(
+                                fontSize: 20,
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {}
                               return null;
@@ -223,7 +230,14 @@ class _ModifyLavoroState extends State<ModifyLavoro> {
                         TextFormField(
                             controller: descrizioneController,
                             decoration:
-                                const InputDecoration(labelText: 'Descrizione'),
+                                const InputDecoration(
+                                  labelText: 'Descrizione',
+                                  labelStyle: TextStyle(
+                                  fontSize: 15,
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Inserisci la descrizione dell\'annuncio di lavoro';
@@ -234,7 +248,8 @@ class _ModifyLavoroState extends State<ModifyLavoro> {
                         const Text(
                           'Contatti',
                           style: TextStyle(
-                            fontSize: 20,
+                            fontSize: 22,
+                            fontFamily: 'Poppins',
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -242,7 +257,14 @@ class _ModifyLavoroState extends State<ModifyLavoro> {
                         TextFormField(
                             controller: emailController,
                             decoration:
-                                const InputDecoration(labelText: 'Email'),
+                                const InputDecoration(
+                                    labelText: 'Email',
+                                  labelStyle: TextStyle(
+                                    fontSize: 13,
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Inserisci la mail dell\'annuncio di lavoro';
@@ -253,7 +275,13 @@ class _ModifyLavoroState extends State<ModifyLavoro> {
                         TextFormField(
                             controller: numTelefonoController,
                             decoration: const InputDecoration(
-                                labelText: 'Numero di Telefono'),
+                                labelText: 'Numero di Telefono',
+                              labelStyle: TextStyle(
+                                fontSize: 15,
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Inserisci il numero di telefono dell\'annuncio di lavoro';
@@ -264,7 +292,14 @@ class _ModifyLavoroState extends State<ModifyLavoro> {
                         TextFormField(
                             controller: cittaController,
                             decoration:
-                                const InputDecoration(labelText: 'Città'),
+                                const InputDecoration(
+                                    labelText: 'Città',
+                                  labelStyle: TextStyle(
+                                    fontSize: 13,
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Inserisci la città dov\è situato l\'annuncio di lavoro';
@@ -273,7 +308,14 @@ class _ModifyLavoroState extends State<ModifyLavoro> {
                             }),
                         TextFormField(
                             controller: viaController,
-                            decoration: const InputDecoration(labelText: 'Via'),
+                            decoration: const InputDecoration(
+                                labelText: 'Via',
+                              labelStyle: TextStyle(
+                                fontSize: 13,
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Inserisci la via dov\è situato l\'annuncio di lavoro';
@@ -284,7 +326,14 @@ class _ModifyLavoroState extends State<ModifyLavoro> {
                         TextFormField(
                             controller: provinciaController,
                             decoration:
-                                const InputDecoration(labelText: 'Provincia'),
+                                const InputDecoration(
+                                    labelText: 'Provincia',
+                                  labelStyle: TextStyle(
+                                    fontSize: 13,
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Inserisci la provincia dov\è situato l\'annuncio di lavoro';
@@ -294,20 +343,41 @@ class _ModifyLavoroState extends State<ModifyLavoro> {
                         SizedBox(height: screenWidth * 0.1),
                         ElevatedButton(
                           onPressed: () {
-                            submitForm(annuncio);
+                            submitForm;
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue[200],
+                            backgroundColor: Colors.transparent,
                             foregroundColor: Colors.black,
-                            shadowColor: Colors.grey,
                             elevation: 10,
-                            minimumSize:
-                                Size(screenWidth * 0.1, screenWidth * 0.1),
+                            minimumSize: Size(screenWidth * 0.1, screenWidth * 0.1),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                            ),
+                            padding: EdgeInsets.zero,
                           ),
-                          child: const Text(
-                            'INSERISCI',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
+                          child: Ink(
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [Colors.blue[50]!, Colors.blue[100]!],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ),
+                              borderRadius: BorderRadius.circular(30.0),
+                            ),
+                            child: Container(
+                              width: screenWidth * 0.60,
+                              height: screenWidth * 0.1,
+                              padding: const EdgeInsets.all(10),
+                              child: const Center(
+                                child: Text(
+                                  'APPLICA MODIFICHE',
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
                         ),
@@ -320,4 +390,7 @@ class _ModifyLavoroState extends State<ModifyLavoro> {
       ),
     );
   }
+}
+void main(){
+  runApp(ModifyLavoro());
 }
