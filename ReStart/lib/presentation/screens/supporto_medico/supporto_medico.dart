@@ -131,7 +131,7 @@ class _SupportoMedicoState extends State<SupportoMedico> {
                       tileColor: Colors.transparent,
                       leading: CircleAvatar(
                         radius: 35,
-                        backgroundImage: AssetImage('images/'+supporto.immagine),
+                        backgroundImage: Image.asset(supporto.immagine).image,
                       ),
                       title: Text(
                         supporto.nomeMedico,

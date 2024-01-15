@@ -42,7 +42,7 @@ class _CommunityEventsState extends State<CommunityEvents> {
   /// per ottenere la lista di tutti gli [EventoDTO] presenti nel database
   Future<void> fetchDataFromServer() async {
     final response = await http.post(Uri.parse(
-        'http://10.0.2.2:8080/gestioneEvento/visualizzaEventi'));
+        'http://10.0.2.2:8080/gestioneEvento/eventiApprovati'));
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseBody = json.decode(response.body);
       if (responseBody.containsKey('eventi')) {
@@ -128,7 +128,7 @@ class _CommunityEventsState extends State<CommunityEvents> {
                       tileColor: Colors.transparent,
                       leading: CircleAvatar(
                         radius: 35,
-                        backgroundImage: AssetImage('images/'+evento.immagine),
+                        backgroundImage: Image.asset(evento.immagine).image,
                       ),
                       title: Text(
                         evento.nomeEvento,
@@ -207,7 +207,7 @@ class _DetailsEventoState extends State<DetailsEvento> {
                 shape: BoxShape.circle,
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: AssetImage('images/'+evento.immagine)
+                  image: Image.asset(evento.immagine).image,
                 ),
               ),
             ),

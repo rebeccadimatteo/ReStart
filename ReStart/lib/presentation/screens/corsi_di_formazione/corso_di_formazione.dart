@@ -120,7 +120,7 @@ class _CorsoDiFormazioneState extends State<CorsoDiFormazione> {
                       tileColor: Colors.transparent, // Imposta il colore del ListTile su trasparente
                       leading: CircleAvatar(
                         radius: 35,
-                        backgroundImage: AssetImage('images/'+corso.immagine),
+                        backgroundImage: Image.asset(corso.immagine).image,
                       ),
                       title: Text(
                         corso.nomeCorso,
@@ -197,7 +197,7 @@ class _DetailsCorsoState extends State<DetailsCorso> {
                 shape: BoxShape.circle,
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: AssetImage('images/'+corso.immagine),
+                  image: Image.asset(corso.immagine).image,
                 ),
               ),
             ),

@@ -135,7 +135,7 @@ class _AlloggiTemporaneiState extends State<AlloggiTemporanei> {
                       tileColor: Colors.transparent,
                       leading: CircleAvatar(
                         radius: 35,
-                        backgroundImage: AssetImage('images/'+alloggio.immagine),
+                        backgroundImage: Image.asset(alloggio.immagine).image,
                       ),
                       title: Text(
                         alloggio.nome,
@@ -212,7 +212,7 @@ class _DetailsAlloggioState extends State<DetailsAlloggio> {
                 shape: BoxShape.circle,
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: AssetImage('images/'+alloggio.immagine),
+                  image: Image.asset(alloggio.immagine).image,
                 ),
               ),
             ),

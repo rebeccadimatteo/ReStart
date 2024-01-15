@@ -11,19 +11,20 @@ import '../../../model/entity/candidatura_DTO.dart';
 import '../../../model/entity/utente_DTO.dart';
 import 'lavoro_service.dart';
 
-class LavoroServiceImpl implements LavoroService{
+class LavoroServiceImpl implements LavoroService {
   final AnnuncioDiLavoroDAO _lavoroDAO;
   final CaDAO _caDAO;
   final UtenteDAO _utenteDAO;
 
   LavoroServiceImpl()
-
       : _lavoroDAO = AnnuncioDiLavoroDAOImpl(),
         _caDAO = CaDAOImpl(),
         _utenteDAO = UtenteDAOImpl();
 
   AnnuncioDiLavoroDAO get lavoroDAO => _lavoroDAO;
+
   CaDAO get caDAO => _caDAO;
+
   UtenteDAO get utenteDAO => _utenteDAO;
 
   @override
@@ -33,17 +34,16 @@ class LavoroServiceImpl implements LavoroService{
 
   @override
   Future<String> approveLavoro(int id_annuncio) async {
-
-    if(await _lavoroDAO.existById(id_annuncio) == false){
+    if (await _lavoroDAO.existById(id_annuncio) == false) {
       return "L'annuncio di lavoro non esiste";
     }
     AnnuncioDiLavoroDTO? lavoro = await _lavoroDAO.findById(id_annuncio);
 
-    if(lavoro == null) return "Evento non trovato";
+    if (lavoro == null) return "Evento non trovato";
 
     lavoro.approvato = true;
 
-    if(await _lavoroDAO.update(lavoro)) return "Approvazione effettuata";
+    if (await _lavoroDAO.update(lavoro)) return "Approvazione effettuata";
 
     return "fallito";
   }
@@ -73,34 +73,36 @@ class LavoroServiceImpl implements LavoroService{
     List<AnnuncioDiLavoroDTO> list = await _lavoroDAO.findAll();
 
     // Controlla se l'evento è stato approvato altrimenti non deve essere visualizzato
-    for (AnnuncioDiLavoroDTO a in list) {
+    var itemsToRemove = <AnnuncioDiLavoroDTO>[];
+    list.forEach((a) {
       if (!a.approvato) {
-        list.remove(a);
+        itemsToRemove.add(a);
       }
-    }
+    });
+    list.removeWhere((e) => itemsToRemove.contains(e));
 
     return list;
   }
 
   @override
   Future<String> rejectLavoro(int id_annuncio) async {
-
-    if(await _lavoroDAO.existById(id_annuncio) == false){
+    if (await _lavoroDAO.existById(id_annuncio) == false) {
       return "L'annuncio di lavoro non esiste";
     }
 
-    if(await _lavoroDAO.removeById(id_annuncio)) return "Rifiuto effettuato";
+    if (await _lavoroDAO.removeById(id_annuncio)) return "Rifiuto effettuato";
 
     return "fallito";
   }
 
   @override
-  Future<List<UtenteDTO?>?> utentiCandidati(AnnuncioDiLavoroDTO annuncio) async {
+  Future<List<UtenteDTO?>?> utentiCandidati(
+      AnnuncioDiLavoroDTO annuncio) async {
     CandidaturaDAO candidaturaDAO = CandidaturaDAOImpl();
     List<CandidaturaDTO> candidature = await candidaturaDAO.findAll();
     List<UtenteDTO?>? userCandidati = [];
-    for(CandidaturaDTO c in candidature){
-      if(c.id_lavoro == annuncio.id) {
+    for (CandidaturaDTO c in candidature) {
+      if (c.id_lavoro == annuncio.id) {
         userCandidati.add(await utenteDAO.findById(c.id_utente));
       }
     }
@@ -109,6 +111,6 @@ class LavoroServiceImpl implements LavoroService{
 
   @override
   Future<List<AnnuncioDiLavoroDTO>> richiesteAnnunci() {
-      return lavoroDAO.findByNotApprovato();
+    return lavoroDAO.findByNotApprovato();
   }
 }

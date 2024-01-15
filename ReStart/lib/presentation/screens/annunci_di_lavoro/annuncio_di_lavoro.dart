@@ -47,7 +47,7 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoro> {
   /// nella risposta, vengono stampati messaggi di errore sulla console.
   Future<void> fetchDataFromServer() async {
     final response = await http.post(
-        Uri.parse('http://10.0.2.2:8080/gestioneLavoro/visualizzaLavori'));
+        Uri.parse('http://10.0.2.2:8080/gestioneLavoro/annunciApprovati'));
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseBody = json.decode(response.body);
       if (responseBody.containsKey('annunci')) {
@@ -135,7 +135,7 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoro> {
                       tileColor: Colors.transparent,
                       leading: CircleAvatar(
                         radius: 35,
-                        backgroundImage: AssetImage('images/'+annuncio.immagine),
+                        backgroundImage: Image.asset(annuncio.immagine).image,
                       ),
                       title: Text(
                         annuncio.nome,
@@ -278,7 +278,7 @@ class _DetailsLavoroState extends State<DetailsLavoro> {
                 shape: BoxShape.circle,
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: AssetImage('images/'+annuncio.immagine),
+                  image: Image.asset(annuncio.immagine).image,
                 ),
               ),
             ),

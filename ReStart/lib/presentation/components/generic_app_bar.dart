@@ -25,7 +25,7 @@ class GenericAppBar extends StatelessWidget implements PreferredSizeWidget {
         onTap: () {
           Navigator.pushNamed(
             context,
-            AppRoutes.home,
+            AppRoutes.homeUtente,
           );
         },
         child: Image.asset(
