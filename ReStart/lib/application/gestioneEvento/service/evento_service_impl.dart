@@ -30,8 +30,8 @@ class EventoServiceImpl implements EventoService {
   }
 
   @override
-  Future<List<EventoDTO>> communityEvents() {
-    removeEventiScaduti();
+  Future<List<EventoDTO>> communityEvents() async {
+    await removeEventiScaduti();
     return _eventoDAO.findAll();
   }
 

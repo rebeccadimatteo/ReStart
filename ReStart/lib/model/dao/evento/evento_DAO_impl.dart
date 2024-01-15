@@ -279,7 +279,6 @@ class EventoDAOImpl implements EventoDAO {
 
   @override
   Future<bool> removeEventiScaduti() async {
-
     try {
       Connection connection = await connector.openConnection();
       var result = await connection.execute(
@@ -295,7 +294,5 @@ class EventoDAOImpl implements EventoDAO {
     } finally {
       await connector.closeConnection();
     }
-
-
   }
 }
