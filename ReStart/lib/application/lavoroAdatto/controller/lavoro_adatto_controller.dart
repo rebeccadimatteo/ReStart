@@ -40,7 +40,6 @@ class LavoroAdattoController {
             body: responseBody, headers: {'Content-Type': 'application/json'});
       }
     } catch (e) {
-      print(e);
       // Gestione degli errori durante la chiamata al servizio
       return Response.internalServerError(
           body: 'Errore durante la chiamata al modulo: $e');

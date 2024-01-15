@@ -14,7 +14,6 @@ class LavoroAdattoAdapterImpl implements LavoroAdattoAdapter{
       final response = await http.post(url, headers: headers, body: body);
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
-        print(data);
         return data['predicted_job_title'];
       } else {
         throw Exception('Errore del server: ${response.statusCode}');
