@@ -5,6 +5,7 @@ import 'package:restart_all_in_one/presentation/screens/annunci_di_lavoro/annunc
 import 'package:restart_all_in_one/presentation/screens/eventi/eventi_pubblicati.dart';
 import 'package:restart_all_in_one/presentation/screens/home/home_ads.dart';
 import 'package:restart_all_in_one/presentation/screens/home/home_ca.dart';
+import 'package:restart_all_in_one/presentation/screens/utente/lista_utenti_candidati.dart';
 import '../alloggi_temporanei/alloggi_temporanei.dart';
 import '../alloggi_temporanei/alloggi_temporanei_ads.dart';
 import '../annunci_di_lavoro/annuncio_di_lavoro.dart';
@@ -71,6 +72,8 @@ class AppRoutes {
 
   static const String modificaevento = '/modifyEvento';
   static const String modificalavoro = '/modifyAnnuncio';
+  static const String listaCandidati = '/listaCandidati';
+
   /// Definizione di tutte le [AppRoutes]
   static Map<String, WidgetBuilder> getRoutes() {
     return {
@@ -111,7 +114,8 @@ class AppRoutes {
       dettaglisupportoAds: (context) => DetailsSupportoAds(),
       richiesteAds: (context) => Richieste(),
       modificaevento: (context) => ModifyEvento(),
-      modificalavoro: (context) => ModifyLavoro()
+      modificalavoro: (context) => ModifyLavoro(),
+      listaCandidati: (context) => ListaUtentiCandidati(),
     };
   }
 }

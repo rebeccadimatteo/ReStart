@@ -29,9 +29,8 @@ class _ListaUtentiState extends State<ListaUtenti> {
     final response = await http.post(
         Uri.parse('http://10.0.2.2:8080/autenticazione/checkUserUtente'),
         body: jsonEncode(token),
-        headers: {'Content-Type': 'application/json'}
-    );
-    if(response.statusCode != 200){
+        headers: {'Content-Type': 'application/json'});
+    if (response.statusCode != 200) {
       Navigator.pushNamed(context, AppRoutes.home);
     }
   }
@@ -43,9 +42,9 @@ class _ListaUtentiState extends State<ListaUtenti> {
       final Map<String, dynamic> responseBody = json.decode(response.body);
       if (responseBody.containsKey('utenti')) {
         final List<UtenteDTO> data =
-        List<Map<String, dynamic>>.from(responseBody['utenti'])
-            .map((json) => UtenteDTO.fromJson(json))
-            .toList();
+            List<Map<String, dynamic>>.from(responseBody['utenti'])
+                .map((json) => UtenteDTO.fromJson(json))
+                .toList();
         setState(() {
           utenti = data;
         });
@@ -99,65 +98,67 @@ class _ListaUtentiState extends State<ListaUtenti> {
               ),
             ),
             Padding(
-                padding: const EdgeInsets.only(top: 50),
-                child: ListView.builder(
-                  itemCount: utenti.length,
-                  itemBuilder: (context, index) {
-                    final utente = utenti[index];
-                    return Padding(
-                      padding: const EdgeInsets.only(top: 5, bottom: 5, left: 5, right: 5),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          gradient: LinearGradient(
-                            colors: [Colors.blue[50]!, Colors.blue[100]!],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.2),
-                              spreadRadius: 2,
-                              blurRadius: 5,
-                              offset: Offset(0, 2),
-                            ),
-                          ],
+              padding: const EdgeInsets.only(top: 50),
+              child: ListView.builder(
+                itemCount: utenti.length,
+                itemBuilder: (context, index) {
+                  final utente = utenti[index];
+                  return Padding(
+                    padding: const EdgeInsets.only(
+                        top: 5, bottom: 5, left: 5, right: 5),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        gradient: LinearGradient(
+                          colors: [Colors.blue[50]!, Colors.blue[100]!],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
                         ),
-                        margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-                        child: ListTile(
-                            visualDensity: const VisualDensity(vertical: 4, horizontal: 4),
-                            minVerticalPadding: 50,
-                            minLeadingWidth: 80,
-                            tileColor: Colors.transparent,
-                            leading: const CircleAvatar(
-                              radius: 35,
-                              backgroundImage: NetworkImage(
-                                'https://img.freepik.com/free-vector/men-success-laptop-relieve-work-from-home-computer-great_10045-646.jpg?size=338&ext=jpg&ga=GA1.1.1546980028.1703635200&semt=ais',
-                              ),
-                            ),
-                          title: Text(
-                            utente.nome,
-                            style: const TextStyle(
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                              color: Colors.black,
-                            ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.2),
+                            spreadRadius: 2,
+                            blurRadius: 5,
+                            offset: Offset(0, 2),
                           ),
-                          subtitle: Text(
-                            utente.email,
-                            style: const TextStyle(
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14,
-                              color: Colors.black,
-                            ),
+                        ],
+                      ),
+                      margin: const EdgeInsets.symmetric(
+                          vertical: 5, horizontal: 5),
+                      child: ListTile(
+                        visualDensity:
+                            const VisualDensity(vertical: 4, horizontal: 4),
+                        minVerticalPadding: 50,
+                        minLeadingWidth: 80,
+                        tileColor: Colors.transparent,
+                        leading: CircleAvatar(
+                          radius: 35,
+                          backgroundImage: Image.asset(utente.immagine).image,
+                        ),
+                        title: Text(
+                          utente.nome,
+                          style: const TextStyle(
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                            color: Colors.black,
                           ),
-                          trailing: IconButton(
-                            icon: const Icon(Icons.delete, color: Colors.black, size: 30),
-                            onPressed: () {
-                              deleteUtente(utente);
-                                },
+                        ),
+                        subtitle: Text(
+                          utente.email,
+                          style: const TextStyle(
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                            color: Colors.black,
+                          ),
+                        ),
+                        trailing: IconButton(
+                          icon: const Icon(Icons.delete,
+                              color: Colors.black, size: 30),
+                          onPressed: () {
+                            deleteUtente(utente);
+                          },
                         ),
                       ),
                     ),
@@ -170,8 +171,4 @@ class _ListaUtentiState extends State<ListaUtenti> {
       ),
     );
   }
-}
-
-void main() {
-  runApp(ListaUtenti());
 }

@@ -60,7 +60,7 @@ class CandidaturaController {
     try {
       final String requestBody = await request.readAsString();
       final Map<String, dynamic> params = jsonDecode(requestBody);
-      final int idLavoro = int.parse(params['idLavoro']);
+      final int idLavoro = params['id'];
 
       final List<UtenteDTO> listaCandidati =
       await _service.listaCandidati(idLavoro);
@@ -70,6 +70,7 @@ class CandidaturaController {
       return Response.ok(responseBody,
           headers: {'Content-Type': 'application/json'});
     } catch (e) {
+      print(e);
       // Gestione degli errori durante la chiamata al servizio
       return Response.internalServerError(
           body: 'Errore durante la visualizzazione dei candidati: $e');

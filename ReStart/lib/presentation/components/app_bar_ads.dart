@@ -209,7 +209,7 @@ class AdsAppBar extends StatelessWidget implements PreferredSizeWidget {
                 print("logout riuscito");
                 Navigator.pushNamed(
                   context,
-                  AppRoutes.homeADS,
+                  AppRoutes.home,
                 );
               },
             ),

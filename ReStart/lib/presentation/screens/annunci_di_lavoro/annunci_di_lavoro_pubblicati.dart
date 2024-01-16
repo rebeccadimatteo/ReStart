@@ -29,9 +29,8 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroPubblicati> {
     final response = await http.post(
         Uri.parse('http://10.0.2.2:8080/autenticazione/checkUserCA'),
         body: jsonEncode(token),
-        headers: {'Content-Type': 'application/json'}
-    );
-    if(response.statusCode != 200){
+        headers: {'Content-Type': 'application/json'});
+    if (response.statusCode != 200) {
       Navigator.pushNamed(context, AppRoutes.home);
     }
   }
@@ -322,6 +321,22 @@ class _DetailsLavoroPub extends State<DetailsLavoroPub> {
                             ),
                           ],
                         ),
+                        const SizedBox(height: 10),
+                        // Spazio tra i pulsanti e il nuovo pulsante "Utenti candidati"
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.pushNamed(
+                                context, AppRoutes.listaCandidati,
+                                arguments: annuncio);
+                          },
+                          child: const Text(
+                            'Utenti candidati',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        )
                       ],
                     ),
                   ))),
@@ -329,10 +344,4 @@ class _DetailsLavoroPub extends State<DetailsLavoroPub> {
       ),
     );
   }
-}
-
-void main() {
-  runApp(MaterialApp(
-    home: AnnunciDiLavoroPubblicati(),
-  ));
 }

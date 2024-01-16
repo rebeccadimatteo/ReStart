@@ -196,8 +196,8 @@ class CandidaturaDAOImpl implements CandidaturaDAO {
       Connection connection = await connector.openConnection();
       var result = await connection.execute(
           Sql.named(
-              'SELECT u.id, u.nome, u.cognome, u.cod_fiscale, u.data_nascita, u.luogo_nascita, u.genere, u.username,u.lavoro_adatto, c.email, c.num_telefono, im.immagine, i.via, i.citta, i.provincia FROM public."Utente" u, '
-              'public."Contatti" c, public."Indirizzo" i, public."Immagine" im, public."Candidatura" cand WHERE u.id = c.id_utente AND u.id = i.id_utente AND im.id_utente = u.id AND cand.id_lavoro = @id_lavoro'),
+              'SELECT DISTINCT u.id, u.nome, u.cognome, u.cod_fiscale, u.data_nascita, u.luogo_nascita, u.genere, u.username,u.lavoro_adatto, c.email, c.num_telefono, im.immagine, i.via, i.citta, i.provincia FROM public."Utente" u, '
+              'public."Contatti" c, public."Indirizzo" i, public."Immagine" im, public."Candidatura" cand WHERE u.id = c.id_utente AND u.id = i.id_utente AND im.id_utente = u.id AND cand.id_utente = u.id AND cand.id_annuncio = @id_lavoro'),
           parameters: {'id_lavoro': idLavoro});
 
       // Mappa i risultati della query in oggetti Utente_DTO
@@ -207,6 +207,7 @@ class CandidaturaDAOImpl implements CandidaturaDAO {
 
       return list;
     } catch (e) {
+      print(e);
       developer.log(e.toString());
       return [];
     } finally {
