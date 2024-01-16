@@ -188,7 +188,7 @@ class _HomeUtenteState extends State<HomeUtente> {
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
                         ),
-                        boxShadow: [
+                         boxShadow: [
                           BoxShadow(
                             color: Colors.black.withOpacity(0.2),
                             spreadRadius: 2,
@@ -201,32 +201,45 @@ class _HomeUtenteState extends State<HomeUtente> {
                         borderRadius: BorderRadius.circular(10),
                         child: BackdropFilter(
                           filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [Colors.blue[50]!, Colors.blue[100]!],
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
+                          child: Stack(
+                            children: [
+                              Image.asset(
+                                'images/work.png',
+                                fit: BoxFit.cover,
+                                width: double.infinity,
+                                height: double.infinity,
                               ),
-                            ),
-                            child: const Center(
+                              Opacity(
+                                opacity: 0.75,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      colors: [Colors.blue[50]!, Colors.blue[100]!],
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                    ),
+                                  ),
+                              child: const Center(
                               child: Center(
                                 child: Text(
                                   'SCOPRI IL LAVORO CHE FA PER TE!',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
-                                    fontFamily: 'Poppins',
+                                    fontFamily: 'PoppinsMedium',
                                     fontWeight: FontWeight.bold,
                                     fontSize: 16,
                                     color: Colors.black,
-                                  ),
+                                      ),
                                 ),
                               ),
                             ),
                           ),
                         ),
+                      ],
                       ),
-                    ),
+                      ),
+                      ),
+                     ),
                   ),
                   GestureDetector(
                     onTap: () {
@@ -254,19 +267,50 @@ class _HomeUtenteState extends State<HomeUtente> {
                           ),
                         ],
                       ),
-                      child: const Center(
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: BackdropFilter(
+                          filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                          child: Stack(
+                            children: [
+                              Image.asset(
+                                'images/casa.png',
+                                fit: BoxFit.cover,
+                                width: double.infinity,
+                                height: double.infinity,
+                              ),
+                              Opacity(
+                                opacity: 0.75,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      colors: [Colors.blue[50]!, Colors.blue[100]!],
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                    ),
+                                  ),
+                              child: const Center(
+                              child: Center(
                         child: Text(
                           'TROVA UN ALLOGGIO',
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontFamily: 'Poppins',
+                            fontFamily: 'PoppinsMedium',
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
+                            color: Colors.black,
                           ),
                         ),
                       ),
                     ),
                   ),
+                ),
+                ],
+                ),
+                        ),
+                ),
+                    ),
+                ),
                   GestureDetector(
                     onTap: () {
                       Navigator.pushNamed(
@@ -293,17 +337,49 @@ class _HomeUtenteState extends State<HomeUtente> {
                           ),
                         ],
                       ),
-                      child: const Center(
+
+                     child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: BackdropFilter(
+                          filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                          child: Stack(
+                            children: [
+                              Image.asset(
+                                'images/corso.png',
+                                fit: BoxFit.cover,
+                                width: double.infinity,
+                                height: double.infinity,
+                              ),
+                              Opacity(
+                                opacity: 0.75,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      colors: [Colors.blue[50]!, Colors.blue[100]!],
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                    ),
+                                  ),
+                              child: const Center(
+                              child: Center(
                         child: Text(
                           'IMPARA QUALCOSA DI NUOVO',
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontFamily: 'Poppins',
+                            fontFamily: 'PoppinsMedium',
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
+                            color: Colors.black,
                           ),
                         ),
                       ),
+                    ),
+                  ),
+                  ),
+                    ],
+                  ),
+                      ),
+                  ),
                     ),
                   ),
                   GestureDetector(
@@ -332,23 +408,55 @@ class _HomeUtenteState extends State<HomeUtente> {
                           ),
                         ],
                       ),
-                      child: const Center(
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: BackdropFilter(
+                          filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                          child: Stack(
+                            children: [
+                              Image.asset(
+                                'images/supporto.png',
+                                fit: BoxFit.cover,
+                                width: double.infinity,
+                                height: double.infinity,
+                              ),
+                              Opacity(
+                                opacity: 0.75,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      colors: [Colors.blue[50]!, Colors.blue[100]!],
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                    ),
+                                  ),
+                        child: const Center(
+                        child: Center(
                         child: Text(
                           'PRENDITI CURA DI TE STESSO',
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontFamily: 'Poppins',
+                            fontFamily: 'PoppinsMedium',
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
+                            color: Colors.black,
                           ),
                         ),
                       ),
                     ),
                   ),
+                ),
                 ],
               ),
             ),
-          ],
-        ));
+            ),
+            ),
+            ),
+                ],
+                ),
+            ),
+            ],
+        ),
+    );
   }
 }

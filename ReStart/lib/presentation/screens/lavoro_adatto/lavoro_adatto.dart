@@ -160,6 +160,11 @@ class _LavoroAdattoState extends State<LavoroAdatto> {
                           }
                         });
                       },
+                      style: const TextStyle(
+                        fontFamily: 'Poppins',
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
                       items: [
                         'Nessuna',
                         'Licenza Media',
@@ -180,6 +185,7 @@ class _LavoroAdattoState extends State<LavoroAdatto> {
                         labelText: 'Grado di Istruzione',
                         labelStyle: TextStyle(
                           fontFamily: 'Poppins',
+                          color: Colors.black,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -200,13 +206,20 @@ class _LavoroAdattoState extends State<LavoroAdatto> {
                         labelText: 'Anni di Esperienza',
                         labelStyle: TextStyle(
                           fontFamily: 'Poppins',
+                          color: Colors.black,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
                     const SizedBox(height: 20),
                     SwitchListTile(
-                      title: const Text('Sei mai stato a capo di un lavoro?'),
+                      title: const Text(
+                        'Sei mai stato a capo di un lavoro?',
+                        style: TextStyle(
+                        fontFamily: 'Poppins',
+                        color: Colors.black,
+                        ),
+                      ),
                       value: _hasBeenLeader,
                       onChanged: (bool value) {
                         setState(() {
@@ -215,19 +228,97 @@ class _LavoroAdattoState extends State<LavoroAdatto> {
                       },
                     ),
                     const SizedBox(height: 20),
-                    _buildCheckboxListTile('Adobe Creative Suite'),
-                    _buildCheckboxListTile('Back-end Development'),
-                    _buildCheckboxListTile('Budget Management'),
-                    _buildCheckboxListTile('Business Analysis'),
-                    _buildCheckboxListTile('CRM Software'),
-                    _buildCheckboxListTile('Client Relations'),
-                    _buildCheckboxListTile('Communication'),
-                    _buildCheckboxListTile('Communication Skills'),
-                    _buildCheckboxListTile('Content Creation'),
-                    _buildCheckboxListTile('Copywriting'),
-                    _buildCheckboxListTile('Customer Service'),
-                    _buildCheckboxListTile('Customer Support'),
-                    _buildCheckboxListTile('Data Analysis'),
+                    _buildCheckboxListTile(
+                      'Adobe Creative Suite',
+                      style: const TextStyle(
+                        fontFamily: 'Poppins',
+                        color: Colors.black,
+                      ),
+                    ),
+                    _buildCheckboxListTile(
+                        'Back-end Development',
+                      style: const TextStyle(
+                        fontFamily: 'Poppins',
+                        color: Colors.black,
+                      ),
+                    ),
+                    _buildCheckboxListTile(
+                        'Budget Management',
+                      style: const TextStyle(
+                      fontFamily: 'Poppins',
+                      color: Colors.black,
+                    ),
+                    ),
+                    _buildCheckboxListTile(
+                        'Business Analysis',
+                      style: const TextStyle(
+                        fontFamily: 'Poppins',
+                        color: Colors.black,
+                      ),
+                    ),
+                    _buildCheckboxListTile(
+                        'CRM Software',
+                      style: const TextStyle(
+                        fontFamily: 'Poppins',
+                        color: Colors.black,
+                      ),
+                    ),
+                    _buildCheckboxListTile(
+                        'Client Relations',
+                      style: const TextStyle(
+                        fontFamily: 'Poppins',
+                        color: Colors.black,
+                      ),
+                    ),
+                    _buildCheckboxListTile(
+                        'Communication',
+                      style: const TextStyle(
+                        fontFamily: 'Poppins',
+                        color: Colors.black,
+                      ),
+                    ),
+                    _buildCheckboxListTile(
+                        'Communication Skills',
+                      style: const TextStyle(
+                        fontFamily: 'Poppins',
+                        color: Colors.black,
+                      ),
+                    ),
+                    _buildCheckboxListTile(
+                        'Content Creation',
+                      style: const TextStyle(
+                        fontFamily: 'Poppins',
+                        color: Colors.black,
+                      ),
+                    ),
+                    _buildCheckboxListTile(
+                        'Copywriting',
+                      style: const TextStyle(
+                        fontFamily: 'Poppins',
+                        color: Colors.black,
+                      ),
+                    ),
+                    _buildCheckboxListTile(
+                        'Customer Service',
+                      style: const TextStyle(
+                        fontFamily: 'Poppins',
+                        color: Colors.black,
+                      ),
+                    ),
+                    _buildCheckboxListTile(
+                        'Customer Support',
+                      style: const TextStyle(
+                        fontFamily: 'Poppins',
+                        color: Colors.black,
+                      ),
+                    ),
+                    _buildCheckboxListTile(
+                        'Data Analysis',
+                      style: const TextStyle(
+                      fontFamily: 'Poppins',
+                      color: Colors.black,
+                    ),
+                    ),
                     SizedBox(height: screenWidth * 0.1),
                     ElevatedButton(
                       onPressed: () {
@@ -281,9 +372,12 @@ class _LavoroAdattoState extends State<LavoroAdatto> {
     );
   }
 
-  Widget _buildCheckboxListTile(String skill) {
+  Widget _buildCheckboxListTile(String skill, {TextStyle? style}) {
     return CheckboxListTile(
-      title: Text(skill),
+      title: Text(
+        skill,
+        style: style,
+      ),
       value: _selectedSkills.contains(skill),
       onChanged: (bool? value) {
         setState(() {
