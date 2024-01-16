@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:restart_all_in_one/presentation/screens/lavoro_adatto/lavoro_adatto.dart';
+import 'package:restart_all_in_one/presentation/screens/lavoro_adatto/visualizza_lavoro_adatto.dart';
 import 'package:restart_all_in_one/presentation/screens/utente/lista_utenti_candidati.dart';
 import '../alloggi_temporanei/alloggi_temporanei.dart';
 import '../alloggi_temporanei/alloggi_temporanei_ads.dart';
@@ -76,6 +77,9 @@ class AppRoutes {
 
   static const String listaCandidati = '/annunciPubblicati/listaCandidati';
 
+  static const String visualizzaLavoroAdatto =
+      '/lavoroAdatto/visualizzaLavoroAdatto';
+
   /// Definizione di tutte le [AppRoutes]
   static Map<String, WidgetBuilder> getRoutes() {
     return {
@@ -106,7 +110,7 @@ class AppRoutes {
       annunciAds: (context) => AnnunciDiLavoroAds(),
       dettagliannuncioAds: (context) => DetailsLavoroAds(),
       alloggiAds: (context) => AlloggiTemporaneiAds(),
-      dettaglialloggioAds: (context) =>DetailsAlloggioAds(),
+      dettaglialloggioAds: (context) => DetailsAlloggioAds(),
       eventiAds: (context) => CommunityEventsAds(),
       dettaglieventoAds: (context) => DetailsEventoAds(),
       corsiAds: (context) => CorsoDiFormazioneAds(),
@@ -117,6 +121,7 @@ class AppRoutes {
       modificaevento: (context) => ModifyEvento(),
       lavoroadatto: (context) => LavoroAdatto(),
       listaCandidati: (context) => ListaUtentiCandidati(),
+      visualizzaLavoroAdatto: (context) => VisualizzaLavoroAdatto(),
     };
   }
 }

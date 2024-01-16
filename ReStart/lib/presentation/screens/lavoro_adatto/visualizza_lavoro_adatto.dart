@@ -33,6 +33,7 @@ class _VisualizzaLavoroAdattoState extends State<VisualizzaLavoroAdatto> {
       Navigator.pushNamed(context, AppRoutes.home);
     }
   }
+
   Future<void> fetchProfiloFromServer() async {
     String user = JWTUtils.getUserFromToken(accessToken: await token);
     final response = await http.post(
@@ -54,13 +55,32 @@ class _VisualizzaLavoroAdattoState extends State<VisualizzaLavoroAdatto> {
     }
   }
 
-
   @override
   void initState() {
     super.initState();
     _checkUserAndNavigate();
+    utente = UtenteDTO(
+        nome: 'nome',
+        cognome: 'cognome',
+        cod_fiscale: 'cod_fiscale',
+        data_nascita: DateTime.now(),
+        luogo_nascita: 'luogo_nascita',
+        genere: 'genere',
+        username: 'username',
+        password: 'password',
+        email: 'email',
+        num_telefono: 'num_telefono',
+        immagine: 'images/avatar.png',
+        via: 'via',
+        citta: 'citta',
+        provincia: 'provincia',
+        lavoro_adatto: 'Caricamento...');
     fetchProfiloFromServer();
+    if (utente.lavoro_adatto == null) {
+      Navigator.pushNamed(context, AppRoutes.lavoroadatto);
+    }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,7 +113,8 @@ class _VisualizzaLavoroAdattoState extends State<VisualizzaLavoroAdatto> {
                     style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    utente.lavoro_adatto ?? 'Nessun lavoro adatto trovato', // Fornisce un valore di fallback
+                    utente.lavoro_adatto ?? 'Nessun lavoro adatto trovato',
+                    // Fornisce un valore di fallback
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
@@ -117,16 +138,46 @@ class _VisualizzaLavoroAdattoState extends State<VisualizzaLavoroAdatto> {
                     'Vuoi ripetere il test?',
                     style: TextStyle(fontSize: 18),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   ElevatedButton(
                     onPressed: () {
-                      // Aggiungi qui la logica per il clic del pulsante
+                      Navigator.pushNamed(context, AppRoutes.lavoroadatto);
                     },
                     style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.white, // Text color
-                      backgroundColor: Colors.grey, // Background color
+                      backgroundColor: Colors.transparent,
+                      foregroundColor: Colors.black,
+                      elevation: 10,
+                      minimumSize: Size(MediaQuery.of(context).size.width * 0.1, MediaQuery.of(context).size.width * 0.1),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
+                      padding: EdgeInsets.zero,
                     ),
-                    child: Text('Clicca qui!'),
+                    child: Ink(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [Colors.blue[50]!, Colors.blue[100]!],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.4, // Regola la larghezza del pulsante
+                        height: MediaQuery.of(context).size.width * 0.1,
+                        padding: const EdgeInsets.all(10),
+                        child: const Center(
+                          child: Text(
+                            'CLICCA QUI',
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               ),

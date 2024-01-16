@@ -325,7 +325,7 @@ class _LavoroAdattoState extends State<LavoroAdatto> {
                         submitForm();
                         Navigator.pushNamed(
                           context,
-                          AppRoutes.profilo,
+                          AppRoutes.visualizzaLavoroAdatto,
                         );
                       },
                       style: ElevatedButton.styleFrom(
