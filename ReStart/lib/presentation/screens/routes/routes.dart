@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:restart_all_in_one/presentation/screens/lavoro_adatto/lavoro_adatto.dart';
+import 'package:restart_all_in_one/presentation/screens/utente/lista_utenti_candidati.dart';
 import '../alloggi_temporanei/alloggi_temporanei.dart';
 import '../alloggi_temporanei/alloggi_temporanei_ads.dart';
 import '../annunci_di_lavoro/annunci_di_lavoro_pubblicati.dart';
@@ -73,6 +74,8 @@ class AppRoutes {
 
   static const String lavoroadatto = '/lavoroAdatto';
 
+  static const String listaCandidati = '/annunciPubblicati/listaCandidati';
+
   /// Definizione di tutte le [AppRoutes]
   static Map<String, WidgetBuilder> getRoutes() {
     return {
@@ -113,6 +116,7 @@ class AppRoutes {
       richiesteAds: (context) => Richieste(),
       modificaevento: (context) => ModifyEvento(),
       lavoroadatto: (context) => LavoroAdatto(),
+      listaCandidati: (context) => ListaUtentiCandidati(),
     };
   }
 }

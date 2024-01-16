@@ -169,12 +169,12 @@ class _ListaUtentiState extends State<ListaUtentiCandidati> {
   }
 }
 
-class Profilo extends StatefulWidget {
+class ProfiloCandidato extends StatefulWidget {
   @override
-  State<Profilo> createState() => _ProfiloState();
+  State<ProfiloCandidato> createState() => _ProfiloState();
 }
 
-class _ProfiloState extends State<Profilo> {
+class _ProfiloState extends State<ProfiloCandidato> {
   late UtenteDTO? utente;
   late DateTime? selectedDate;
   var token = SessionManager().get('token');

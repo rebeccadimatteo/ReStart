@@ -75,27 +75,27 @@ class _VisualizzaLavoroAdattoState extends State<VisualizzaLavoroAdatto> {
             ),
           ),
           // Il testo e il pulsante sono sopra la linea diagonale
-          const Align(
+          Align(
             alignment: Alignment.topLeft,
             child: Padding(
-              padding: EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(20.0),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  SizedBox(height: 40),
-                  Text(
+                  const SizedBox(height: 40),
+                  const Text(
                     'IL LAVORO CHE FA',
                     style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
                   ),
-                  Text(
+                  const Text(
                     'PER TE È:',
                     style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
                   ),
                   Text(
                     utente.lavoro_adatto ?? 'Nessun lavoro adatto trovato', // Fornisce un valore di fallback
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontFamily: 'Poppins',
                       fontSize: 30,
