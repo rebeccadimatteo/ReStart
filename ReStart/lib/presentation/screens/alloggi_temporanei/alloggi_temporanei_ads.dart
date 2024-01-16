@@ -157,9 +157,9 @@ class _AlloggiTemporaneiState extends State<AlloggiTemporaneiAds> {
                       title: Text(
                         alloggio.nome,
                         style: const TextStyle(
-                          fontFamily: 'Poppins',
+                          fontFamily: 'Genos',
                           fontWeight: FontWeight.bold,
-                          fontSize: 18,
+                          fontSize: 20,
                           color: Colors.black,
                         ),
                       ),
@@ -167,7 +167,7 @@ class _AlloggiTemporaneiState extends State<AlloggiTemporaneiAds> {
                         alloggio.descrizione,
                         style: const TextStyle(
                           fontFamily: 'Poppins',
-                          fontSize: 14,
+                          fontSize: 15,
                           color: Colors.black,
                         ),
                       ),
@@ -255,15 +255,22 @@ class _DetailsAlloggioAdsState extends State<DetailsAlloggioAds> {
           Text(
             alloggio.nome,
             style: const TextStyle(
-              fontFamily: 'Poppins',
+              fontFamily: 'Genos',
               fontWeight: FontWeight.bold,
-              fontSize: 20,
+              fontSize: 30,
             ),
           ),
           const SizedBox(height: 10),
           Padding(
             padding: const EdgeInsets.all(10.0),
-            child: Text(alloggio.descrizione),
+            child: Text(
+                alloggio.descrizione,
+              style: const TextStyle(
+                fontFamily: 'Poppins',
+                fontWeight: FontWeight.bold,
+                fontSize: 15,
+              ),
+            ),
           ),
           Flexible(
             child: Container(),
@@ -276,6 +283,21 @@ class _DetailsAlloggioAdsState extends State<DetailsAlloggioAds> {
                 const Text(
                   'Contatti',
                   style: TextStyle(
+                    fontFamily: 'PoppinsMedium',
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
+                ),
+                Text(
+                    alloggio.email,
+                  style: const TextStyle(
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15,
+                  ),
+                ),
+                Text(alloggio.sito,
+                  style: const TextStyle(
                     fontFamily: 'Poppins',
                     fontWeight: FontWeight.bold,
                     fontSize: 25,

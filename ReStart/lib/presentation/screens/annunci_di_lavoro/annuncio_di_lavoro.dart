@@ -141,9 +141,9 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoro> {
                       title: Text(
                         annuncio.nome,
                         style: const TextStyle(
-                          fontFamily: 'Poppins',
+                          fontFamily: 'Genos',
                           fontWeight: FontWeight.bold,
-                          fontSize: 18,
+                          fontSize: 20,
                           color: Colors.black,
                         ),
                       ),
@@ -151,7 +151,7 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoro> {
                         annuncio.descrizione,
                         style: const TextStyle(
                           fontFamily: 'Poppins',
-                          fontSize: 14,
+                          fontSize: 15,
                           color: Colors.black,
                         ),
                       ),
@@ -319,7 +319,7 @@ class _DetailsLavoroState extends State<DetailsLavoro> {
                         const Text(
                           'Contatti',
                           style: TextStyle(
-                            fontFamily: 'Poppins',
+                            fontFamily: 'PoppinsMedium',
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
@@ -382,8 +382,7 @@ class _DetailsLavoroState extends State<DetailsLavoro> {
                   borderRadius: BorderRadius.circular(30.0),
                 ),
                 child: Container(
-                  width: MediaQuery.of(context).size.width *
-                      0.4, // Regola la larghezza del pulsante
+                  width: MediaQuery.of(context).size.width * 0.4,
                   height: MediaQuery.of(context).size.width * 0.1,
                   padding: const EdgeInsets.all(10),
                   child: const Center(

@@ -120,9 +120,7 @@ class AutenticazioneController {
       final String requestBody = await request.readAsString();
       final Map<String, dynamic> params = jsonDecode(requestBody);
       String username = params['user'];
-
       UtenteDTO? utente = await _authService.visualizzaUtente(username);
-
       if (utente != null) {
         final responseBody = jsonEncode({'result': utente});
         return Response.ok(responseBody,

@@ -1,6 +1,6 @@
 import 'package:test/test.dart';
 import 'package:mockito/mockito.dart';
-import '../../lib/application/autenticazione/service/autonticazione_service_impl.dart';
+import '../../../lib/application/autenticazione/service/autonticazione_service_impl.dart';
 
 class MockAutenticazioneServiceImpl extends Mock implements AutenticazioneServiceImpl {}
 

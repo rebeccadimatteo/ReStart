@@ -36,6 +36,7 @@ class _VisualizzaLavoroAdattoState extends State<VisualizzaLavoroAdatto> {
 
   Future<void> fetchProfiloFromServer() async {
     String user = JWTUtils.getUserFromToken(accessToken: await token);
+    print(user);
     final response = await http.post(
       Uri.parse('http://10.0.2.2:8080/autenticazione/visualizzaUtente'),
       body: jsonEncode({'user': user}),

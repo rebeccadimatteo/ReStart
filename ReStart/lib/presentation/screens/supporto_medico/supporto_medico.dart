@@ -136,9 +136,9 @@ class _SupportoMedicoState extends State<SupportoMedico> {
                       title: Text(
                         supporto.nomeMedico,
                         style: const TextStyle(
-                          fontFamily: 'Poppins',
+                          fontFamily: 'Genos',
                           fontWeight: FontWeight.bold,
-                          fontSize: 18,
+                          fontSize: 20,
                           color: Colors.black,
                         ),
                       ),
@@ -146,7 +146,7 @@ class _SupportoMedicoState extends State<SupportoMedico> {
                         supporto.descrizione,
                         style: const TextStyle(
                           fontFamily: 'Poppins',
-                          fontSize: 14,
+                          fontSize: 15,
                           color: Colors.black,
                         ),
                       ),
@@ -203,7 +203,7 @@ class _DetailsSupportoState extends State<DetailsSupporto> {
                 shape: BoxShape.circle,
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: AssetImage('images/'+supporto.immagine)),
+                  image:  Image.asset(supporto.immagine).image),
               ),
             ),
           ),
@@ -211,7 +211,7 @@ class _DetailsSupportoState extends State<DetailsSupporto> {
           Text(
             supporto.nomeMedico,
             style: const TextStyle(
-              fontFamily: 'Poppins',
+              fontFamily: 'Genos',
               fontWeight: FontWeight.bold,
               fontSize: 30,
             ),
@@ -219,7 +219,7 @@ class _DetailsSupportoState extends State<DetailsSupporto> {
           Text(
             supporto.cognomeMedico,
             style: const TextStyle(
-              fontFamily: 'Poppins',
+              fontFamily: 'Genos',
               fontWeight: FontWeight.bold,
               fontSize: 30,
             ),
@@ -230,7 +230,7 @@ class _DetailsSupportoState extends State<DetailsSupporto> {
             child: Text(supporto.descrizione,
                style: const TextStyle(
                           fontFamily: 'Poppins',
-                          fontSize: 15,
+                          fontSize: 16,
                           fontWeight: FontWeight.bold,
                           ),
             ),
@@ -246,8 +246,8 @@ class _DetailsSupportoState extends State<DetailsSupporto> {
                         const Text(
                           'Contatti',
                           style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 25,
+                            fontFamily: 'PoppinsMedium',
+                            fontSize: 22,
                             fontWeight: FontWeight.bold,
                           ),
                         ),

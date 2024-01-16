@@ -1,8 +1,8 @@
-import '../../../lib/model/dao/supporto_medico/supporto_medico_DAO_impl.dart';
-import '../../../lib/model/entity/supporto_medico_DTO.dart';
+import '../../../../lib/model/dao/supporto_medico/supporto_medico_DAO_impl.dart';
+import '../../../../lib/model/entity/supporto_medico_DTO.dart';
 import 'package:test/test.dart';
 import 'package:mockito/mockito.dart';
-import '../../../lib/application/gestioneReintegrazione/service/reintegrazione/reintegrazione_service_impl.dart';
+import '../../../../lib/application/gestioneReintegrazione/service/reintegrazione/reintegrazione_service_impl.dart';
 
 class MockReintegrazioneServiceImp extends Mock
     implements ReintegrazioneServiceImpl {}

@@ -95,7 +95,8 @@ class _SupportoMedicoState extends State<SupportoMedicoAds> {
                 'Supporto Medico',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 22,
+                  fontFamily: 'Poppins',
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -142,15 +143,14 @@ class _SupportoMedicoState extends State<SupportoMedicoAds> {
                       tileColor: Colors.transparent,
                       leading: CircleAvatar(
                         radius: 35,
-                        backgroundImage:
-                            AssetImage('images/' + supporto.immagine),
+                        backgroundImage: AssetImage(supporto.immagine),
                       ),
                       title: Text(
                         supporto.nomeMedico,
                         style: const TextStyle(
-                          fontFamily: 'Poppins',
+                          fontFamily: 'Genos',
                           fontWeight: FontWeight.bold,
-                          fontSize: 18,
+                          fontSize: 20,
                           color: Colors.black,
                         ),
                       ),
@@ -158,7 +158,7 @@ class _SupportoMedicoState extends State<SupportoMedicoAds> {
                         supporto.descrizione,
                         style: const TextStyle(
                           fontFamily: 'Poppins',
-                          fontSize: 14,
+                          fontSize: 15,
                           color: Colors.black,
                         ),
                       ),
@@ -247,6 +247,7 @@ class _DetailsSupportoAdsState extends State<DetailsSupportoAds> {
             supporto.nomeMedico,
             style: const TextStyle(
               fontWeight: FontWeight.bold,
+              fontFamily: 'Genos',
               fontSize: 30,
             ),
           ),
@@ -254,6 +255,7 @@ class _DetailsSupportoAdsState extends State<DetailsSupportoAds> {
             supporto.cognomeMedico,
             style: const TextStyle(
               fontWeight: FontWeight.bold,
+              fontFamily: 'Genos',
               fontSize: 30,
             ),
           ),
@@ -273,17 +275,36 @@ class _DetailsSupportoAdsState extends State<DetailsSupportoAds> {
                         const Text(
                           'Contatti',
                           style: TextStyle(
-                            fontSize: 25,
+                            fontSize: 20,
+                            fontFamily: 'PoppinsMedium',
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         const SizedBox(width: 8),
-                        Text(supporto.email),
+                        Text(supporto.numTelefono,
+                          style: const TextStyle(
+                            fontFamily: 'Poppins',
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                         const SizedBox(width: 8),
-                        Text(supporto.numTelefono),
+                        Text(supporto.email,
+                          style: const TextStyle(
+                            fontFamily: 'Poppins',
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                         const SizedBox(width: 8),
                         Text(
-                            '${supporto.via}, ${supporto.citta}, ${supporto.provincia}'),
+                          '${supporto.via}, ${supporto.citta}, ${supporto.provincia}',
+                          style: const TextStyle(
+                            fontFamily: 'Poppins',
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ],
                     ),
                   ))),

@@ -130,7 +130,7 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroPubblicati> {
                 'GESTISCI LE TUE OFFERTE DI LAVORO',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 22,
                   fontFamily: 'Poppins',
                   fontWeight: FontWeight.bold,
                 ),
@@ -262,7 +262,6 @@ class _DetailsLavoroPub extends State<DetailsLavoroPub> {
       appBar: CaAppBar(
         showBackButton: true,
       ),
-      endDrawer: CaAppBar.buildDrawer(context),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [

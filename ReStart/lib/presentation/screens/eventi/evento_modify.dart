@@ -184,7 +184,7 @@ class _ModifyEventoState extends State<ModifyEvento> {
             const Text(
               'Modifica evento',
               style: TextStyle(
-                fontSize: 20,
+                fontSize: 22,
                 fontFamily: 'Poppins',
                 fontWeight: FontWeight.bold,
               ),
@@ -295,7 +295,7 @@ class _ModifyEventoState extends State<ModifyEvento> {
                       decoration: const InputDecoration(
                           labelText: 'Sito web',
                         labelStyle: TextStyle(
-                          fontSize: 13,
+                          fontSize: 15,
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.bold,
                         ),
@@ -312,7 +312,7 @@ class _ModifyEventoState extends State<ModifyEvento> {
                       decoration: const InputDecoration(
                           labelText: 'Città',
                         labelStyle: TextStyle(
-                          fontSize: 13,
+                          fontSize: 15,
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.bold,
                         ),
@@ -328,7 +328,7 @@ class _ModifyEventoState extends State<ModifyEvento> {
                       decoration: const InputDecoration(
                           labelText: 'Via',
                         labelStyle: TextStyle(
-                          fontSize: 13,
+                          fontSize: 15,
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.bold,
                         ),
@@ -345,7 +345,7 @@ class _ModifyEventoState extends State<ModifyEvento> {
                       decoration: const InputDecoration(
                           labelText: 'Provincia',
                         labelStyle: TextStyle(
-                          fontSize: 13,
+                          fontSize: 15,
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.bold,
                         ),

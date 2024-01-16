@@ -1,7 +1,7 @@
-import '../../lib/model/entity/annuncio_di_lavoro_DTO.dart';
+import '../../../lib/model/entity/annuncio_di_lavoro_DTO.dart';
 import 'package:test/test.dart';
 import 'package:mockito/mockito.dart';
-import '../../lib/application/gestioneLavoro/service/lavoro_service_impl.dart';
+import '../../../lib/application/gestioneLavoro/service/lavoro_service_impl.dart';
 
 class MockLavoroServiceImp extends Mock implements LavoroServiceImpl {}
 
