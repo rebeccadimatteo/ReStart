@@ -138,9 +138,9 @@ class _ListaUtentiState extends State<ListaUtenti> {
                         title: Text(
                           utente.nome,
                           style: const TextStyle(
-                            fontFamily: 'Poppins',
+                            fontFamily: 'Genos',
                             fontWeight: FontWeight.bold,
-                            fontSize: 18,
+                            fontSize: 23,
                             color: Colors.black,
                           ),
                         ),
@@ -171,4 +171,8 @@ class _ListaUtentiState extends State<ListaUtenti> {
       ),
     );
   }
+}
+
+void main() {
+  runApp(ListaUtenti());
 }

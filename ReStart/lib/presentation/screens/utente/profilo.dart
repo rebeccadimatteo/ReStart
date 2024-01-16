@@ -124,7 +124,7 @@ class _ProfiloState extends State<Profilo> {
                   title: Text(
                     utente!.username,
                     style: const TextStyle(
-                        fontFamily: 'Poppins', fontWeight: FontWeight.bold),
+                        fontFamily: 'PoppinsMedium', fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center,
                   ),
                 ),

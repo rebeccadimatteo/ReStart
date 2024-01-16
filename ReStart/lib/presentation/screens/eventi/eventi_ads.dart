@@ -99,7 +99,7 @@ class _CommunityEventsState extends State<CommunityEventsAds> {
                 'Community Events',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 22,
                   fontFamily: 'Poppins',
                   fontWeight: FontWeight.bold,
                 ),
@@ -145,14 +145,14 @@ class _CommunityEventsState extends State<CommunityEventsAds> {
                       tileColor: Colors.transparent,
                       leading: CircleAvatar(
                         radius: 35,
-                        backgroundImage: AssetImage('images/'+evento.immagine),
+                        backgroundImage: Image.asset(evento.immagine).image,
                       ),
                       title: Text(
                         evento.nomeEvento,
                         style: const TextStyle(
-                          fontFamily: 'Poppins',
+                          fontFamily: 'Genos',
                           fontWeight: FontWeight.bold,
-                          fontSize: 18,
+                          fontSize: 20,
                           color: Colors.black,
                         ),
                       ),
@@ -252,14 +252,20 @@ class _DetailsEventoAdsState extends State<DetailsEventoAds> {
             evento.nomeEvento,
             style: const TextStyle(
                 fontSize: 30,
-                fontFamily: 'Poppins',
+                fontFamily: 'Genos',
                 fontWeight: FontWeight.bold
             ),
           ),
           const SizedBox(height: 10),
           Padding(
             padding: const EdgeInsets.all(10.0),
-            child: Text(evento.descrizione),
+            child: Text(evento.descrizione,
+              style: const TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 15,
+                color: Colors.black,
+              ),
+            ),
           ),
           Expanded(
               child: Align(
@@ -272,23 +278,41 @@ class _DetailsEventoAdsState extends State<DetailsEventoAds> {
                         const Text(
                           'Contatti',
                           style: TextStyle(
-                              fontSize: 25,
+                              fontSize: 20,
+                              fontFamily: 'PoppinsMedium',
+                              fontWeight: FontWeight.bold
+                          ),
+                        ),
+                        Text(evento.email,
+                          style: const TextStyle(
+                              fontSize: 15,
                               fontFamily: 'Poppins',
                               fontWeight: FontWeight.bold
                           ),
                         ),
-                        Text(evento.email),
-                        Text(evento.sito),
+                        Text(evento.sito,
+                          style: const TextStyle(
+                              fontSize: 15,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.bold
+                          ),
+                        ),
                         const SizedBox(height: 20),
                         const Text(
                           'Informazioni',
                           style: TextStyle(
-                              fontSize: 25,
+                              fontSize: 20,
+                              fontFamily: 'PoppinsMedium',
+                              fontWeight: FontWeight.bold
+                          ),
+                        ),
+                        Text(dataBuona,
+                          style: const TextStyle(
+                              fontSize: 15,
                               fontFamily: 'Poppins',
                               fontWeight: FontWeight.bold
                           ),
                         ),
-                        Text(dataBuona),
                       ],
                     ),
                   ))),
@@ -320,8 +344,7 @@ class _DetailsEventoAdsState extends State<DetailsEventoAds> {
                   borderRadius: BorderRadius.circular(30.0),
                 ),
                 child: Container(
-                  width: MediaQuery.of(context).size.width *
-                      0.4, // Regola la larghezza del pulsante
+                  width: MediaQuery.of(context).size.width * 0.4,
                   height: MediaQuery.of(context).size.width * 0.1,
                   padding: const EdgeInsets.all(10),
                   child: const Center(

@@ -179,7 +179,7 @@ class _ModifyLavoroState extends State<ModifyLavoro> {
                   const Text(
                     'Modifica Annuncio di Lavoro',
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: 22,
                       fontFamily: 'Poppins',
                       fontWeight: FontWeight.bold,
                     ),
@@ -248,7 +248,7 @@ class _ModifyLavoroState extends State<ModifyLavoro> {
                         const Text(
                           'Contatti',
                           style: TextStyle(
-                            fontSize: 22,
+                            fontSize: 20,
                             fontFamily: 'Poppins',
                             fontWeight: FontWeight.bold,
                           ),
@@ -260,7 +260,7 @@ class _ModifyLavoroState extends State<ModifyLavoro> {
                                 const InputDecoration(
                                     labelText: 'Email',
                                   labelStyle: TextStyle(
-                                    fontSize: 13,
+                                    fontSize: 15,
                                     fontFamily: 'Poppins',
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -295,7 +295,7 @@ class _ModifyLavoroState extends State<ModifyLavoro> {
                                 const InputDecoration(
                                     labelText: 'Città',
                                   labelStyle: TextStyle(
-                                    fontSize: 13,
+                                    fontSize: 15,
                                     fontFamily: 'Poppins',
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -311,7 +311,7 @@ class _ModifyLavoroState extends State<ModifyLavoro> {
                             decoration: const InputDecoration(
                                 labelText: 'Via',
                               labelStyle: TextStyle(
-                                fontSize: 13,
+                                fontSize: 15,
                                 fontFamily: 'Poppins',
                                 fontWeight: FontWeight.bold,
                               ),
@@ -329,7 +329,7 @@ class _ModifyLavoroState extends State<ModifyLavoro> {
                                 const InputDecoration(
                                     labelText: 'Provincia',
                                   labelStyle: TextStyle(
-                                    fontSize: 13,
+                                    fontSize: 15,
                                     fontFamily: 'Poppins',
                                     fontWeight: FontWeight.bold,
                                   ),

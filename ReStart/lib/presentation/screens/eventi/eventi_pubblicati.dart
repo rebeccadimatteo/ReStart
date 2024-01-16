@@ -153,14 +153,14 @@ class _CommunityEventsState extends State<CommunityEventsPubblicati> {
                       tileColor: Colors.transparent,
                       leading: CircleAvatar(
                         radius: 35,
-                        backgroundImage: AssetImage('images/'+evento.immagine),
+                        backgroundImage: AssetImage(evento.immagine),
                       ),
                       title: Text(
                         evento.nomeEvento,
                         style: const TextStyle(
-                          fontFamily: 'Poppins',
+                          fontFamily: 'Genos',
                           fontWeight: FontWeight.bold,
-                          fontSize: 18,
+                          fontSize: 20,
                           color: Colors.black,
                         ),
                       ),
@@ -272,7 +272,7 @@ class _DetailsEventoPub extends State<DetailsEventoPub> {
             textAlign: TextAlign.center,
             style: const TextStyle(
               fontWeight: FontWeight.bold,
-              fontFamily: 'Poppins',
+              fontFamily: 'Genos',
               fontSize: 30,
             ),
           ),
@@ -300,7 +300,7 @@ class _DetailsEventoPub extends State<DetailsEventoPub> {
                           'Contatti',
                           style: TextStyle(
                               fontSize: 20,
-                              fontFamily: 'Poppins',
+                              fontFamily: 'PoppinsMedium',
                               fontWeight: FontWeight.bold),
                         ),
                         Text(
@@ -324,7 +324,7 @@ class _DetailsEventoPub extends State<DetailsEventoPub> {
                           'Informazioni',
                           style: TextStyle(
                               fontSize: 20,
-                              fontFamily: 'Poppins',
+                              fontFamily: 'PoppinsMedium',
                               fontWeight: FontWeight.bold),
                         ),
                         Text(dataBuona,

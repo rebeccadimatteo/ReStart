@@ -140,9 +140,9 @@ class _AlloggiTemporaneiState extends State<AlloggiTemporanei> {
                       title: Text(
                         alloggio.nome,
                         style: const TextStyle(
-                          fontFamily: 'Poppins',
+                          fontFamily: 'Genos',
                           fontWeight: FontWeight.bold,
-                          fontSize: 18,
+                          fontSize: 20,
                           color: Colors.black,
                         ),
                       ),
@@ -150,7 +150,7 @@ class _AlloggiTemporaneiState extends State<AlloggiTemporanei> {
                         alloggio.descrizione,
                         style: const TextStyle(
                           fontFamily: 'Poppins',
-                          fontSize: 14,
+                          fontSize: 15,
                           color: Colors.black,
                         ),
                       ),
@@ -222,14 +222,15 @@ class _DetailsAlloggioState extends State<DetailsAlloggio> {
             alloggio.nome,
             style: const TextStyle(
               fontWeight: FontWeight.bold,
-              fontFamily: 'Poppins',
+              fontFamily: 'Genos',
               fontSize: 30,
             ),
           ),
           const SizedBox(height: 10),
           Padding(
             padding: const EdgeInsets.all(10.0),
-            child: Text(alloggio.descrizione,
+            child: Text(
+              alloggio.descrizione,
               style: const TextStyle(
               fontSize: 15,
               fontFamily: 'Poppins',
@@ -248,8 +249,8 @@ class _DetailsAlloggioState extends State<DetailsAlloggio> {
                 const Text(
                   'Contatti',
                   style: TextStyle(
-                    fontSize: 22,
-                    fontFamily: 'Poppins',
+                    fontSize: 20,
+                    fontFamily: 'PoppinsMedium',
                     fontWeight: FontWeight.bold,
                   ),
                 ),

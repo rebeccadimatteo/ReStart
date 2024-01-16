@@ -131,10 +131,10 @@ class _CorsoDiFormazioneState extends State<CorsoDiFormazioneAds> {
                       visualDensity: const VisualDensity(vertical: 4, horizontal: 4),
                       minVerticalPadding: 50,
                       minLeadingWidth: 80,
-                      tileColor: Colors.transparent, // Imposta il colore del ListTile su trasparente
+                      tileColor: Colors.transparent,
                       leading: CircleAvatar(
                         radius: 35,
-                        backgroundImage: AssetImage('images/'+corso.immagine),
+                        backgroundImage: AssetImage(corso.immagine),
                       ),
                       title: Text(
                         corso.nomeCorso,
@@ -142,7 +142,7 @@ class _CorsoDiFormazioneState extends State<CorsoDiFormazioneAds> {
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.bold,
                           fontSize: 18,
-                          color: Colors.black, // Cambia il colore del testo se necessario
+                          color: Colors.black,
                         ),
                       ),
                       subtitle: Text(
@@ -150,7 +150,7 @@ class _CorsoDiFormazioneState extends State<CorsoDiFormazioneAds> {
                         style: const TextStyle(
                           fontFamily: 'Poppins',
                           fontSize: 14,
-                          color: Colors.black, // Cambia il colore del testo se necessario
+                          color: Colors.black,
                         ),
                       ),
                       trailing: IconButton(

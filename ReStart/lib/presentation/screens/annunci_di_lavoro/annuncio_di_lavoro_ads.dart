@@ -109,7 +109,7 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroAds> {
                 'Annunci di lavoro',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 22,
                   fontFamily: 'Poppins',
                   fontWeight: FontWeight.bold,
                 ),
@@ -152,26 +152,26 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroAds> {
                       visualDensity: const VisualDensity(vertical: 4, horizontal: 4),
                       minVerticalPadding: 50,
                       minLeadingWidth: 80,
-                      tileColor: Colors.transparent, // Imposta il colore del ListTile su trasparente
+                      tileColor: Colors.transparent,
                       leading: CircleAvatar(
                         radius: 35,
-                        backgroundImage: AssetImage('images/'+annuncio.immagine),
+                        backgroundImage: AssetImage(annuncio.immagine),
                       ),
                       title: Text(
                         annuncio.nome,
                         style: const TextStyle(
-                          fontFamily: 'Poppins',
+                          fontFamily: 'Genos',
                           fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                          color: Colors.black, // Cambia il colore del testo se necessario
+                          fontSize: 20,
+                          color: Colors.black,
                         ),
                       ),
                       subtitle: Text(
                         annuncio.descrizione,
                         style: const TextStyle(
                           fontFamily: 'Poppins',
-                          fontSize: 14,
-                          color: Colors.black, // Cambia il colore del testo se necessario
+                          fontSize: 15,
+                          color: Colors.black,
                         ),
                       ),
                       trailing: IconButton(
@@ -233,7 +233,7 @@ class _DetailsLavoroAdsState extends State<DetailsLavoroAds> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
-                    fit: BoxFit.cover, image: AssetImage('images/'+annuncio.immagine)),
+                    fit: BoxFit.cover, image: AssetImage(annuncio.immagine)),
               ),
             ),
           ),
@@ -241,7 +241,7 @@ class _DetailsLavoroAdsState extends State<DetailsLavoroAds> {
           Text(
             annuncio.nome,
             style: const TextStyle(
-              fontFamily: 'Poppins',
+              fontFamily: 'Genos',
               fontWeight: FontWeight.bold,
               fontSize: 30,
             ),
@@ -255,7 +255,7 @@ class _DetailsLavoroAdsState extends State<DetailsLavoroAds> {
               style: const TextStyle(
                 fontFamily: 'Poppins',
                 fontWeight: FontWeight.bold,
-                fontSize: 20,
+                fontSize: 15,
               ),
             ),
           ),
@@ -271,7 +271,7 @@ class _DetailsLavoroAdsState extends State<DetailsLavoroAds> {
                           'Contatti',
                           style: TextStyle(
                             fontSize: 20,
-                            fontFamily: 'Poppins',
+                            fontFamily: 'PoppinsMedium',
                             fontWeight: FontWeight.bold,
                           ),
                         ),

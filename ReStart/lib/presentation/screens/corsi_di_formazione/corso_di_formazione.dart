@@ -108,7 +108,7 @@ class _CorsoDiFormazioneState extends State<CorsoDiFormazione> {
                           color: Colors.black.withOpacity(0.2),
                           spreadRadius: 2,
                           blurRadius: 5,
-                          offset: Offset(0, 2),
+                          offset: const Offset(0, 2),
                         ),
                       ],
                     ),
@@ -117,7 +117,7 @@ class _CorsoDiFormazioneState extends State<CorsoDiFormazione> {
                       visualDensity: const VisualDensity(vertical: 4, horizontal: 4),
                       minVerticalPadding: 50,
                       minLeadingWidth: 80,
-                      tileColor: Colors.transparent, // Imposta il colore del ListTile su trasparente
+                      tileColor: Colors.transparent,
                       leading: CircleAvatar(
                         radius: 35,
                         backgroundImage: Image.asset(corso.immagine).image,
@@ -125,18 +125,18 @@ class _CorsoDiFormazioneState extends State<CorsoDiFormazione> {
                       title: Text(
                         corso.nomeCorso,
                         style: const TextStyle(
-                          fontFamily: 'Poppins',
+                          fontFamily: 'Genos',
                           fontWeight: FontWeight.bold,
                           fontSize: 18,
-                          color: Colors.black, // Cambia il colore del testo se necessario
+                          color: Colors.black,
                         ),
                       ),
                       subtitle: Text(
                         corso.descrizione,
                         style: const TextStyle(
                           fontFamily: 'Poppins',
-                          fontSize: 14,
-                          color: Colors.black, // Cambia il colore del testo se necessario
+                          fontSize: 13,
+                          color: Colors.black,
                         ),
                       ),
                     ),
@@ -207,8 +207,8 @@ class _DetailsCorsoState extends State<DetailsCorso> {
             corso.nomeCorso,
             textAlign: TextAlign.center,
             style: const TextStyle(
-              fontSize: 30,
-              fontFamily: 'Poppins',
+              fontSize: 35,
+              fontFamily: 'Genos',
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -228,21 +228,21 @@ class _DetailsCorsoState extends State<DetailsCorso> {
               child: Align(
                   alignment: Alignment.bottomCenter,
                   child: Padding(
-                    padding: EdgeInsets.only(bottom: 30),
+                    padding: const EdgeInsets.only(bottom: 30),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         const Text(
                           'Contatti',
                           style: TextStyle(
-                            fontSize: 22,
-                            fontFamily: 'Poppins',
+                            fontSize: 20,
+                            fontFamily: 'PoppinsMedium',
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         Text(corso.urlCorso,
                         style: const TextStyle(
-                            fontSize: 15,
+                            fontSize: 13,
                             fontFamily: 'Poppins',
                             fontWeight: FontWeight.bold,
                           ),

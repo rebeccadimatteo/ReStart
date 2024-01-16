@@ -142,9 +142,9 @@ class _ListaUtentiState extends State<ListaUtentiCandidati> {
                       title: Text(
                         utente.nome,
                         style: const TextStyle(
-                          fontFamily: 'Poppins',
+                          fontFamily: 'Genos',
                           fontWeight: FontWeight.bold,
-                          fontSize: 18,
+                          fontSize: 25,
                           color: Colors.black,
                         ),
                       ),

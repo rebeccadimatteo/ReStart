@@ -106,7 +106,7 @@ class _AlloggiTemporaneiState extends State<AlloggiTemporaneiAds> {
                 style: TextStyle(
                   fontFamily: 'Poppins',
                   fontWeight: FontWeight.bold,
-                  fontSize: 20,
+                  fontSize: 22,
                 ),
               ),
             ),
@@ -150,14 +150,14 @@ class _AlloggiTemporaneiState extends State<AlloggiTemporaneiAds> {
                       tileColor: Colors.transparent,
                       leading: CircleAvatar(
                         radius: 35,
-                        backgroundImage: AssetImage('images/'+alloggio.immagine),
+                        backgroundImage:  Image.asset(alloggio.immagine).image,
                       ),
                       title: Text(
                         alloggio.nome,
                         style: const TextStyle(
-                          fontFamily: 'Poppins',
+                          fontFamily: 'Genos',
                           fontWeight: FontWeight.bold,
-                          fontSize: 18,
+                          fontSize: 20,
                           color: Colors.black,
                         ),
                       ),
@@ -165,7 +165,7 @@ class _AlloggiTemporaneiState extends State<AlloggiTemporaneiAds> {
                         alloggio.descrizione,
                         style: const TextStyle(
                           fontFamily: 'Poppins',
-                          fontSize: 14,
+                          fontSize: 15,
                           color: Colors.black,
                         ),
                       ),
@@ -242,7 +242,7 @@ class _DetailsAlloggioAdsState extends State<DetailsAlloggioAds> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
-                    fit: BoxFit.cover, image: AssetImage(alloggio.immagine)),
+                    fit: BoxFit.cover, image:  Image.asset(alloggio.immagine).image),
               ),
             ),
           ),
@@ -250,15 +250,22 @@ class _DetailsAlloggioAdsState extends State<DetailsAlloggioAds> {
           Text(
             alloggio.nome,
             style: const TextStyle(
-              fontFamily: 'Poppins',
+              fontFamily: 'Genos',
               fontWeight: FontWeight.bold,
-              fontSize: 20,
+              fontSize: 30,
             ),
           ),
           const SizedBox(height: 10),
           Padding(
             padding: const EdgeInsets.all(10.0),
-            child: Text(alloggio.descrizione),
+            child: Text(
+                alloggio.descrizione,
+              style: const TextStyle(
+                fontFamily: 'Poppins',
+                fontWeight: FontWeight.bold,
+                fontSize: 15,
+              ),
+            ),
           ),
           Flexible(
             child: Container(),
@@ -271,13 +278,26 @@ class _DetailsAlloggioAdsState extends State<DetailsAlloggioAds> {
                 const Text(
                   'Contatti',
                   style: TextStyle(
-                    fontFamily: 'Poppins',
+                    fontFamily: 'PoppinsMedium',
                     fontWeight: FontWeight.bold,
-                    fontSize: 25,
+                    fontSize: 20,
                   ),
                 ),
-                Text(alloggio.email),
-                Text(alloggio.sito),
+                Text(
+                    alloggio.email,
+                  style: const TextStyle(
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15,
+                  ),
+                ),
+                Text(alloggio.sito,
+                  style: const TextStyle(
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15,
+                  ),
+                ),
               ],
             ),
           ),

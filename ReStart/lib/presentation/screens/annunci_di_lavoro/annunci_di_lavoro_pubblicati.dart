@@ -130,7 +130,7 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroPubblicati> {
                 'GESTISCI LE TUE OFFERTE DI LAVORO',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 22,
                   fontFamily: 'Poppins',
                   fontWeight: FontWeight.bold,
                 ),
@@ -367,7 +367,6 @@ class _DetailsLavoroPub extends State<DetailsLavoroPub> {
                           ],
                         ),
                         const SizedBox(height: 10),
-                        // Spazio tra i pulsanti e il nuovo pulsante "Utenti candidati"
                         ElevatedButton(
                           onPressed: () {
                             Navigator.pushNamed(
@@ -378,6 +377,7 @@ class _DetailsLavoroPub extends State<DetailsLavoroPub> {
                             'Utenti candidati',
                             style: TextStyle(
                               fontSize: 18,
+                              fontFamily: 'Poppins',
                               fontWeight: FontWeight.bold,
                             ),
                           ),
