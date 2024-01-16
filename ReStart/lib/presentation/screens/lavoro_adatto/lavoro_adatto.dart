@@ -6,6 +6,7 @@ import '../../../utils/jwt_utils.dart';
 import '../../components/generic_app_bar.dart';
 import 'package:http/http.dart' as http;
 import '../routes/routes.dart';
+import 'visualizza_lavoro_adatto.dart';
 
 class LavoroAdatto extends StatefulWidget {
   @override
@@ -140,7 +141,7 @@ class _LavoroAdattoState extends State<LavoroAdatto> {
                 key: _formKey,
                 child: Column(
                   children: [
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     DropdownButtonFormField<String>(
                       value: _selectedEducationLevel,
                       onChanged: (newValue) {
@@ -325,7 +326,7 @@ class _LavoroAdattoState extends State<LavoroAdatto> {
                         submitForm();
                         Navigator.pushReplacement(
                           context,
-                          MaterialPageRoute(builder: (context) => VisualizzaLavoroAdatto()),
+                          MaterialPageRoute(builder: (context) => const VisualizzaLavoroAdatto()),
                         );
                       },
                       style: ElevatedButton.styleFrom(
