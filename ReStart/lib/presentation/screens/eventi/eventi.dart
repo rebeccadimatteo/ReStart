@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:intl/intl.dart';
 import '../../../model/entity/evento_DTO.dart';
-import '../../../utils/auth_service.dart';
 import '../../components/generic_app_bar.dart';
 import 'package:http/http.dart' as http;
 import '../routes/routes.dart';
@@ -14,7 +13,8 @@ class CommunityEvents extends StatefulWidget {
   _CommunityEventsState createState() => _CommunityEventsState();
 }
 
-/// Creazione dello stato di [CommunityEvents], costituito dalla lista degli eventi
+/// Creazione dello stato di [CommunityEvents], costituito
+/// dalla lista degli eventi
 class _CommunityEventsState extends State<CommunityEvents> {
   List<EventoDTO> eventi = [];
 
@@ -38,10 +38,11 @@ class _CommunityEventsState extends State<CommunityEvents> {
     }
   }
 
-  /// Metodo che permette di inviare la richiesta al server per ottenere la lista di tutti i [SupportoMedicoDTO] presenti nel database
+  /// Metodo che permette di inviare la richiesta al server
+  /// per ottenere la lista di tutti gli [EventoDTO] presenti nel database
   Future<void> fetchDataFromServer() async {
     final response = await http.post(Uri.parse(
-        'http://10.0.2.2:8080/gestioneEvento/visualizzaEventi'));
+        'http://10.0.2.2:8080/gestioneEvento/eventiApprovati'));
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseBody = json.decode(response.body);
       if (responseBody.containsKey('eventi')) {
@@ -124,10 +125,10 @@ class _CommunityEventsState extends State<CommunityEvents> {
                       visualDensity: const VisualDensity(vertical: 4, horizontal: 4),
                       minVerticalPadding: 50,
                       minLeadingWidth: 80,
-                      tileColor: Colors.transparent, // Imposta il colore del ListTile su trasparente
+                      tileColor: Colors.transparent,
                       leading: CircleAvatar(
                         radius: 35,
-                        backgroundImage: AssetImage(evento.immagine),
+                        backgroundImage: Image.asset(evento.immagine).image,
                       ),
                       title: Text(
                         evento.nomeEvento,
@@ -135,7 +136,7 @@ class _CommunityEventsState extends State<CommunityEvents> {
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.bold,
                           fontSize: 18,
-                          color: Colors.black, // Cambia il colore del testo se necessario
+                          color: Colors.black,
                         ),
                       ),
                       subtitle: Text(
@@ -143,7 +144,7 @@ class _CommunityEventsState extends State<CommunityEvents> {
                         style: const TextStyle(
                           fontFamily: 'Poppins',
                           fontSize: 15,
-                          color: Colors.black, // Cambia il colore del testo se necessario
+                          color: Colors.black,
                         ),
                       ),
                     ),
@@ -175,7 +176,7 @@ class _DetailsEventoState extends State<DetailsEvento> {
   void _checkUserAndNavigate() async {
     String token = await SessionManager().get('token');
     final response = await http.post(
-        Uri.parse('http://10.0.2.2:8080/autenticazione/checkUserADS'),
+        Uri.parse('http://10.0.2.2:8080/autenticazione/checkUserUtente'),
         body: jsonEncode(token),
         headers: {'Content-Type': 'application/json'});
     if (response.statusCode != 200) {
@@ -196,6 +197,7 @@ class _DetailsEventoState extends State<DetailsEvento> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          const SizedBox(height: 20),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
@@ -205,7 +207,7 @@ class _DetailsEventoState extends State<DetailsEvento> {
                 shape: BoxShape.circle,
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: AssetImage(evento.immagine)
+                  image: Image.asset(evento.immagine).image,
                 ),
               ),
             ),
@@ -222,7 +224,14 @@ class _DetailsEventoState extends State<DetailsEvento> {
           const SizedBox(height: 10),
           Padding(
             padding: const EdgeInsets.all(10.0),
-            child: Text(evento.descrizione),
+            child: Text(
+                evento.descrizione,
+              style: const TextStyle(
+                fontFamily: 'Poppins',
+                fontWeight: FontWeight.bold,
+                fontSize: 15,
+              ),
+            ),
           ),
           Expanded(
               child: Align(
@@ -240,8 +249,22 @@ class _DetailsEventoState extends State<DetailsEvento> {
                               fontWeight: FontWeight.bold
                           ),
                         ),
-                        Text(evento.email),
-                        Text(evento.sito),
+                        Text(
+                            evento.email,
+                          style: const TextStyle(
+                              fontSize: 15,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.bold
+                          ),
+                        ),
+                        Text(
+                            evento.sito,
+                          style: const TextStyle(
+                              fontSize: 15,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.bold
+                          ),
+                        ),
                         const SizedBox(height: 20),
                         const Text(
                           'Informazioni',
@@ -251,7 +274,14 @@ class _DetailsEventoState extends State<DetailsEvento> {
                               fontWeight: FontWeight.bold
                           ),
                         ),
-                        Text(data),
+                        Text(
+                            data,
+                          style: const TextStyle(
+                              fontSize: 15,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.bold
+                          ),
+                        ),
                       ],
                     ),
                   ),

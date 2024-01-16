@@ -1,9 +1,7 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:http/http.dart' as http;
-
 import '../../../model/entity/evento_DTO.dart';
 import '../../components/app_bar_ads.dart';
 import '../routes/routes.dart';
@@ -37,7 +35,7 @@ class _CommunityEventsState extends State<CommunityEventsAds> {
     }
   }
 
-  /// Metodo che permette di inviare la richiesta al server per ottenere la lista di tutti i [SupportoMedicoDTO] presenti nel database
+  /// Metodo che permette di inviare la richiesta al server per ottenere la lista di tutti gli [EventoDTO] presenti nel database
   Future<void> fetchDataFromServer() async {
     final response = await http.post(
         Uri.parse('http://10.0.2.2:8080/gestioneEvento/visualizzaEventi'));
@@ -89,6 +87,7 @@ class _CommunityEventsState extends State<CommunityEventsAds> {
       endDrawer: AdsAppBar.buildDrawer(context),
       body: Stack(
         children: [
+          const SizedBox(height: 20),
           Positioned(
             top: 0,
             left: 0,
@@ -117,33 +116,57 @@ class _CommunityEventsState extends State<CommunityEventsAds> {
                   onTap: () {
                     Navigator.pushNamed(
                       context,
-                      AppRoutes.dettaglieventoAds,
+                      AppRoutes.dettaglievento,
                       arguments: evento,
                     );
                   },
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.only(left: 5, bottom: 5, right: 5),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      gradient: LinearGradient(
+                        colors: [Colors.blue[50]!, Colors.blue[100]!],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.2),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
                     child: ListTile(
-                      visualDensity:
-                          const VisualDensity(vertical: 4, horizontal: 4),
+                      visualDensity: const VisualDensity(vertical: 4, horizontal: 4),
                       minVerticalPadding: 50,
                       minLeadingWidth: 80,
-                      tileColor: Colors.grey,
+                      tileColor: Colors.transparent,
                       leading: CircleAvatar(
-                          radius: 35,
-                          backgroundImage: AssetImage(evento.immagine)),
-                      title: Text(evento.nomeEvento,
-                          style: const TextStyle(
-                              fontSize: 20,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.bold
-                          ),
+                        radius: 35,
+                        backgroundImage: AssetImage('images/'+evento.immagine),
                       ),
-                      subtitle: Text(evento.descrizione),
+                      title: Text(
+                        evento.nomeEvento,
+                        style: const TextStyle(
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                          color: Colors.black,
+                        ),
+                      ),
+                      subtitle: Text(
+                        evento.descrizione,
+                        style: const TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 15,
+                          color: Colors.black,
+                        ),
+                      ),
                       trailing: IconButton(
                         icon: const Icon(Icons.delete,
-                            color: Colors.red, size: 30),
+                            color: Colors.black, size: 30),
                         onPressed: () {
                           deleteEvento(evento);
                         },

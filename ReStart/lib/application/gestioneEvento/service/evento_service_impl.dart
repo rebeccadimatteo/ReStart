@@ -30,8 +30,8 @@ class EventoServiceImpl implements EventoService {
   }
 
   @override
-  Future<List<EventoDTO>> communityEvents() {
-    removeEventiScaduti();
+  Future<List<EventoDTO>> communityEvents() async {
+    await removeEventiScaduti();
     return _eventoDAO.findAll();
   }
 
@@ -59,11 +59,13 @@ class EventoServiceImpl implements EventoService {
     List<EventoDTO> list = await _eventoDAO.findAll();
 
     // Controlla se l'evento è stato approvato altrimenti non deve essere visualizzato
-    for (EventoDTO e in list) {
+    var itemsToRemove = <EventoDTO>[];
+    list.forEach((e) {
       if (!e.approvato) {
-        list.remove(e);
+        itemsToRemove.add(e);
       }
-    }
+    });
+    list.removeWhere((e) => itemsToRemove.contains(e));
 
     return list;
   }
@@ -75,7 +77,7 @@ class EventoServiceImpl implements EventoService {
 
     EventoDTO? evento = await _eventoDAO.findById(idEvento);
 
-    if(evento == null) return "Evento non trovato";
+    if (evento == null) return "Evento non trovato";
 
     evento.approvato = true;
 

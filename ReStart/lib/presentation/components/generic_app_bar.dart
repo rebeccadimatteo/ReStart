@@ -1,7 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
-import 'package:restart_all_in_one/presentation/screens/login_signup/start.dart';
+import '../../model/entity/utente_DTO.dart';
+import '../../utils/jwt_utils.dart';
+import '../screens/login_signup/start.dart';
 import '../screens/routes/routes.dart';
+
+import 'package:http/http.dart' as http;
 
 /// Classe che builda il widget per mostrare una [AppBar].
 class GenericAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -19,7 +25,7 @@ class GenericAppBar extends StatelessWidget implements PreferredSizeWidget {
         onTap: () {
           Navigator.pushNamed(
             context,
-            AppRoutes.home,
+            AppRoutes.homeUtente,
           );
         },
         child: Image.asset(
@@ -30,12 +36,24 @@ class GenericAppBar extends StatelessWidget implements PreferredSizeWidget {
       titleSpacing: 10,
       elevation: 10,
       shadowColor: Colors.grey,
+      flexibleSpace: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.bottomRight,
+            end: Alignment.topLeft,
+            colors: [
+              Color(0xFFCE93D8),
+              Color(0xFF80DEEA),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
   /// Costruisce un [Drawer] che contiene varie opzioni di navigazione.
   static Widget buildDrawer(BuildContext context) {
-     return Drawer(
+    return Drawer(
       child: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -59,10 +77,10 @@ class GenericAppBar extends StatelessWidget implements PreferredSizeWidget {
                     Shadow(
                       offset: Offset(1, 1),
                       blurRadius: 2.0,
-                      color: Color(0xFFFAFAFA),
+                      color: Color(0xFFB4B1B1),
                     ),
                   ],
-                  fontFamily: 'Poppins',
+                  fontFamily: 'PoppinsMedium',
                   color: Colors.black,
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
@@ -75,148 +93,148 @@ class GenericAppBar extends StatelessWidget implements PreferredSizeWidget {
               child: ListView(
                 padding: EdgeInsets.zero,
                 children: <Widget>[
-                ListTile(
-                  title: const Text(
-                    'Community Events',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.bold,
+                  ListTile(
+                    title: const Text(
+                      'Community Events',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        AppRoutes.eventi,
+                      );
+                    },
                   ),
-                  onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      AppRoutes.eventi,
-                    );
-                  },
-                ),
-                ListTile(
-                  title: const Text(
-                    'Annunci di lavoro',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.bold,
+                  ListTile(
+                    title: const Text(
+                      'Annunci di lavoro',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        AppRoutes.annunci,
+                      );
+                    },
                   ),
-                  onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      AppRoutes.annunci,
-                    );
-                  },
-                ),
-                ListTile(
-                  title: const Text(
-                    'Alloggi temporanei',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.bold,
+                  ListTile(
+                    title: const Text(
+                      'Alloggi temporanei',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        AppRoutes.alloggi,
+                      );
+                    },
                   ),
-                  onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      AppRoutes.alloggi,
-                    );
-                  },
-                ),
-                ListTile(
-                  title: const Text(
-                    'Supporto medico',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.bold,
+                  ListTile(
+                    title: const Text(
+                      'Supporto medico',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        AppRoutes.supporti,
+                      );
+                    },
                   ),
-                  onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      AppRoutes.supporti,
-                    );
-                  },
-                ),
-                ListTile(
-                  title: const Text(
-                    'Corsi di formazione',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.bold,
+                  ListTile(
+                    title: const Text(
+                      'Corsi di formazione',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        AppRoutes.corsi,
+                      );
+                    },
                   ),
-                  onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      AppRoutes.corsi,
-                    );
-                  },
-                ),
-                ListTile(
-                  title: const Text(
-                    'Trova il lavoro adatto a te',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.bold,
+                  ListTile(
+                    title: const Text(
+                      'Trova il lavoro adatto a te',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        AppRoutes.lavoroadatto,
+                      );
+                    },
                   ),
-                  onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      AppRoutes.supporti,
-                    );
-                  },
-                ),
-              ],
-            ),
-          ),
-          // Two additional ListTiles at the bottom
-          ListTile(
-            title: const Text(
-              'ACCOUNT',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontFamily: 'Poppins',
-                fontWeight: FontWeight.bold,
+                ],
               ),
             ),
-            onTap: () {
-              Navigator.pushNamed(
-                context,
-                AppRoutes.profilo,
-              );
-            },
-          ),
-          Container(
-            margin: const EdgeInsets.only(bottom: 20),
-            child: ListTile(
+            // Two additional ListTiles at the bottom
+            ListTile(
               title: const Text(
-                'Logout',
+                'ACCOUNT',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontFamily: 'Poppins',
+                  fontFamily: 'PoppinsMedium',
                   fontWeight: FontWeight.bold,
                 ),
               ),
-
-              ///metodo onTap gestisce il logout dall'applicazione.
-              onTap: () {
-                SessionManager().remove("token");
-                SessionManager().destroy();
-                print("logout riuscito");
-                Navigator.pushReplacement(
+              onTap: () async {
+                Navigator.pushNamed(
                   context,
-                  MaterialPageRoute(builder: (context) => Home()),
+                  AppRoutes.profilo,
                 );
               },
             ),
-          ),
-        ],
-      ),
+            Container(
+              margin: const EdgeInsets.only(bottom: 20),
+              child: ListTile(
+                title: const Text(
+                  'Logout',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: 'PoppinsMedium',
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+
+                ///metodo onTap gestisce il logout dall'applicazione.
+                onTap: () {
+                  SessionManager().remove("token");
+                  SessionManager().destroy();
+                  print("logout riuscito");
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => Home()),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

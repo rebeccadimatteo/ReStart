@@ -3,11 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../model/entity/alloggio_temporaneo_DTO.dart';
-import '../../../utils/auth_service.dart';
 import '../../components/generic_app_bar.dart';
 import 'dart:io';
 import 'package:http/http.dart' as http;
-
 import '../routes/routes.dart';
 
 ///Classe che rappresenta la schermata per inserire un [AlloggioTemporaneo]
@@ -66,7 +64,6 @@ class _InserisciAlloggioState extends State<InserisciAlloggio> {
       String sito = sitoController.text;
       String imagePath = 'images/image_${nome}.jpg';
 
-      // Crea il DTO con il percorso dell'immagine
       AlloggioTemporaneoDTO alloggio = AlloggioTemporaneoDTO(
         nome: nome,
         descrizione: descrizione,
@@ -78,7 +75,6 @@ class _InserisciAlloggioState extends State<InserisciAlloggio> {
         sito: sito,
         immagine: imagePath,
       );
-      // Invia i dati al server con il percorso dell'immagine
       await sendDataToServer(alloggio);
     } else {
       print("Alloggio non inserito");
@@ -97,18 +93,14 @@ class _InserisciAlloggioState extends State<InserisciAlloggio> {
       final imageUrl = Uri.parse('http://10.0.2.2:8080/gestioneReintegrazione/addImage');
       final imageRequest = http.MultipartRequest('POST', imageUrl);
 
-      // Aggiungi l'immagine
       imageRequest.files.add(await http.MultipartFile.fromPath('immagine', _image!.path));
 
-      // Aggiungi ID del corso e nome del corso come campi di testo
-      imageRequest.fields['nome'] = alloggio.nome; // Assumi che 'nomeCorso' sia una proprietà di CorsoDiFormazioneDTO
+      imageRequest.fields['nome'] = alloggio.nome;
 
       final imageResponse = await imageRequest.send();
       if (imageResponse.statusCode == 200) {
-        // L'immagine è stata caricata con successo
         print("Immagine caricata con successo.");
       } else {
-        // Si è verificato un errore nell'upload dell'immagine
         print("Errore durante l'upload dell'immagine: ${imageResponse.statusCode}");
       }
     }

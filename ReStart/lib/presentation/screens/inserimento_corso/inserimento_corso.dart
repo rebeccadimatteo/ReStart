@@ -2,17 +2,21 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:restart_all_in_one/presentation/screens/corsi_di_formazione/corso_di_formazione.dart';
 import '../../../model/entity/corso_di_formazione_DTO.dart';
 import '../../components/generic_app_bar.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io';
 import '../routes/routes.dart';
 
+///Classe che rappresenta la schermata per inserire un [CorsoDiFormazione]
 class InserisciCorso extends StatefulWidget {
   @override
   _InserisciCorsoState createState() => _InserisciCorsoState();
 }
 
+/// Classe associata a [InserisciCorso] e gestisce la logica e l'interazione
+/// dell'interfaccia utente per inserire un nuovo corso di formazione.
 class _InserisciCorsoState extends State<InserisciCorso> {
   @override
   void initState() {
@@ -43,11 +47,13 @@ class _InserisciCorsoState extends State<InserisciCorso> {
   final TextEditingController numTelefonoController = TextEditingController();
   final TextEditingController urlCorsoController = TextEditingController();
 
+  /// Metodo per selezionare un'immagine dalla galleria.
   void selectImage() async {
     final imagePicker = ImagePicker();
     _image = await imagePicker.pickImage(source: ImageSource.gallery);
   }
 
+  /// Metodo per inviare il form al server.
   void submitForm() async {
     if (_formKey.currentState!.validate()) {
       String nomeCorso = nomeCorsoController.text;
@@ -57,7 +63,7 @@ class _InserisciCorsoState extends State<InserisciCorso> {
       String urlCorso = urlCorsoController.text;
       String imagePath = 'images/image_${nomeCorso}.jpg';
 
-      // Crea il DTO con il percorso dell'immagine
+      /// Crea il DTO con il percorso dell'immagine
       CorsoDiFormazioneDTO corso = CorsoDiFormazioneDTO(
         nomeCorso: nomeCorso,
         nomeResponsabile: nomeResponsabile,
@@ -67,12 +73,14 @@ class _InserisciCorsoState extends State<InserisciCorso> {
         immagine: imagePath,
       );
 
+      /// Invia i dati al server con il percorso dell'immagine
       await sendDataToServer(corso);
     } else {
       print("Errore creazione ogetto corso");
     }
   }
 
+  /// Metodo per inviare i dati al server.
   Future<void> sendDataToServer(CorsoDiFormazioneDTO corso) async {
     // Prima invia i dati del corso
     final url = Uri.parse('http://10.0.2.2:8080/gestioneReintegrazione/addCorso');
@@ -82,30 +90,29 @@ class _InserisciCorsoState extends State<InserisciCorso> {
       body: jsonEncode(corso),
     );
 
-    // Se la richiesta del corso va a buon fine e hai un'immagine da inviare
+
     if (response.statusCode == 200 && _image != null) {
       final imageUrl = Uri.parse('http://10.0.2.2:8080/gestioneReintegrazione/addImage');
       final imageRequest = http.MultipartRequest('POST', imageUrl);
 
-      // Aggiungi l'immagine
+
       imageRequest.files.add(await http.MultipartFile.fromPath('immagine', _image!.path));
 
-      // Aggiungi ID del corso e nome del corso come campi di testo
-      imageRequest.fields['nome'] = corso.nomeCorso; // Assumi che 'nomeCorso' sia una proprietà di CorsoDiFormazioneDTO
+
+      imageRequest.fields['nome'] = corso.nomeCorso;
 
       final imageResponse = await imageRequest.send();
       if (imageResponse.statusCode == 200) {
-        // L'immagine è stata caricata con successo
+
         print("Immagine caricata con successo.");
-        // Aggiorna l'UI o esegui altre operazioni
+
       } else {
-        // Si è verificato un errore nell'upload dell'immagine
         print("Errore durante l'upload dell'immagine: ${imageResponse.statusCode}");
-        // Mostra un messaggio di errore o esegui altre operazioni di gestione dell'errore
       }
     }
   }
 
+  /// Costruisce la UI per la schermata di inserimento di un corso di formazione.
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;

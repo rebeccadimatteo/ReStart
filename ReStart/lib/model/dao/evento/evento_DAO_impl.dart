@@ -1,10 +1,9 @@
 import 'package:postgres/postgres.dart';
-import 'package:restart_all_in_one/model/dao/autenticazione/CA/ca_DAO_impl.dart';
+import '../../dao/autenticazione/CA/ca_DAO_impl.dart';
 import 'dart:developer' as developer;
 import '../../connection/connector.dart';
 import '../../entity/ca_DTO.dart';
 import '../../entity/evento_DTO.dart';
-import '../autenticazione/CA/ca_DAO.dart';
 import 'evento_DAO.dart';
 
 /// Classe che implementa i metodi dell'interfaccia EventoDAO
@@ -228,7 +227,7 @@ class EventoDAOImpl implements EventoDAO {
   @override
   Future<List<EventoDTO>> findByApprovato(String usernameCa) async {
     try {
-      CaDAO caDAO = CaDAOImpl();
+      CaDAOImpl caDAO = CaDAOImpl();
       Future<CaDTO?> caDTO = caDAO.findByUsername(usernameCa);
       CaDTO? ca = await caDTO;
       int? id = ca!.id;
@@ -280,7 +279,6 @@ class EventoDAOImpl implements EventoDAO {
 
   @override
   Future<bool> removeEventiScaduti() async {
-
     try {
       Connection connection = await connector.openConnection();
       var result = await connection.execute(
@@ -296,7 +294,5 @@ class EventoDAOImpl implements EventoDAO {
     } finally {
       await connector.closeConnection();
     }
-
-
   }
 }

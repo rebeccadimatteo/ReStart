@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:path/path.dart';
-import 'package:restart_all_in_one/presentation/screens/annunci_di_lavoro/annunci_di_lavoro_pubblicati.dart';
-import 'package:restart_all_in_one/presentation/screens/annunci_di_lavoro/annuncio_di_lavoro_modify.dart';
-import 'package:restart_all_in_one/presentation/screens/eventi/eventi_pubblicati.dart';
-import 'package:restart_all_in_one/presentation/screens/home/home_ads.dart';
-import 'package:restart_all_in_one/presentation/screens/home/home_ca.dart';
-import 'package:restart_all_in_one/presentation/screens/utente/lista_utenti_candidati.dart';
+import 'package:restart_all_in_one/presentation/screens/lavoro_adatto/lavoro_adatto.dart';
 import '../alloggi_temporanei/alloggi_temporanei.dart';
 import '../alloggi_temporanei/alloggi_temporanei_ads.dart';
+import '../annunci_di_lavoro/annunci_di_lavoro_pubblicati.dart';
 import '../annunci_di_lavoro/annuncio_di_lavoro.dart';
 import '../annunci_di_lavoro/annuncio_di_lavoro_ads.dart';
 import '../corsi_di_formazione/corso_di_formazione.dart';
 import '../corsi_di_formazione/corso_di_formazione_ads.dart';
 import '../eventi/eventi.dart';
 import '../eventi/eventi_ads.dart';
+import '../eventi/eventi_pubblicati.dart';
 import '../eventi/evento_modify.dart';
+import '../home/home_ads.dart';
+import '../home/home_ca.dart';
 import '../home/home_utente.dart';
 import '../inserimento_annuncio/inserimento_annuncio.dart';
 import '../inserimento_evento/inserimento_evento.dart';
@@ -72,7 +70,8 @@ class AppRoutes {
 
   static const String modificaevento = '/modifyEvento';
   static const String modificalavoro = '/modifyAnnuncio';
-  static const String listaCandidati = '/listaCandidati';
+
+  static const String lavoroadatto = '/lavoroAdatto';
 
   /// Definizione di tutte le [AppRoutes]
   static Map<String, WidgetBuilder> getRoutes() {
@@ -101,7 +100,6 @@ class AppRoutes {
       dettaglieventipub: (context) => DetailsEventoPub(),
       addevento: (context) => InserisciEvento(),
       addannuncio: (context) => InserisciLavoro(),
-
       annunciAds: (context) => AnnunciDiLavoroAds(),
       dettagliannuncioAds: (context) => DetailsLavoroAds(),
       alloggiAds: (context) => AlloggiTemporaneiAds(),
@@ -114,8 +112,7 @@ class AppRoutes {
       dettaglisupportoAds: (context) => DetailsSupportoAds(),
       richiesteAds: (context) => Richieste(),
       modificaevento: (context) => ModifyEvento(),
-      modificalavoro: (context) => ModifyLavoro(),
-      listaCandidati: (context) => ListaUtentiCandidati(),
+      lavoroadatto: (context) => LavoroAdatto(),
     };
   }
 }

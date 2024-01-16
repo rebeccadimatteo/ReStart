@@ -5,14 +5,16 @@ import '../../../model/entity/annuncio_di_lavoro_DTO.dart';
 import '../../../utils/jwt_utils.dart';
 import '../../components/generic_app_bar.dart';
 import 'package:http/http.dart' as http;
-
 import '../routes/routes.dart';
 
+/// Classe che implementa la sezione [AnnunciDiLavoro]
 class AnnunciDiLavoro extends StatefulWidget {
   @override
   _AnnunciDiLavoroState createState() => _AnnunciDiLavoroState();
 }
 
+/// Creazione dello stato di [AnnunciDiLavoro], costituito
+/// dalla lista degli annunci.
 class _AnnunciDiLavoroState extends State<AnnunciDiLavoro> {
   List<AnnuncioDiLavoroDTO> annunci = [];
 
@@ -35,17 +37,17 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoro> {
     }
   }
 
-  /// Effettua una richiesta asincrona al server per ottenere dati sugli alloggi.
+  /// Effettua una richiesta asincrona al server per ottenere dati sugli annunci.
   /// Questa funzione esegue una richiesta POST al server specificato,
   /// interpreta la risposta e aggiorna lo stato dell'oggetto corrente con
   /// i dati ricevuti, se la risposta è valida (status code 200).
   ///
   /// In caso di successo, la lista di [AnnuncioDiLavoroDTO] risultante
-  /// viene assegnata alla variabile di stato 'alloggi'. In caso di errori
+  /// viene assegnata alla variabile di stato 'annunci'. In caso di errori
   /// nella risposta, vengono stampati messaggi di errore sulla console.
   Future<void> fetchDataFromServer() async {
     final response = await http.post(
-        Uri.parse('http://10.0.2.2:8080/gestioneLavoro/visualizzaLavori'));
+        Uri.parse('http://10.0.2.2:8080/gestioneLavoro/annunciApprovati'));
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseBody = json.decode(response.body);
       if (responseBody.containsKey('annunci')) {
@@ -130,10 +132,10 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoro> {
                       visualDensity: const VisualDensity(vertical: 4, horizontal: 4),
                       minVerticalPadding: 50,
                       minLeadingWidth: 80,
-                      tileColor: Colors.transparent, // Imposta il colore del ListTile su trasparente
+                      tileColor: Colors.transparent,
                       leading: CircleAvatar(
                         radius: 35,
-                        backgroundImage: AssetImage(annuncio.immagine),
+                        backgroundImage: Image.asset(annuncio.immagine).image,
                       ),
                       title: Text(
                         annuncio.nome,
@@ -141,7 +143,7 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoro> {
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.bold,
                           fontSize: 18,
-                          color: Colors.black, // Cambia il colore del testo se necessario
+                          color: Colors.black,
                         ),
                       ),
                       subtitle: Text(
@@ -149,7 +151,7 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoro> {
                         style: const TextStyle(
                           fontFamily: 'Poppins',
                           fontSize: 14,
-                          color: Colors.black, // Cambia il colore del testo se necessario
+                          color: Colors.black,
                         ),
                       ),
                     ),
@@ -183,7 +185,7 @@ class _DetailsLavoroState extends State<DetailsLavoro> {
   void _checkUserAndNavigate() async {
     String token = await SessionManager().get('token');
     final response = await http.post(
-        Uri.parse('http://10.0.2.2:8080/autenticazione/checkUser'),
+        Uri.parse('http://10.0.2.2:8080/autenticazione/checkUserUtente'),
         body: jsonEncode(token),
         headers: {'Content-Type': 'application/json'});
     if (response.statusCode != 200) {
@@ -214,7 +216,6 @@ class _DetailsLavoroState extends State<DetailsLavoro> {
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseBody = jsonDecode(response.body);
       if (responseBody.containsKey('result')) {
-        // Mostra una snackbar personalizzata con il risultato
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
@@ -227,7 +228,6 @@ class _DetailsLavoroState extends State<DetailsLavoro> {
               label: 'Chiudi',
               textColor: Colors.deepPurple,
               onPressed: () {
-                // Codice per chiudere la snackbar, se necessario
               },
             ),
           ),
@@ -236,7 +236,6 @@ class _DetailsLavoroState extends State<DetailsLavoro> {
     } else {
       final Map<String, dynamic> responseBody = jsonDecode(response.body);
       if (responseBody.containsKey('result')) {
-        // Mostra una snackbar personalizzata con il risultato
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
@@ -249,7 +248,6 @@ class _DetailsLavoroState extends State<DetailsLavoro> {
               label: 'Chiudi',
               textColor: Colors.deepPurple,
               onPressed: () {
-                // Codice per chiudere la snackbar, se necessario
               },
             ),
           ),
@@ -270,6 +268,7 @@ class _DetailsLavoroState extends State<DetailsLavoro> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          const SizedBox(height: 20),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
@@ -279,7 +278,7 @@ class _DetailsLavoroState extends State<DetailsLavoro> {
                 shape: BoxShape.circle,
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: AssetImage(annuncio.immagine),
+                  image: Image.asset(annuncio.immagine).image,
                 ),
               ),
             ),
@@ -309,6 +308,7 @@ class _DetailsLavoroState extends State<DetailsLavoro> {
               ),
             ),
           ),
+          const SizedBox(width: 30),
           Expanded(
               child: Align(
                   alignment: Alignment.bottomCenter,
@@ -325,16 +325,15 @@ class _DetailsLavoroState extends State<DetailsLavoro> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const SizedBox(width: 8),
-                        // Aggiungi uno spazio tra il testo e gli altri elementi
+                        const SizedBox(width: 10),
                         Text(annuncio.email,
                           style: const TextStyle(
                             fontFamily: 'Poppins',
-                            fontSize: 13,
+                            fontSize: 15,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const SizedBox(width: 8),
+                        const SizedBox(width: 10),
                         Text(annuncio.numTelefono,
                              style: const TextStyle(
                             fontFamily: 'Poppins',
@@ -342,19 +341,19 @@ class _DetailsLavoroState extends State<DetailsLavoro> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const SizedBox(width: 8),
+                        const SizedBox(width: 10),
                         Text(
                             '${annuncio.via}, ${annuncio.citta}, ${annuncio.provincia}',
                             style: const TextStyle(
                             fontFamily: 'Poppins',
-                            fontSize: 13,
+                            fontSize: 15,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                       ],
                     ),
                   ))),
-          const SizedBox(height: 20),
+          const SizedBox(height: 15),
           Container(
             padding: const EdgeInsets.only(bottom: 40),
             child: ElevatedButton(
@@ -402,9 +401,4 @@ class _DetailsLavoroState extends State<DetailsLavoro> {
       ),
     );
   }
-}
-void main() {
-  runApp(MaterialApp(
-    home: AnnunciDiLavoro(),
-  ));
 }

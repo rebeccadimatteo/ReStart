@@ -7,7 +7,6 @@ import '../../../utils/jwt_utils.dart';
 import '../../components/app_bar_ca.dart';
 import 'dart:io';
 import 'package:http/http.dart' as http;
-
 import '../routes/routes.dart';
 
 ///Classe che rappresenta la schermata per inserire un [Evento]
@@ -16,8 +15,8 @@ class InserisciEvento extends StatefulWidget {
   _InserisciEventoState createState() => _InserisciEventoState();
 }
 
-/// Classe associata a [ModifyEvento] e gestisce la logica e l'interazione
-/// dell'interfaccia utente per inserire un nuovo evento temporaneo.
+/// Classe associata a [InserisciEvento] e gestisce la logica e l'interazione
+/// dell'interfaccia utente per inserire un nuovo evento.
 class _InserisciEventoState extends State<InserisciEvento> {
   late int idCa;
   var token;
@@ -71,7 +70,6 @@ class _InserisciEventoState extends State<InserisciEvento> {
       String sito = sitoController.text;
       String imagePath = 'images/image_${nome}.jpg';
 
-      // Crea il DTO con il percorso dell'immagine
       EventoDTO evento = EventoDTO(
         nomeEvento: nome,
         descrizione: descrizione,
@@ -85,7 +83,8 @@ class _InserisciEventoState extends State<InserisciEvento> {
         id_ca: JWTUtils.getIdFromToken(accessToken: await token),
         date: DateTime.now(),
       );
-      // Invia i dati al server con il percorso dell'immagine
+
+      /// Invia i dati al server con il percorso dell'immagine
       sendDataToServer(evento);
     } else {
       print("Evento non inserito");
@@ -106,27 +105,23 @@ class _InserisciEventoState extends State<InserisciEvento> {
       Uri.parse('http://10.0.2.2:8080/gestioneReintegrazione/addImage');
       final imageRequest = http.MultipartRequest('POST', imageUrl);
 
-      // Aggiungi l'immagine
       imageRequest.files
           .add(await http.MultipartFile.fromPath('immagine', _image!.path));
 
-      // Aggiungi ID del corso e nome del'evento come campi di testo
       imageRequest.fields['nome'] = evento.nomeEvento;
 
       final imageResponse = await imageRequest.send();
       if (imageResponse.statusCode == 200) {
-        // L'immagine è stata caricata con successo
         print("Immagine caricata con successo.");
         Navigator.pushNamed(context, AppRoutes.eventipubblicati);
       } else {
-        // Si è verificato un errore nell'upload dell'immagine
         print(
             "Errore durante l'upload dell'immagine: ${imageResponse.statusCode}");
       }
     }
   }
 
-  /// Costruisce la UI per la schermata di inserimento di un evento temporaneo.
+  /// Costruisce la UI per la schermata di inserimento di un evento.
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;

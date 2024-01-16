@@ -2,16 +2,17 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import '../../../model/entity/corso_di_formazione_DTO.dart';
-import '../../../utils/auth_service.dart';
 import '../../components/generic_app_bar.dart';
 import 'package:http/http.dart' as http;
 import '../routes/routes.dart';
 
+/// Classe che implementa la sezione [CorsoDiFormazione]
 class CorsoDiFormazione extends StatefulWidget {
   @override
   _CorsoDiFormazioneState createState() => _CorsoDiFormazioneState();
 }
 
+/// Creazione dello stato di [CorsoDiFormazione], costituito dalla lista dei corsi.
 class _CorsoDiFormazioneState extends State<CorsoDiFormazione> {
   List<CorsoDiFormazioneDTO> corsi = [];
 
@@ -33,7 +34,7 @@ class _CorsoDiFormazioneState extends State<CorsoDiFormazione> {
     }
   }
 
-
+  /// Metodo che permette di inviare la richiesta al server per ottenere la lista di tutti i [CorsoDiFormazioneDTO] presenti nel database
   Future<void> fetchDataFromServer() async {
     final response = await http.post(Uri.parse('http://10.0.2.2:8080/gestioneReintegrazione/visualizzaCorsi'));
     if (response.statusCode == 200) {
@@ -52,7 +53,7 @@ class _CorsoDiFormazioneState extends State<CorsoDiFormazione> {
       print('Errore');
     }
   }
-
+  /// Build del widget principale della sezione [CorsoDiFormazione], contenente tutta l'interfaccia grafica
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -119,7 +120,7 @@ class _CorsoDiFormazioneState extends State<CorsoDiFormazione> {
                       tileColor: Colors.transparent, // Imposta il colore del ListTile su trasparente
                       leading: CircleAvatar(
                         radius: 35,
-                        backgroundImage: AssetImage(corso.immagine),
+                        backgroundImage: Image.asset(corso.immagine).image,
                       ),
                       title: Text(
                         corso.nomeCorso,
@@ -186,6 +187,7 @@ class _DetailsCorsoState extends State<DetailsCorso> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          const SizedBox(width: 20),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
@@ -195,7 +197,7 @@ class _DetailsCorsoState extends State<DetailsCorso> {
                 shape: BoxShape.circle,
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: AssetImage(corso.immagine),
+                  image: Image.asset(corso.immagine).image,
                 ),
               ),
             ),
@@ -233,14 +235,14 @@ class _DetailsCorsoState extends State<DetailsCorso> {
                         const Text(
                           'Contatti',
                           style: TextStyle(
-                            fontSize: 20,
+                            fontSize: 22,
                             fontFamily: 'Poppins',
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         Text(corso.urlCorso,
                         style: const TextStyle(
-                            fontSize: 13,
+                            fontSize: 15,
                             fontFamily: 'Poppins',
                             fontWeight: FontWeight.bold,
                           ),

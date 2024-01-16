@@ -54,8 +54,8 @@ class _ProfiloState extends State<Profilo> {
         citta: 'citta',
         provincia: 'provincia',
         lavoro_adatto: 'lavoro_adatto');
-    fetchProfiloFromServer();
     _checkUserAndNavigate();
+    fetchProfiloFromServer();
   }
 
   Future<void> fetchProfiloFromServer() async {
@@ -501,7 +501,7 @@ class _ProfiloEditState extends State<ProfiloEdit> {
     );
     if (response.statusCode == 200 && _image != null) {
       final imageUrl =
-          Uri.parse('http://10.0.2.2:8080/autenticazione/addImage');
+      Uri.parse('http://10.0.2.2:8080/autenticazione/addImage');
       final imageRequest = http.MultipartRequest('POST', imageUrl);
 
       // Aggiungi l'immagine
@@ -549,7 +549,7 @@ class _ProfiloEditState extends State<ProfiloEdit> {
                           child: CircleAvatar(
                             backgroundImage: _image != null
                                 ? MemoryImage(
-                                    File(_image!.path).readAsBytesSync())
+                                File(_image!.path).readAsBytesSync())
                                 : Image.asset('images/avatar.png').image,
                           ),
                         ),
@@ -707,16 +707,16 @@ class _ProfiloEditState extends State<ProfiloEdit> {
                           items: ['Maschio', 'Femmina', 'Non specificato']
                               .map<DropdownMenuItem<String>>(
                                 (String value) => DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(
-                                    value,
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: 'Poppins',
-                                    ),
-                                  ),
+                              value: value,
+                              child: Text(
+                                value,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Poppins',
                                 ),
-                              )
+                              ),
+                            ),
+                          )
                               .toList(),
                         ),
                       ),

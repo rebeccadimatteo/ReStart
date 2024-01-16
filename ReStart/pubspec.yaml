@@ -107,8 +107,12 @@ flutter:
         - asset: fonts/Poppins-Light.ttf
           weight: 100
 
-    - family: SofiaSans
+    - family: Genos
       fonts:
-        - asset: fonts/SofiaSans-VariableFont_wght.ttf
+        - asset: fonts/Genos-Regular.ttf
+
+    - family: PoppinsMedium
+      fonts:
+        - asset: fonts/Poppins-Medium.ttf
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

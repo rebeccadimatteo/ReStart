@@ -7,7 +7,7 @@ import '../../../lib/application/gestioneReintegrazione/service/reintegrazione/r
 class MockReintegrazioneServiceImp extends Mock
     implements ReintegrazioneServiceImpl {}
 
-class MocksupportoMedicoImpl extends Mock
+class MockSupportoMedicoImpl extends Mock
     implements SupportoMedicoDAOImpl {}
 
 bool validateNome(String nome) {
