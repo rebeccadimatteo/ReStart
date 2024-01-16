@@ -137,15 +137,18 @@ class _CommunityEventsState extends State<CommunityEventsAds> {
                         ),
                       ],
                     ),
-                    margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+                    margin:
+                        const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
                     child: ListTile(
-                      visualDensity: const VisualDensity(vertical: 4, horizontal: 4),
+                      visualDensity:
+                          const VisualDensity(vertical: 4, horizontal: 4),
                       minVerticalPadding: 50,
                       minLeadingWidth: 80,
                       tileColor: Colors.transparent,
                       leading: CircleAvatar(
                         radius: 35,
-                        backgroundImage: AssetImage('images/'+evento.immagine),
+                        backgroundImage:
+                            AssetImage('images/' + evento.immagine),
                       ),
                       title: Text(
                         evento.nomeEvento,
@@ -200,7 +203,7 @@ class _DetailsEventoAdsState extends State<DetailsEventoAds> {
   void _checkUserAndNavigate() async {
     String token = await SessionManager().get('token');
     final response = await http.post(
-        Uri.parse('http://10.0.2.2:8080/autenticazione/checkUserUtente'),
+        Uri.parse('http://10.0.2.2:8080/autenticazione/checkUserADS'),
         body: jsonEncode(token),
         headers: {'Content-Type': 'application/json'});
     if (response.statusCode != 200) {
@@ -253,8 +256,7 @@ class _DetailsEventoAdsState extends State<DetailsEventoAds> {
             style: const TextStyle(
                 fontSize: 30,
                 fontFamily: 'Poppins',
-                fontWeight: FontWeight.bold
-            ),
+                fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 10),
           Padding(
@@ -274,8 +276,7 @@ class _DetailsEventoAdsState extends State<DetailsEventoAds> {
                           style: TextStyle(
                               fontSize: 25,
                               fontFamily: 'Poppins',
-                              fontWeight: FontWeight.bold
-                          ),
+                              fontWeight: FontWeight.bold),
                         ),
                         Text(evento.email),
                         Text(evento.sito),
@@ -285,8 +286,7 @@ class _DetailsEventoAdsState extends State<DetailsEventoAds> {
                           style: TextStyle(
                               fontSize: 25,
                               fontFamily: 'Poppins',
-                              fontWeight: FontWeight.bold
-                          ),
+                              fontWeight: FontWeight.bold),
                         ),
                         Text(dataBuona),
                       ],

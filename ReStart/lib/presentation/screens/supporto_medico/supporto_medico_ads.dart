@@ -31,9 +31,8 @@ class _SupportoMedicoState extends State<SupportoMedicoAds> {
     final response = await http.post(
         Uri.parse('http://10.0.2.2:8080/autenticazione/checkUserADS'),
         body: jsonEncode(token),
-        headers: {'Content-Type': 'application/json'}
-    );
-    if(response.statusCode != 200){
+        headers: {'Content-Type': 'application/json'});
+    if (response.statusCode != 200) {
       Navigator.pushNamed(context, AppRoutes.home);
     }
   }
@@ -133,15 +132,18 @@ class _SupportoMedicoState extends State<SupportoMedicoAds> {
                         ),
                       ],
                     ),
-                    margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+                    margin:
+                        const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
                     child: ListTile(
-                      visualDensity: const VisualDensity(vertical: 4, horizontal: 4),
+                      visualDensity:
+                          const VisualDensity(vertical: 4, horizontal: 4),
                       minVerticalPadding: 50,
                       minLeadingWidth: 80,
                       tileColor: Colors.transparent,
                       leading: CircleAvatar(
                         radius: 35,
-                        backgroundImage: AssetImage('images/'+supporto.immagine),
+                        backgroundImage:
+                            AssetImage('images/' + supporto.immagine),
                       ),
                       title: Text(
                         supporto.nomeMedico,
@@ -185,7 +187,6 @@ class DetailsSupportoAds extends StatefulWidget {
 }
 
 class _DetailsSupportoAdsState extends State<DetailsSupportoAds> {
-
   @override
   void initState() {
     super.initState();
@@ -193,8 +194,12 @@ class _DetailsSupportoAdsState extends State<DetailsSupportoAds> {
   }
 
   void _checkUserAndNavigate() async {
-    bool isUserValid = await AuthService.checkUserADS();
-    if (!isUserValid) {
+    String token = await SessionManager().get('token');
+    final response = await http.post(
+        Uri.parse('http://10.0.2.2:8080/autenticazione/checkUserADS'),
+        body: jsonEncode(token),
+        headers: {'Content-Type': 'application/json'});
+    if (response.statusCode != 200) {
       Navigator.pushNamed(context, AppRoutes.home);
     }
   }

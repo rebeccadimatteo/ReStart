@@ -76,6 +76,7 @@ class AppRoutes {
   static const String lavoroadatto = '/lavoroAdatto';
 
   static const String listaCandidati = '/annunciPubblicati/listaCandidati';
+  static const String profiloCandidato = '/annunciPubblicati/listaCandidati/profilo';
 
   static const String visualizzaLavoroAdatto =
       '/lavoroAdatto/visualizzaLavoroAdatto';
@@ -122,6 +123,7 @@ class AppRoutes {
       lavoroadatto: (context) => LavoroAdatto(),
       listaCandidati: (context) => ListaUtentiCandidati(),
       visualizzaLavoroAdatto: (context) => VisualizzaLavoroAdatto(),
+      profiloCandidato: (context) => ProfiloCandidato(),
     };
   }
 }

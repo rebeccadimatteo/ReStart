@@ -165,14 +165,14 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroPubblicati> {
                           backgroundImage: AssetImage(annuncio.immagine)),
                       title: Text(
                         annuncio.nome,
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                            fontFamily: 'Poppins',
-                            fontSize: 20,
-                          ),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Poppins',
+                          fontSize: 20,
+                        ),
                       ),
                       subtitle: Text(
-                          annuncio.descrizione,
+                        annuncio.descrizione,
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontFamily: 'Poppins',
@@ -262,6 +262,7 @@ class _DetailsLavoroPub extends State<DetailsLavoroPub> {
       appBar: CaAppBar(
         showBackButton: true,
       ),
+      endDrawer: CaAppBar.buildDrawer(context),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -290,8 +291,8 @@ class _DetailsLavoroPub extends State<DetailsLavoroPub> {
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: Text(
-                annuncio.descrizione,
-                textAlign: TextAlign.center,
+              annuncio.descrizione,
+              textAlign: TextAlign.center,
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontFamily: 'Poppins',
@@ -300,93 +301,122 @@ class _DetailsLavoroPub extends State<DetailsLavoroPub> {
             ),
           ),
           Expanded(
-              child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 30),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        const Text(
-                          'Contatti',
-                          style: TextStyle(
-                            fontSize: 25,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        Text(
-                            annuncio.numTelefono,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Poppins',
-                            fontSize: 15,
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        Text(
-                            annuncio.email,
-                        style: const TextStyle(
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 30),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    const Text(
+                      'Contatti',
+                      style: TextStyle(
+                        fontSize: 25,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      annuncio.numTelefono,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Poppins',
+                        fontSize: 15,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      annuncio.email,
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontFamily: 'Poppins',
                         fontSize: 13,
-                        ),
-                        ),
-                        const SizedBox(width: 8),
-                        Text(
-                            '${annuncio.via}, ${annuncio.citta}, ${annuncio.provincia}',
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Poppins',
-                            fontSize: 15,
-                          ),
-                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      '${annuncio.via}, ${annuncio.citta}, ${annuncio.provincia}',
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Poppins',
+                        fontSize: 15,
+                      ),
+                    ),
 
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            IconButton(
-                              icon: const Icon(Icons.edit,
-                                  color: Colors.black, size: 40),
-                              onPressed: () {
-                                Navigator.pushNamed(
-                                    context, AppRoutes.modificalavoro,
-                                    arguments: annuncio);
-                              },
-                            ),
-                            const SizedBox(width: 20),
-
-                            IconButton(
-                              icon: const Icon(Icons.delete,
-                                  color: Colors.black, size: 40),
-                              onPressed: () {
-                                deleteLavoro(annuncio);
-                              },
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 10),
-                        // Spazio tra i pulsanti e il nuovo pulsante "Utenti candidati"
-                        ElevatedButton(
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.edit,
+                              color: Colors.black, size: 40),
                           onPressed: () {
                             Navigator.pushNamed(
-                                context, AppRoutes.listaCandidati,
+                                context, AppRoutes.modificalavoro,
                                 arguments: annuncio);
                           },
-                          child: const Text(
-                            'Utenti candidati',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        )
+                        ),
+                        const SizedBox(width: 20),
+                        IconButton(
+                          icon: const Icon(Icons.delete,
+                              color: Colors.black, size: 40),
+                          onPressed: () {
+                            deleteLavoro(annuncio);
+                          },
+                        ),
                       ],
                     ),
-                  ),
-    ),
-    ),
+                    const SizedBox(height: 10),
+                    // Spazio tra i pulsanti e il nuovo pulsante "Utenti candidati"
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, AppRoutes.listaCandidati,
+                            arguments: annuncio);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.transparent,
+                        foregroundColor: Colors.black,
+                        elevation: 10,
+                        minimumSize: Size(
+                            MediaQuery.of(context).size.width * 0.1,
+                            MediaQuery.of(context).size.width * 0.1),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                        padding: EdgeInsets.zero,
+                      ),
+                      child: Ink(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [Colors.blue[50]!, Colors.blue[100]!],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width *
+                              0.6, // Regola la larghezza del pulsante
+                          height: MediaQuery.of(context).size.width * 0.1,
+                          padding: const EdgeInsets.all(10),
+                          child: const Center(
+                            child: Text(
+                              'LISTA UTENTI CANDIDATI',
+                              style: TextStyle(
+                                fontFamily: 'Poppins',
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );

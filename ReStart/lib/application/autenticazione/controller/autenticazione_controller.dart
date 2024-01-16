@@ -108,7 +108,7 @@ class AutenticazioneController {
       final List<UtenteDTO> listaUser = await _authService.listaUtenti();
       final responseBody = jsonEncode({'utenti': listaUser});
       return Response.ok(responseBody,
-          headers: {'Content-Type': 'apllication/json'});
+          headers: {'Content-Type': 'application/json'});
     } catch (e) {
       return Response.internalServerError(
           body: 'Errore durante la visualizzazzione della richiesta');

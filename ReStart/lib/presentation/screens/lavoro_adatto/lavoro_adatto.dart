@@ -133,242 +133,238 @@ class _LavoroAdattoState extends State<LavoroAdatto> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-        appBar: GenericAppBar(showBackButton: true),
-        endDrawer: GenericAppBar.buildDrawer(context),
-        body: SingleChildScrollView(
-            child: Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    SizedBox(height: 20),
-                    DropdownButtonFormField<String>(
-                      value: _selectedEducationLevel,
-                      onChanged: (newValue) {
-                        setState(() {
-                          _selectedEducationLevel = newValue;
-                          switch (_selectedEducationLevel) {
-                            case 'Nessuna':
-                              educazione = 0;
-                            case 'Licenza Media':
-                              educazione = 1;
-                            case 'Diploma Superiore':
-                              educazione = 2;
-                            case 'Laurea':
-                              educazione = 3;
-                            default:
-                              educazione = 1;
-                          }
-                        });
-                      },
-                      style: const TextStyle(
-                        fontFamily: 'Poppins',
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      items: [
-                        'Nessuna',
-                        'Licenza Media',
-                        'Diploma Superiore',
-                        'Laurea'
-                      ]
-                          .map<DropdownMenuItem<String>>(
-                            (String value) => DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            ),
-                          )
-                          .toList(),
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(30)),
-                        ),
-                        labelText: 'Grado di Istruzione',
-                        labelStyle: TextStyle(
-                          fontFamily: 'Poppins',
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    TextFormField(
-                      controller: _yearsOfExperienceController,
-                      keyboardType: TextInputType.number,
-                      onChanged: (value) {
-                        setState(() {
-                          _yearsOfExperience = int.tryParse(value);
-                        });
-                      },
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(30)),
-                        ),
-                        labelText: 'Anni di Esperienza',
-                        labelStyle: TextStyle(
-                          fontFamily: 'Poppins',
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    SwitchListTile(
-                      title: const Text(
-                        'Sei mai stato a capo di un lavoro?',
-                        style: TextStyle(
-                        fontFamily: 'Poppins',
-                        color: Colors.black,
-                        ),
-                      ),
-                      value: _hasBeenLeader,
-                      onChanged: (bool value) {
-                        setState(() {
-                          _hasBeenLeader = value;
-                        });
-                      },
-                    ),
-                    const SizedBox(height: 20),
-                    _buildCheckboxListTile(
-                      'Adobe Creative Suite',
-                      style: const TextStyle(
-                        fontFamily: 'Poppins',
-                        color: Colors.black,
-                      ),
-                    ),
-                    _buildCheckboxListTile(
-                        'Back-end Development',
-                      style: const TextStyle(
-                        fontFamily: 'Poppins',
-                        color: Colors.black,
-                      ),
-                    ),
-                    _buildCheckboxListTile(
-                        'Budget Management',
-                      style: const TextStyle(
-                      fontFamily: 'Poppins',
-                      color: Colors.black,
-                    ),
-                    ),
-                    _buildCheckboxListTile(
-                        'Business Analysis',
-                      style: const TextStyle(
-                        fontFamily: 'Poppins',
-                        color: Colors.black,
-                      ),
-                    ),
-                    _buildCheckboxListTile(
-                        'CRM Software',
-                      style: const TextStyle(
-                        fontFamily: 'Poppins',
-                        color: Colors.black,
-                      ),
-                    ),
-                    _buildCheckboxListTile(
-                        'Client Relations',
-                      style: const TextStyle(
-                        fontFamily: 'Poppins',
-                        color: Colors.black,
-                      ),
-                    ),
-                    _buildCheckboxListTile(
-                        'Communication',
-                      style: const TextStyle(
-                        fontFamily: 'Poppins',
-                        color: Colors.black,
-                      ),
-                    ),
-                    _buildCheckboxListTile(
-                        'Communication Skills',
-                      style: const TextStyle(
-                        fontFamily: 'Poppins',
-                        color: Colors.black,
-                      ),
-                    ),
-                    _buildCheckboxListTile(
-                        'Content Creation',
-                      style: const TextStyle(
-                        fontFamily: 'Poppins',
-                        color: Colors.black,
-                      ),
-                    ),
-                    _buildCheckboxListTile(
-                        'Copywriting',
-                      style: const TextStyle(
-                        fontFamily: 'Poppins',
-                        color: Colors.black,
-                      ),
-                    ),
-                    _buildCheckboxListTile(
-                        'Customer Service',
-                      style: const TextStyle(
-                        fontFamily: 'Poppins',
-                        color: Colors.black,
-                      ),
-                    ),
-                    _buildCheckboxListTile(
-                        'Customer Support',
-                      style: const TextStyle(
-                        fontFamily: 'Poppins',
-                        color: Colors.black,
-                      ),
-                    ),
-                    _buildCheckboxListTile(
-                        'Data Analysis',
-                      style: const TextStyle(
-                      fontFamily: 'Poppins',
-                      color: Colors.black,
-                    ),
-                    ),
-                    SizedBox(height: screenWidth * 0.1),
-                    ElevatedButton(
-                      onPressed: () {
-                        submitForm();
-                        Navigator.pushNamed(
-                          context,
-                          AppRoutes.visualizzaLavoroAdatto,
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.transparent,
-                        foregroundColor: Colors.black,
-                        elevation: 10,
-                        minimumSize: Size(screenWidth * 0.1, screenWidth * 0.1),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                        padding: EdgeInsets.zero,
-                      ),
-                      child: Ink(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [Colors.blue[50]!, Colors.blue[100]!],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                        child: Container(
-                          width: screenWidth * 0.60,
-                          height: screenWidth * 0.1,
-                          padding: const EdgeInsets.all(10),
-                          child: const Center(
-                            child: Text(
-                              'INSERISCI',
-                              style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                  ],
+      appBar: GenericAppBar(showBackButton: true),
+      endDrawer: GenericAppBar.buildDrawer(context),
+      body: SingleChildScrollView(
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              SizedBox(height: 20),
+              DropdownButtonFormField<String>(
+                value: _selectedEducationLevel,
+                onChanged: (newValue) {
+                  setState(() {
+                    _selectedEducationLevel = newValue;
+                    switch (_selectedEducationLevel) {
+                      case 'Nessuna':
+                        educazione = 0;
+                      case 'Licenza Media':
+                        educazione = 1;
+                      case 'Diploma Superiore':
+                        educazione = 2;
+                      case 'Laurea':
+                        educazione = 3;
+                      default:
+                        educazione = 1;
+                    }
+                  });
+                },
+                style: const TextStyle(
+                  fontFamily: 'Poppins',
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
                 ),
-            ),
+                items:
+                    ['Nessuna', 'Licenza Media', 'Diploma Superiore', 'Laurea']
+                        .map<DropdownMenuItem<String>>(
+                          (String value) => DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          ),
+                        )
+                        .toList(),
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(30)),
+                  ),
+                  labelText: 'Grado di Istruzione',
+                  labelStyle: TextStyle(
+                    fontFamily: 'Poppins',
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              TextFormField(
+                controller: _yearsOfExperienceController,
+                keyboardType: TextInputType.number,
+                onChanged: (value) {
+                  setState(() {
+                    _yearsOfExperience = int.tryParse(value);
+                  });
+                },
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(30)),
+                  ),
+                  labelText: 'Anni di Esperienza',
+                  labelStyle: TextStyle(
+                    fontFamily: 'Poppins',
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              SwitchListTile(
+                title: const Text(
+                  'Sei mai stato a capo di un lavoro?',
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    color: Colors.black,
+                  ),
+                ),
+                value: _hasBeenLeader,
+                onChanged: (bool value) {
+                  setState(() {
+                    _hasBeenLeader = value;
+                  });
+                },
+              ),
+              const SizedBox(height: 20),
+              _buildCheckboxListTile(
+                'Adobe Creative Suite',
+                style: const TextStyle(
+                  fontFamily: 'Poppins',
+                  color: Colors.black,
+                ),
+              ),
+              _buildCheckboxListTile(
+                'Back-end Development',
+                style: const TextStyle(
+                  fontFamily: 'Poppins',
+                  color: Colors.black,
+                ),
+              ),
+              _buildCheckboxListTile(
+                'Budget Management',
+                style: const TextStyle(
+                  fontFamily: 'Poppins',
+                  color: Colors.black,
+                ),
+              ),
+              _buildCheckboxListTile(
+                'Business Analysis',
+                style: const TextStyle(
+                  fontFamily: 'Poppins',
+                  color: Colors.black,
+                ),
+              ),
+              _buildCheckboxListTile(
+                'CRM Software',
+                style: const TextStyle(
+                  fontFamily: 'Poppins',
+                  color: Colors.black,
+                ),
+              ),
+              _buildCheckboxListTile(
+                'Client Relations',
+                style: const TextStyle(
+                  fontFamily: 'Poppins',
+                  color: Colors.black,
+                ),
+              ),
+              _buildCheckboxListTile(
+                'Communication',
+                style: const TextStyle(
+                  fontFamily: 'Poppins',
+                  color: Colors.black,
+                ),
+              ),
+              _buildCheckboxListTile(
+                'Communication Skills',
+                style: const TextStyle(
+                  fontFamily: 'Poppins',
+                  color: Colors.black,
+                ),
+              ),
+              _buildCheckboxListTile(
+                'Content Creation',
+                style: const TextStyle(
+                  fontFamily: 'Poppins',
+                  color: Colors.black,
+                ),
+              ),
+              _buildCheckboxListTile(
+                'Copywriting',
+                style: const TextStyle(
+                  fontFamily: 'Poppins',
+                  color: Colors.black,
+                ),
+              ),
+              _buildCheckboxListTile(
+                'Customer Service',
+                style: const TextStyle(
+                  fontFamily: 'Poppins',
+                  color: Colors.black,
+                ),
+              ),
+              _buildCheckboxListTile(
+                'Customer Support',
+                style: const TextStyle(
+                  fontFamily: 'Poppins',
+                  color: Colors.black,
+                ),
+              ),
+              _buildCheckboxListTile(
+                'Data Analysis',
+                style: const TextStyle(
+                  fontFamily: 'Poppins',
+                  color: Colors.black,
+                ),
+              ),
+              SizedBox(height: screenWidth * 0.1),
+              ElevatedButton(
+                onPressed: () {
+                  submitForm();
+                  Navigator.pushNamed(
+                    context,
+                    AppRoutes.visualizzaLavoroAdatto,
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.transparent,
+                  foregroundColor: Colors.black,
+                  elevation: 10,
+                  minimumSize: Size(screenWidth * 0.1, screenWidth * 0.1),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
+                  padding: EdgeInsets.zero,
+                ),
+                child: Ink(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [Colors.blue[50]!, Colors.blue[100]!],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
+                  child: Container(
+                    width: screenWidth * 0.60,
+                    height: screenWidth * 0.1,
+                    padding: const EdgeInsets.all(10),
+                    child: const Center(
+                      child: Text(
+                        'INSERISCI',
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+            ],
+          ),
         ),
+      ),
     );
   }
 

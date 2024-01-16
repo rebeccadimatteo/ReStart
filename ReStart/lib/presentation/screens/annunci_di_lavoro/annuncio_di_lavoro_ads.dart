@@ -201,6 +201,25 @@ class DetailsLavoroAds extends StatefulWidget {
 }
 
 class _DetailsLavoroAdsState extends State<DetailsLavoroAds> {
+
+  @override
+  void initState(){
+    super.initState();
+    _checkUserAndNavigate();
+  }
+
+  void _checkUserAndNavigate() async {
+    String token = await SessionManager().get('token');
+    final response = await http.post(
+        Uri.parse('http://10.0.2.2:8080/autenticazione/checkUserADS'),
+        body: jsonEncode(token),
+        headers: {'Content-Type': 'application/json'}
+    );
+    if(response.statusCode != 200){
+      Navigator.pushNamed(context, AppRoutes.home);
+    }
+  }
+
   Future<void> deleteLavoro(AnnuncioDiLavoroDTO annuncio) async {
     final response = await http.post(
         Uri.parse('http://10.0.2.2:8080/gestioneLavoro/deleteLavoro'),

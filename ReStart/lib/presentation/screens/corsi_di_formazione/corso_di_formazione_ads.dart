@@ -105,7 +105,7 @@ class _CorsoDiFormazioneState extends State<CorsoDiFormazioneAds> {
                   onTap: () {
                     Navigator.pushNamed(
                       context,
-                      AppRoutes.dettaglicorso,  //non funziona
+                      AppRoutes.dettaglicorso, //non funziona
                       arguments: corso,
                     );
                   },
@@ -126,15 +126,18 @@ class _CorsoDiFormazioneState extends State<CorsoDiFormazioneAds> {
                         ),
                       ],
                     ),
-                    margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+                    margin:
+                        const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
                     child: ListTile(
-                      visualDensity: const VisualDensity(vertical: 4, horizontal: 4),
+                      visualDensity:
+                          const VisualDensity(vertical: 4, horizontal: 4),
                       minVerticalPadding: 50,
                       minLeadingWidth: 80,
-                      tileColor: Colors.transparent, // Imposta il colore del ListTile su trasparente
+                      tileColor: Colors.transparent,
+                      // Imposta il colore del ListTile su trasparente
                       leading: CircleAvatar(
                         radius: 35,
-                        backgroundImage: AssetImage('images/'+corso.immagine),
+                        backgroundImage: AssetImage('images/' + corso.immagine),
                       ),
                       title: Text(
                         corso.nomeCorso,
@@ -142,7 +145,8 @@ class _CorsoDiFormazioneState extends State<CorsoDiFormazioneAds> {
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.bold,
                           fontSize: 18,
-                          color: Colors.black, // Cambia il colore del testo se necessario
+                          color: Colors
+                              .black, // Cambia il colore del testo se necessario
                         ),
                       ),
                       subtitle: Text(
@@ -150,7 +154,8 @@ class _CorsoDiFormazioneState extends State<CorsoDiFormazioneAds> {
                         style: const TextStyle(
                           fontFamily: 'Poppins',
                           fontSize: 14,
-                          color: Colors.black, // Cambia il colore del testo se necessario
+                          color: Colors
+                              .black, // Cambia il colore del testo se necessario
                         ),
                       ),
                       trailing: IconButton(
@@ -180,7 +185,6 @@ class DetailsCorsoAds extends StatefulWidget {
 }
 
 class _DetailsCorsoAdsState extends State<DetailsCorsoAds> {
-
   @override
   void initState() {
     super.initState();
@@ -190,7 +194,7 @@ class _DetailsCorsoAdsState extends State<DetailsCorsoAds> {
   void _checkUserAndNavigate() async {
     String token = await SessionManager().get('token');
     final response = await http.post(
-        Uri.parse('http://10.0.2.2:8080/autenticazione/checkUserUtente'),
+        Uri.parse('http://10.0.2.2:8080/autenticazione/checkUserADS'),
         body: jsonEncode(token),
         headers: {'Content-Type': 'application/json'});
     if (response.statusCode != 200) {
@@ -230,7 +234,8 @@ class _DetailsCorsoAdsState extends State<DetailsCorsoAds> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
-                    fit: BoxFit.cover, image: AssetImage('images/'+corso.immagine)),
+                    fit: BoxFit.cover,
+                    image: AssetImage('images/' + corso.immagine)),
               ),
             ),
           ),
@@ -249,7 +254,7 @@ class _DetailsCorsoAdsState extends State<DetailsCorsoAds> {
             padding: const EdgeInsets.all(10.0),
             child: Text(
               corso.descrizione,
-                textAlign: TextAlign.center,
+              textAlign: TextAlign.center,
               style: const TextStyle(
                 fontFamily: 'Poppins',
                 fontWeight: FontWeight.bold,
@@ -330,6 +335,6 @@ class _DetailsCorsoAdsState extends State<DetailsCorsoAds> {
           ),
         ],
       ),
-        );
+    );
   }
 }

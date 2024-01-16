@@ -27,9 +27,8 @@ class _ProfiloState extends State<Profilo> {
     final response = await http.post(
         Uri.parse('http://10.0.2.2:8080/autenticazione/checkUserUtente'),
         body: jsonEncode(token),
-        headers: {'Content-Type': 'application/json'}
-    );
-    if(response.statusCode != 200){
+        headers: {'Content-Type': 'application/json'});
+    if (response.statusCode != 200) {
       Navigator.pushNamed(context, AppRoutes.home);
     }
   }
@@ -136,13 +135,10 @@ class _ProfiloState extends State<Profilo> {
                       utente!.email,
                       const TextStyle(
                         fontFamily: 'Poppins',
-                        fontSize: 15,
                         fontWeight: FontWeight.bold,
                       ),
                       const TextStyle(
                         fontFamily: 'Poppins',
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
                       ),
                       screenWidth),
                   buildProfileField(
@@ -415,10 +411,12 @@ class _ProfiloEditState extends State<ProfiloEdit> {
       emailController = TextEditingController(text: utente.email);
       usernameController = TextEditingController(text: utente.username);
       passwordController = TextEditingController(text: utente.password);
-      luogoNascitaController = TextEditingController(text: utente.luogo_nascita);
+      luogoNascitaController =
+          TextEditingController(text: utente.luogo_nascita);
       cfController = TextEditingController(text: utente.cod_fiscale);
       numTelefonoController = TextEditingController(text: utente.num_telefono);
-      lavoroAdattoController = TextEditingController(text: utente.lavoro_adatto);
+      lavoroAdattoController =
+          TextEditingController(text: utente.lavoro_adatto);
       genereController = TextEditingController(text: utente.genere);
     }
   }
@@ -501,7 +499,7 @@ class _ProfiloEditState extends State<ProfiloEdit> {
     );
     if (response.statusCode == 200 && _image != null) {
       final imageUrl =
-      Uri.parse('http://10.0.2.2:8080/autenticazione/addImage');
+          Uri.parse('http://10.0.2.2:8080/autenticazione/addImage');
       final imageRequest = http.MultipartRequest('POST', imageUrl);
 
       // Aggiungi l'immagine
@@ -549,7 +547,7 @@ class _ProfiloEditState extends State<ProfiloEdit> {
                           child: CircleAvatar(
                             backgroundImage: _image != null
                                 ? MemoryImage(
-                                File(_image!.path).readAsBytesSync())
+                                    File(_image!.path).readAsBytesSync())
                                 : Image.asset('images/avatar.png').image,
                           ),
                         ),
@@ -707,16 +705,16 @@ class _ProfiloEditState extends State<ProfiloEdit> {
                           items: ['Maschio', 'Femmina', 'Non specificato']
                               .map<DropdownMenuItem<String>>(
                                 (String value) => DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(
-                                value,
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'Poppins',
+                                  value: value,
+                                  child: Text(
+                                    value,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'Poppins',
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                          )
+                              )
                               .toList(),
                         ),
                       ),

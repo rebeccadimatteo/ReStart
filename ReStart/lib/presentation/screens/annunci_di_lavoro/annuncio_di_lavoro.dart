@@ -30,9 +30,8 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoro> {
     final response = await http.post(
         Uri.parse('http://10.0.2.2:8080/autenticazione/checkUserUtente'),
         body: jsonEncode(token),
-        headers: {'Content-Type': 'application/json'}
-    );
-    if(response.statusCode != 200){
+        headers: {'Content-Type': 'application/json'});
+    if (response.statusCode != 200) {
       Navigator.pushNamed(context, AppRoutes.home);
     }
   }
@@ -127,9 +126,11 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoro> {
                         ),
                       ],
                     ),
-                    margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+                    margin:
+                        const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
                     child: ListTile(
-                      visualDensity: const VisualDensity(vertical: 4, horizontal: 4),
+                      visualDensity:
+                          const VisualDensity(vertical: 4, horizontal: 4),
                       minVerticalPadding: 50,
                       minLeadingWidth: 80,
                       tileColor: Colors.transparent,
@@ -227,8 +228,7 @@ class _DetailsLavoroState extends State<DetailsLavoro> {
             action: SnackBarAction(
               label: 'Chiudi',
               textColor: Colors.deepPurple,
-              onPressed: () {
-              },
+              onPressed: () {},
             ),
           ),
         );
@@ -247,8 +247,7 @@ class _DetailsLavoroState extends State<DetailsLavoro> {
             action: SnackBarAction(
               label: 'Chiudi',
               textColor: Colors.deepPurple,
-              onPressed: () {
-              },
+              onPressed: () {},
             ),
           ),
         );
@@ -326,7 +325,8 @@ class _DetailsLavoroState extends State<DetailsLavoro> {
                           ),
                         ),
                         const SizedBox(width: 10),
-                        Text(annuncio.email,
+                        Text(
+                          annuncio.email,
                           style: const TextStyle(
                             fontFamily: 'Poppins',
                             fontSize: 15,
@@ -334,8 +334,9 @@ class _DetailsLavoroState extends State<DetailsLavoro> {
                           ),
                         ),
                         const SizedBox(width: 10),
-                        Text(annuncio.numTelefono,
-                             style: const TextStyle(
+                        Text(
+                          annuncio.numTelefono,
+                          style: const TextStyle(
                             fontFamily: 'Poppins',
                             fontSize: 13,
                             fontWeight: FontWeight.bold,
@@ -343,8 +344,8 @@ class _DetailsLavoroState extends State<DetailsLavoro> {
                         ),
                         const SizedBox(width: 10),
                         Text(
-                            '${annuncio.via}, ${annuncio.citta}, ${annuncio.provincia}',
-                            style: const TextStyle(
+                          '${annuncio.via}, ${annuncio.citta}, ${annuncio.provincia}',
+                          style: const TextStyle(
                             fontFamily: 'Poppins',
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
@@ -364,7 +365,8 @@ class _DetailsLavoroState extends State<DetailsLavoro> {
                 backgroundColor: Colors.transparent,
                 foregroundColor: Colors.black,
                 elevation: 10,
-                minimumSize: Size(MediaQuery.of(context).size.width * 0.1, MediaQuery.of(context).size.width * 0.1),
+                minimumSize: Size(MediaQuery.of(context).size.width * 0.1,
+                    MediaQuery.of(context).size.width * 0.1),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30.0),
                 ),
@@ -380,7 +382,8 @@ class _DetailsLavoroState extends State<DetailsLavoro> {
                   borderRadius: BorderRadius.circular(30.0),
                 ),
                 child: Container(
-                  width: MediaQuery.of(context).size.width * 0.4, // Regola la larghezza del pulsante
+                  width: MediaQuery.of(context).size.width *
+                      0.4, // Regola la larghezza del pulsante
                   height: MediaQuery.of(context).size.width * 0.1,
                   padding: const EdgeInsets.all(10),
                   child: const Center(

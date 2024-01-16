@@ -30,9 +30,8 @@ class _AlloggiTemporaneiState extends State<AlloggiTemporaneiAds> {
     final response = await http.post(
         Uri.parse('http://10.0.2.2:8080/autenticazione/checkUserADS'),
         body: jsonEncode(token),
-        headers: {'Content-Type': 'application/json'}
-    );
-    if(response.statusCode != 200){
+        headers: {'Content-Type': 'application/json'});
+    if (response.statusCode != 200) {
       Navigator.pushNamed(context, AppRoutes.home);
     }
   }
@@ -142,15 +141,18 @@ class _AlloggiTemporaneiState extends State<AlloggiTemporaneiAds> {
                         ),
                       ],
                     ),
-                    margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+                    margin:
+                        const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
                     child: ListTile(
-                      visualDensity: const VisualDensity(vertical: 4, horizontal: 4),
+                      visualDensity:
+                          const VisualDensity(vertical: 4, horizontal: 4),
                       minVerticalPadding: 50,
                       minLeadingWidth: 80,
                       tileColor: Colors.transparent,
                       leading: CircleAvatar(
                         radius: 35,
-                        backgroundImage: AssetImage('images/'+alloggio.immagine),
+                        backgroundImage:
+                            AssetImage('images/' + alloggio.immagine),
                       ),
                       title: Text(
                         alloggio.nome,
@@ -171,8 +173,7 @@ class _AlloggiTemporaneiState extends State<AlloggiTemporaneiAds> {
                       ),
                       trailing: IconButton(
                         icon: const Icon(Icons.delete,
-                            color: Colors.black, size: 30
-                        ),
+                            color: Colors.black, size: 30),
                         onPressed: () {
                           deleteAlloggio(alloggio);
                         },
@@ -203,8 +204,12 @@ class _DetailsAlloggioAdsState extends State<DetailsAlloggioAds> {
   }
 
   void _checkUserAndNavigate() async {
-    bool isUserValid = await AuthService.checkUserADS();
-    if (!isUserValid) {
+    String token = await SessionManager().get('token');
+    final response = await http.post(
+        Uri.parse('http://10.0.2.2:8080/autenticazione/checkUserADS'),
+        body: jsonEncode(token),
+        headers: {'Content-Type': 'application/json'});
+    if (response.statusCode != 200) {
       Navigator.pushNamed(context, AppRoutes.home);
     }
   }

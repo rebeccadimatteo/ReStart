@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:restart_all_in_one/model/entity/annuncio_di_lavoro_DTO.dart';
+import 'package:restart_all_in_one/presentation/components/app_bar_ca.dart';
 import '../../../model/entity/utente_DTO.dart';
 import '../../components/generic_app_bar.dart';
 import 'package:http/http.dart' as http;
@@ -61,26 +62,13 @@ class _ListaUtentiState extends State<ListaUtentiCandidati> {
     }
   }
 
-  Future<void> deleteUtente(UtenteDTO utente) async {
-    final response = await http.post(
-        Uri.parse('http://10.0.2.2:8080/autenticazione/deleteUtente'),
-        body: jsonEncode(utente));
-    if (response.statusCode == 200) {
-      setState(() {
-        utenti.remove(utente);
-      });
-    } else {
-      print("Eliminazione non andata a buon fine");
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: GenericAppBar(
+      appBar: CaAppBar(
         showBackButton: true,
       ),
-      endDrawer: GenericAppBar.buildDrawer(context),
+      endDrawer: CaAppBar.buildDrawer(context),
       body: Stack(
         children: [
           Positioned(
@@ -91,7 +79,7 @@ class _ListaUtentiState extends State<ListaUtentiCandidati> {
               padding: const EdgeInsets.all(20),
               color: Colors.white,
               child: const Text(
-                'Lista utenti',
+                'Lista utenti candidati',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 20,
@@ -104,64 +92,72 @@ class _ListaUtentiState extends State<ListaUtentiCandidati> {
           Padding(
             padding: const EdgeInsets.only(top: 50),
             child: ListView.builder(
-              itemCount: utenti.length,
-              itemBuilder: (context, index) {
-                final utente = utenti[index];
-                return Padding(
-                  padding: const EdgeInsets.only(
-                      top: 5, bottom: 5, left: 5, right: 5),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      gradient: LinearGradient(
-                        colors: [Colors.blue[50]!, Colors.blue[100]!],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.2),
-                          spreadRadius: 2,
-                          blurRadius: 5,
-                          offset: Offset(0, 2),
+                itemCount: utenti.length,
+                itemBuilder: (context, index) {
+                  final utente = utenti[index];
+                  return InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(
+                          context,
+                          AppRoutes.profiloCandidato,
+                          arguments: utente.username,
+                        );
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            top: 5, bottom: 5, left: 5, right: 5),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            gradient: LinearGradient(
+                              colors: [Colors.blue[50]!, Colors.blue[100]!],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.2),
+                                spreadRadius: 2,
+                                blurRadius: 5,
+                                offset: Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                          margin: const EdgeInsets.symmetric(
+                              vertical: 5, horizontal: 5),
+                          child: ListTile(
+                            visualDensity:
+                                const VisualDensity(vertical: 4, horizontal: 4),
+                            minVerticalPadding: 50,
+                            minLeadingWidth: 80,
+                            tileColor: Colors.transparent,
+                            leading: CircleAvatar(
+                              radius: 35,
+                              backgroundImage:
+                                  Image.asset(utente.immagine).image,
+                            ),
+                            title: Text(
+                              utente.nome,
+                              style: const TextStyle(
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                                color: Colors.black,
+                              ),
+                            ),
+                            subtitle: Text(
+                              utente.email,
+                              style: const TextStyle(
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
                         ),
-                      ],
-                    ),
-                    margin:
-                        const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-                    child: ListTile(
-                      visualDensity:
-                          const VisualDensity(vertical: 4, horizontal: 4),
-                      minVerticalPadding: 50,
-                      minLeadingWidth: 80,
-                      tileColor: Colors.transparent,
-                      leading: CircleAvatar(
-                        radius: 35,
-                        backgroundImage: Image.asset(utente.immagine).image,
-                      ),
-                      title: Text(
-                        utente.nome,
-                        style: const TextStyle(
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                          color: Colors.black,
-                        ),
-                      ),
-                      subtitle: Text(
-                        utente.email,
-                        style: const TextStyle(
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                  ),
-                );
-              },
-            ),
+                      ));
+                }),
           ),
         ],
       ),
@@ -176,6 +172,7 @@ class ProfiloCandidato extends StatefulWidget {
 
 class _ProfiloState extends State<ProfiloCandidato> {
   late UtenteDTO? utente;
+  late String userId;
   late DateTime? selectedDate;
   var token = SessionManager().get('token');
   TextEditingController dataNascitaController = TextEditingController();
@@ -183,7 +180,7 @@ class _ProfiloState extends State<ProfiloCandidato> {
   void _checkUserAndNavigate() async {
     String token = await SessionManager().get('token');
     final response = await http.post(
-        Uri.parse('http://10.0.2.2:8080/autenticazione/checkUserUtente'),
+        Uri.parse('http://10.0.2.2:8080/autenticazione/checkUserCA'),
         body: jsonEncode(token),
         headers: {'Content-Type': 'application/json'});
     if (response.statusCode != 200) {
@@ -194,7 +191,53 @@ class _ProfiloState extends State<ProfiloCandidato> {
   @override
   void initState() {
     super.initState();
+    utente = UtenteDTO(
+        nome: 'nome',
+        cognome: 'cognome',
+        cod_fiscale: 'cod_fiscale',
+        data_nascita: DateTime.now(),
+        luogo_nascita: 'luogo_nascita',
+        genere: 'genere',
+        username: 'username',
+        password: 'password',
+        email: 'email',
+        num_telefono: 'num_telefono',
+        immagine: 'images/avatar.png',
+        via: 'via',
+        citta: 'citta',
+        provincia: 'provincia',
+        lavoro_adatto: 'lavoro_adatto');
+    // _checkUserAndNavigate();
+    // fetchProfiloFromServer();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Now you can safely access inherited widgets like ModalRoute
+    userId = ModalRoute.of(context)!.settings.arguments as String;
     _checkUserAndNavigate();
+    fetchProfiloFromServer();
+  }
+
+  Future<void> fetchProfiloFromServer() async {
+    final response = await http.post(
+      Uri.parse('http://10.0.2.2:8080/autenticazione/visualizzaUtente'),
+      body: jsonEncode({'user': userId}),
+    );
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> responseBody = json.decode(response.body);
+      if (responseBody.containsKey('result')) {
+        final UtenteDTO data = UtenteDTO.fromJson(responseBody['result']);
+        setState(() {
+          utente = data;
+        });
+      } else {
+        print('Chiave "utente" non trovata nella risposta.');
+      }
+    } else {
+      print('Errore');
+    }
   }
 
   Widget buildProfileField(String label, String value, TextStyle labelStyle,
@@ -222,10 +265,10 @@ class _ProfiloState extends State<ProfiloCandidato> {
     final String data = utente!.data_nascita.toIso8601String();
     final String dataBuona = data.substring(0, 10);
     return Scaffold(
-      appBar: GenericAppBar(
+      appBar: CaAppBar(
         showBackButton: true,
       ),
-      endDrawer: GenericAppBar.buildDrawer(context),
+      endDrawer: CaAppBar.buildDrawer(context),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(
@@ -254,13 +297,10 @@ class _ProfiloState extends State<ProfiloCandidato> {
                       utente!.email,
                       const TextStyle(
                         fontFamily: 'Poppins',
-                        fontSize: 15,
                         fontWeight: FontWeight.bold,
                       ),
                       const TextStyle(
                         fontFamily: 'Poppins',
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
                       ),
                       screenWidth),
                   buildProfileField(
@@ -330,39 +370,6 @@ class _ProfiloState extends State<ProfiloCandidato> {
                       ),
                       screenWidth),
                   buildProfileField(
-                      'Username',
-                      utente!.username,
-                      const TextStyle(
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.bold,
-                      ),
-                      const TextStyle(
-                        fontFamily: 'Poppins',
-                      ),
-                      screenWidth),
-                  buildProfileField(
-                      'Password',
-                      '*********',
-                      const TextStyle(
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.bold,
-                      ),
-                      const TextStyle(
-                        fontFamily: 'Poppins',
-                      ),
-                      screenWidth),
-                  buildProfileField(
-                      'Lavoro adatto',
-                      utente!.lavoro_adatto as String,
-                      const TextStyle(
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.bold,
-                      ),
-                      const TextStyle(
-                        fontFamily: 'Poppins',
-                      ),
-                      screenWidth),
-                  buildProfileField(
                       'Città',
                       utente!.citta,
                       const TextStyle(
@@ -398,49 +405,6 @@ class _ProfiloState extends State<ProfiloCandidato> {
                 ],
               ),
               SizedBox(height: screenWidth * 0.1),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamed(
-                    context,
-                    AppRoutes.modificaprofilo,
-                    arguments: utente,
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.transparent,
-                  foregroundColor: Colors.black,
-                  elevation: 10,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                  padding: EdgeInsets.zero,
-                ),
-                child: Ink(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [Colors.blue[50]!, Colors.blue[100]!],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                  child: Container(
-                    width: screenWidth * 0.60,
-                    height: screenWidth * 0.1,
-                    padding: const EdgeInsets.all(10),
-                    child: const Center(
-                      child: Text(
-                        'MODIFICA',
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
             ],
           ),
         ),
