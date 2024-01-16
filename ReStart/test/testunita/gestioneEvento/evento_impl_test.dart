@@ -1,9 +1,9 @@
 import 'package:intl/intl.dart';
 import 'package:mockito/mockito.dart';
-import '../../lib/model/entity/evento_DTO.dart';
+import '../../../lib/model/entity/evento_DTO.dart';
 import 'package:test/test.dart';
-import '../../lib/application/gestioneEvento/service/evento_service_impl.dart';
-import '../../lib/model/dao/evento/evento_DAO_impl.dart';
+import '../../../lib/application/gestioneEvento/service/evento_service_impl.dart';
+import '../../../lib/model/dao/evento/evento_DAO_impl.dart';
 
 class MockitoEventoImp extends Mock implements EventoServiceImpl {}
 
