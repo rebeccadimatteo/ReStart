@@ -18,6 +18,7 @@ import '../home/home_ca.dart';
 import '../home/home_utente.dart';
 import '../inserimento_annuncio/inserimento_annuncio.dart';
 import '../inserimento_evento/inserimento_evento.dart';
+import '../lavoro_adatto/visualizza_lavoro_adatto.dart';
 import '../login_signup/login.dart';
 import '../login_signup/signup.dart';
 import '../login_signup/start.dart';

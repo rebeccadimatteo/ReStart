@@ -6,6 +6,7 @@ import '../../../utils/jwt_utils.dart';
 import '../../components/generic_app_bar.dart';
 import 'package:http/http.dart' as http;
 import '../routes/routes.dart';
+import 'visualizza_lavoro_adatto.dart';
 
 class LavoroAdatto extends StatefulWidget {
   @override
@@ -323,9 +324,9 @@ class _LavoroAdattoState extends State<LavoroAdatto> {
                     ElevatedButton(
                       onPressed: () {
                         submitForm();
-                        Navigator.pushNamed(
+                        Navigator.pushReplacement(
                           context,
-                          AppRoutes.visualizzaLavoroAdatto,
+                          MaterialPageRoute(builder: (context) => VisualizzaLavoroAdatto()),
                         );
                       },
                       style: ElevatedButton.styleFrom(
