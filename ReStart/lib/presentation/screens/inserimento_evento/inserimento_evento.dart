@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import '../../../model/entity/evento_DTO.dart';
 import '../../../utils/jwt_utils.dart';
 import '../../components/app_bar_ca.dart';
@@ -41,20 +42,104 @@ class _InserisciEventoState extends State<InserisciEvento> {
 
   final _formKey = GlobalKey<FormState>();
   XFile? _image;
+  DateTime? selectedDate;
 
-  TextEditingController nomeController = TextEditingController();
-  TextEditingController descrizioneController = TextEditingController();
-  TextEditingController dataController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController sitoController = TextEditingController();
-  TextEditingController cittaController = TextEditingController();
-  TextEditingController viaController = TextEditingController();
-  TextEditingController provinciaController = TextEditingController();
+  final TextEditingController nomeController = TextEditingController();
+  final TextEditingController descrizioneController = TextEditingController();
+  final TextEditingController dataController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController cittaController = TextEditingController();
+  final TextEditingController viaController = TextEditingController();
+  final TextEditingController provinciaController = TextEditingController();
+  final TextEditingController telefonoController = TextEditingController();
+
+  bool _isNomeValid = true;
+  bool _isDescrizioneValid = true;
+  bool _isEmailValid = true;
+  bool _isViaValid = true;
+  bool _isCittaValid = true;
+  bool _isProvinciaValid = true;
+  bool _isTelefonoValid = true;
+
+
+  bool validateNome(String nome) {
+    RegExp regex = RegExp(r"^[A-Za-zÀ-ú‘’',\(\)\s]{2,50}$");
+    return regex.hasMatch(nome);
+  }
+
+  bool validateDescrizione(String descrizione) {
+    RegExp regex = RegExp(r"^[A-Za-zÀ-ú0-9‘’',\.\(\)\s\/|\\{}\[\],\-!$%&?<>=^+°#*:']{2,255}$");
+        return regex.hasMatch(descrizione);
+  }
+
+  bool validateEmail(String email) {
+    RegExp regex = RegExp(r'^[A-Za-z0-9_.]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$');
+    return regex.hasMatch(email);
+  }
+
+  /*bool validateSito(String sito) {
+    RegExp regex = RegExp(
+      r'^(http:\/\/|https:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$',
+      caseSensitive: false,
+    );
+    return regex.hasMatch(sito);
+  }*/
+
+  bool validateVia(String via) {
+    RegExp regex = RegExp(r'^[a-zA-Z .]+(,\s?[a-zA-Z0-9 ]*)?$');
+    return regex.hasMatch(via);
+  }
+
+  bool validateCitta(String citta) {
+    RegExp regex = RegExp(r'^[A-z À-ù‘-]{2,50}$');
+    return regex.hasMatch(citta);
+  }
+
+  bool validateProvincia(String provincia) {
+    RegExp regex = RegExp(r'^[A-Z]{2}');
+    if (provincia.length > 2) return false;
+    return regex.hasMatch(provincia);
+  }
+
+  bool validateTelefono(String telefono) {
+    RegExp regex = RegExp(r'^\+\d{12}$');
+    return regex.hasMatch(telefono);
+  }
+
+  bool validateImmagine(String immagine) {
+    RegExp regex = RegExp(r'^.+\.jpe?g$');
+    return regex.hasMatch(immagine);
+  }
 
   /// Metodo per selezionare un'immagine dalla galleria.
   void selectImage() async {
     final imagePicker = ImagePicker();
     _image = await imagePicker.pickImage(source: ImageSource.gallery);
+  }
+
+  Future<void> _selectDate(BuildContext context) async {
+    DateTime now = DateTime.now();
+    DateTime initialDate = now;
+    DateTime lastDate = DateTime(2099, 12, 31, 23, 59);
+    DateTime firstAllowedDate = DateTime(now.year, now.month, now.day, now.hour, now.minute);
+
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: initialDate,
+      firstDate: firstAllowedDate,
+      lastDate: lastDate,
+      selectableDayPredicate: (DateTime day) {
+        return day.isBefore(firstAllowedDate);
+      },
+    );
+
+    if (pickedDate != null && pickedDate != selectedDate) {
+      setState(() {
+        selectedDate = pickedDate;
+        dataController.text =
+            DateFormat('yyyy-MM-dd').format(selectedDate!);
+      });
+    }
   }
 
   /// Metodo per inviare il form al server.
@@ -66,7 +151,6 @@ class _InserisciEventoState extends State<InserisciEvento> {
       String via = viaController.text;
       String provincia = provinciaController.text;
       String email = emailController.text;
-      String sito = sitoController.text;
       String imagePath = 'images/image_${nome}.jpg';
 
       EventoDTO evento = EventoDTO(
@@ -77,7 +161,6 @@ class _InserisciEventoState extends State<InserisciEvento> {
           via: via,
           provincia: provincia,
           email: email,
-          sito: sito,
           immagine: imagePath,
           id_ca: JWTUtils.getIdFromToken(accessToken: await token),
           date: DateTime.now().add(Duration(days: 10)));
@@ -173,45 +256,208 @@ class _InserisciEventoState extends State<InserisciEvento> {
                           ],
                         ),
                         const SizedBox(height: 20),
-                        TextFormField(
-                          controller: nomeController,
-                          decoration: const InputDecoration(
-                            labelText: 'Nome evento',
-                            labelStyle: TextStyle(
-                              fontSize: 15,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {}
-                            return null;
-                          },
-                          onChanged: (value) {
-                            setState(
-                              () {
-                                nomeController.text = value;
-                              },
-                            );
-                          },
-                        ),
-                        const SizedBox(height: 20),
-                        TextFormField(
-                            controller: descrizioneController,
-                            decoration: const InputDecoration(
-                              labelText: 'Descrizione',
-                              labelStyle: TextStyle(
-                                fontSize: 15,
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: 15.0,
+                              right: 15.0,
+                              top: 15,
+                              bottom: _isNomeValid ? 15 : 20),
+                          child: TextFormField(
+                            controller: nomeController,
+                            onChanged: (value) {
+                              setState(() {
+                                _isNomeValid = validateNome(value);
+                              });
+                            },
+                            decoration: InputDecoration(
+                              labelText: 'Nome',
+                              hintText: 'Inserisci il nome dell\'evento...',
+                              // Cambia il colore del testo in rosso se il nome non è valido
+                              errorText: _isNomeValid
+                                  ? null
+                                  : 'Formato nome non corretto (ex. Evento Comunitario \n    [max. 50 caratteri])',
+                              errorStyle: const TextStyle(color: Colors.red),
+                              labelStyle: const TextStyle(
                                 fontFamily: 'Poppins',
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
+                            style: const TextStyle(
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: 15.0,
+                              right: 15.0,
+                              top: 15,
+                              bottom: _isDescrizioneValid ? 15 : 20),
+                          child: TextFormField(
+                            controller: descrizioneController,
+                            onChanged: (value) {
+                              setState(() {
+                                _isDescrizioneValid = validateDescrizione(value);
+                              });
+                            },
+                            decoration: InputDecoration(
+                              labelText: 'Descrizione',
+                              hintText: 'Inserisci la descrizione dell\'evento...',
+                              // Cambia il colore del testo in rosso se la descrizione non è valida
+                              errorText: _isDescrizioneValid
+                                  ? null
+                                  : 'Lunghezza descrizione non corretta (max. 255 caratteri)',
+                              errorStyle: const TextStyle(color: Colors.red),
+                              labelStyle: const TextStyle(
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            style: const TextStyle(
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 40),
+                        const Text(
+                          'Luogo e Data',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: 15.0,
+                              right: 15.0,
+                              top: 15,
+                              bottom: _isCittaValid ? 15 : 20),
+                          child: TextFormField(
+                            controller: cittaController,
+                            onChanged: (value) {
+                              setState(() {
+                                _isCittaValid = validateCitta(value);
+                              });
+                            },
+                            decoration: InputDecoration(
+                              labelText: 'Citta',
+                              labelStyle: const TextStyle(
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.bold,
+                              ),
+                              hintText: 'Inserisci la città dell\'evento...',
+                              // Cambia il colore del testo in rosso se città non è valida
+                              errorText: _isCittaValid
+                                  ? null
+                                  : 'Formato città non corretto (ex: Napoli)',
+                              errorStyle: const TextStyle(color: Colors.red),
+                            ),
+                            style: const TextStyle(
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: 15.0,
+                              right: 15.0,
+                              top: 15,
+                              bottom: _isViaValid ? 15 : 20),
+                          child: TextFormField(
+                            controller: viaController,
+                            onChanged: (value) {
+                              setState(() {
+                                _isViaValid = validateVia(value);
+                              });
+                            },
+                            decoration: InputDecoration(
+                              labelText: 'Via',
+                              labelStyle: const TextStyle(
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.bold,
+                              ),
+                              hintText: 'Inserisci la via dell\'evento...',
+                              // Cambia il colore del testo in rosso se via non è valida
+                              errorText: _isViaValid
+                                  ? null
+                                  : 'Formato via non corretto (ex: Via Fratelli Napoli, 1)',
+                              errorStyle: const TextStyle(color: Colors.red),
+                            ),
+                            style: const TextStyle(
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: 15.0,
+                              right: 15.0,
+                              top: 15,
+                              bottom: _isProvinciaValid ? 15 : 20),
+                          child: TextFormField(
+                            controller: provinciaController,
+                            onChanged: (value) {
+                              setState(() {
+                                _isProvinciaValid = validateProvincia(value);
+                              });
+                            },
+                            decoration: InputDecoration(
+                              labelText: 'Provincia',
+                              labelStyle: const TextStyle(
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.bold,
+                              ),
+                              hintText: 'Inserisci la provincia dell\'evento...',
+                              // Cambia il colore del testo in rosso se provincia non è valida
+                              errorText: _isProvinciaValid
+                                  ? null
+                                  : 'Formato provincia non corretta (ex: AV)',
+                              errorStyle: const TextStyle(color: Colors.red),
+                            ),
+                            style: const TextStyle(
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            _selectDate(context);
+                          },
+                          child: TextFormField(
+                            readOnly: true,
+                            controller: dataController,
+                            decoration: const InputDecoration(
+                              labelText: 'Data Evento',
+                              labelStyle: TextStyle(
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.bold,
+                              ),
+                              hintText: 'Inserisci la data dell\'evento...',
+                              suffixIcon: Icon(Icons.date_range),
+                            ),
+                            style: const TextStyle(
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.bold,
+                            ),
+                            onTap: () {
+                              _selectDate(context);
+                            },
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Inserisci la descrizione dell\'evento';
+                                return 'Data evento';
                               }
                               return null;
-                            }),
+                            },
+                          ),
+                        ),
                         const SizedBox(height: 40),
                         const Text(
                           'Contatti',
@@ -222,89 +468,71 @@ class _InserisciEventoState extends State<InserisciEvento> {
                           ),
                         ),
                         const SizedBox(height: 20),
-                        TextFormField(
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: 15.0,
+                              right: 15.0,
+                              top: 15,
+                              bottom: _isEmailValid ? 15 : 20),
+                          child: TextFormField(
                             controller: emailController,
-                            decoration: const InputDecoration(
+                            onChanged: (value) {
+                              setState(() {
+                                _isEmailValid = validateEmail(value);
+                              });
+                            },
+                            decoration: InputDecoration(
                               labelText: 'Email',
-                              labelStyle: TextStyle(
-                                fontSize: 15,
+                              labelStyle: const TextStyle(
                                 fontFamily: 'Poppins',
                                 fontWeight: FontWeight.bold,
                               ),
+                              hintText: 'Inserisci l\'email...',
+                              // Cambia il colore del testo in rosso se email non è valida
+                              errorText: _isEmailValid
+                                  ? null
+                                  : 'Formato email non corretta (ex: esempio@esempio.com)',
+                              errorStyle: const TextStyle(color: Colors.red),
                             ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Inserisci la mail dell\'evento';
-                              }
-                              return null;
-                            }),
+                            style: const TextStyle(
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
                         const SizedBox(height: 20),
-                        TextFormField(
-                            controller: sitoController,
-                            decoration: const InputDecoration(
-                              labelText: 'Sito web',
-                              labelStyle: TextStyle(
-                                fontSize: 15,
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: 15.0,
+                              right: 15.0,
+                              top: 15,
+                              bottom: _isTelefonoValid ? 15 : 20),
+                          child: TextFormField(
+                            controller: telefonoController,
+                            onChanged: (value) {
+                              setState(() {
+                                _isTelefonoValid = validateTelefono(value);
+                              });
+                            },
+                            decoration: InputDecoration(
+                              labelText: 'Numero di telefono',
+                              labelStyle: const TextStyle(
                                 fontFamily: 'Poppins',
                                 fontWeight: FontWeight.bold,
                               ),
+                              hintText: 'Inserisci numero di telefono...',
+                              // Cambia il colore del testo in rosso se telefono non è valido
+                              errorText: _isTelefonoValid
+                                  ? null
+                                  : 'Formato numero di telefono non corretto (ex: +393330000000)',
+                              errorStyle: const TextStyle(color: Colors.red),
                             ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Inserisci il sito web dell\'evento';
-                              }
-                              return null;
-                            }),
-                        const SizedBox(height: 20),
-                        TextFormField(
-                            controller: cittaController,
-                            decoration: const InputDecoration(
-                              labelText: 'Città',
-                              labelStyle: TextStyle(
-                                fontSize: 15,
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.bold,
-                              ),
+                            style: const TextStyle(
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.bold,
                             ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Inserisci la città dov\è situato l\'evento';
-                              }
-                              return null;
-                            }),
-                        TextFormField(
-                            controller: viaController,
-                            decoration: const InputDecoration(
-                              labelText: 'Via',
-                              labelStyle: TextStyle(
-                                fontSize: 15,
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Inserisci la via dov\è situato l\'evento';
-                              }
-                              return null;
-                            }),
-                        const SizedBox(height: 20),
-                        TextFormField(
-                            controller: provinciaController,
-                            decoration: const InputDecoration(
-                              labelText: 'Provincia',
-                              labelStyle: TextStyle(
-                                fontSize: 15,
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Inserisci la provincia dov\è situato l\'evento';
-                              }
-                              return null;
-                            }),
+                          ),
+                        ),
                         SizedBox(height: screenWidth * 0.1),
                         ElevatedButton(
                           onPressed: () {

@@ -46,11 +46,10 @@ class EventoDAOImpl implements EventoDAO {
           });
 
       var result3 = await connection.execute(
-          Sql.named('INSERT INTO public."Contatti" (email, sito, id_evento) '
-              'VALUES (@email, @sito, @id_evento)'),
+          Sql.named('INSERT INTO public."Contatti" (email, id_evento) '
+              'VALUES (@email, @id_evento)'),
           parameters: {
             'email': e.email,
-            'sito': e.sito,
             'id_evento': id,
           });
 
@@ -100,7 +99,7 @@ class EventoDAOImpl implements EventoDAO {
       Connection connection = await connector.openConnection();
       var result = await connection.execute(Sql.named(
           'SELECT  e.id, e.id_ca, e.id_ca, e.nome, e.descrizione, e.data, e.approvato, c.email, '
-          'c.sito, i.immagine, ind.via, ind.citta, ind.provincia FROM public."Evento" as e, public."Contatti" as c, '
+          ' i.immagine, ind.via, ind.citta, ind.provincia FROM public."Evento" as e, public."Contatti" as c, '
           'public."Immagine" as i, public."Indirizzo" as ind, public."CA" as ca '
           'WHERE e.id = c.id_evento AND e.id = i.id_evento AND e.id = ind.id_evento AND e.id_ca = ca.id'));
 
@@ -125,7 +124,7 @@ class EventoDAOImpl implements EventoDAO {
       var result = await connection.execute(
         Sql.named(
             'SELECT  e.id, e.id_ca, e.nome, e.descrizione, e.data, e.approvato, c.email,'
-            'c.sito, i.immagine, ind.via, ind.citta, ind.provincia FROM public."Evento" as e, public."Contatti" as c, '
+            ' i.immagine, ind.via, ind.citta, ind.provincia FROM public."Evento" as e, public."Contatti" as c, '
             'public."Immagine" as i, public."Indirizzo" as ind '
             'WHERE e.id = @id AND @id = c.id_evento AND @id = i.id_evento AND @id = ind.id_evento '),
         parameters: {'id': id},
@@ -184,11 +183,10 @@ class EventoDAOImpl implements EventoDAO {
       );
 
       var result2 = await connection.execute(
-        Sql.named('UPDATE public."Contatti" SET email = @email, sito = @sito '
+        Sql.named('UPDATE public."Contatti" SET email = @email '
             'WHERE id_evento = @id_evento'),
         parameters: {
           'email': e?.email,
-          'sito': e?.sito,
           'id_evento': e?.id,
         },
       );
@@ -236,7 +234,7 @@ class EventoDAOImpl implements EventoDAO {
       var result = await connection.execute(
         Sql.named(
             'SELECT DISTINCT e.id, e.id_ca, e.nome, e.descrizione, e.data, e.approvato, c.email, '
-            'c.sito, i.immagine, ind.via, ind.citta, ind.provincia FROM public."Evento" as e, public."Contatti" as c, '
+            ' i.immagine, ind.via, ind.citta, ind.provincia FROM public."Evento" as e, public."Contatti" as c, '
             'public."Immagine" as i, public."Indirizzo" as ind, public."CA" as ca '
             'WHERE e.id = c.id_evento AND e.id = i.id_evento AND e.id = ind.id_evento AND e.id_ca = @id AND e.approvato=true '),
         parameters: {'id': id},
@@ -261,7 +259,7 @@ class EventoDAOImpl implements EventoDAO {
       var result = await connection.execute(
         Sql.named(
             'SELECT  e.id, e.id_ca, e.nome, e.descrizione, e.data, e.approvato, c.email,'
-            'c.sito, i.immagine, ind.via, ind.citta, ind.provincia, FROM public."Evento" as e, public."Contatti" as c, '
+            ' i.immagine, ind.via, ind.citta, ind.provincia, FROM public."Evento" as e, public."Contatti" as c, '
             'public."Immagine" as i, public."Indirizzo" as ind, public."CA" as ca '
             'WHERE e.id = c.id_evento AND e.id = i.id_evento AND e.id = ind.id_evento AND e.id_ca = ca.id AND e.approvato=false '),
       );

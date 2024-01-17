@@ -59,7 +59,6 @@ class GestioneEventoController {
       final String descrizione = params['descrizione'] ?? '';
       final bool approvato = params['approvato'] ?? '';
       final String email = params['email'] ?? '';
-      final String sito = params['sito'] ?? '';
       final String immagine = params['immagine'] ?? '';
       final String via = params['via'] ?? '';
       final String citta = params['citta'] ?? '';
@@ -72,7 +71,6 @@ class GestioneEventoController {
           date: parsedDate,
           approvato: approvato,
           email: email,
-          sito: sito,
           immagine: immagine,
           via: via,
           citta: citta,
@@ -219,7 +217,6 @@ class GestioneEventoController {
       final String descrizione = params['descrizione'] ?? '';
       final bool approvato = params['approvato'] ?? 'false';
       final String email = params['email'] ?? '';
-      final String sito = params['sito'] ?? '';
       final String via = params['via'] ?? '';
       final String citta = params['citta'] ?? '';
       final String provincia = params['provincia'] ?? '';
@@ -231,7 +228,6 @@ class GestioneEventoController {
         descrizione: descrizione,
         approvato: approvato,
         email: email,
-        sito: sito,
         via: via,
         citta: citta,
         provincia: provincia,

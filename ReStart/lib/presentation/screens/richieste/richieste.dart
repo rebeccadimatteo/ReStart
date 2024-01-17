@@ -89,7 +89,7 @@ class _RichiesteState extends State<Richieste> {
               label: 'Chiudi',
               textColor: Colors.deepPurple,
               onPressed: () {
-                // Codice per chiudere la snackbar, se necessario
+                // Codice per chiudere la snackbar
               },
             ),
           ),
@@ -113,7 +113,7 @@ class _RichiesteState extends State<Richieste> {
               label: 'Chiudi',
               textColor: Colors.deepPurple,
               onPressed: () {
-                // Codice per chiudere la snackbar, se necessario
+                // Codice per chiudere la snackbar
               },
             ),
           ),
@@ -142,7 +142,7 @@ class _RichiesteState extends State<Richieste> {
               label: 'Chiudi',
               textColor: Colors.deepPurple,
               onPressed: () {
-                // Codice per chiudere la snackbar, se necessario
+                // Codice per chiudere la snackbar
               },
             ),
           ),
@@ -166,7 +166,7 @@ class _RichiesteState extends State<Richieste> {
               label: 'Chiudi',
               textColor: Colors.deepPurple,
               onPressed: () {
-                // Codice per chiudere la snackbar, se necessario
+                // Codice per chiudere la snackbar
               },
             ),
           ),
@@ -195,7 +195,7 @@ class _RichiesteState extends State<Richieste> {
               label: 'Chiudi',
               textColor: Colors.deepPurple,
               onPressed: () {
-                // Codice per chiudere la snackbar, se necessario
+                // Codice per chiudere la snackbar
               },
             ),
           ),
@@ -219,7 +219,7 @@ class _RichiesteState extends State<Richieste> {
               label: 'Chiudi',
               textColor: Colors.deepPurple,
               onPressed: () {
-                // Codice per chiudere la snackbar, se necessario
+                // Codice per chiudere la snackbar
               },
             ),
           ),
@@ -248,7 +248,7 @@ class _RichiesteState extends State<Richieste> {
               label: 'Chiudi',
               textColor: Colors.deepPurple,
               onPressed: () {
-                // Codice per chiudere la snackbar, se necessario
+                // Codice per chiudere la snackbar
               },
             ),
           ),
@@ -272,7 +272,7 @@ class _RichiesteState extends State<Richieste> {
               label: 'Chiudi',
               textColor: Colors.deepPurple,
               onPressed: () {
-                // Codice per chiudere la snackbar, se necessario
+                // Codice per chiudere la snackbar
               },
             ),
           ),
@@ -285,7 +285,8 @@ class _RichiesteState extends State<Richieste> {
   Widget build(BuildContext context) {
     if (eventi.isEmpty && annunci.isEmpty) {
       // Nessuna richiesta
-      return Scaffold(
+      return MaterialApp(
+        home: Scaffold(
         appBar: AdsAppBar(
           showBackButton: true,
         ),
@@ -295,38 +296,37 @@ class _RichiesteState extends State<Richieste> {
             'Nessuna richiesta',
             style: TextStyle(
               fontSize: 20,
+              fontFamily: 'PoppinsMedium',
               fontWeight: FontWeight.bold,
             ),
           ),
         ),
+        ),
       );
     }
-    return Scaffold(
+    return MaterialApp(
+        home: Scaffold(
       appBar: AdsAppBar(
         showBackButton: true,
       ),
       endDrawer: AdsAppBar.buildDrawer(context),
       body: ListView.builder(
         itemCount: eventi.length + annunci.length + 2,
-        // Aggiungi 2 per le scritte 'Eventi' e 'Annunci di lavoro'
         itemBuilder: (context, index) {
           if (index == 0) {
-            // Prima della lista degli eventi
             return buildSectionHeader('Eventi');
           } else if (index <= eventi.length) {
-            // Elementi degli eventi
             final evento = eventi[index - 1];
             return buildEventItem(context, evento);
           } else if (index == eventi.length + 1) {
-            // Prima della lista degli annunci di lavoro
             return buildSectionHeader('Annunci di lavoro');
           } else {
-            // Elementi degli annunci di lavoro
             final annuncio = annunci[index - eventi.length - 2];
             return buildAnnouncementItem(context, annuncio);
           }
         },
       ),
+        ),
     );
   }
 
@@ -337,7 +337,7 @@ class _RichiesteState extends State<Richieste> {
       child: Center(
         child: Text(
           title,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
           ),
@@ -353,7 +353,7 @@ class _RichiesteState extends State<Richieste> {
           context,
           MaterialPageRoute(
             builder: (context) => DetailsEventoR(
-                evento), // Passa il tuo annuncio come argomento qui
+                evento),
           ),
         );
       },
@@ -403,7 +403,7 @@ class _RichiesteState extends State<Richieste> {
           context,
           MaterialPageRoute(
             builder: (context) => DetailsLavoroR(
-                annuncio), // Passa il tuo annuncio come argomento qui
+                annuncio),
           ),
         );
       },
@@ -483,7 +483,7 @@ class _DetailsLavoroAdsState extends State<DetailsLavoroR> {
               label: 'Chiudi',
               textColor: Colors.deepPurple,
               onPressed: () {
-                // Codice per chiudere la snackbar, se necessario
+                // Codice per chiudere la snackbar
               },
             ),
           ),
@@ -504,7 +504,7 @@ class _DetailsLavoroAdsState extends State<DetailsLavoroR> {
               label: 'Chiudi',
               textColor: Colors.deepPurple,
               onPressed: () {
-                // Codice per chiudere la snackbar, se necessario
+                // Codice per chiudere la snackbar
               },
             ),
           ),
@@ -533,7 +533,7 @@ class _DetailsLavoroAdsState extends State<DetailsLavoroR> {
               label: 'Chiudi',
               textColor: Colors.deepPurple,
               onPressed: () {
-                // Codice per chiudere la snackbar, se necessario
+                // Codice per chiudere la snackbar
               },
             ),
           ),
@@ -554,7 +554,7 @@ class _DetailsLavoroAdsState extends State<DetailsLavoroR> {
               label: 'Chiudi',
               textColor: Colors.deepPurple,
               onPressed: () {
-                // Codice per chiudere la snackbar, se necessario
+                // Codice per chiudere la snackbar
               },
             ),
           ),
@@ -619,7 +619,7 @@ class _DetailsLavoroAdsState extends State<DetailsLavoroR> {
                           'Contatti',
                           style: TextStyle(
                             fontSize: 20,
-                            fontFamily: 'Poppins',
+                            fontFamily: 'PoppinsMedium',
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -672,7 +672,6 @@ class _DetailsLavoroAdsState extends State<DetailsLavoroR> {
               child: Container(
                 margin: const EdgeInsets.symmetric(horizontal: 10),
                 width: double.infinity,
-                // Per occupare tutta la larghezza disponibile
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -706,7 +705,7 @@ class _DetailsLavoroAdsState extends State<DetailsLavoroR> {
                         ),
                       ),
                     ),
-                    const SizedBox(width: 10), // Spazio tra i pulsanti
+                    const SizedBox(width: 10),
                     Expanded(
                       child: Ink(
                         decoration: BoxDecoration(
@@ -784,7 +783,7 @@ class _DetailsEventoAdsState extends State<DetailsEventoR> {
               label: 'Chiudi',
               textColor: Colors.deepPurple,
               onPressed: () {
-                // Codice per chiudere la snackbar, se necessario
+                // Codice per chiudere la snackbar
               },
             ),
           ),
@@ -805,7 +804,7 @@ class _DetailsEventoAdsState extends State<DetailsEventoR> {
               label: 'Chiudi',
               textColor: Colors.deepPurple,
               onPressed: () {
-                // Codice per chiudere la snackbar, se necessario
+                // Codice per chiudere la snackbar
               },
             ),
           ),
@@ -834,7 +833,7 @@ class _DetailsEventoAdsState extends State<DetailsEventoR> {
               label: 'Chiudi',
               textColor: Colors.deepPurple,
               onPressed: () {
-                // Codice per chiudere la snackbar, se necessario
+                // Codice per chiudere la snackbar
               },
             ),
           ),
@@ -855,7 +854,7 @@ class _DetailsEventoAdsState extends State<DetailsEventoR> {
               label: 'Chiudi',
               textColor: Colors.deepPurple,
               onPressed: () {
-                // Codice per chiudere la snackbar, se necessario
+                // Codice per chiudere la snackbar
               },
             ),
           ),
@@ -913,17 +912,16 @@ class _DetailsEventoAdsState extends State<DetailsEventoR> {
                           'Contatti',
                           style: TextStyle(
                               fontSize: 25,
-                              fontFamily: 'Poppins',
+                              fontFamily: 'PoppinsMedium',
                               fontWeight: FontWeight.bold),
                         ),
                         Text(evento.email),
-                        Text(evento.sito),
                         const SizedBox(height: 20),
                         const Text(
                           'Informazioni',
                           style: TextStyle(
                               fontSize: 25,
-                              fontFamily: 'Poppins',
+                              fontFamily: 'PoppinsMedium',
                               fontWeight: FontWeight.bold),
                         ),
                         Text(dataBuona),
@@ -949,7 +947,6 @@ class _DetailsEventoAdsState extends State<DetailsEventoR> {
               child: Container(
                 margin: const EdgeInsets.symmetric(horizontal: 10),
                 width: double.infinity,
-                // Per occupare tutta la larghezza disponibile
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -983,7 +980,7 @@ class _DetailsEventoAdsState extends State<DetailsEventoR> {
                         ),
                       ),
                     ),
-                    const SizedBox(width: 10), // Spazio tra i pulsanti
+                    const SizedBox(width: 10),
                     Expanded(
                       child: Ink(
                         decoration: BoxDecoration(
@@ -1023,4 +1020,7 @@ class _DetailsEventoAdsState extends State<DetailsEventoR> {
       ),
     );
   }
+}
+void main(){
+  runApp(Richieste());
 }

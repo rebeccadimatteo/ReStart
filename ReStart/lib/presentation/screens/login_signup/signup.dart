@@ -92,7 +92,7 @@ class _SignUpState extends State<SignUpPage> {
   }
 
   bool validateEmail(String email) {
-    RegExp regex = RegExp(r'^[A-Za-z0-9_]+@[A-Za-z0-9.-]+\.[A-Za-z]{3,}$');
+    RegExp regex = RegExp(r'^[A-Za-z0-9_.]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$');
     return regex.hasMatch(email);
   }
 
@@ -102,7 +102,7 @@ class _SignUpState extends State<SignUpPage> {
   }
 
   bool validateVia(String via) {
-    RegExp regex = RegExp(r'^[0-9A-z À-ù‘-]{2,30}$');
+    RegExp regex = RegExp(r'^[a-zA-Z .]+(,\s?[a-zA-Z0-9 ]*)?$');
     return regex.hasMatch(via);
   }
 
@@ -118,7 +118,7 @@ class _SignUpState extends State<SignUpPage> {
   }
 
   bool validateTelefono(String telefono) {
-    RegExp regex = RegExp(r'^\+?\d{10,13}$');
+    RegExp regex = RegExp(r'^\+\d{12}$');
     return regex.hasMatch(telefono);
   }
 

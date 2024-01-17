@@ -311,14 +311,6 @@ class _DetailsEventoPub extends State<DetailsEventoPub> {
                             color: Colors.black,
                           ),
                         ),
-                        Text(
-                            evento.sito,
-                          style: const TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 15,
-                            color: Colors.black,
-                          ),
-                        ),
                         const SizedBox(height: 20),
                         const Text(
                           'Informazioni',

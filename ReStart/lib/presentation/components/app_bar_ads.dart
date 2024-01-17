@@ -18,7 +18,7 @@ class AdsAppBar extends StatelessWidget implements PreferredSizeWidget {
         onTap: () {
           Navigator.pushNamed(
             context,
-            AppRoutes.home,
+            AppRoutes.homeUtente,
           );
         },
         child: Image.asset(
@@ -29,6 +29,18 @@ class AdsAppBar extends StatelessWidget implements PreferredSizeWidget {
       titleSpacing: 10,
       elevation: 10,
       shadowColor: Colors.grey,
+      flexibleSpace: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.bottomRight,
+            end: Alignment.topLeft,
+            colors: [
+              Color(0xFFCE93D8),
+              Color(0xFF80DEEA),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
@@ -58,7 +70,7 @@ class AdsAppBar extends StatelessWidget implements PreferredSizeWidget {
                     Shadow(
                       offset: Offset(1, 1),
                       blurRadius: 2.0,
-                      color: Color(0xFFFAFAFA),
+                      color: Color(0xFFB4B1B1),
                     ),
                   ],
                   fontFamily: 'Poppins',
@@ -197,7 +209,7 @@ class AdsAppBar extends StatelessWidget implements PreferredSizeWidget {
                 'Logout',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontFamily: 'Poppins',
+                  fontFamily: 'PoppinsMedium',
                   fontWeight: FontWeight.bold,
                 ),
               ),
