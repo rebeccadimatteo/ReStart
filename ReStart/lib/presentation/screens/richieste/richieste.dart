@@ -357,22 +357,50 @@ class _RichiesteState extends State<Richieste> {
           ),
         );
       },
-      child: Padding(
-        padding: const EdgeInsets.only(left: 5, bottom: 5, right: 5),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          gradient: LinearGradient(
+            colors: [Colors.blue[50]!, Colors.blue[100]!],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.2),
+              spreadRadius: 2,
+              blurRadius: 5,
+              offset: Offset(0, 2),
+            ),
+          ],
+        ),
+        margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
         child: ListTile(
           visualDensity: const VisualDensity(vertical: 4, horizontal: 4),
           minVerticalPadding: 50,
-          minLeadingWidth: 80,
-          tileColor: Colors.grey,
+          minLeadingWidth: 70,
+          tileColor: Colors.transparent,
           leading: CircleAvatar(
             radius: 35,
             backgroundImage:Image.asset(evento.immagine ?? 'images/avatar.png').image,
           ),
           title: Text(
             evento.nomeEvento,
-            style: const TextStyle(fontWeight: FontWeight.bold),
+            style: const TextStyle(
+              fontFamily: 'Genos',
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+              color: Colors.black,
+            ),
           ),
-          subtitle: Text(evento.descrizione),
+          subtitle: Text(
+            evento.descrizione,
+            style: const TextStyle(
+              fontFamily: 'Poppins',
+              fontSize: 15,
+              color: Colors.black,
+            ),
+          ),
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -407,22 +435,49 @@ class _RichiesteState extends State<Richieste> {
           ),
         );
       },
-      child: Padding(
-        padding: const EdgeInsets.only(left: 5, bottom: 5, right: 5),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          gradient: LinearGradient(
+            colors: [Colors.blue[50]!, Colors.blue[100]!],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.2),
+              spreadRadius: 2,
+              blurRadius: 5,
+              offset: Offset(0, 2),
+            ),
+          ],
+        ),
+        margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
         child: ListTile(
           visualDensity: const VisualDensity(vertical: 4, horizontal: 4),
           minVerticalPadding: 50,
-          minLeadingWidth: 80,
-          tileColor: Colors.grey,
+          minLeadingWidth: 70,
+          tileColor: Colors.transparent,
           leading: CircleAvatar(
             radius: 35,
             backgroundImage: Image.asset(annuncio.immagine ?? 'images/avatar.png').image,
           ),
           title: Text(
             annuncio.nome,
-            style: const TextStyle(fontWeight: FontWeight.bold),
+            style: const TextStyle(
+              fontFamily: 'Genos',
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+              color: Colors.black,
+            ),
           ),
-          subtitle: Text(annuncio.descrizione),
+          subtitle: Text(annuncio.descrizione,
+            style: const TextStyle(
+              fontFamily: 'Poppins',
+              fontSize: 15,
+              color: Colors.black,
+            ),
+          ),
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -565,6 +620,8 @@ class _DetailsLavoroAdsState extends State<DetailsLavoroR> {
 
   @override
   Widget build(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       appBar: AdsAppBar(
         showBackButton: true,
@@ -581,9 +638,11 @@ class _DetailsLavoroAdsState extends State<DetailsLavoroR> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
-                    fit: BoxFit.cover, image: AssetImage(annuncio.immagine)),
+                    fit: BoxFit.cover,
+                  image: Image.asset(annuncio.immagine).image,
               ),
             ),
+          ),
           ),
           const SizedBox(height: 20),
           Text(
@@ -654,16 +713,15 @@ class _DetailsLavoroAdsState extends State<DetailsLavoroR> {
                     ),
                   ))),
           const SizedBox(height: 20),
-          Container(
+         Container(
             padding: const EdgeInsets.only(bottom: 40),
             child: ElevatedButton(
               onPressed: () {},
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.transparent,
                 foregroundColor: Colors.black,
-                elevation: 10,
-                minimumSize: Size(MediaQuery.of(context).size.width * 0.1,
-                    MediaQuery.of(context).size.width * 0.1),
+                elevation: 0,
+                minimumSize: Size(screenWidth * 0.1, screenWidth * 0.1),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30.0),
                 ),
@@ -710,7 +768,7 @@ class _DetailsLavoroAdsState extends State<DetailsLavoroR> {
                       child: Ink(
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
-                            colors: [Colors.green[50]!, Colors.green[100]!],
+                            colors: [Colors.blue[50]!, Colors.blue[100]!],
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
                           ),
@@ -721,10 +779,12 @@ class _DetailsLavoroAdsState extends State<DetailsLavoroR> {
                             approvaAnnuncio(annuncio);
                           },
                           child: Container(
+                            width: screenWidth * 0.60,
+                            height: screenWidth * 0.1,
                             padding: const EdgeInsets.all(10),
                             child: const Center(
                               child: Text(
-                                'APPROVE',
+                                'APPROVA',
                                 style: TextStyle(
                                   fontFamily: 'Poppins',
                                   fontSize: 18,
@@ -741,8 +801,9 @@ class _DetailsLavoroAdsState extends State<DetailsLavoroR> {
               ),
             ),
           ),
-        ],
-      ),
+    ],
+            ),
+
     );
   }
 }
@@ -867,6 +928,11 @@ class _DetailsEventoAdsState extends State<DetailsEventoR> {
   Widget build(BuildContext context) {
     final String data = evento.date.toIso8601String();
     final String dataBuona = data.substring(0, 10);
+    final double screenWidth = MediaQuery
+        .of(context)
+        .size
+        .width;
+
     return Scaffold(
       appBar: AdsAppBar(
         showBackButton: true,
@@ -875,6 +941,7 @@ class _DetailsEventoAdsState extends State<DetailsEventoR> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          const SizedBox(height: 20),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
@@ -883,7 +950,9 @@ class _DetailsEventoAdsState extends State<DetailsEventoR> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
-                    fit: BoxFit.cover, image: AssetImage(evento.immagine)),
+                  fit: BoxFit.cover,
+                  image: Image.asset(evento.immagine).image,
+                ),
               ),
             ),
           ),
@@ -891,43 +960,69 @@ class _DetailsEventoAdsState extends State<DetailsEventoR> {
           Text(
             evento.nomeEvento,
             style: const TextStyle(
-                fontSize: 30,
-                fontFamily: 'Poppins',
-                fontWeight: FontWeight.bold),
+              fontFamily: 'Genos',
+              fontWeight: FontWeight.bold,
+              fontSize: 30,
+            ),
           ),
           const SizedBox(height: 10),
           Padding(
             padding: const EdgeInsets.all(10.0),
-            child: Text(evento.descrizione),
+            child: Text(
+              evento.descrizione,
+              style: const TextStyle(
+                fontFamily: 'Poppins',
+                fontWeight: FontWeight.bold,
+                fontSize: 15,
+              ),
+            ),
           ),
           Expanded(
-              child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 30),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        const Text(
-                          'Contatti',
-                          style: TextStyle(
-                              fontSize: 25,
-                              fontFamily: 'PoppinsMedium',
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Text(evento.email),
-                        const SizedBox(height: 20),
-                        const Text(
-                          'Informazioni',
-                          style: TextStyle(
-                              fontSize: 25,
-                              fontFamily: 'PoppinsMedium',
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Text(dataBuona),
-                      ],
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 30),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    const Text(
+                      'Contatti',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontFamily: 'PoppinsMedium',
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ))),
+                    Text(
+                      evento.email,
+                      style: const TextStyle(
+                        fontSize: 15,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    const Text(
+                      'Informazioni',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontFamily: 'PoppinsMedium',
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      data,
+                      style: const TextStyle(
+                        fontSize: 15,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
           const SizedBox(height: 20),
           Container(
             padding: const EdgeInsets.only(bottom: 40),
@@ -936,9 +1031,8 @@ class _DetailsEventoAdsState extends State<DetailsEventoR> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.transparent,
                 foregroundColor: Colors.black,
-                elevation: 10,
-                minimumSize: Size(MediaQuery.of(context).size.width * 0.1,
-                    MediaQuery.of(context).size.width * 0.1),
+                elevation: 0,
+                minimumSize: Size(screenWidth * 0.1, screenWidth * 0.1),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30.0),
                 ),
@@ -965,6 +1059,8 @@ class _DetailsEventoAdsState extends State<DetailsEventoR> {
                             rifiutaEvento(evento);
                           },
                           child: Container(
+                            width: screenWidth * 0.60,
+                            height: screenWidth * 0.1,
                             padding: const EdgeInsets.all(10),
                             child: const Center(
                               child: Text(
@@ -985,7 +1081,7 @@ class _DetailsEventoAdsState extends State<DetailsEventoR> {
                       child: Ink(
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
-                            colors: [Colors.green[50]!, Colors.green[100]!],
+                            colors: [Colors.blue[50]!, Colors.blue[100]!],
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
                           ),
@@ -996,10 +1092,12 @@ class _DetailsEventoAdsState extends State<DetailsEventoR> {
                             approvaEvento(evento);
                           },
                           child: Container(
+                            width: screenWidth * 0.60,
+                            height: screenWidth * 0.1,
                             padding: const EdgeInsets.all(10),
                             child: const Center(
                               child: Text(
-                                'APPROVE',
+                                'APPROVA',
                                 style: TextStyle(
                                   fontFamily: 'Poppins',
                                   fontSize: 18,
@@ -1020,7 +1118,4 @@ class _DetailsEventoAdsState extends State<DetailsEventoR> {
       ),
     );
   }
-}
-void main(){
-  runApp(Richieste());
 }
