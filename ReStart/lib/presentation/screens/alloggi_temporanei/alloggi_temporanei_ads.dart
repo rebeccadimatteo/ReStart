@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import '../../../model/entity/alloggio_temporaneo_DTO.dart';
-import '../../../utils/auth_service.dart';
 import '../../components/app_bar_ads.dart';
 import "package:http/http.dart" as http;
 import '../routes/routes.dart';
@@ -152,7 +151,7 @@ class _AlloggiTemporaneiState extends State<AlloggiTemporaneiAds> {
                       leading: CircleAvatar(
                         radius: 35,
                         backgroundImage:
-                            AssetImage('images/' + alloggio.immagine),
+                        Image.asset(alloggio.immagine).image,
                       ),
                       title: Text(
                         alloggio.nome,
@@ -247,7 +246,7 @@ class _DetailsAlloggioAdsState extends State<DetailsAlloggioAds> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
-                    fit: BoxFit.cover, image: AssetImage(alloggio.immagine)),
+                    fit: BoxFit.cover, image: Image.asset(alloggio.immagine).image),
               ),
             ),
           ),
