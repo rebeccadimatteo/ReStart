@@ -93,6 +93,9 @@ class _SignUpState extends State<SignUpPage> {
 
   bool validateEmail(String email) {
     RegExp regex = RegExp(r'^[A-Za-z0-9_.]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$');
+    if(email.length < 6 || email.length > 40) {
+      return false;
+    }
     return regex.hasMatch(email);
   }
 
