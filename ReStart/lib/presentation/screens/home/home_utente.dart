@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
-import 'package:restart_all_in_one/model/entity/annuncio_di_lavoro_DTO.dart';
+import '../../../model/entity/annuncio_di_lavoro_DTO.dart';
 import '../../../model/entity/evento_DTO.dart';
 import '../../components/generic_app_bar.dart';
 import '../routes/routes.dart';

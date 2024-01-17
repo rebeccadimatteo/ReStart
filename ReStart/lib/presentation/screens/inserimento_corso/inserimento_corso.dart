@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:restart_all_in_one/presentation/screens/corsi_di_formazione/corso_di_formazione.dart';
 import '../../../model/entity/corso_di_formazione_DTO.dart';
 import '../../components/generic_app_bar.dart';
 import 'package:http/http.dart' as http;
