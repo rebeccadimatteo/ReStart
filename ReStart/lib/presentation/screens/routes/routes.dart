@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:restart_all_in_one/presentation/screens/lavoro_adatto/lavoro_adatto.dart';
-import 'package:restart_all_in_one/presentation/screens/lavoro_adatto/visualizza_lavoro_adatto.dart';
-import 'package:restart_all_in_one/presentation/screens/utente/lista_utenti_candidati.dart';
 import '../alloggi_temporanei/alloggi_temporanei.dart';
 import '../alloggi_temporanei/alloggi_temporanei_ads.dart';
 import '../annunci_di_lavoro/annunci_di_lavoro_pubblicati.dart';
@@ -18,12 +15,15 @@ import '../home/home_ca.dart';
 import '../home/home_utente.dart';
 import '../inserimento_annuncio/inserimento_annuncio.dart';
 import '../inserimento_evento/inserimento_evento.dart';
+import '../lavoro_adatto/lavoro_adatto.dart';
+import '../lavoro_adatto/visualizza_lavoro_adatto.dart';
 import '../login_signup/login.dart';
 import '../login_signup/signup.dart';
 import '../login_signup/start.dart';
 import '../richieste/richieste.dart';
 import '../supporto_medico/supporto_medico.dart';
 import '../supporto_medico/supporto_medico_ads.dart';
+import '../utente/lista_utenti_candidati.dart';
 import '../utente/profilo.dart';
 
 class AppRoutes {

@@ -1,11 +1,11 @@
-import 'package:restart_all_in_one/application/lavoroAdatto/adapter/lavoro_adatto_adapter_impl.dart';
-import 'package:restart_all_in_one/model/dao/autenticazione/utente/utente_DAO.dart';
-import 'package:restart_all_in_one/model/dao/autenticazione/utente/utente_DAO_impl.dart';
-import 'package:restart_all_in_one/model/dao/lavoro_adatto/lavoro_adatto_DAO_impl.dart';
-import 'package:restart_all_in_one/model/entity/utente_DTO.dart';
 
+import '../../../model/dao/autenticazione/utente/utente_DAO.dart';
+import '../../../model/dao/autenticazione/utente/utente_DAO_impl.dart';
 import '../../../model/dao/lavoro_adatto/lavoro_adatto_DAO.dart';
+import '../../../model/dao/lavoro_adatto/lavoro_adatto_DAO_impl.dart';
+import '../../../model/entity/utente_DTO.dart';
 import '../adapter/lavoro_adatto_adapter.dart';
+import '../adapter/lavoro_adatto_adapter_impl.dart';
 import 'lavoro_adatto_service.dart';
 
 class LavoroAdattoServiceImpl implements LavoroAdattoService{

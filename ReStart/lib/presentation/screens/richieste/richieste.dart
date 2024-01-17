@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import '../../../model/entity/annuncio_di_lavoro_DTO.dart';
 import '../../../model/entity/evento_DTO.dart';
 import '../../../utils/auth_service.dart';
@@ -49,9 +50,9 @@ class _RichiesteState extends State<Richieste> {
           final Map<String, dynamic> responseBody = json.decode(response.body);
           if (responseBody.containsKey('annunci')) {
             final List<AnnuncioDiLavoroDTO> data =
-            List<Map<String, dynamic>>.from(responseBody['annunci'])
-                .map((json) => AnnuncioDiLavoroDTO.fromJson(json))
-                .toList();
+                List<Map<String, dynamic>>.from(responseBody['annunci'])
+                    .map((json) => AnnuncioDiLavoroDTO.fromJson(json))
+                    .toList();
             setState(() {
               annunci = data.where((a) => !a.approvato).toList();
             });
@@ -287,25 +288,24 @@ class _RichiesteState extends State<Richieste> {
       // Nessuna richiesta
       return MaterialApp(
         home: Scaffold(
-        appBar: AdsAppBar(
-          showBackButton: true,
-        ),
-        endDrawer: AdsAppBar.buildDrawer(context),
-        body: const Center(
-          child: Text(
-            'Nessuna richiesta',
-            style: TextStyle(
-              fontSize: 20,
-              fontFamily: 'PoppinsMedium',
-              fontWeight: FontWeight.bold,
+          appBar: AdsAppBar(
+            showBackButton: true,
+          ),
+          endDrawer: AdsAppBar.buildDrawer(context),
+          body: const Center(
+            child: Text(
+              'Nessuna richiesta',
+              style: TextStyle(
+                fontSize: 20,
+                fontFamily: 'PoppinsMedium',
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ),
-        ),
       );
     }
-    return MaterialApp(
-        home: Scaffold(
+    return Scaffold(
       appBar: AdsAppBar(
         showBackButton: true,
       ),
@@ -326,7 +326,6 @@ class _RichiesteState extends State<Richieste> {
           }
         },
       ),
-        ),
     );
   }
 
@@ -352,8 +351,7 @@ class _RichiesteState extends State<Richieste> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => DetailsEventoR(
-                evento),
+            builder: (context) => DetailsEventoR(evento),
           ),
         );
       },
@@ -382,7 +380,8 @@ class _RichiesteState extends State<Richieste> {
           tileColor: Colors.transparent,
           leading: CircleAvatar(
             radius: 35,
-            backgroundImage:Image.asset(evento.immagine ?? 'images/avatar.png').image,
+            backgroundImage:
+                Image.asset(evento.immagine ?? 'images/avatar.png').image,
           ),
           title: Text(
             evento.nomeEvento,
@@ -430,8 +429,7 @@ class _RichiesteState extends State<Richieste> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => DetailsLavoroR(
-                annuncio),
+            builder: (context) => DetailsLavoroR(annuncio),
           ),
         );
       },
@@ -460,7 +458,8 @@ class _RichiesteState extends State<Richieste> {
           tileColor: Colors.transparent,
           leading: CircleAvatar(
             radius: 35,
-            backgroundImage: Image.asset(annuncio.immagine ?? 'images/avatar.png').image,
+            backgroundImage:
+                Image.asset(annuncio.immagine ?? 'images/avatar.png').image,
           ),
           title: Text(
             annuncio.nome,
@@ -471,7 +470,8 @@ class _RichiesteState extends State<Richieste> {
               color: Colors.black,
             ),
           ),
-          subtitle: Text(annuncio.descrizione,
+          subtitle: Text(
+            annuncio.descrizione,
             style: const TextStyle(
               fontFamily: 'Poppins',
               fontSize: 15,
@@ -638,11 +638,11 @@ class _DetailsLavoroAdsState extends State<DetailsLavoroR> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
-                    fit: BoxFit.cover,
+                  fit: BoxFit.cover,
                   image: Image.asset(annuncio.immagine).image,
+                ),
               ),
             ),
-          ),
           ),
           const SizedBox(height: 20),
           Text(
@@ -713,7 +713,7 @@ class _DetailsLavoroAdsState extends State<DetailsLavoroR> {
                     ),
                   ))),
           const SizedBox(height: 20),
-         Container(
+          Container(
             padding: const EdgeInsets.only(bottom: 40),
             child: ElevatedButton(
               onPressed: () {},
@@ -801,9 +801,8 @@ class _DetailsLavoroAdsState extends State<DetailsLavoroR> {
               ),
             ),
           ),
-    ],
-            ),
-
+        ],
+      ),
     );
   }
 }
@@ -926,8 +925,13 @@ class _DetailsEventoAdsState extends State<DetailsEventoR> {
 
   @override
   Widget build(BuildContext context) {
-    final String data = evento.date.toIso8601String();
-    final String dataBuona = data.substring(0, 10);
+    final String isoString = evento.date.toIso8601String();
+
+    DateFormat isoFormat = DateFormat("yyyy-MM-ddTHH:mm:ss");
+    DateTime parsedDate = isoFormat.parse(isoString);
+
+    DateFormat outputFormat = DateFormat("yyyy-MM-dd HH:mm");
+    final String formattedDate = outputFormat.format(parsedDate);
     final double screenWidth = MediaQuery
         .of(context)
         .size
@@ -951,7 +955,9 @@ class _DetailsEventoAdsState extends State<DetailsEventoR> {
                 shape: BoxShape.circle,
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: Image.asset(evento.immagine).image,
+                  image: Image
+                      .asset(evento.immagine)
+                      .image,
                 ),
               ),
             ),
@@ -1011,7 +1017,7 @@ class _DetailsEventoAdsState extends State<DetailsEventoR> {
                       ),
                     ),
                     Text(
-                      data,
+                      formattedDate,
                       style: const TextStyle(
                         fontSize: 15,
                         fontFamily: 'Poppins',

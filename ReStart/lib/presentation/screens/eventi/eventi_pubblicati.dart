@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
-import 'package:restart_all_in_one/utils/jwt_utils.dart';
 import '../../../model/entity/evento_DTO.dart';
+import '../../../utils/jwt_utils.dart';
 import '../../components/app_bar_ca.dart';
 import 'package:http/http.dart' as http;
 import '../routes/routes.dart';
@@ -32,9 +32,8 @@ class _CommunityEventsState extends State<CommunityEventsPubblicati> {
     final response = await http.post(
         Uri.parse('http://10.0.2.2:8080/autenticazione/checkUserCA'),
         body: jsonEncode(token),
-        headers: {'Content-Type': 'application/json'}
-    );
-    if(response.statusCode != 200){
+        headers: {'Content-Type': 'application/json'});
+    if (response.statusCode != 200) {
       Navigator.pushNamed(context, AppRoutes.home);
     }
   }
@@ -88,8 +87,7 @@ class _CommunityEventsState extends State<CommunityEventsPubblicati> {
   /// contenente tutta l'interfaccia grafica
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        home : Scaffold(
+    return Scaffold(
       appBar: CaAppBar(
         showBackButton: true,
       ),
@@ -145,9 +143,11 @@ class _CommunityEventsState extends State<CommunityEventsPubblicati> {
                         ),
                       ],
                     ),
-                    margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+                    margin:
+                        const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
                     child: ListTile(
-                      visualDensity: const VisualDensity(vertical: 4, horizontal: 4),
+                      visualDensity:
+                          const VisualDensity(vertical: 4, horizontal: 4),
                       minVerticalPadding: 50,
                       minLeadingWidth: 80,
                       tileColor: Colors.transparent,
@@ -203,7 +203,6 @@ class _CommunityEventsState extends State<CommunityEventsPubblicati> {
           ),
         ],
       ),
-        ),
     );
   }
 }
@@ -246,122 +245,120 @@ class _DetailsEventoPub extends State<DetailsEventoPub> {
     final String data = evento.date.toIso8601String();
     final String dataBuona = data.substring(0, 10);
     return MaterialApp(
-      home : Scaffold(
-      appBar: CaAppBar(
-        showBackButton: true,
-      ),
-      endDrawer: CaAppBar.buildDrawer(context),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              width: 200,
-              height: 200,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                    fit: BoxFit.cover, image: AssetImage(evento.immagine)),
+      home: Scaffold(
+        appBar: CaAppBar(
+          showBackButton: true,
+        ),
+        endDrawer: CaAppBar.buildDrawer(context),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                width: 200,
+                height: 200,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                      fit: BoxFit.cover, image: AssetImage(evento.immagine)),
+                ),
               ),
             ),
-          ),
-          const SizedBox(height: 20),
-          Text(
-            evento.nomeEvento,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontFamily: 'Genos',
-              fontSize: 30,
-            ),
-          ),
-          const SizedBox(height: 10),
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Text(
-              evento.descrizione,
+            const SizedBox(height: 20),
+            Text(
+              evento.nomeEvento,
+              textAlign: TextAlign.center,
               style: const TextStyle(
-                fontFamily: 'Poppins',
-                fontSize: 15,
-                color: Colors.black,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'Genos',
+                fontSize: 30,
               ),
             ),
-          ),
-          Expanded(
-              child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 30),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        const Text(
-                          'Contatti',
-                          style: TextStyle(
-                              fontSize: 20,
-                              fontFamily: 'PoppinsMedium',
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                            evento.email,
-                          style: const TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 15,
-                            color: Colors.black,
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-                        const Text(
-                          'Informazioni',
-                          style: TextStyle(
-                              fontSize: 20,
-                              fontFamily: 'PoppinsMedium',
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Text(dataBuona,
-                          style: const TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 15,
-                            color: Colors.black,
-                          ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            IconButton(
-                              icon: const Icon(Icons.edit,
-                                  color: Colors.black, size: 40),
-                              onPressed: () {
-                                Navigator.pushNamed(
-                                    context, AppRoutes.modificaevento,
-                                    arguments: evento);
-                              },
-                            ),
-                            const SizedBox(width: 20),
-
-                            IconButton(
-                              icon: const Icon(Icons.delete,
-                                  color: Colors.black, size: 40),
-                              onPressed: () {
-                                Navigator.pushNamed(context, AppRoutes.modificaevento);
-                                deleteEvento(evento);
-                              },
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
+            const SizedBox(height: 10),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Text(
+                evento.descrizione,
+                style: const TextStyle(
+                  fontFamily: 'Poppins',
+                  fontSize: 15,
+                  color: Colors.black,
+                ),
               ),
-          ),
-        ],
+            ),
+            Expanded(
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 30),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      const Text(
+                        'Contatti',
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontFamily: 'PoppinsMedium',
+                            fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        evento.email,
+                        style: const TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 15,
+                          color: Colors.black,
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      const Text(
+                        'Informazioni',
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontFamily: 'PoppinsMedium',
+                            fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        dataBuona,
+                        style: const TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 15,
+                          color: Colors.black,
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.edit,
+                                color: Colors.black, size: 40),
+                            onPressed: () {
+                              Navigator.pushNamed(
+                                  context, AppRoutes.modificaevento,
+                                  arguments: evento);
+                            },
+                          ),
+                          const SizedBox(width: 20),
+                          IconButton(
+                            icon: const Icon(Icons.delete,
+                                color: Colors.black, size: 40),
+                            onPressed: () {
+                              Navigator.pushNamed(
+                                  context, AppRoutes.modificaevento);
+                              deleteEvento(evento);
+                            },
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
-    ),
     );
   }
 }
 
-void main(){
-  runApp(CommunityEventsPubblicati());
-}

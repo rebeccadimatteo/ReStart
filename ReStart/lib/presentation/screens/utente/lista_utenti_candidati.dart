@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
-import 'package:restart_all_in_one/model/entity/annuncio_di_lavoro_DTO.dart';
-import 'package:restart_all_in_one/presentation/components/app_bar_ca.dart';
+import '../../../model/entity/annuncio_di_lavoro_DTO.dart';
 import '../../../model/entity/utente_DTO.dart';
+import '../../components/app_bar_ca.dart';
 import '../../components/generic_app_bar.dart';
 import 'package:http/http.dart' as http;
 

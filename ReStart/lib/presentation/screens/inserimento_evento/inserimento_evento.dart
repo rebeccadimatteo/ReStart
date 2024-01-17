@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:date_field/date_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:image_picker/image_picker.dart';
@@ -60,7 +61,7 @@ class _InserisciEventoState extends State<InserisciEvento> {
   bool _isCittaValid = true;
   bool _isProvinciaValid = true;
   bool _isTelefonoValid = true;
-
+  bool _isDataValid = true;
 
   bool validateNome(String nome) {
     RegExp regex = RegExp(r"^[A-Za-zÀ-ú‘’',\(\)\s]{2,50}$");
@@ -68,8 +69,9 @@ class _InserisciEventoState extends State<InserisciEvento> {
   }
 
   bool validateDescrizione(String descrizione) {
-    RegExp regex = RegExp(r"^[A-Za-zÀ-ú0-9‘’',\.\(\)\s\/|\\{}\[\],\-!$%&?<>=^+°#*:']{2,255}$");
-        return regex.hasMatch(descrizione);
+    RegExp regex = RegExp(
+        r"^[A-Za-zÀ-ú0-9‘’',\.\(\)\s\/|\\{}\[\],\-!$%&?<>=^+°#*:']{2,255}$");
+    return regex.hasMatch(descrizione);
   }
 
   bool validateEmail(String email) {
@@ -121,7 +123,8 @@ class _InserisciEventoState extends State<InserisciEvento> {
     DateTime now = DateTime.now();
     DateTime initialDate = now;
     DateTime lastDate = DateTime(2099, 12, 31, 23, 59);
-    DateTime firstAllowedDate = DateTime(now.year, now.month, now.day, now.hour, now.minute);
+    DateTime firstAllowedDate =
+        DateTime(now.year, now.month, now.day, now.hour, now.minute);
 
     final DateTime? pickedDate = await showDatePicker(
       context: context,
@@ -136,8 +139,7 @@ class _InserisciEventoState extends State<InserisciEvento> {
     if (pickedDate != null && pickedDate != selectedDate) {
       setState(() {
         selectedDate = pickedDate;
-        dataController.text =
-            DateFormat('yyyy-MM-dd').format(selectedDate!);
+        dataController.text = DateFormat('yyyy-MM-dd').format(selectedDate!);
       });
     }
   }
@@ -207,385 +209,375 @@ class _InserisciEventoState extends State<InserisciEvento> {
     double screenWidth = MediaQuery.of(context).size.width;
     double avatarSize = screenWidth * 0.3;
 
-    return MaterialApp(
-      home: Scaffold(
-        appBar: CaAppBar(
-          showBackButton: true,
-        ),
-        endDrawer: CaAppBar.buildDrawer(context),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.all(screenWidth * 0.08),
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
+    return Scaffold(
+      appBar: CaAppBar(
+        showBackButton: true,
+      ),
+      endDrawer: CaAppBar.buildDrawer(context),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.all(screenWidth * 0.08),
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+            const Text(
+              'Inserisci evento',
+              style: TextStyle(
+                fontSize: 23,
+                fontFamily: 'Poppins',
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 20),
+            Form(
+              key: _formKey,
+              child: Column(
                 children: [
+                  Stack(
+                    children: [
+                      Container(
+                        width: avatarSize,
+                        height: avatarSize,
+                        child: CircleAvatar(
+                          backgroundImage: _image != null
+                              ? MemoryImage(
+                                  File(_image!.path).readAsBytesSync())
+                              : Image.asset('images/avatar.png').image,
+                        ),
+                      ),
+                      Positioned(
+                        bottom: -1,
+                        left: screenWidth * 0.18,
+                        child: IconButton(
+                          onPressed: selectImage,
+                          icon: Icon(Icons.add_a_photo_sharp),
+                        ),
+                      )
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  Padding(
+                    padding: EdgeInsets.only(
+                        left: 15.0,
+                        right: 15.0,
+                        top: 15,
+                        bottom: _isNomeValid ? 15 : 20),
+                    child: TextFormField(
+                      controller: nomeController,
+                      onChanged: (value) {
+                        setState(() {
+                          _isNomeValid = validateNome(value);
+                        });
+                      },
+                      decoration: InputDecoration(
+                        labelText: 'Nome',
+                        hintText: 'Inserisci il nome dell\'evento...',
+                        // Cambia il colore del testo in rosso se il nome non è valido
+                        errorText: _isNomeValid
+                            ? null
+                            : 'Formato nome non corretto (ex. Evento Comunitario \n    [max. 50 caratteri])',
+                        errorStyle: const TextStyle(color: Colors.red),
+                        labelStyle: const TextStyle(
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      style: const TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Padding(
+                    padding: EdgeInsets.only(
+                        left: 15.0,
+                        right: 15.0,
+                        top: 15,
+                        bottom: _isDescrizioneValid ? 15 : 20),
+                    child: TextFormField(
+                      controller: descrizioneController,
+                      onChanged: (value) {
+                        setState(() {
+                          _isDescrizioneValid = validateDescrizione(value);
+                        });
+                      },
+                      decoration: InputDecoration(
+                        labelText: 'Descrizione',
+                        hintText: 'Inserisci la descrizione dell\'evento...',
+                        // Cambia il colore del testo in rosso se la descrizione non è valida
+                        errorText: _isDescrizioneValid
+                            ? null
+                            : 'Lunghezza descrizione non corretta (max. 255 caratteri)',
+                        errorStyle: const TextStyle(color: Colors.red),
+                        labelStyle: const TextStyle(
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      style: const TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 40),
                   const Text(
-                    'Inserisci evento',
+                    'Luogo e Data',
                     style: TextStyle(
-                      fontSize: 23,
+                      fontSize: 20,
                       fontFamily: 'Poppins',
                       fontWeight: FontWeight.bold,
                     ),
-                    textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 20),
-                  Form(
-                    key: _formKey,
-                    child: Column(
-                      children: [
-                        Stack(
-                          children: [
-                            Container(
-                              width: avatarSize,
-                              height: avatarSize,
-                              child: CircleAvatar(
-                                backgroundImage: _image != null
-                                    ? MemoryImage(
-                                        File(_image!.path).readAsBytesSync())
-                                    : Image.asset('images/avatar.png').image,
-                              ),
-                            ),
-                            Positioned(
-                              bottom: -1,
-                              left: screenWidth * 0.18,
-                              child: IconButton(
-                                onPressed: selectImage,
-                                icon: Icon(Icons.add_a_photo_sharp),
-                              ),
-                            )
-                          ],
+                  Padding(
+                    padding: EdgeInsets.only(
+                        left: 15.0,
+                        right: 15.0,
+                        top: 15,
+                        bottom: _isCittaValid ? 15 : 20),
+                    child: TextFormField(
+                      controller: cittaController,
+                      onChanged: (value) {
+                        setState(() {
+                          _isCittaValid = validateCitta(value);
+                        });
+                      },
+                      decoration: InputDecoration(
+                        labelText: 'Citta',
+                        labelStyle: const TextStyle(
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.bold,
                         ),
-                        const SizedBox(height: 20),
-                        Padding(
-                          padding: EdgeInsets.only(
-                              left: 15.0,
-                              right: 15.0,
-                              top: 15,
-                              bottom: _isNomeValid ? 15 : 20),
-                          child: TextFormField(
-                            controller: nomeController,
-                            onChanged: (value) {
-                              setState(() {
-                                _isNomeValid = validateNome(value);
-                              });
-                            },
-                            decoration: InputDecoration(
-                              labelText: 'Nome',
-                              hintText: 'Inserisci il nome dell\'evento...',
-                              // Cambia il colore del testo in rosso se il nome non è valido
-                              errorText: _isNomeValid
-                                  ? null
-                                  : 'Formato nome non corretto (ex. Evento Comunitario \n    [max. 50 caratteri])',
-                              errorStyle: const TextStyle(color: Colors.red),
-                              labelStyle: const TextStyle(
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            style: const TextStyle(
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-                        Padding(
-                          padding: EdgeInsets.only(
-                              left: 15.0,
-                              right: 15.0,
-                              top: 15,
-                              bottom: _isDescrizioneValid ? 15 : 20),
-                          child: TextFormField(
-                            controller: descrizioneController,
-                            onChanged: (value) {
-                              setState(() {
-                                _isDescrizioneValid = validateDescrizione(value);
-                              });
-                            },
-                            decoration: InputDecoration(
-                              labelText: 'Descrizione',
-                              hintText: 'Inserisci la descrizione dell\'evento...',
-                              // Cambia il colore del testo in rosso se la descrizione non è valida
-                              errorText: _isDescrizioneValid
-                                  ? null
-                                  : 'Lunghezza descrizione non corretta (max. 255 caratteri)',
-                              errorStyle: const TextStyle(color: Colors.red),
-                              labelStyle: const TextStyle(
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            style: const TextStyle(
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 40),
-                        const Text(
-                          'Luogo e Data',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-                        Padding(
-                          padding: EdgeInsets.only(
-                              left: 15.0,
-                              right: 15.0,
-                              top: 15,
-                              bottom: _isCittaValid ? 15 : 20),
-                          child: TextFormField(
-                            controller: cittaController,
-                            onChanged: (value) {
-                              setState(() {
-                                _isCittaValid = validateCitta(value);
-                              });
-                            },
-                            decoration: InputDecoration(
-                              labelText: 'Citta',
-                              labelStyle: const TextStyle(
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.bold,
-                              ),
-                              hintText: 'Inserisci la città dell\'evento...',
-                              // Cambia il colore del testo in rosso se città non è valida
-                              errorText: _isCittaValid
-                                  ? null
-                                  : 'Formato città non corretto (ex: Napoli)',
-                              errorStyle: const TextStyle(color: Colors.red),
-                            ),
-                            style: const TextStyle(
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                              left: 15.0,
-                              right: 15.0,
-                              top: 15,
-                              bottom: _isViaValid ? 15 : 20),
-                          child: TextFormField(
-                            controller: viaController,
-                            onChanged: (value) {
-                              setState(() {
-                                _isViaValid = validateVia(value);
-                              });
-                            },
-                            decoration: InputDecoration(
-                              labelText: 'Via',
-                              labelStyle: const TextStyle(
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.bold,
-                              ),
-                              hintText: 'Inserisci la via dell\'evento...',
-                              // Cambia il colore del testo in rosso se via non è valida
-                              errorText: _isViaValid
-                                  ? null
-                                  : 'Formato via non corretto (ex: Via Fratelli Napoli, 1)',
-                              errorStyle: const TextStyle(color: Colors.red),
-                            ),
-                            style: const TextStyle(
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                              left: 15.0,
-                              right: 15.0,
-                              top: 15,
-                              bottom: _isProvinciaValid ? 15 : 20),
-                          child: TextFormField(
-                            controller: provinciaController,
-                            onChanged: (value) {
-                              setState(() {
-                                _isProvinciaValid = validateProvincia(value);
-                              });
-                            },
-                            decoration: InputDecoration(
-                              labelText: 'Provincia',
-                              labelStyle: const TextStyle(
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.bold,
-                              ),
-                              hintText: 'Inserisci la provincia dell\'evento...',
-                              // Cambia il colore del testo in rosso se provincia non è valida
-                              errorText: _isProvinciaValid
-                                  ? null
-                                  : 'Formato provincia non corretta (ex: AV)',
-                              errorStyle: const TextStyle(color: Colors.red),
-                            ),
-                            style: const TextStyle(
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            _selectDate(context);
-                          },
-                          child: TextFormField(
-                            readOnly: true,
-                            controller: dataController,
-                            decoration: const InputDecoration(
-                              labelText: 'Data Evento',
-                              labelStyle: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.bold,
-                              ),
-                              hintText: 'Inserisci la data dell\'evento...',
-                              suffixIcon: Icon(Icons.date_range),
-                            ),
-                            style: const TextStyle(
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.bold,
-                            ),
-                            onTap: () {
-                              _selectDate(context);
-                            },
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Data evento';
-                              }
-                              return null;
-                            },
-                          ),
-                        ),
-                        const SizedBox(height: 40),
-                        const Text(
-                          'Contatti',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-                        Padding(
-                          padding: EdgeInsets.only(
-                              left: 15.0,
-                              right: 15.0,
-                              top: 15,
-                              bottom: _isEmailValid ? 15 : 20),
-                          child: TextFormField(
-                            controller: emailController,
-                            onChanged: (value) {
-                              setState(() {
-                                _isEmailValid = validateEmail(value);
-                              });
-                            },
-                            decoration: InputDecoration(
-                              labelText: 'Email',
-                              labelStyle: const TextStyle(
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.bold,
-                              ),
-                              hintText: 'Inserisci l\'email...',
-                              // Cambia il colore del testo in rosso se email non è valida
-                              errorText: _isEmailValid
-                                  ? null
-                                  : 'Formato email non corretta (ex: esempio@esempio.com)',
-                              errorStyle: const TextStyle(color: Colors.red),
-                            ),
-                            style: const TextStyle(
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-                        Padding(
-                          padding: EdgeInsets.only(
-                              left: 15.0,
-                              right: 15.0,
-                              top: 15,
-                              bottom: _isTelefonoValid ? 15 : 20),
-                          child: TextFormField(
-                            controller: telefonoController,
-                            onChanged: (value) {
-                              setState(() {
-                                _isTelefonoValid = validateTelefono(value);
-                              });
-                            },
-                            decoration: InputDecoration(
-                              labelText: 'Numero di telefono',
-                              labelStyle: const TextStyle(
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.bold,
-                              ),
-                              hintText: 'Inserisci numero di telefono...',
-                              // Cambia il colore del testo in rosso se telefono non è valido
-                              errorText: _isTelefonoValid
-                                  ? null
-                                  : 'Formato numero di telefono non corretto (ex: +393330000000)',
-                              errorStyle: const TextStyle(color: Colors.red),
-                            ),
-                            style: const TextStyle(
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: screenWidth * 0.1),
-                        ElevatedButton(
-                          onPressed: () {
-                            submitForm();
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.transparent,
-                            foregroundColor: Colors.black,
-                            elevation: 10,
-                            minimumSize:
-                                Size(screenWidth * 0.1, screenWidth * 0.1),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30.0),
-                            ),
-                            padding: EdgeInsets.zero,
-                          ),
-                          child: Ink(
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [Colors.blue[50]!, Colors.blue[100]!],
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                              ),
-                              borderRadius: BorderRadius.circular(30.0),
-                            ),
-                            child: Container(
-                              width: screenWidth * 0.60,
-                              height: screenWidth * 0.1,
-                              padding: const EdgeInsets.all(10),
-                              child: const Center(
-                                child: Text(
-                                  'INSERISCI',
-                                  style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
+                        hintText: 'Inserisci la città dell\'evento...',
+                        // Cambia il colore del testo in rosso se città non è valida
+                        errorText: _isCittaValid
+                            ? null
+                            : 'Formato città non corretto (ex: Napoli)',
+                        errorStyle: const TextStyle(color: Colors.red),
+                      ),
+                      style: const TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                ]),
-          ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                        left: 15.0,
+                        right: 15.0,
+                        top: 15,
+                        bottom: _isViaValid ? 15 : 20),
+                    child: TextFormField(
+                      controller: viaController,
+                      onChanged: (value) {
+                        setState(() {
+                          _isViaValid = validateVia(value);
+                        });
+                      },
+                      decoration: InputDecoration(
+                        labelText: 'Via',
+                        labelStyle: const TextStyle(
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.bold,
+                        ),
+                        hintText: 'Inserisci la via dell\'evento...',
+                        // Cambia il colore del testo in rosso se via non è valida
+                        errorText: _isViaValid
+                            ? null
+                            : 'Formato via non corretto (ex: Via Fratelli Napoli, 1)',
+                        errorStyle: const TextStyle(color: Colors.red),
+                      ),
+                      style: const TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                        left: 15.0,
+                        right: 15.0,
+                        top: 15,
+                        bottom: _isProvinciaValid ? 15 : 20),
+                    child: TextFormField(
+                      controller: provinciaController,
+                      onChanged: (value) {
+                        setState(() {
+                          _isProvinciaValid = validateProvincia(value);
+                        });
+                      },
+                      decoration: InputDecoration(
+                        labelText: 'Provincia',
+                        labelStyle: const TextStyle(
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.bold,
+                        ),
+                        hintText: 'Inserisci la provincia dell\'evento...',
+                        // Cambia il colore del testo in rosso se provincia non è valida
+                        errorText: _isProvinciaValid
+                            ? null
+                            : 'Formato provincia non corretta (ex: AV)',
+                        errorStyle: const TextStyle(color: Colors.red),
+                      ),
+                      style: const TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                        left: 15.0,
+                        right: 15.0,
+                        top: 15,
+                        bottom: _isDataValid ? 15 : 20),
+                    child: GestureDetector(
+                        onTap: () {
+                          _selectDate(context);
+                        },
+                        child: DateTimeFormField(
+                          decoration: const InputDecoration(
+                            suffixIcon: Icon(Icons.event_note),
+                            labelText: 'Data e ora',
+                            labelStyle: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          firstDate: DateTime.now(),
+                          validator: (e) => (e?.day ?? 0) == 1
+                              ? 'Please not the first day'
+                              : null,
+                          onChanged: (DateTime? value) {
+                            selectedDate = value;
+                            print(selectedDate);
+                          },
+                        )),
+                  ),
+                  const SizedBox(height: 40),
+                  const Text(
+                    'Contatti',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Padding(
+                    padding: EdgeInsets.only(
+                        left: 15.0,
+                        right: 15.0,
+                        top: 15,
+                        bottom: _isEmailValid ? 15 : 20),
+                    child: TextFormField(
+                      controller: emailController,
+                      onChanged: (value) {
+                        setState(() {
+                          _isEmailValid = validateEmail(value);
+                        });
+                      },
+                      decoration: InputDecoration(
+                        labelText: 'Email',
+                        labelStyle: const TextStyle(
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.bold,
+                        ),
+                        hintText: 'Inserisci l\'email...',
+                        // Cambia il colore del testo in rosso se email non è valida
+                        errorText: _isEmailValid
+                            ? null
+                            : 'Formato email non corretta (ex: esempio@esempio.com)',
+                        errorStyle: const TextStyle(color: Colors.red),
+                      ),
+                      style: const TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Padding(
+                    padding: EdgeInsets.only(
+                        left: 15.0,
+                        right: 15.0,
+                        top: 15,
+                        bottom: _isTelefonoValid ? 15 : 20),
+                    child: TextFormField(
+                      controller: telefonoController,
+                      onChanged: (value) {
+                        setState(() {
+                          _isTelefonoValid = validateTelefono(value);
+                        });
+                      },
+                      decoration: InputDecoration(
+                        labelText: 'Numero di telefono',
+                        labelStyle: const TextStyle(
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.bold,
+                        ),
+                        hintText: 'Inserisci numero di telefono...',
+                        // Cambia il colore del testo in rosso se telefono non è valido
+                        errorText: _isTelefonoValid
+                            ? null
+                            : 'Formato numero di telefono non corretto (ex: +393330000000)',
+                        errorStyle: const TextStyle(color: Colors.red),
+                      ),
+                      style: const TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: screenWidth * 0.1),
+                  ElevatedButton(
+                    onPressed: () {
+                      submitForm();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.transparent,
+                      foregroundColor: Colors.black,
+                      elevation: 10,
+                      minimumSize: Size(screenWidth * 0.1, screenWidth * 0.1),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
+                      padding: EdgeInsets.zero,
+                    ),
+                    child: Ink(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [Colors.blue[50]!, Colors.blue[100]!],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
+                      child: Container(
+                        width: screenWidth * 0.60,
+                        height: screenWidth * 0.1,
+                        padding: const EdgeInsets.all(10),
+                        child: const Center(
+                          child: Text(
+                            'INSERISCI',
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ]),
         ),
       ),
     );
   }
-}
-
-void main() {
-  runApp(InserisciEvento());
 }

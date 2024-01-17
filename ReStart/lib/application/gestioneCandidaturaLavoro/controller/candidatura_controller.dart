@@ -1,6 +1,5 @@
 import 'dart:convert';
-import 'package:restart_all_in_one/model/entity/utente_DTO.dart';
-
+import '../../../model/entity/utente_DTO.dart';
 import '../service/candidatura_service_impl.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart' as shelf_router;

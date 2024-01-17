@@ -33,9 +33,8 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
     final response = await http.post(
         Uri.parse('http://10.0.2.2:8080/autenticazione/checkUserCA'),
         body: jsonEncode(token),
-        headers: {'Content-Type': 'application/json'}
-    );
-    if(response.statusCode != 200){
+        headers: {'Content-Type': 'application/json'});
+    if (response.statusCode != 200) {
       Navigator.pushNamed(context, AppRoutes.home);
     }
   }
@@ -103,16 +102,13 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
           Uri.parse('http://10.0.2.2:8080/gestioneReintegrazione/addImage');
       final imageRequest = http.MultipartRequest('POST', imageUrl);
 
-
       imageRequest.files
           .add(await http.MultipartFile.fromPath('immagine', _image!.path));
-
 
       imageRequest.fields['nome'] = annuncio.nome;
 
       final imageResponse = await imageRequest.send();
       if (imageResponse.statusCode == 200) {
-
         print("Immagine caricata con successo.");
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -182,8 +178,7 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
     double screenWidth = MediaQuery.of(context).size.width;
     double avatarSize = screenWidth * 0.3;
 
-    return MaterialApp(
-        home: Scaffold(
+    return Scaffold(
       appBar: CaAppBar(
         showBackButton: true,
       ),
@@ -202,8 +197,8 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
               ),
               textAlign: TextAlign.center,
             ),
-                const SizedBox(height: 20),
-                Form(
+            const SizedBox(height: 20),
+            Form(
               key: _formKey,
               child: Column(
                 children: [
@@ -234,7 +229,7 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
                       //initialValue: evento.nomeEvento,
                       controller: nomeController,
                       decoration: const InputDecoration(
-                          labelText: 'Nome Annuncio di Lavoro',
+                        labelText: 'Nome Annuncio di Lavoro',
                         labelStyle: TextStyle(
                           fontSize: 15,
                           fontFamily: 'Poppins',
@@ -250,14 +245,14 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
                   const SizedBox(height: 20),
                   TextFormField(
                       controller: descrizioneController,
-                      decoration:
-                          const InputDecoration(labelText: 'Descrizione',
-                            labelStyle: TextStyle(
-                              fontSize: 15,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                      decoration: const InputDecoration(
+                        labelText: 'Descrizione',
+                        labelStyle: TextStyle(
+                          fontSize: 15,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Inserisci la descrizione dell\'annuncio di lavoro';
@@ -287,7 +282,7 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
                   TextFormField(
                       controller: numTelefonoController,
                       decoration: const InputDecoration(
-                          labelText: 'Numero di Telefono',
+                        labelText: 'Numero di Telefono',
                         labelStyle: TextStyle(
                           fontSize: 15,
                           fontFamily: 'Poppins',
@@ -303,7 +298,8 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
                   const SizedBox(height: 20),
                   TextFormField(
                       controller: cittaController,
-                      decoration: const InputDecoration(labelText: 'Città',
+                      decoration: const InputDecoration(
+                        labelText: 'Città',
                         labelStyle: TextStyle(
                           fontSize: 15,
                           fontFamily: 'Poppins',
@@ -400,10 +396,6 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
           ]),
         ),
       ),
-        ),
     );
   }
-}
-void main(){
-  runApp(InserisciLavoro());
 }
