@@ -85,7 +85,6 @@ void main() {
           date: DateTime(2024, 12, 22, 10, 30, 0),
           approvato: true,
           email: 'eventibosco@gmail.com',
-          sito: 'www.eventobosco.biz',
           via: 'Via Balzano 2',
           citta: 'Boscotrecase',
           provincia: 'NA');
@@ -127,7 +126,6 @@ void main() {
           date: DateTime(2024, 12, 22, 10, 30, 0),
           approvato: true,
           email: 'eventibosco@gmail.com',
-          sito: 'www.eventobosco.biz',
           via: 'Via Balzano 2',
           citta: 'Boscotrecase',
           provincia: 'NA');
@@ -169,7 +167,6 @@ void main() {
           date: DateTime(2024, 12, 22, 10, 30, 0),
           approvato: true,
           email: 'eventibosco@gmail.com',
-          sito: 'www.eventobosco.biz',
           via: 'Via Balzano 2',
           citta: 'Boscotrecase',
           provincia: 'NA');
@@ -211,7 +208,6 @@ void main() {
           date: DateTime(2023 - 12 - 22 - 10 - 30 - 0),
           approvato: true,
           email: 'eventibosco@gmail.com',
-          sito: 'www.eventobosco.biz',
           via: 'Via Balzano 2',
           citta: 'Boscotrecase',
           provincia: 'NA');
@@ -253,7 +249,6 @@ void main() {
           date: DateTime(2024, 12, 22, 10, 30, 0),
           approvato: true,
           email: 'eventiboscogmail.com',
-          sito: 'www.eventobosco.biz',
           via: 'Via Balzano 2',
           citta: 'Boscotrecase',
           provincia: 'NA');
@@ -295,7 +290,6 @@ void main() {
           date: DateTime(2024, 12, 22, 10, 30, 0),
           approvato: true,
           email: 'eventibosco@gmail.com',
-          sito: 'www.eventobosco.biz',
           via: '2',
           citta: 'Boscotrecase',
           provincia: 'NA');
@@ -337,7 +331,6 @@ void main() {
           date: DateTime(2024, 12, 22, 10, 30, 0),
           approvato: true,
           email: 'eventibosco@gmail.com',
-          sito: 'www.eventobosco.biz',
           via: 'Via Balzano 2',
           citta: 'Bosco3case',
           provincia: 'NA');
@@ -379,7 +372,6 @@ void main() {
           date: DateTime(2024, 12, 22, 10, 30, 0),
           approvato: true,
           email: 'eventibosco@gmail.com',
-          sito: 'www.eventobosco.biz',
           via: 'Via Balzano 2',
           citta: 'Boscotrecase',
           provincia: 'NA22');
@@ -421,7 +413,6 @@ void main() {
           date: DateTime(2024, 12, 22, 10, 30, 0),
           approvato: true,
           email: 'eventibosco@gmail.com',
-          sito: 'www.eventobosco.biz',
           via: 'Via Balzano 2',
           citta: 'Boscotrecase',
           provincia: 'NA');

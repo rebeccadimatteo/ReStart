@@ -28,7 +28,6 @@ class _ModifyEventoState extends State<ModifyEvento> {
   late TextEditingController? descrizioneController;
   late TextEditingController? dataController;
   late TextEditingController? emailController;
-  late TextEditingController? sitoController;
   late TextEditingController? cittaController;
   late TextEditingController? viaController;
   late TextEditingController? provinciaController;
@@ -45,7 +44,6 @@ class _ModifyEventoState extends State<ModifyEvento> {
     cittaController = null;
     viaController = null;
     provinciaController = null;
-    sitoController = null;
     token = SessionManager().get("token");
   }
 
@@ -57,7 +55,6 @@ class _ModifyEventoState extends State<ModifyEvento> {
     cittaController?.dispose();
     viaController?.dispose();
     provinciaController?.dispose();
-    sitoController?.dispose();
     super.dispose();
   }
 
@@ -72,7 +69,6 @@ class _ModifyEventoState extends State<ModifyEvento> {
       viaController = TextEditingController(text: evento.via);
       provinciaController = TextEditingController(text: evento.provincia);
       emailController = TextEditingController(text: evento.email);
-      sitoController = TextEditingController(text: evento.sito);
     }
   }
 
@@ -106,7 +102,6 @@ class _ModifyEventoState extends State<ModifyEvento> {
       String via = viaController!.text;
       String provincia = provinciaController!.text;
       String email = emailController!.text;
-      String sito = sitoController!.text;
       // DateTime data = dataController!.text;
       String imagePath = 'images/image_${nome}.jpg';
 
@@ -119,7 +114,6 @@ class _ModifyEventoState extends State<ModifyEvento> {
         via: via,
         provincia: provincia,
         email: email,
-        sito: sito,
         immagine: imagePath,
         id_ca: JWTUtils.getIdFromToken(accessToken: await token),
         date: selectedDate as DateTime,
@@ -286,23 +280,6 @@ class _ModifyEventoState extends State<ModifyEvento> {
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Inserisci la mail dell\'evento';
-                        }
-                        return null;
-                      }),
-                  const SizedBox(height: 20),
-                  TextFormField(
-                      controller: sitoController,
-                      decoration: const InputDecoration(
-                          labelText: 'Sito web',
-                        labelStyle: TextStyle(
-                          fontSize: 15,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Inserisci il sito web dell\'evento';
                         }
                         return null;
                       }),

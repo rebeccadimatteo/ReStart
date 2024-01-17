@@ -916,7 +916,6 @@ class _DetailsEventoAdsState extends State<DetailsEventoR> {
                               fontWeight: FontWeight.bold),
                         ),
                         Text(evento.email),
-                        Text(evento.sito),
                         const SizedBox(height: 20),
                         const Text(
                           'Informazioni',

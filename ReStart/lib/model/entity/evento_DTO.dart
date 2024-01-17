@@ -8,7 +8,6 @@ class EventoDTO {
   late DateTime _date;
   late bool _approvato;
   late String _email;
-  late String _sito;
   late String _via;
   late String _citta;
   late String _provincia;
@@ -23,7 +22,6 @@ class EventoDTO {
     required DateTime date,
     required bool approvato,
     required String email,
-    required String sito,
     required String via,
     required String citta,
     required String provincia,
@@ -35,7 +33,6 @@ class EventoDTO {
         _date = date,
         _approvato = approvato,
         _email = email,
-        _sito = sito,
         _via = via,
         _citta = citta,
         _provincia = provincia;
@@ -77,12 +74,6 @@ class EventoDTO {
 
   set via(String value) {
     _via = value;
-  }
-
-  String get sito => _sito;
-
-  set sito(String value) {
-    _sito = value;
   }
 
   String get email => _email;
@@ -134,7 +125,6 @@ class EventoDTO {
       date: parsedDate,
       approvato: json['approvato'],
       email: json['email'].toString().replaceAll('[', '').replaceAll(']', ''),
-      sito: json['sito'].toString().replaceAll('[', '').replaceAll(']', ''),
       immagine:
           json['immagine'].toString().replaceAll('[', '').replaceAll(']', ''),
       via: json['via'].toString().replaceAll('[', '').replaceAll(']', ''),
@@ -154,7 +144,6 @@ class EventoDTO {
       'data': date.toIso8601String(),
       'approvato': approvato,
       'email': email,
-      'sito': sito,
       'immagine': immagine,
       'via': via,
       'citta': citta,
@@ -165,6 +154,6 @@ class EventoDTO {
   /// Metodo che permette una stampa più pulita dell'entity utente
   @override
   String toString() {
-    return 'EventoDTO{id: $_id, id_ca: $_id_ca, immagine: $_immagine, nomeEvento: $_nomeEvento, descrizione: $_descrizione, data: $_date, approvato: $_approvato, email: $_email, sito: $_sito, via: $_via, citta: $_citta, provincia: $_provincia}';
+    return 'EventoDTO{id: $_id, id_ca: $_id_ca, immagine: $_immagine, nomeEvento: $_nomeEvento, descrizione: $_descrizione, data: $_date, approvato: $_approvato, email: $_email, via: $_via, citta: $_citta, provincia: $_provincia}';
   }
 }
