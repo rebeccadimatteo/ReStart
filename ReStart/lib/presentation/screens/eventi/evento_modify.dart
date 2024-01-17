@@ -32,6 +32,13 @@ class _ModifyEventoState extends State<ModifyEvento> {
   late TextEditingController? viaController;
   late TextEditingController? provinciaController;
 
+  bool _isNomeValid = true;
+  bool _isDescrizioneValid = true;
+  bool _isEmailValid = true;
+  bool _isViaValid = true;
+  bool _isCittaValid = true;
+  bool _isProvinciaValid = true;
+
   DateTime? selectedDate;
 
   @override
@@ -77,9 +84,8 @@ class _ModifyEventoState extends State<ModifyEvento> {
     final response = await http.post(
         Uri.parse('http://10.0.2.2:8080/autenticazione/checkUserCA'),
         body: jsonEncode(token),
-        headers: {'Content-Type': 'application/json'}
-    );
-    if(response.statusCode != 200){
+        headers: {'Content-Type': 'application/json'});
+    if (response.statusCode != 200) {
       Navigator.pushNamed(context, AppRoutes.home);
     }
   }
@@ -139,24 +145,65 @@ class _ModifyEventoState extends State<ModifyEvento> {
           Uri.parse('http://10.0.2.2:8080/gestioneReintegrazione/addImage');
       final imageRequest = http.MultipartRequest('POST', imageUrl);
 
-
       imageRequest.files
           .add(await http.MultipartFile.fromPath('immagine', _image!.path));
-
 
       imageRequest.fields['nome'] = evento.nomeEvento;
 
       final imageResponse = await imageRequest.send();
       if (imageResponse.statusCode == 200) {
-
         print("Immagine caricata con successo.");
         Navigator.pushNamed(context, AppRoutes.eventipubblicati);
       } else {
-
         print(
             "Errore durante l'upload dell'immagine: ${imageResponse.statusCode}");
       }
     }
+  }
+
+  bool validateNome(String nome) {
+    RegExp regex = RegExp(r"^[A-Za-zÀ-ú‘’',\(\)\s]{2,50}$");
+    return regex.hasMatch(nome);
+  }
+
+  bool validateDescrizione(String descrizione) {
+    RegExp regex = RegExp(
+        r"^[A-Za-zÀ-ú0-9‘’',\.\(\)\s\/|\\{}\[\],\-!$%&?<>=^+°#*:']{2,255}$");
+    return regex.hasMatch(descrizione);
+  }
+
+  bool validateEmail(String email) {
+    RegExp regex = RegExp(r'^[A-Za-z0-9_.]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$');
+    if(email.length < 6 || email.length > 40) {
+      return false;
+    }
+    return regex.hasMatch(email);
+  }
+
+  bool validateVia(String via) {
+    RegExp regex = RegExp(r'^[a-zA-Z .]+(,\s?[a-zA-Z0-9 ]*)?$');
+    return regex.hasMatch(via);
+  }
+
+  bool validateCitta(String citta) {
+    RegExp regex = RegExp(r'^[A-z À-ù‘-]{2,50}$');
+    return regex.hasMatch(citta);
+  }
+
+  bool validateProvincia(String provincia) {
+    RegExp regex = RegExp(r'^[A-Z]{2}');
+    if (provincia.length > 2) return false;
+    return regex.hasMatch(provincia);
+  }
+
+  bool validateTelefono(String telefono) {
+    RegExp regex = RegExp(r'^\+\d{12}$');
+    return regex.hasMatch(telefono);
+  }
+
+  bool validateImmagine(String immagine) {
+    RegExp regex = RegExp(r'^.+\.jpe?g$');
+    return regex.hasMatch(immagine);
   }
 
   /// Costruisce la UI per la schermata per la modifica di un evento.
@@ -212,13 +259,17 @@ class _ModifyEventoState extends State<ModifyEvento> {
                   ),
                   TextFormField(
                     controller: nomeController,
-                    decoration: const InputDecoration(
-                        labelText: 'Nome evento',
-                        labelStyle: TextStyle(
-                          fontSize: 20,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.bold,
-                        ),
+                    decoration: InputDecoration(
+                      errorText: _isNomeValid
+                          ? null
+                          : 'Formato nome non corretto (ex. Evento Comunitario \n    [max. 50 caratteri])',
+                      errorStyle: const TextStyle(color: Colors.red),
+                      labelText: 'Nome evento',
+                      labelStyle: const TextStyle(
+                        fontSize: 20,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {}
@@ -228,15 +279,18 @@ class _ModifyEventoState extends State<ModifyEvento> {
                   const SizedBox(height: 20),
                   TextFormField(
                       controller: descrizioneController,
-                      decoration:
-                          const InputDecoration(
-                              labelText: 'Descrizione',
-                            labelStyle: TextStyle(
-                              fontSize: 15,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                      decoration: InputDecoration(
+                        errorText: _isDescrizioneValid
+                            ? null
+                            : 'Lunghezza descrizione non corretta (max. 255 caratteri)',
+                        errorStyle: const TextStyle(color: Colors.red),
+                        labelText: 'Descrizione',
+                        labelStyle: const TextStyle(
+                          fontSize: 15,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Inserisci la descrizione dell\'evento';
@@ -269,9 +323,13 @@ class _ModifyEventoState extends State<ModifyEvento> {
                   const SizedBox(height: 20),
                   TextFormField(
                       controller: emailController,
-                      decoration: const InputDecoration(
-                          labelText: 'Email',
-                        labelStyle: TextStyle(
+                      decoration: InputDecoration(
+                        errorText: _isEmailValid
+                            ? null
+                            : 'Formato email non corretta (ex: esempio@esempio.com)',
+                        errorStyle: const TextStyle(color: Colors.red),
+                        labelText: 'Email',
+                        labelStyle: const TextStyle(
                           fontSize: 15,
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.bold,
@@ -286,9 +344,13 @@ class _ModifyEventoState extends State<ModifyEvento> {
                   const SizedBox(height: 20),
                   TextFormField(
                       controller: cittaController,
-                      decoration: const InputDecoration(
-                          labelText: 'Città',
-                        labelStyle: TextStyle(
+                      decoration: InputDecoration(
+                        errorText: _isCittaValid
+                            ? null
+                            : 'Formato città non corretto (ex: Napoli)',
+                        errorStyle: const TextStyle(color: Colors.red),
+                        labelText: 'Città',
+                        labelStyle: const TextStyle(
                           fontSize: 15,
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.bold,
@@ -296,15 +358,18 @@ class _ModifyEventoState extends State<ModifyEvento> {
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Inserisci la città dov\è situato l\'evento';
+                          return 'Inserisci la città dovè situato l\'evento';
                         }
                         return null;
                       }),
                   TextFormField(
                       controller: viaController,
-                      decoration: const InputDecoration(
-                          labelText: 'Via',
-                        labelStyle: TextStyle(
+                      decoration: InputDecoration(
+                        errorText: _isViaValid
+                            ? null
+                            : 'Formato via non corretto (ex: Via Fratelli Napoli, 1)',
+                        labelText: 'Via',
+                        labelStyle: const TextStyle(
                           fontSize: 15,
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.bold,
@@ -319,9 +384,13 @@ class _ModifyEventoState extends State<ModifyEvento> {
                   const SizedBox(height: 20),
                   TextFormField(
                       controller: provinciaController,
-                      decoration: const InputDecoration(
-                          labelText: 'Provincia',
-                        labelStyle: TextStyle(
+                      decoration: InputDecoration(
+                        errorText: _isProvinciaValid
+                            ? null
+                            : 'Formato provincia non corretta (ex: AV)',
+                        errorStyle: const TextStyle(color: Colors.red),
+                        labelText: 'Provincia',
+                        labelStyle: const TextStyle(
                           fontSize: 15,
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.bold,

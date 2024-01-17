@@ -71,7 +71,7 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
 
   bool validateEmail(String email) {
     RegExp regex = RegExp(r'^[A-Za-z0-9_.]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$');
-    if(email.length < 6 || email.length > 40) {
+    if (email.length < 6 || email.length > 40) {
       return false;
     }
     return regex.hasMatch(email);
@@ -119,7 +119,7 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
       String provincia = provinciaController.text;
       String email = emailController.text;
       String numTelefono = numTelefonoController.text;
-      String imagePath = 'images/image_${nome}.jpg';
+      String imagePath = 'images/image_$nome.jpg';
 
       AnnuncioDiLavoroDTO annuncio = AnnuncioDiLavoroDTO(
         nomeLavoro: nome,
@@ -249,14 +249,13 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 20),
             Form(
               key: _formKey,
               child: Column(
                 children: [
                   Stack(
                     children: [
-                      Container(
+                      SizedBox(
                         width: avatarSize,
                         height: avatarSize,
                         child: CircleAvatar(
@@ -271,12 +270,11 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
                         left: screenWidth * 0.18,
                         child: IconButton(
                           onPressed: selectImage,
-                          icon: Icon(Icons.add_a_photo_sharp),
+                          icon: const Icon(Icons.add_a_photo_sharp),
                         ),
                       )
                     ],
                   ),
-                  const SizedBox(height: 20),
                   Padding(
                     padding: EdgeInsets.only(
                         left: 15.0,
@@ -309,7 +307,6 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 20),
                   Padding(
                     padding: EdgeInsets.only(
                         left: 15.0,
@@ -351,7 +348,6 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 20),
                   Padding(
                     padding: EdgeInsets.only(
                         left: 15.0,
@@ -457,7 +453,6 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 20),
                   Padding(
                     padding: EdgeInsets.only(
                         left: 15.0,
@@ -478,7 +473,6 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
                           fontWeight: FontWeight.bold,
                         ),
                         hintText: 'Inserisci l\'email...',
-                        // Cambia il colore del testo in rosso se email non è valida
                         errorText: _isEmailValid
                             ? null
                             : 'Formato email non corretta (ex: esempio@esempio.com)',
@@ -490,7 +484,6 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 20),
                   Padding(
                     padding: EdgeInsets.only(
                         left: 15.0,
@@ -511,7 +504,6 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
                           fontWeight: FontWeight.bold,
                         ),
                         hintText: 'Inserisci numero di telefono...',
-                        // Cambia il colore del testo in rosso se telefono non è valido
                         errorText: _isTelefonoValid
                             ? null
                             : 'Formato numero di telefono non corretto (ex: +393330000000)',
@@ -527,10 +519,6 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
                   ElevatedButton(
                     onPressed: () {
                       submitForm();
-                      Navigator.pushNamed(
-                        context,
-                        AppRoutes.profilo,
-                      );
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.transparent,

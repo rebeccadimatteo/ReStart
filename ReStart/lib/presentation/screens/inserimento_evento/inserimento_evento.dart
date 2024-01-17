@@ -60,8 +60,7 @@ class _InserisciEventoState extends State<InserisciEvento> {
   bool _isViaValid = true;
   bool _isCittaValid = true;
   bool _isProvinciaValid = true;
-  bool _isTelefonoValid = true;
-  bool _isDataValid = true;
+  final bool _isDataValid = true;
 
   bool validateNome(String nome) {
     RegExp regex = RegExp(r"^[A-Za-zÀ-ú‘’',\(\)\s]{2,50}$");
@@ -81,14 +80,6 @@ class _InserisciEventoState extends State<InserisciEvento> {
     }
     return regex.hasMatch(email);
   }
-
-  /*bool validateSito(String sito) {
-    RegExp regex = RegExp(
-      r'^(http:\/\/|https:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$',
-      caseSensitive: false,
-    );
-    return regex.hasMatch(sito);
-  }*/
 
   bool validateVia(String via) {
     RegExp regex = RegExp(r'^[a-zA-Z .]+(,\s?[a-zA-Z0-9 ]*)?$');
@@ -156,7 +147,7 @@ class _InserisciEventoState extends State<InserisciEvento> {
       String via = viaController.text;
       String provincia = provinciaController.text;
       String email = emailController.text;
-      String imagePath = 'images/image_${nome}.jpg';
+      String imagePath = 'images/image_$nome.jpg';
 
       EventoDTO evento = EventoDTO(
           nomeEvento: nome,
@@ -168,7 +159,7 @@ class _InserisciEventoState extends State<InserisciEvento> {
           email: email,
           immagine: imagePath,
           id_ca: JWTUtils.getIdFromToken(accessToken: await token),
-          date: DateTime.now().add(Duration(days: 10)));
+          date: selectedDate!);
 
       /// Invia i dati al server con il percorso dell'immagine
       sendDataToServer(evento);
@@ -198,11 +189,65 @@ class _InserisciEventoState extends State<InserisciEvento> {
       final imageResponse = await imageRequest.send();
       if (imageResponse.statusCode == 200) {
         print("Immagine caricata con successo.");
-        Navigator.pushNamed(context, AppRoutes.eventipubblicati);
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+              'Richiesta inviata con successo',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+              ),
+            ),
+            backgroundColor: Colors.red,
+            duration: Duration(seconds: 3),
+          ),
+        );
       } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+              'Impossibile inviare la richiesta. Riprovare',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+              ),
+            ),
+            backgroundColor: Colors.red,
+            duration: Duration(seconds: 3),
+          ),
+        );
+
         print(
             "Errore durante l'upload dell'immagine: ${imageResponse.statusCode}");
       }
+    } else if (response.statusCode == 200) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Richiesta inviata con successo',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+            ),
+          ),
+          backgroundColor: Colors.blue,
+          duration: Duration(seconds: 3),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Impossibile inviare la richiesta. Riprovare',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+            ),
+          ),
+          backgroundColor: Colors.red,
+          duration: Duration(seconds: 3),
+        ),
+      );
     }
   }
 
@@ -231,14 +276,13 @@ class _InserisciEventoState extends State<InserisciEvento> {
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 20),
             Form(
               key: _formKey,
               child: Column(
                 children: [
                   Stack(
                     children: [
-                      Container(
+                      SizedBox(
                         width: avatarSize,
                         height: avatarSize,
                         child: CircleAvatar(
@@ -253,12 +297,11 @@ class _InserisciEventoState extends State<InserisciEvento> {
                         left: screenWidth * 0.18,
                         child: IconButton(
                           onPressed: selectImage,
-                          icon: Icon(Icons.add_a_photo_sharp),
+                          icon: const Icon(Icons.add_a_photo_sharp),
                         ),
                       )
                     ],
                   ),
-                  const SizedBox(height: 20),
                   Padding(
                     padding: EdgeInsets.only(
                         left: 15.0,
@@ -275,7 +318,6 @@ class _InserisciEventoState extends State<InserisciEvento> {
                       decoration: InputDecoration(
                         labelText: 'Nome',
                         hintText: 'Inserisci il nome dell\'evento...',
-                        // Cambia il colore del testo in rosso se il nome non è valido
                         errorText: _isNomeValid
                             ? null
                             : 'Formato nome non corretto (ex. Evento Comunitario \n    [max. 50 caratteri])',
@@ -291,7 +333,6 @@ class _InserisciEventoState extends State<InserisciEvento> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 20),
                   Padding(
                     padding: EdgeInsets.only(
                         left: 15.0,
@@ -333,7 +374,6 @@ class _InserisciEventoState extends State<InserisciEvento> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 20),
                   Padding(
                     padding: EdgeInsets.only(
                         left: 15.0,
@@ -354,7 +394,6 @@ class _InserisciEventoState extends State<InserisciEvento> {
                           fontWeight: FontWeight.bold,
                         ),
                         hintText: 'Inserisci la città dell\'evento...',
-                        // Cambia il colore del testo in rosso se città non è valida
                         errorText: _isCittaValid
                             ? null
                             : 'Formato città non corretto (ex: Napoli)',
@@ -386,7 +425,6 @@ class _InserisciEventoState extends State<InserisciEvento> {
                           fontWeight: FontWeight.bold,
                         ),
                         hintText: 'Inserisci la via dell\'evento...',
-                        // Cambia il colore del testo in rosso se via non è valida
                         errorText: _isViaValid
                             ? null
                             : 'Formato via non corretto (ex: Via Fratelli Napoli, 1)',
@@ -418,7 +456,6 @@ class _InserisciEventoState extends State<InserisciEvento> {
                           fontWeight: FontWeight.bold,
                         ),
                         hintText: 'Inserisci la provincia dell\'evento...',
-                        // Cambia il colore del testo in rosso se provincia non è valida
                         errorText: _isProvinciaValid
                             ? null
                             : 'Formato provincia non corretta (ex: AV)',
@@ -455,7 +492,6 @@ class _InserisciEventoState extends State<InserisciEvento> {
                               : null,
                           onChanged: (DateTime? value) {
                             selectedDate = value;
-                            print(selectedDate);
                           },
                         )),
                   ),
@@ -468,7 +504,6 @@ class _InserisciEventoState extends State<InserisciEvento> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 20),
                   Padding(
                     padding: EdgeInsets.only(
                         left: 15.0,
@@ -489,43 +524,9 @@ class _InserisciEventoState extends State<InserisciEvento> {
                           fontWeight: FontWeight.bold,
                         ),
                         hintText: 'Inserisci l\'email...',
-                        // Cambia il colore del testo in rosso se email non è valida
                         errorText: _isEmailValid
                             ? null
                             : 'Formato email non corretta (ex: esempio@esempio.com)',
-                        errorStyle: const TextStyle(color: Colors.red),
-                      ),
-                      style: const TextStyle(
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  Padding(
-                    padding: EdgeInsets.only(
-                        left: 15.0,
-                        right: 15.0,
-                        top: 15,
-                        bottom: _isTelefonoValid ? 15 : 20),
-                    child: TextFormField(
-                      controller: telefonoController,
-                      onChanged: (value) {
-                        setState(() {
-                          _isTelefonoValid = validateTelefono(value);
-                        });
-                      },
-                      decoration: InputDecoration(
-                        labelText: 'Numero di telefono',
-                        labelStyle: const TextStyle(
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.bold,
-                        ),
-                        hintText: 'Inserisci numero di telefono...',
-                        // Cambia il colore del testo in rosso se telefono non è valido
-                        errorText: _isTelefonoValid
-                            ? null
-                            : 'Formato numero di telefono non corretto (ex: +393330000000)',
                         errorStyle: const TextStyle(color: Colors.red),
                       ),
                       style: const TextStyle(

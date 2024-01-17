@@ -44,12 +44,8 @@ class EventoServiceImpl implements EventoService {
   Future<List<EventoDTO>> eventiSettimanali() async {
     List<EventoDTO> list = await _eventoDAO.findAll();
 
-    // Controlla se la data dell'evento è nella settimana corrente
-    for (EventoDTO e in list) {
-      if (e.date.isBefore(DateTime.now().add(const Duration(days: 7)))) {
-        list.remove(e);
-      }
-    }
+    // Rimuove tutti gli eventi la cui data è precedente a quella odierna
+    list.removeWhere((e) => e.date.isBefore(DateTime.now()));
 
     return list;
   }

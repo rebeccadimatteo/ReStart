@@ -185,7 +185,6 @@ class GestioneEventoController {
       return Response.ok(responseBody,
           headers: {'Content-Type': 'application/json'});
     } catch (e) {
-      print(e);
       return Response.internalServerError(
           body: 'Errore durante la visualizzazione degli eventi: $e');
     }
@@ -283,7 +282,7 @@ class GestioneEventoController {
 
   Future<Response> _eventiSettimanali(Request request) async {
     try {
-      final List<EventoDTO> listaEventi = await _service.communityEvents();
+      final List<EventoDTO> listaEventi = await _service.eventiSettimanali();
       final responseBody = jsonEncode({'eventi': listaEventi});
 
       return Response.ok(responseBody,
