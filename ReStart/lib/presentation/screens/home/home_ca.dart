@@ -13,10 +13,11 @@ class HomeCa extends StatefulWidget {
 
 class _HomeCaState extends State<HomeCa> {
 
-  void initState(){
+  void initState() {
     super.initState();
     _checkUserAndNavigate();
   }
+
   void _checkUserAndNavigate() async {
     String token = await SessionManager().get('token');
     final response = await http.post(
@@ -42,14 +43,16 @@ class _HomeCaState extends State<HomeCa> {
             hasScrollBody: false,
             child: Column(
               children: [
-                _buildFullWidthItem(
-                    context,
-                    'OFFERTE DI LAVORO\n    PUBBLICATE',
+                const SizedBox(height: 5),
+                _buildFullWidthItem(context, 'OFFERTE DI LAVORO\nPUBBLICATE',
                     AppRoutes.annuncipubblicati),
-                _buildFullWidthItem(context, 'COMMUNITY EVENTS\n    PUBBLICATI',
+                const SizedBox(height: 5),
+                _buildFullWidthItem(context, 'COMMUNITY EVENTS\nPUBBLICATI',
                     AppRoutes.eventipubblicati),
+                const SizedBox(height: 5),
                 _buildFullWidthItem(
                     context, 'AGGIUNGI EVENTO', AppRoutes.addevento),
+                const SizedBox(height: 5),
                 _buildFullWidthItem(context, 'AGGIUNGI OFFERTA\nDI LAVORO',
                     AppRoutes.addannuncio),
               ],
@@ -63,22 +66,45 @@ class _HomeCaState extends State<HomeCa> {
   Widget _buildFullWidthItem(BuildContext context, String title, String route) {
     // Widget per i blocchi rettangolari con testo centrato
     return Expanded(
-      child: GestureDetector(
-        onTap: () => Navigator.pushNamed(context, route),
-        child: Card(
-          color: Colors.blue[200],
-          margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 24),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(25),
-          ),
-          child: Container(
-            alignment: Alignment.center,
-            padding: const EdgeInsets.all(20),
-            child: Text(
-              title,
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+      child: Container(
+        margin: const EdgeInsets.only(top: 20, left: 20, right: 20),
+        child: Material(
+          borderRadius: BorderRadius.circular(30),
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: () {
+              Navigator.pushNamed(context, route);
+            },
+            splashColor: Colors.grey.withOpacity(0.5),
+            borderRadius: BorderRadius.circular(30),
+            child: Container(
+              margin: const EdgeInsets.only(bottom: 20),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(30),
+                gradient: LinearGradient(
+                  colors: [Colors.blue[50]!, Colors.blue[100]!],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 2,
+                    blurRadius: 5,
+                    offset: Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: Center(
+                child: Text(
+                  title,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
             ),
           ),
@@ -86,4 +112,15 @@ class _HomeCaState extends State<HomeCa> {
       ),
     );
   }
+}
+
+  void main() {
+  runApp(MaterialApp(
+    title: 'ReStart',
+    theme: ThemeData(
+      primarySwatch: Colors.blue,
+      visualDensity: VisualDensity.adaptivePlatformDensity,
+    ),
+    home: const HomeCa(),
+  ));
 }
