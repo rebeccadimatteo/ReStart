@@ -4,6 +4,7 @@ import '../alloggi_temporanei/alloggi_temporanei_ads.dart';
 import '../annunci_di_lavoro/annunci_di_lavoro_pubblicati.dart';
 import '../annunci_di_lavoro/annuncio_di_lavoro.dart';
 import '../annunci_di_lavoro/annuncio_di_lavoro_ads.dart';
+import '../annunci_di_lavoro/annuncio_di_lavoro_modify.dart';
 import '../corsi_di_formazione/corso_di_formazione.dart';
 import '../corsi_di_formazione/corso_di_formazione_ads.dart';
 import '../eventi/eventi.dart';
@@ -124,6 +125,7 @@ class AppRoutes {
       listaCandidati: (context) => ListaUtentiCandidati(),
       visualizzaLavoroAdatto: (context) => VisualizzaLavoroAdatto(),
       profiloCandidato: (context) => ProfiloCandidato(),
+      modificalavoro: (context) => ModifyLavoro(),
     };
   }
 }

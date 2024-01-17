@@ -413,7 +413,7 @@ class _ModifyLavoroState extends State<ModifyLavoro> {
                   SizedBox(height: screenWidth * 0.1),
                   ElevatedButton(
                     onPressed: () {
-                      submitForm;
+                      submitForm(annuncio);
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.transparent,

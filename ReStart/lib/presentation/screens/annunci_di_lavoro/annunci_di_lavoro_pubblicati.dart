@@ -297,6 +297,7 @@ class _DetailsLavoroPub extends State<DetailsLavoroPub> {
           const SizedBox(height: 20),
           Text(
             annuncio.nome,
+            textAlign: TextAlign.center,
             style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontFamily: 'Poppins',

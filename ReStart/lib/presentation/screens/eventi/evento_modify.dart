@@ -377,7 +377,7 @@ class _ModifyEventoState extends State<ModifyEvento> {
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Inserisci la via dov\è situato l\'evento';
+                          return 'Inserisci la via dov\'è situato l\'evento';
                         }
                         return null;
                       }),
@@ -405,7 +405,7 @@ class _ModifyEventoState extends State<ModifyEvento> {
                   SizedBox(height: screenWidth * 0.1),
                   ElevatedButton(
                     onPressed: () {
-                      submitForm;
+                      submitForm(evento);
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.transparent,

@@ -122,7 +122,7 @@ class _CommunityEventsState extends State<CommunityEventsPubblicati> {
                   onTap: () {
                     Navigator.pushNamed(
                       context,
-                      AppRoutes.dettaglievento,
+                      AppRoutes.dettaglieventipub,
                       arguments: evento,
                     );
                   },
@@ -139,7 +139,7 @@ class _CommunityEventsState extends State<CommunityEventsPubblicati> {
                           color: Colors.black.withOpacity(0.2),
                           spreadRadius: 2,
                           blurRadius: 5,
-                          offset: Offset(0, 2),
+                          offset: const Offset(0, 2),
                         ),
                       ],
                     ),
@@ -222,7 +222,19 @@ class _DetailsEventoPub extends State<DetailsEventoPub> {
   /// Inizializzazione dello stato, con chiamata alla funzione [fetchDataFromServer]
   @override
   void initState() {
+    _checkUserAndNavigate();
     super.initState();
+  }
+
+  void _checkUserAndNavigate() async {
+    String token = await SessionManager().get('token');
+    final response = await http.post(
+        Uri.parse('http://10.0.2.2:8080/autenticazione/checkUserCA'),
+        body: jsonEncode(token),
+        headers: {'Content-Type': 'application/json'});
+    if (response.statusCode != 200) {
+      Navigator.pushNamed(context, AppRoutes.home);
+    }
   }
 
   Future<void> deleteEvento(EventoDTO evento) async {
@@ -342,8 +354,6 @@ class _DetailsEventoPub extends State<DetailsEventoPub> {
                             icon: const Icon(Icons.delete,
                                 color: Colors.black, size: 40),
                             onPressed: () {
-                              Navigator.pushNamed(
-                                  context, AppRoutes.modificaevento);
                               deleteEvento(evento);
                             },
                           ),
