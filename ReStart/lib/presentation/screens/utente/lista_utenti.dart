@@ -71,8 +71,7 @@ class _ListaUtentiState extends State<ListaUtenti> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
         appBar: GenericAppBar(
           showBackButton: true,
         ),
@@ -168,11 +167,6 @@ class _ListaUtentiState extends State<ListaUtenti> {
             ),
           ],
         ),
-      ),
     );
   }
-}
-
-void main() {
-  runApp(ListaUtenti());
 }

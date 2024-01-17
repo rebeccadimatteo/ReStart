@@ -286,8 +286,7 @@ class _RichiesteState extends State<Richieste> {
   Widget build(BuildContext context) {
     if (eventi.isEmpty && annunci.isEmpty) {
       // Nessuna richiesta
-      return MaterialApp(
-        home: Scaffold(
+      return Scaffold(
           appBar: AdsAppBar(
             showBackButton: true,
           ),
@@ -302,7 +301,6 @@ class _RichiesteState extends State<Richieste> {
               ),
             ),
           ),
-        ),
       );
     }
     return Scaffold(

@@ -391,7 +391,3 @@ class _LavoroAdattoState extends State<LavoroAdatto> {
     );
   }
 }
-
-void main() {
-  runApp(MaterialApp(home: LavoroAdatto()));
-}

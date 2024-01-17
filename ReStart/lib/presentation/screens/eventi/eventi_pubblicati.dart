@@ -244,8 +244,7 @@ class _DetailsEventoPub extends State<DetailsEventoPub> {
         ModalRoute.of(context)?.settings.arguments as EventoDTO;
     final String data = evento.date.toIso8601String();
     final String dataBuona = data.substring(0, 10);
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
         appBar: CaAppBar(
           showBackButton: true,
         ),
@@ -357,7 +356,6 @@ class _DetailsEventoPub extends State<DetailsEventoPub> {
             ),
           ],
         ),
-      ),
     );
   }
 }

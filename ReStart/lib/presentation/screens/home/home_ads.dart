@@ -171,15 +171,3 @@ Widget _buildFullWidthItem(BuildContext context, String title, String route) {
       ),
     );
   }
-
-
-void main() {
-  runApp(MaterialApp(
-    title: 'ReStart',
-    theme: ThemeData(
-      primarySwatch: Colors.blue,
-      visualDensity: VisualDensity.adaptivePlatformDensity,
-    ),
-    home: HomeAds(),
-  ));
-}

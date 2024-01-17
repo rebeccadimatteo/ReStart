@@ -113,14 +113,3 @@ class _HomeCaState extends State<HomeCa> {
     );
   }
 }
-
-  void main() {
-  runApp(MaterialApp(
-    title: 'ReStart',
-    theme: ThemeData(
-      primarySwatch: Colors.blue,
-      visualDensity: VisualDensity.adaptivePlatformDensity,
-    ),
-    home:  HomeCa(),
-  ));
-}

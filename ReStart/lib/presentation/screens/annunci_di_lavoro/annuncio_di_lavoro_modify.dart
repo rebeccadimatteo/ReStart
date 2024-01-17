@@ -164,8 +164,7 @@ class _ModifyLavoroState extends State<ModifyLavoro> {
     double screenWidth = MediaQuery.of(context).size.width;
     double avatarSize = screenWidth * 0.3;
 
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
         appBar: CaAppBar(
           showBackButton: true,
         ),
@@ -387,10 +386,6 @@ class _ModifyLavoroState extends State<ModifyLavoro> {
                 ]),
           ),
         ),
-      ),
     );
   }
-}
-void main(){
-  runApp(ModifyLavoro());
 }

@@ -117,8 +117,7 @@ class _InserisciCorsoState extends State<InserisciCorso> {
     double screenWidth = MediaQuery.of(context).size.width;
     double avatarSize = screenWidth * 0.3;
 
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
         appBar: GenericAppBar(
           showBackButton: true,
         ),
@@ -342,11 +341,6 @@ class _InserisciCorsoState extends State<InserisciCorso> {
                 ]),
           ),
         ),
-      ),
     );
   }
-}
-
-void main() {
-  runApp(InserisciCorso());
 }
