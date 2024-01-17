@@ -95,9 +95,8 @@ class _LavoroAdattoState extends State<LavoroAdatto> {
       final Map<String, dynamic> responseBody = json.decode(response.body);
       if (responseBody.containsKey('result')) {
         final String lavoroAdatto = responseBody['result'];
-        print(lavoroAdatto);
       } else {
-        print('Errore');
+        print('Errore nella ricezione del lavoro adatto');
       }
     }
   }
@@ -119,7 +118,7 @@ class _LavoroAdattoState extends State<LavoroAdatto> {
         print('Chiave "utente" non trovata nella risposta.');
       }
     } else {
-      print('Errore');
+      print('Errore nella fetch utente');
     }
   }
 

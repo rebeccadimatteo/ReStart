@@ -22,6 +22,31 @@ class VisualizzaLavoroAdatto extends StatefulWidget {
 class _VisualizzaLavoroAdattoState extends State<VisualizzaLavoroAdatto> {
   late UtenteDTO utente; // Definizione del futuro per l'utente
   var token = SessionManager().get('token');
+  @override
+  void initState() {
+    super.initState();
+    _checkUserAndNavigate();
+    utente = UtenteDTO(
+        nome: 'nome',
+        cognome: 'cognome',
+        cod_fiscale: 'cod_fiscale',
+        data_nascita: DateTime.now(),
+        luogo_nascita: 'luogo_nascita',
+        genere: 'genere',
+        username: 'username',
+        password: 'password',
+        email: 'email',
+        num_telefono: 'num_telefono',
+        immagine: 'images/avatar.png',
+        via: 'via',
+        citta: 'citta',
+        provincia: 'provincia',
+        lavoro_adatto: 'Caricamento...');
+    fetchProfiloFromServer();
+    if (utente.lavoro_adatto == null) {
+      Navigator.pushNamed(context, AppRoutes.lavoroadatto);
+    }
+  }
 
   void _checkUserAndNavigate() async {
     String token = await SessionManager().get('token');
@@ -52,33 +77,7 @@ class _VisualizzaLavoroAdattoState extends State<VisualizzaLavoroAdatto> {
         print('Chiave "utente" non trovata nella risposta.');
       }
     } else {
-      print('Errore');
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _checkUserAndNavigate();
-    utente = UtenteDTO(
-        nome: 'nome',
-        cognome: 'cognome',
-        cod_fiscale: 'cod_fiscale',
-        data_nascita: DateTime.now(),
-        luogo_nascita: 'luogo_nascita',
-        genere: 'genere',
-        username: 'username',
-        password: 'password',
-        email: 'email',
-        num_telefono: 'num_telefono',
-        immagine: 'images/avatar.png',
-        via: 'via',
-        citta: 'citta',
-        provincia: 'provincia',
-        lavoro_adatto: 'Caricamento...');
-    fetchProfiloFromServer();
-    if (utente.lavoro_adatto == null) {
-      Navigator.pushNamed(context, AppRoutes.lavoroadatto);
+      print('Errore nella fetch profilo');
     }
   }
 
@@ -114,7 +113,7 @@ class _VisualizzaLavoroAdattoState extends State<VisualizzaLavoroAdatto> {
                     style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    utente.lavoro_adatto ?? 'Nessun lavoro adatto trovato',
+                    utente.lavoro_adatto!,
                     // Fornisce un valore di fallback
                     textAlign: TextAlign.center,
                     style: const TextStyle(

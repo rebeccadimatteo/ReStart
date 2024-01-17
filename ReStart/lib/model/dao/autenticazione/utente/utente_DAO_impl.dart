@@ -168,7 +168,7 @@ class UtenteDAOImpl implements UtenteDAO {
       developer.log(e.toString());
       return null;
     } finally {
-      await connector.closeConnection();
+      connector.closeConnection();
     }
     return null;
   }
