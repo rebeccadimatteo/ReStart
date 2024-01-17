@@ -121,6 +121,6 @@ class _HomeCaState extends State<HomeCa> {
       primarySwatch: Colors.blue,
       visualDensity: VisualDensity.adaptivePlatformDensity,
     ),
-    home: const HomeCa(),
+    home:  HomeCa(),
   ));
 }
