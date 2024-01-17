@@ -21,7 +21,7 @@ class AlloggioTemporaneoDTO {
     required String email,
     required String sito,
     required String immagine,
-  })  : _id = id ?? null,
+  })  : _id = id,
         _nome = nome,
         _descrizione = descrizione,
         _tipo = tipo,
@@ -86,7 +86,7 @@ class AlloggioTemporaneoDTO {
     _nome = value;
   }
 
-  int? get id => _id ?? null;
+  int? get id => _id;
 
   // Metodo factory per creare un'istanza del DTO da un JSON
   factory AlloggioTemporaneoDTO.fromJson(Map<String, dynamic> json) {

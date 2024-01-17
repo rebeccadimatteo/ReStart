@@ -45,7 +45,7 @@ class GestioneLavoroController {
       final String requestBody = await request.readAsString();
       final Map<String, dynamic> params = jsonDecode(requestBody);
       // Ottieni i valori dei parametri
-      final int id_ca = params['id_ca'] ?? '';
+      final int idCa = params['id_ca'] ?? '';
       final String nomeLavoro = params['nome'] ?? '';
       final String descrizione = params['descrizione'] ?? '';
       final bool approvato = params['approvato'] == 'true';
@@ -58,7 +58,7 @@ class GestioneLavoroController {
 
       //capire il noid come si utilizza
       AnnuncioDiLavoroDTO lavoro = AnnuncioDiLavoroDTO(
-          id_ca: id_ca,
+          id_ca: idCa,
           nomeLavoro: nomeLavoro,
           descrizione: descrizione,
           approvato: approvato,
@@ -130,7 +130,7 @@ class GestioneLavoroController {
 
       final int id =
           params['id'] != null ? int.parse(params['id'].toString()) : 0;
-      final int id_ca =
+      final int idCa =
           params['id_ca'] != null ? int.parse(params['id_ca'].toString()) : 0;
       final String nomeLavoro = params['nome'] ?? '';
       final String descrizione = params['descrizione'] ?? '';
@@ -140,10 +140,10 @@ class GestioneLavoroController {
       final String provincia = params['provincia'] ?? '';
       final String email = params['email'] ?? '';
       final String immagine = params['immagine'] ?? '';
-      final String num_telefono = params['num_telefono'] ?? '';
+      final String numTelefono = params['num_telefono'] ?? '';
       AnnuncioDiLavoroDTO lavoro = AnnuncioDiLavoroDTO(
         id: id,
-        id_ca: id_ca,
+        id_ca: idCa,
         nomeLavoro: nomeLavoro,
         descrizione: descrizione,
         approvato: approvato,
@@ -152,7 +152,7 @@ class GestioneLavoroController {
         provincia: provincia,
         email: email,
         immagine: immagine,
-        numTelefono: num_telefono,
+        numTelefono: numTelefono,
       );
 
       if (await _service.modifyLavoro(lavoro)) {
@@ -245,7 +245,6 @@ class GestioneLavoroController {
       final List<AnnuncioDiLavoroDTO> listaAnnunci =
           await _service.offertePubblicate(username);
 
-      print(listaAnnunci);
       final responseBody = jsonEncode({'annunci': listaAnnunci});
       return Response.ok(responseBody,
           headers: {'Content-Type': 'application/json'});

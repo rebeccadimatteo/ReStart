@@ -69,7 +69,6 @@ class CandidaturaController {
       return Response.ok(responseBody,
           headers: {'Content-Type': 'application/json'});
     } catch (e) {
-      print(e);
       // Gestione degli errori durante la chiamata al servizio
       return Response.internalServerError(
           body: 'Errore durante la visualizzazione dei candidati: $e');

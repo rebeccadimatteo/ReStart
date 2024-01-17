@@ -1,5 +1,7 @@
 import 'dart:developer' as developer;
+
 import 'package:postgres/postgres.dart';
+
 import '../../connection/connector.dart';
 import '../../entity/candidatura_DTO.dart';
 import '../../entity/utente_DTO.dart';
@@ -207,7 +209,6 @@ class CandidaturaDAOImpl implements CandidaturaDAO {
 
       return list;
     } catch (e) {
-      print(e);
       developer.log(e.toString());
       return [];
     } finally {

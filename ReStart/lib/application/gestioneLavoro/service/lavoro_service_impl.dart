@@ -33,11 +33,11 @@ class LavoroServiceImpl implements LavoroService {
   }
 
   @override
-  Future<String> approveLavoro(int id_annuncio) async {
-    if (await _lavoroDAO.existById(id_annuncio) == false) {
+  Future<String> approveLavoro(int idAnnuncio) async {
+    if (await _lavoroDAO.existById(idAnnuncio) == false) {
       return "L'annuncio di lavoro non esiste";
     }
-    AnnuncioDiLavoroDTO? lavoro = await _lavoroDAO.findById(id_annuncio);
+    AnnuncioDiLavoroDTO? lavoro = await _lavoroDAO.findById(idAnnuncio);
 
     if (lavoro == null) return "Evento non trovato";
 
@@ -74,23 +74,23 @@ class LavoroServiceImpl implements LavoroService {
 
     // Controlla se l'evento è stato approvato altrimenti non deve essere visualizzato
     var itemsToRemove = <AnnuncioDiLavoroDTO>[];
-    list.forEach((a) {
+    for (var a in list) {
       if (!a.approvato) {
         itemsToRemove.add(a);
       }
-    });
+    }
     list.removeWhere((e) => itemsToRemove.contains(e));
 
     return list;
   }
 
   @override
-  Future<String> rejectLavoro(int id_annuncio) async {
-    if (await _lavoroDAO.existById(id_annuncio) == false) {
+  Future<String> rejectLavoro(int idAnnuncio) async {
+    if (await _lavoroDAO.existById(idAnnuncio) == false) {
       return "L'annuncio di lavoro non esiste";
     }
 
-    if (await _lavoroDAO.removeById(id_annuncio)) return "Rifiuto effettuato";
+    if (await _lavoroDAO.removeById(idAnnuncio)) return "Rifiuto effettuato";
 
     return "fallito";
   }

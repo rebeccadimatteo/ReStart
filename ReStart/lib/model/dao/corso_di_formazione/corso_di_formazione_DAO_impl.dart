@@ -42,7 +42,6 @@ class CorsoDiFormazioneDAOImpl implements CorsoDiFormazioneDAO {
       return false;
     } catch (e) {
       developer.log(e.toString());
-      print(e);
       return false;
     } finally {
       await connector.closeConnection();
@@ -92,7 +91,6 @@ class CorsoDiFormazioneDAOImpl implements CorsoDiFormazioneDAO {
       return corsi;
     } catch (e) {
       developer.log(e.toString());
-      print(e);
       return [];
     } finally {
       await connector.closeConnection();

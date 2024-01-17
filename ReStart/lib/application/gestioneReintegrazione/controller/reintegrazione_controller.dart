@@ -125,7 +125,7 @@ class ReintegrazioneController {
         return Response.badRequest(body: 'Tipo di contenuto non valido.');
       }
 
-      final parts = await request.parts;
+      final parts = request.parts;
       String? nome;
       List<int>? imageData;
 
@@ -148,7 +148,7 @@ class ReintegrazioneController {
       }
 
       if (nome != null && imageData != null) {
-        final imagePath = 'images/image_${nome}.jpg';
+        final imagePath = 'images/image_$nome.jpg';
         final imageFile = File(imagePath);
         if (await imageFile.exists()) {
           // Elimina il file esistente
@@ -161,7 +161,6 @@ class ReintegrazioneController {
         return Response.badRequest(body: 'Dati mancanti nella richiesta');
       }
     } catch (e) {
-      print(e);
       return Response.internalServerError(body: 'Errore server: $e');
     }
   }

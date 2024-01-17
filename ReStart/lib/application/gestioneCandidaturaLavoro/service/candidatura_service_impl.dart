@@ -22,20 +22,24 @@ class CandidaturaServiceImpl implements CandidaturaService {
   Future<String> candidatura(String username, int? idLavoro) async {
     UtenteDTO? utente = await _utenteDAO.findByUsername(username);
 
-    if (utente == null)
+    if (utente == null) {
       return "Utente non trovato"; // non è stato possibile trovare l'utente
+    }
 
-    if (await _annuncioDiLavoroDAO.existById(idLavoro!) == false)
+    if (await _annuncioDiLavoroDAO.existById(idLavoro!) == false) {
       return "Lavoro non esistente"; // il lavoro già esiste
+    }
 
-    if (await _candidaturaDAO.existCandidatura(utente.id, idLavoro))
+    if (await _candidaturaDAO.existCandidatura(utente.id, idLavoro)) {
       return "Candidatura esistente"; // la candidatura già esiste
+    }
 
     CandidaturaDTO candidaturaDTO =
         CandidaturaDTO(id_lavoro: idLavoro, id_utente: utente.id);
 
-    if (await _candidaturaDAO.add(candidaturaDTO))
+    if (await _candidaturaDAO.add(candidaturaDTO)) {
       return "Candidatura effettuata";
+    }
 
     return "fallito";
   }

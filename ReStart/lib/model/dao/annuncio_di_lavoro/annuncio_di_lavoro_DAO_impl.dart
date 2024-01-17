@@ -65,7 +65,6 @@ class AnnuncioDiLavoroDAOImpl implements AnnuncioDiLavoroDAO {
       }
       return false;
     } catch (e) {
-      print(e);
       developer.log(e.toString());
       return false;
     } finally {

@@ -21,7 +21,7 @@ class Connector {
           username: 'postgres',
           password: '0000'
       ),
-      settings: ConnectionSettings(sslMode: SslMode.disable),
+      settings: const ConnectionSettings(sslMode: SslMode.disable),
     );
     return _connection!;
   }

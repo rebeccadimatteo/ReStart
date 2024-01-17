@@ -1,5 +1,4 @@
 /// Entity class dell'utente
-
 class UtenteDTO {
   /// Identificativo univoco dell'utente
   int? _id;
@@ -37,7 +36,7 @@ class UtenteDTO {
   /// Numero di telefono dell'utente
   late String _num_telefono;
 
-  /// Imamagine profilo dell'utente
+  /// Immagine profilo dell'utente
   late String _immagine;
 
   /// Indirizzo dell'utente
@@ -63,7 +62,7 @@ class UtenteDTO {
     required String via,
     required String citta,
     required String provincia,
-  })  : _id = id ?? null,
+  })  : _id = id,
         _nome = nome,
         _cognome = cognome,
         _cod_fiscale = cod_fiscale,

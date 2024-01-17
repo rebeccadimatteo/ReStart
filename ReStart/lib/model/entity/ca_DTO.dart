@@ -45,7 +45,7 @@ class CaDTO {
         _provincia = provincia;
 
   /// Getter e setter dei vari attributi
-  int? get id => _id ?? null;
+  int? get id => _id;
 
   String get username => _username;
 
