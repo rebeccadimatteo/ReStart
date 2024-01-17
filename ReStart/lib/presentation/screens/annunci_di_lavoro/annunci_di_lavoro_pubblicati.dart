@@ -151,18 +151,35 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroPubblicati> {
                       arguments: annuncio,
                     );
                   },
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.only(left: 5, bottom: 5, right: 5),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      gradient: LinearGradient(
+                        colors: [Colors.blue[50]!, Colors.blue[100]!],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.2),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    margin:
+                    const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
                     child: ListTile(
                       visualDensity:
-                          const VisualDensity(vertical: 4, horizontal: 4),
+                      const VisualDensity(vertical: 4, horizontal: 4),
                       minVerticalPadding: 50,
                       minLeadingWidth: 80,
-                      tileColor: Colors.grey,
+                      tileColor: Colors.transparent,
                       leading: CircleAvatar(
-                          radius: 35,
-                          backgroundImage: AssetImage(annuncio.immagine)),
+                        radius: 35,
+                        backgroundImage: Image.asset(annuncio.immagine).image,
+                      ),
                       title: Text(
                         annuncio.nome,
                         style: const TextStyle(
@@ -366,7 +383,6 @@ class _DetailsLavoroPub extends State<DetailsLavoroPub> {
                       ],
                     ),
                     const SizedBox(height: 10),
-                    // Spazio tra i pulsanti e il nuovo pulsante "Utenti candidati"
                     ElevatedButton(
                       onPressed: () {
                         Navigator.pushNamed(context, AppRoutes.listaCandidati,
@@ -394,8 +410,7 @@ class _DetailsLavoroPub extends State<DetailsLavoroPub> {
                           borderRadius: BorderRadius.circular(30.0),
                         ),
                         child: Container(
-                          width: MediaQuery.of(context).size.width *
-                              0.6, // Regola la larghezza del pulsante
+                          width: MediaQuery.of(context).size.width * 0.6,
                           height: MediaQuery.of(context).size.width * 0.1,
                           padding: const EdgeInsets.all(10),
                           child: const Center(

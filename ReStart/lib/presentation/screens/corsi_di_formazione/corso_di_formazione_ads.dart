@@ -105,7 +105,7 @@ class _CorsoDiFormazioneState extends State<CorsoDiFormazioneAds> {
                   onTap: () {
                     Navigator.pushNamed(
                       context,
-                      AppRoutes.dettaglicorso, //non funziona
+                      AppRoutes.dettaglicorso,
                       arguments: corso,
                     );
                   },
@@ -134,10 +134,9 @@ class _CorsoDiFormazioneState extends State<CorsoDiFormazioneAds> {
                       minVerticalPadding: 50,
                       minLeadingWidth: 80,
                       tileColor: Colors.transparent,
-                      // Imposta il colore del ListTile su trasparente
                       leading: CircleAvatar(
                         radius: 35,
-                        backgroundImage: AssetImage(corso.immagine),
+                        backgroundImage: Image.asset(corso.immagine).image,
                       ),
                       title: Text(
                         corso.nomeCorso,
@@ -234,7 +233,7 @@ class _DetailsCorsoAdsState extends State<DetailsCorsoAds> {
                 shape: BoxShape.circle,
                 image: DecorationImage(
                     fit: BoxFit.cover,
-                    image: AssetImage('images/' + corso.immagine)),
+                    image: Image.asset(corso.immagine).image),
               ),
             ),
           ),

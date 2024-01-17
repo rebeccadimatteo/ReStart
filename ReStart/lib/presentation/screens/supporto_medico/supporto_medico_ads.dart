@@ -143,7 +143,7 @@ class _SupportoMedicoState extends State<SupportoMedicoAds> {
                       tileColor: Colors.transparent,
                       leading: CircleAvatar(
                         radius: 35,
-                        backgroundImage: AssetImage(supporto.immagine),
+                        backgroundImage: Image.asset(supporto.immagine).image,
                       ),
                       title: Text(
                         supporto.nomeMedico,
@@ -238,7 +238,7 @@ class _DetailsSupportoAdsState extends State<DetailsSupportoAds> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
-                    fit: BoxFit.cover, image: AssetImage(supporto.immagine)),
+                    fit: BoxFit.cover, image: Image.asset(supporto.immagine).image),
               ),
             ),
           ),
