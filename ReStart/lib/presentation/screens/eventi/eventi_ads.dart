@@ -51,7 +51,6 @@ class _CommunityEventsState extends State<CommunityEventsAds> {
           for (EventoDTO e in data) {
             if (e.approvato) {
               newData.add(e);
-              print(e);
             }
           }
           eventi = newData;

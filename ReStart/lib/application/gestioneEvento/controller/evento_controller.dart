@@ -31,7 +31,6 @@ class GestioneEventoController {
     try {
       final List<EventoDTO> listaEventi = await _service.communityEvents();
       final responseBody = jsonEncode({'eventi': listaEventi});
-      print(responseBody);
       return Response.ok(responseBody,
           headers: {'Content-Type': 'application/json'});
     } catch (e) {

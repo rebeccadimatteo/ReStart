@@ -366,7 +366,7 @@ class _RichiesteState extends State<Richieste> {
           tileColor: Colors.grey,
           leading: CircleAvatar(
             radius: 35,
-            backgroundImage: AssetImage(evento.immagine),
+            backgroundImage:Image.asset(evento.immagine ?? 'images/avatar.png').image,
           ),
           title: Text(
             evento.nomeEvento,
@@ -416,7 +416,7 @@ class _RichiesteState extends State<Richieste> {
           tileColor: Colors.grey,
           leading: CircleAvatar(
             radius: 35,
-            backgroundImage: AssetImage(annuncio.immagine),
+            backgroundImage: Image.asset(annuncio.immagine ?? 'images/avatar.png').image,
           ),
           title: Text(
             annuncio.nome,
