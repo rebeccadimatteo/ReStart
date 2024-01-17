@@ -10,8 +10,6 @@ import 'package:http/http.dart' as http;
 
 import '../routes/routes.dart';
 
-void main() => runApp(MaterialApp(home: VisualizzaLavoroAdatto()));
-
 class VisualizzaLavoroAdatto extends StatefulWidget {
   const VisualizzaLavoroAdatto({super.key});
 

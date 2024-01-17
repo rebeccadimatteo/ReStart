@@ -7,8 +7,6 @@ import '../routes/routes.dart';
 import "package:http/http.dart" as http;
 
 class HomeCa extends StatefulWidget {
-  const HomeCa({super.key});
-
   @override
   State<HomeCa> createState() => _HomeCaState();
 }
@@ -88,15 +86,4 @@ class _HomeCaState extends State<HomeCa> {
       ),
     );
   }
-}
-
-void main() {
-  runApp(MaterialApp(
-    title: 'ReStart',
-    theme: ThemeData(
-      primarySwatch: Colors.blue,
-      visualDensity: VisualDensity.adaptivePlatformDensity,
-    ),
-    home: const HomeCa(),
-  ));
 }

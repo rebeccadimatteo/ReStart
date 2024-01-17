@@ -170,8 +170,6 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoro> {
 /// Visualizza i dettagli di [AnnunciDiLavoro]
 
 class DetailsLavoro extends StatefulWidget {
-  const DetailsLavoro({super.key});
-
   @override
   State<DetailsLavoro> createState() => _DetailsLavoroState();
 }
