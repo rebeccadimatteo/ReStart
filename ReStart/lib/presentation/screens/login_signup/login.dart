@@ -249,23 +249,6 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
             ),
-            TextButton(
-              onPressed: () {
-                Navigator.pushNamed(
-                  context,
-                  AppRoutes.login,
-                );
-              },
-              child: const Text(
-                'Password dimenticata?',
-                style: TextStyle(
-                  color: Colors.blue,
-                  fontSize: 17,
-                  fontFamily: 'Poppins',
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
             const SizedBox(
               height: 20,
             ),
