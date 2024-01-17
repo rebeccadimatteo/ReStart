@@ -147,15 +147,17 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroAds> {
                         ),
                       ],
                     ),
-                    margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+                    margin:
+                    const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
                     child: ListTile(
-                      visualDensity: const VisualDensity(vertical: 4, horizontal: 4),
+                      visualDensity:
+                      const VisualDensity(vertical: 4, horizontal: 4),
                       minVerticalPadding: 50,
                       minLeadingWidth: 80,
                       tileColor: Colors.transparent,
                       leading: CircleAvatar(
                         radius: 35,
-                        backgroundImage: AssetImage(annuncio.immagine),
+                        backgroundImage: Image.asset(annuncio.immagine).image,
                       ),
                       title: Text(
                         annuncio.nome,
@@ -243,7 +245,6 @@ class _DetailsLavoroAdsState extends State<DetailsLavoroAds> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const SizedBox(height: 20),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
@@ -252,7 +253,8 @@ class _DetailsLavoroAdsState extends State<DetailsLavoroAds> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
-                    fit: BoxFit.cover, image: AssetImage(annuncio.immagine)),
+                  fit: BoxFit.cover, image: Image.asset(annuncio.immagine).image,
+                ),
               ),
             ),
           ),
@@ -260,9 +262,9 @@ class _DetailsLavoroAdsState extends State<DetailsLavoroAds> {
           Text(
             annuncio.nome,
             style: const TextStyle(
-              fontFamily: 'Genos',
-              fontWeight: FontWeight.bold,
-              fontSize: 30,
+                fontSize: 30,
+                fontFamily: 'Genos',
+                fontWeight: FontWeight.bold
             ),
           ),
           const SizedBox(height: 10),
@@ -270,11 +272,10 @@ class _DetailsLavoroAdsState extends State<DetailsLavoroAds> {
             padding: const EdgeInsets.all(10.0),
             child: Text(
               annuncio.descrizione,
-              textAlign: TextAlign.center,
               style: const TextStyle(
                 fontFamily: 'Poppins',
-                fontWeight: FontWeight.bold,
                 fontSize: 15,
+                color: Colors.black,
               ),
             ),
           ),
@@ -289,18 +290,16 @@ class _DetailsLavoroAdsState extends State<DetailsLavoroAds> {
                         const Text(
                           'Contatti',
                           style: TextStyle(
-                            fontSize: 20,
-                            fontFamily: 'PoppinsMedium',
-                            fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                              fontFamily: 'PoppinsMedium',
+                              fontWeight: FontWeight.bold
                           ),
                         ),
-                        const SizedBox(width: 8),
-                        Text(
-                          annuncio.email,
+                        Text(annuncio.email,
                           style: const TextStyle(
-                            fontSize: 15,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.bold
                           ),
                         ),
                         const SizedBox(width: 8),
@@ -319,6 +318,15 @@ class _DetailsLavoroAdsState extends State<DetailsLavoroAds> {
                             fontSize: 15,
                             fontFamily: 'Poppins',
                             fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        const Text(
+                          'Informazioni',
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontFamily: 'PoppinsMedium',
+                              fontWeight: FontWeight.bold
                           ),
                         ),
                       ],

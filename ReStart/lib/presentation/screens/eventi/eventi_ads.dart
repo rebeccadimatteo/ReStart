@@ -244,7 +244,8 @@ class _DetailsEventoAdsState extends State<DetailsEventoAds> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
-                    fit: BoxFit.cover, image: AssetImage(evento.immagine)),
+                    fit: BoxFit.cover, image: Image.asset(evento.immagine).image,
+                ),
               ),
             ),
           ),
