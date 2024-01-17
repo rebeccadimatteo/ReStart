@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:flutter_driver/flutter_driver.dart' as driver;
 import 'package:flutter_test/flutter_test.dart';
-import 'package:restart_all_in_one/main.dart' as app;
 
 
 void main() {
