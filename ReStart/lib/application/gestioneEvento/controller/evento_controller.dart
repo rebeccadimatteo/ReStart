@@ -31,6 +31,7 @@ class GestioneEventoController {
     try {
       final List<EventoDTO> listaEventi = await _service.communityEvents();
       final responseBody = jsonEncode({'eventi': listaEventi});
+      print(responseBody);
       return Response.ok(responseBody,
           headers: {'Content-Type': 'application/json'});
     } catch (e) {
@@ -51,7 +52,6 @@ class GestioneEventoController {
       } else if (rawData is String) {
         parsedDate = DateTime.parse(rawData);
       } else {
-        // Puoi gestire altri tipi o scenari a tua discrezione
         parsedDate = DateTime.now();
       }
       final int idCa = params['id_ca'] ?? '';

@@ -19,8 +19,7 @@ class _RichiesteState extends State<Richieste> {
   @override
   void initState() {
     super.initState();
-    fetchEventiFromServer();
-    fetchAnnunciFromServer();
+    fetchDataFromServer();
     _checkUserAndNavigate();
   }
 
@@ -31,7 +30,7 @@ class _RichiesteState extends State<Richieste> {
     }
   }
 
-  Future<void> fetchEventiFromServer() async {
+  Future<void> fetchDataFromServer() async {
     final response = await http.post(
         Uri.parse('http://10.0.2.2:8080/gestioneEvento/visualizzaEventi'));
     if (response.statusCode == 200) {
@@ -44,32 +43,29 @@ class _RichiesteState extends State<Richieste> {
         setState(() {
           eventi = data.where((e) => !e.approvato).toList();
         });
-      } else {
-        print('Chiave "eventi" non trovata nella risposta.');
-      }
-    } else {
-      print('Errore');
-    }
-  }
-
-  Future<void> fetchAnnunciFromServer() async {
-    final response = await http.post(
-        Uri.parse('http://10.0.2.2:8080/gestioneLavoro/visualizzaLavori'));
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> responseBody = json.decode(response.body);
-      if (responseBody.containsKey('annunci')) {
-        final List<AnnuncioDiLavoroDTO> data =
+        final response = await http.post(
+            Uri.parse('http://10.0.2.2:8080/gestioneLavoro/visualizzaLavori'));
+        if (response.statusCode == 200) {
+          final Map<String, dynamic> responseBody = json.decode(response.body);
+          if (responseBody.containsKey('annunci')) {
+            final List<AnnuncioDiLavoroDTO> data =
             List<Map<String, dynamic>>.from(responseBody['annunci'])
                 .map((json) => AnnuncioDiLavoroDTO.fromJson(json))
                 .toList();
-        setState(() {
-          annunci = data.where((a) => !a.approvato).toList();
-        });
+            setState(() {
+              annunci = data.where((a) => !a.approvato).toList();
+            });
+          } else {
+            print('Chiave "annunci" non trovata nella risposta.');
+          }
+        } else {
+          print('Errore nel caricamento degli annunci');
+        }
       } else {
-        print('Chiave "annunci" non trovata nella risposta.');
+        print('Chiave "eventi" non trovata nella risposta');
       }
     } else {
-      print('Errore');
+      print('Errore nel caricamento degli eventi');
     }
   }
 
