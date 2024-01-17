@@ -19,7 +19,7 @@ class EventoDAOImpl implements EventoDAO {
       var result = await connection.execute(
         Sql.named(
             'INSERT INTO public."Evento" (id_ca, nome, descrizione, data, approvato) '
-                'VALUES (@id_ca, @nome, @descrizione, @data, @approvato) RETURNING id'),
+            'VALUES (@id_ca, @nome, @descrizione, @data, @approvato) RETURNING id'),
         parameters: {
           'id_ca': e.id_ca,
           'nome': e.nomeEvento,
@@ -37,7 +37,7 @@ class EventoDAOImpl implements EventoDAO {
       var result2 = await connection.execute(
           Sql.named(
               'INSERT INTO public."Indirizzo" (via, citta, provincia, id_evento) '
-                  'VALUES (@via, @citta, @provincia, @id_evento)'),
+              'VALUES (@via, @citta, @provincia, @id_evento)'),
           parameters: {
             'via': e.via,
             'citta': e.citta,
@@ -55,7 +55,8 @@ class EventoDAOImpl implements EventoDAO {
           });
 
       await connector.closeConnection();
-      if (result1.affectedRows != 0 &&
+      if (result.affectedRows != 0 &&
+          result1.affectedRows != 0 &&
           result2.affectedRows != 0 &&
           result3.affectedRows != 0) {
         return true;
@@ -99,9 +100,9 @@ class EventoDAOImpl implements EventoDAO {
       Connection connection = await connector.openConnection();
       var result = await connection.execute(Sql.named(
           'SELECT  e.id, e.id_ca, e.id_ca, e.nome, e.descrizione, e.data, e.approvato, c.email, '
-              'c.sito, i.immagine, ind.via, ind.citta, ind.provincia FROM public."Evento" as e, public."Contatti" as c, '
-              'public."Immagine" as i, public."Indirizzo" as ind, public."CA" as ca '
-              'WHERE e.id = c.id_evento AND e.id = i.id_evento AND e.id = ind.id_evento AND e.id_ca = ca.id'));
+          'c.sito, i.immagine, ind.via, ind.citta, ind.provincia FROM public."Evento" as e, public."Contatti" as c, '
+          'public."Immagine" as i, public."Indirizzo" as ind, public."CA" as ca '
+          'WHERE e.id = c.id_evento AND e.id = i.id_evento AND e.id = ind.id_evento AND e.id_ca = ca.id'));
 
       // Mappa i risultati della query in oggetti SupportoMedicoDTO
       List<EventoDTO> eventi = result.map((row) {
@@ -124,9 +125,9 @@ class EventoDAOImpl implements EventoDAO {
       var result = await connection.execute(
         Sql.named(
             'SELECT  e.id, e.id_ca, e.nome, e.descrizione, e.data, e.approvato, c.email,'
-                'c.sito, i.immagine, ind.via, ind.citta, ind.provincia FROM public."Evento" as e, public."Contatti" as c, '
-                'public."Immagine" as i, public."Indirizzo" as ind '
-                'WHERE e.id = @id AND @id = c.id_evento AND @id = i.id_evento AND @id = ind.id_evento '),
+            'c.sito, i.immagine, ind.via, ind.citta, ind.provincia FROM public."Evento" as e, public."Contatti" as c, '
+            'public."Immagine" as i, public."Indirizzo" as ind '
+            'WHERE e.id = @id AND @id = c.id_evento AND @id = i.id_evento AND @id = ind.id_evento '),
         parameters: {'id': id},
       );
       if (result.isNotEmpty) {
@@ -170,8 +171,8 @@ class EventoDAOImpl implements EventoDAO {
       var result1 = await connection.execute(
         Sql.named(
             'UPDATE public."Evento" SET id_ca = @id_ca, nome = @nome, descrizione = @descrizione, '
-                'data = @data, approvato = @approvato '
-                'WHERE id = @id'),
+            'data = @data, approvato = @approvato '
+            'WHERE id = @id'),
         parameters: {
           'id': e?.id,
           'id_ca': e?.id_ca,
@@ -195,7 +196,7 @@ class EventoDAOImpl implements EventoDAO {
       var result3 = await connection.execute(
         Sql.named(
             'UPDATE public."Indirizzo" SET via = @via, citta = @citta, provincia = @provincia '
-                'WHERE id_evento = @id_evento'),
+            'WHERE id_evento = @id_evento'),
         parameters: {
           'via': e?.via,
           'citta': e?.citta,
@@ -235,9 +236,9 @@ class EventoDAOImpl implements EventoDAO {
       var result = await connection.execute(
         Sql.named(
             'SELECT DISTINCT e.id, e.id_ca, e.nome, e.descrizione, e.data, e.approvato, c.email, '
-                'c.sito, i.immagine, ind.via, ind.citta, ind.provincia FROM public."Evento" as e, public."Contatti" as c, '
-                'public."Immagine" as i, public."Indirizzo" as ind, public."CA" as ca '
-                'WHERE e.id = c.id_evento AND e.id = i.id_evento AND e.id = ind.id_evento AND e.id_ca = @id AND e.approvato=true '),
+            'c.sito, i.immagine, ind.via, ind.citta, ind.provincia FROM public."Evento" as e, public."Contatti" as c, '
+            'public."Immagine" as i, public."Indirizzo" as ind, public."CA" as ca '
+            'WHERE e.id = c.id_evento AND e.id = i.id_evento AND e.id = ind.id_evento AND e.id_ca = @id AND e.approvato=true '),
         parameters: {'id': id},
       );
       List<EventoDTO> eventi = result.map((row) {

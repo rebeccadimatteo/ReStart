@@ -69,7 +69,7 @@ class LavoroAdattoDAOImpl implements LavoroAdattoDAO {
       developer.log(e.toString());
       return false;
     } finally {
-      await connector.closeConnection();
+      connector.closeConnection();
     }
   }
 }
