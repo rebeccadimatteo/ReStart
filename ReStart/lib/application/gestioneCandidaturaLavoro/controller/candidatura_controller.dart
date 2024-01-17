@@ -1,6 +1,6 @@
 import 'dart:convert';
+import 'package:restart_all_in_one/model/entity/utente_DTO.dart';
 
-import '../../../model/entity/utente_DTO.dart';
 import '../service/candidatura_service_impl.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart' as shelf_router;
@@ -16,7 +16,6 @@ class CandidaturaController {
     // Associa i vari metodi alle route
     _router.post('/apply', _candidatura);
     _router.post('/listaCandidati', _findCandidati);
-
     // Aggiungi la route di fallback per le richieste non corrispondenti
     _router.all('/<ignored|.*>', _notFound);
   }
