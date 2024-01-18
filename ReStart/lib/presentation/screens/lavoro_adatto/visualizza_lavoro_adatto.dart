@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import '../../../model/entity/utente_DTO.dart';
 import '../../../utils/jwt_utils.dart';
@@ -40,9 +41,6 @@ class _VisualizzaLavoroAdattoState extends State<VisualizzaLavoroAdatto> {
         provincia: 'provincia',
         lavoro_adatto: 'Caricamento...');
     fetchProfiloFromServer();
-    if (utente.lavoro_adatto == null) {
-      Navigator.pushNamed(context, AppRoutes.lavoroadatto);
-    }
   }
 
   void _checkUserAndNavigate() async {
@@ -70,6 +68,9 @@ class _VisualizzaLavoroAdattoState extends State<VisualizzaLavoroAdatto> {
         setState(() {
           utente = data;
         });
+        if (utente.lavoro_adatto == 'null') {
+          Navigator.pushNamed(context, AppRoutes.lavoroadatto);
+        }
       } else {
         print('Chiave "utente" non trovata nella risposta.');
       }
