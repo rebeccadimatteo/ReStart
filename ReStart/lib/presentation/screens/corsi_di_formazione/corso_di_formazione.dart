@@ -184,6 +184,7 @@ class _DetailsCorsoState extends State<DetailsCorso> {
       appBar: GenericAppBar(
         showBackButton: true,
       ),
+      endDrawer: GenericAppBar.buildDrawer(context),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [

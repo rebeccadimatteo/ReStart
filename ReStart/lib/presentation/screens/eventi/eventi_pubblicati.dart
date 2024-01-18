@@ -172,7 +172,7 @@ class _CommunityEventsState extends State<CommunityEventsPubblicati> {
                           color: Colors.black,
                         ),
                       ),
-                      trailing: Container(
+                      trailing: SizedBox(
                         width: 100,
                         child: Row(
                           children: [

@@ -272,6 +272,7 @@ class _DetailsLavoroAdsState extends State<DetailsLavoroAds> {
             padding: const EdgeInsets.all(10.0),
             child: Text(
               annuncio.descrizione,
+              textAlign: TextAlign.center,
               style: const TextStyle(
                 fontFamily: 'Poppins',
                 fontSize: 15,
@@ -311,15 +312,6 @@ class _DetailsLavoroAdsState extends State<DetailsLavoroAds> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const SizedBox(width: 8),
-                        Text(
-                          '${annuncio.via}, ${annuncio.citta}, ${annuncio.provincia}',
-                          style: const TextStyle(
-                            fontSize: 15,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
                         const SizedBox(height: 20),
                         const Text(
                           'Informazioni',
@@ -327,6 +319,14 @@ class _DetailsLavoroAdsState extends State<DetailsLavoroAds> {
                               fontSize: 20,
                               fontFamily: 'PoppinsMedium',
                               fontWeight: FontWeight.bold
+                          ),
+                        ),
+                        Text(
+                          '${annuncio.via}, ${annuncio.citta}, ${annuncio.provincia}',
+                          style: const TextStyle(
+                            fontSize: 15,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ],

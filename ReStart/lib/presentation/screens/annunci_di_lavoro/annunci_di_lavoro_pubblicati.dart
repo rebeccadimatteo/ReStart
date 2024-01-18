@@ -279,6 +279,7 @@ class _DetailsLavoroPub extends State<DetailsLavoroPub> {
       appBar: CaAppBar(
         showBackButton: true,
       ),
+      endDrawer: CaAppBar.buildDrawer(context),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [

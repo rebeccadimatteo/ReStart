@@ -646,6 +646,7 @@ class _ProfiloEditState extends State<ProfiloEdit> {
                                   fontWeight: FontWeight.bold,
                                 ),
                                 decoration: const InputDecoration(
+                                  labelText: 'Data di nascita',
                                   hintText: 'Data di nascita',
                                   border: InputBorder.none,
                                 ),
@@ -671,7 +672,6 @@ class _ProfiloEditState extends State<ProfiloEdit> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 15),
                     TextFormField(
                       controller: luogoNascitaController,
                       decoration: const InputDecoration(
@@ -774,6 +774,19 @@ class _ProfiloEditState extends State<ProfiloEdit> {
                   Navigator.pushNamed(
                     context,
                     AppRoutes.profilo,
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text(
+                        'Profilo modificato con successo',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                        ),
+                      ),
+                      backgroundColor: Colors.lightBlue,
+                      duration: Duration(seconds: 3),
+                    ),
                   );
                 },
                 style: ElevatedButton.styleFrom(

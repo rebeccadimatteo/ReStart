@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:restart/presentation/screens/inserimento_alloggio/inserimento_alloggio.dart';
 import 'package:restart/presentation/screens/inserimento_corso/inserimento_corso.dart';
 import 'package:restart/presentation/screens/inserimento_supporto/inserimento_supporto.dart';
+import 'package:restart/presentation/screens/utente/lista_utenti.dart';
 import '../alloggi_temporanei/alloggi_temporanei.dart';
 import '../alloggi_temporanei/alloggi_temporanei_ads.dart';
 import '../annunci_di_lavoro/annunci_di_lavoro_pubblicati.dart';
@@ -90,6 +91,8 @@ class AppRoutes {
   static const String inserisciAlloggio = '/aggiungiAlloggio';
   static const String inserisciSupporto = '/aggiungiSupporto';
 
+  static const String listaUtenti = '/listaUtenti';
+
   /// Definizione di tutte le [AppRoutes]
   static Map<String, WidgetBuilder> getRoutes() {
     return {
@@ -137,6 +140,7 @@ class AppRoutes {
       inserisciCorso: (context) => InserisciCorso(),
       inserisciAlloggio: (context) => InserisciAlloggio(),
       inserisciSupporto: (context) => InserisciSupporto(),
+      listaUtenti: (context) => ListaUtenti(),
     };
   }
 }

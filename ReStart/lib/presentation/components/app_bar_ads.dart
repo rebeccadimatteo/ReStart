@@ -230,6 +230,22 @@ class AdsAppBar extends StatelessWidget implements PreferredSizeWidget {
                       );
                     },
                   ),
+                  ListTile(
+                    title: const Text(
+                      'Lista utenti',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        AppRoutes.listaUtenti,
+                      );
+                    },
+                  ),
                 ListTile(
                   title: const Text(
                     'Gestione Richieste',

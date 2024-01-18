@@ -182,7 +182,7 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
                 fontSize: 16,
               ),
             ),
-            backgroundColor: Colors.red,
+            backgroundColor: Colors.lightBlue,
             duration: Duration(seconds: 3),
           ),
         );
@@ -208,6 +208,7 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
         const SnackBar(
           content: Text(
             'Impossibile inviare la richiesta. Riprovare',
+            textAlign: TextAlign.center,
             style: TextStyle(
               color: Colors.white,
               fontSize: 16,

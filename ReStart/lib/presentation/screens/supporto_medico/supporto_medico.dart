@@ -190,6 +190,7 @@ class _DetailsSupportoState extends State<DetailsSupporto> {
       appBar: GenericAppBar(
         showBackButton: true,
       ),
+      endDrawer: GenericAppBar.buildDrawer(context),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [

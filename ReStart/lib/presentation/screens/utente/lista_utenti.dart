@@ -27,7 +27,7 @@ class _ListaUtentiState extends State<ListaUtenti> {
   void _checkUserAndNavigate() async {
     String token = await SessionManager().get('token');
     final response = await http.post(
-        Uri.parse('http://10.0.2.2:8080/autenticazione/checkUserUtente'),
+        Uri.parse('http://10.0.2.2:8080/autenticazione/checkUserADS'),
         body: jsonEncode(token),
         headers: {'Content-Type': 'application/json'});
     if (response.statusCode != 200) {
