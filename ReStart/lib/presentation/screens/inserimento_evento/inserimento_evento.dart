@@ -75,11 +75,19 @@ class _InserisciEventoState extends State<InserisciEvento> {
 
   bool validateEmail(String email) {
     RegExp regex = RegExp(r'^[A-Za-z0-9_.]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$');
-    if(email.length < 6 || email.length > 40) {
+    if (email.length < 6 || email.length > 40) {
       return false;
     }
     return regex.hasMatch(email);
   }
+
+  /*bool validateSito(String sito) {
+    RegExp regex = RegExp(
+      r'^(http:\/\/|https:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$',
+      caseSensitive: false,
+    );
+    return regex.hasMatch(sito);
+  }*/
 
   bool validateVia(String via) {
     RegExp regex = RegExp(r'^[a-zA-Z .]+(,\s?[a-zA-Z0-9 ]*)?$');
@@ -163,8 +171,6 @@ class _InserisciEventoState extends State<InserisciEvento> {
 
       /// Invia i dati al server con il percorso dell'immagine
       sendDataToServer(evento);
-    } else {
-      print("Evento non inserito");
     }
   }
 

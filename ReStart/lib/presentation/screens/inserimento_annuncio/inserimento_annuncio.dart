@@ -136,8 +136,6 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
 
       /// Invia i dati al server con il percorso dell'immagine
       await sendDataToServer(annuncio);
-    } else {
-      print("Lavoro non inserito");
     }
   }
 
@@ -161,7 +159,6 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
 
       final imageResponse = await imageRequest.send();
       if (imageResponse.statusCode == 200) {
-        print("Immagine caricata con successo.");
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text(
@@ -189,7 +186,6 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
             duration: Duration(seconds: 3),
           ),
         );
-
         print(
             "Errore durante l'upload dell'immagine: ${imageResponse.statusCode}");
       }
@@ -400,7 +396,6 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
                           fontWeight: FontWeight.bold,
                         ),
                         hintText: 'Inserisci la via dell\'annuncio...',
-                        // Cambia il colore del testo in rosso se via non è valida
                         errorText: _isViaValid
                             ? null
                             : 'Formato via non corretto (ex: Via Fratelli Napoli, 1)',
