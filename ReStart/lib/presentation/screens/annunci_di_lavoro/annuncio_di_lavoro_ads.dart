@@ -312,7 +312,7 @@ class _DetailsLavoroAdsState extends State<DetailsLavoroAds> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const SizedBox(height: 20),
+                        const SizedBox(height: 15),
                         const Text(
                           'Informazioni',
                           style: TextStyle(

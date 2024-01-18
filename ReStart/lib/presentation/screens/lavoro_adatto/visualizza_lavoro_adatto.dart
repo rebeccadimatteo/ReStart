@@ -85,13 +85,21 @@ class _VisualizzaLavoroAdattoState extends State<VisualizzaLavoroAdatto> {
       endDrawer: GenericAppBar.buildDrawer(context),
       body: Stack(
         children: [
-          // Aggiungi la linea diagonale come sfondo
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Colors.white, Colors.blue[100]!],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+            ),
+          ),
+          // Linea diagonale come sfondo
           Positioned.fill(
             child: CustomPaint(
               painter: DiagonalLinePainter(),
             ),
           ),
-          // Il testo e il pulsante sono sopra la linea diagonale
           Align(
             alignment: Alignment.topLeft,
             child: Padding(
@@ -103,15 +111,14 @@ class _VisualizzaLavoroAdattoState extends State<VisualizzaLavoroAdatto> {
                   const SizedBox(height: 40),
                   const Text(
                     'IL LAVORO CHE FA',
-                    style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 32, fontFamily: 'PoppinsMedium', fontWeight: FontWeight.bold),
                   ),
                   const Text(
                     'PER TE È:',
-                    style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 32, fontFamily: 'PoppinsMedium', fontWeight: FontWeight.bold),
                   ),
                   Text(
                     utente.lavoro_adatto!,
-                    // Fornisce un valore di fallback
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
@@ -133,7 +140,7 @@ class _VisualizzaLavoroAdattoState extends State<VisualizzaLavoroAdatto> {
                 children: <Widget>[
                   const Text(
                     'Vuoi ripetere il test?',
-                    style: TextStyle(fontSize: 18),
+                    style: TextStyle(fontSize: 18, fontFamily: 'Poppins', fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 10),
                   ElevatedButton(
@@ -161,8 +168,7 @@ class _VisualizzaLavoroAdattoState extends State<VisualizzaLavoroAdatto> {
                         borderRadius: BorderRadius.circular(30.0),
                       ),
                       child: Container(
-                        width: MediaQuery.of(context).size.width *
-                            0.4, // Regola la larghezza del pulsante
+                        width: MediaQuery.of(context).size.width * 0.4,
                         height: MediaQuery.of(context).size.width * 0.1,
                         padding: const EdgeInsets.all(10),
                         child: const Center(
@@ -188,12 +194,12 @@ class _VisualizzaLavoroAdattoState extends State<VisualizzaLavoroAdatto> {
   }
 }
 
-// CustomPainter per disegnare la linea diagonale
+/// CustomPainter per disegnare la linea diagonale
 class DiagonalLinePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Colors.black
+      ..color = Color(0xFF424242)
       ..strokeWidth = 5;
 // Disegna una linea dal punto in basso a sinistra (0, size.height)
 // al punto in alto a destra (size.width, 0)

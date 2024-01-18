@@ -340,7 +340,15 @@ class _DetailsLavoroState extends State<DetailsLavoro> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const SizedBox(width: 10),
+                        const SizedBox(height: 20),
+                        const Text(
+                          'Informazioni',
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontFamily: 'PoppinsMedium',
+                              fontWeight: FontWeight.bold
+                          ),
+                        ),
                         Text(
                           '${annuncio.via}, ${annuncio.citta}, ${annuncio.provincia}',
                           style: const TextStyle(

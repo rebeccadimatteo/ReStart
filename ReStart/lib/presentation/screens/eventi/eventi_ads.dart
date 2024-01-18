@@ -307,7 +307,6 @@ class _DetailsEventoAdsState extends State<DetailsEventoAds> {
                               fontFamily: 'Poppins',
                               fontWeight: FontWeight.bold),
                         ),
-                        Text(dataBuona),
                       ],
                     ),
                   ))),
