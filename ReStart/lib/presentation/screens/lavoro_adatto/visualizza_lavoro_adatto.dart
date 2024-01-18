@@ -11,8 +11,6 @@ import 'package:http/http.dart' as http;
 import '../routes/routes.dart';
 
 class VisualizzaLavoroAdatto extends StatefulWidget {
-  const VisualizzaLavoroAdatto({super.key});
-
   @override
   State<VisualizzaLavoroAdatto> createState() => _VisualizzaLavoroAdattoState();
 }
@@ -20,6 +18,7 @@ class VisualizzaLavoroAdatto extends StatefulWidget {
 class _VisualizzaLavoroAdattoState extends State<VisualizzaLavoroAdatto> {
   late UtenteDTO utente; // Definizione del futuro per l'utente
   var token = SessionManager().get('token');
+
   @override
   void initState() {
     super.initState();
@@ -145,7 +144,8 @@ class _VisualizzaLavoroAdattoState extends State<VisualizzaLavoroAdatto> {
                       backgroundColor: Colors.transparent,
                       foregroundColor: Colors.black,
                       elevation: 10,
-                      minimumSize: Size(MediaQuery.of(context).size.width * 0.1, MediaQuery.of(context).size.width * 0.1),
+                      minimumSize: Size(MediaQuery.of(context).size.width * 0.1,
+                          MediaQuery.of(context).size.width * 0.1),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30.0),
                       ),
@@ -161,7 +161,8 @@ class _VisualizzaLavoroAdattoState extends State<VisualizzaLavoroAdatto> {
                         borderRadius: BorderRadius.circular(30.0),
                       ),
                       child: Container(
-                        width: MediaQuery.of(context).size.width * 0.4, // Regola la larghezza del pulsante
+                        width: MediaQuery.of(context).size.width *
+                            0.4, // Regola la larghezza del pulsante
                         height: MediaQuery.of(context).size.width * 0.1,
                         padding: const EdgeInsets.all(10),
                         child: const Center(

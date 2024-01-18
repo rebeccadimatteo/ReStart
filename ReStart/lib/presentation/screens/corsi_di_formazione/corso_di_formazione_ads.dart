@@ -105,7 +105,7 @@ class _CorsoDiFormazioneState extends State<CorsoDiFormazioneAds> {
                   onTap: () {
                     Navigator.pushNamed(
                       context,
-                      AppRoutes.dettaglicorso,
+                      AppRoutes.dettaglicorsoAds,
                       arguments: corso,
                     );
                   },

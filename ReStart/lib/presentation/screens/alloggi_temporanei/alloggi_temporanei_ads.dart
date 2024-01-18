@@ -119,7 +119,7 @@ class _AlloggiTemporaneiState extends State<AlloggiTemporaneiAds> {
                   onTap: () {
                     Navigator.pushNamed(
                       context,
-                      AppRoutes.dettaglialloggio,
+                      AppRoutes.dettaglialloggioAds,
                       arguments: alloggio,
                     );
                   },

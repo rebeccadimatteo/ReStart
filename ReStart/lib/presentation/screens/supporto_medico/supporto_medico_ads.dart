@@ -112,7 +112,7 @@ class _SupportoMedicoState extends State<SupportoMedicoAds> {
                   onTap: () {
                     Navigator.pushNamed(
                       context,
-                      AppRoutes.dettaglisupporto,
+                      AppRoutes.dettaglisupportoAds,
                       arguments: supporto,
                     );
                   },

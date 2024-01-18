@@ -126,7 +126,7 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroAds> {
                   onTap: () {
                     Navigator.pushNamed(
                       context,
-                      AppRoutes.dettagliannuncio,
+                      AppRoutes.dettagliannuncioAds,
                       arguments: annuncio,
                     );
                   },

@@ -115,7 +115,7 @@ class _CommunityEventsState extends State<CommunityEventsAds> {
                   onTap: () {
                     Navigator.pushNamed(
                       context,
-                      AppRoutes.dettaglievento,
+                      AppRoutes.dettaglieventoAds,
                       arguments: evento,
                     );
                   },

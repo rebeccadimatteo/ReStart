@@ -182,6 +182,54 @@ class AdsAppBar extends StatelessWidget implements PreferredSizeWidget {
                     );
                   },
                 ),
+                  ListTile(
+                    title: const Text(
+                      'Inserisci corso di formazione',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        AppRoutes.inserisciCorso,
+                      );
+                    },
+                  ),
+                  ListTile(
+                    title: const Text(
+                      'Inserisci alloggio temporaneo',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        AppRoutes.inserisciAlloggio,
+                      );
+                    },
+                  ),
+                  ListTile(
+                    title: const Text(
+                      'Inserisci supporto medico',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        AppRoutes.inserisciSupporto,
+                      );
+                    },
+                  ),
                 ListTile(
                   title: const Text(
                     'Gestione Richieste',

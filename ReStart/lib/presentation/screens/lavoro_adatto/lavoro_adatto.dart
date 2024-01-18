@@ -325,7 +325,7 @@ class _LavoroAdattoState extends State<LavoroAdatto> {
                         submitForm();
                         Navigator.pushReplacement(
                           context,
-                          MaterialPageRoute(builder: (context) => const VisualizzaLavoroAdatto()),
+                          MaterialPageRoute(builder: (context) => VisualizzaLavoroAdatto()),
                         );
                       },
                       style: ElevatedButton.styleFrom(
