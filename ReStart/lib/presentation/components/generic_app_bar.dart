@@ -231,6 +231,19 @@ class GenericAppBar extends StatelessWidget implements PreferredSizeWidget {
                     context,
                     MaterialPageRoute(builder: (context) => Home()),
                   );
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text(
+                        'Logout effettuato',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                        ),
+                      ),
+                      backgroundColor: Colors.lightBlue,
+                      duration: Duration(seconds: 3),
+                    ),
+                  );
                 },
               ),
             ),
