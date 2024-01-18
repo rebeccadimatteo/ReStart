@@ -13,7 +13,7 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpState extends State<SignUpPage> {
   final _formKey = GlobalKey<FormState>();
-  String? _selectedGender;
+  String? _selectedGender = 'Non specificato';
   DateTime? selectedDate;
   XFile? _image;
 

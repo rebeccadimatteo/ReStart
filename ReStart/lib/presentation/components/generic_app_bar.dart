@@ -52,7 +52,7 @@ class GenericAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   /// Costruisce un [Drawer] che contiene varie opzioni di navigazione.
-  static Widget buildDrawer(BuildContext context) {
+  static Widget buildDrawer(BuildContext context, {Key? key}) {
     return Drawer(
       child: Container(
         decoration: const BoxDecoration(

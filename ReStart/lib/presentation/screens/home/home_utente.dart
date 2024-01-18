@@ -84,7 +84,7 @@ class _HomeUtenteState extends State<HomeUtente> {
       appBar: GenericAppBar(
         showBackButton: false,
       ),
-      endDrawer: GenericAppBar.buildDrawer(context),
+      endDrawer: GenericAppBar.buildDrawer(context, key: const Key('drawer')),
       body: CustomScrollView(
         slivers: [
           const SliverToBoxAdapter(
