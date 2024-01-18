@@ -298,6 +298,7 @@ class _SignUpState extends State<SignUpPage> {
                     top: 15,
                     bottom: _isNomeValid ? 15 : 20),
                 child: TextFormField(
+                  key: Key('nomeField'),
                   controller: nomeController,
                   onChanged: (value) {
                     setState(() {

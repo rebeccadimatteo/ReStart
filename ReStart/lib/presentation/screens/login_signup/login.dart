@@ -128,6 +128,7 @@ class _LoginPageState extends State<LoginPage> {
                         top: 15,
                         bottom: _isUsernameValid ? 15 : 20),
                     child: TextFormField(
+                      key: Key('usernameField'),
                       controller: usernameController,
                       onChanged: (value) {
                         setState(() {
@@ -161,6 +162,7 @@ class _LoginPageState extends State<LoginPage> {
                         top: 15,
                         bottom: _isPasswordValid ? 15 : 20),
                     child: TextFormField(
+                      key: Key('passwordField'),
                       controller: pswController,
                       onChanged: (value) {
                         setState(() {
@@ -229,6 +231,7 @@ class _LoginPageState extends State<LoginPage> {
                     ],
                   )),
               child: TextButton(
+                key: Key('loginButton'),
                 onPressed: () {
                   submitForm();
                 },

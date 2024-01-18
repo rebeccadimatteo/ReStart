@@ -90,6 +90,7 @@ class Home extends StatelessWidget {
                   ],
                 )),
             child: TextButton(
+              key: Key('loginButton'),
               onPressed: () {
                 Navigator.pushNamed(
                   context,
@@ -144,6 +145,7 @@ class Home extends StatelessWidget {
                   ],
                 )),
             child: TextButton(
+              key: Key('signUpButton'),
               onPressed: () {
                 Navigator.pushNamed(
                   context,

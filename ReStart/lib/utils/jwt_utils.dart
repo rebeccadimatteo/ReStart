@@ -8,7 +8,7 @@ abstract class JWTUtils {
     required String userType,
   }) {
     final jwt = JWT({
-      'userId': userId,  // Aggiungi l'ID dell'utente al payload
+      'userId': userId,
       'username': username,
       'userType': userType,
     });
