@@ -45,6 +45,68 @@ class _InserisciAlloggioState extends State<InserisciAlloggio> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController sitoController = TextEditingController();
 
+  bool _isNomeValid = true;
+  bool _isDescrizioneValid = true;
+  bool _isTipoValid = true;
+  bool _isEmailValid = true;
+  bool _isViaValid = true;
+  bool _isCittaValid = true;
+  bool _isProvinciaValid = true;
+  bool _isSitoValid = true;
+
+  bool validateNome(String nome) {
+    RegExp regex = RegExp(
+        r"^[A-Za-zÀ-ú0-9‘’',\.\(\)\s\/|\\{}\[\],\-!$%&?<>=^+°#*:']{2,50}$");
+    return regex.hasMatch(nome);
+  }
+  bool validateEmail(String email) {
+    RegExp regex = RegExp(r'^[A-Za-z0-9_.]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$');
+    if (email.length < 6 || email.length > 40) {
+      return false;
+    }
+    return regex.hasMatch(email);
+  }
+
+  bool validateVia(String via) {
+    RegExp regex = RegExp(r'^[a-zA-Z .]+(,\s?[a-zA-Z0-9 ]*)?$');
+    return regex.hasMatch(via);
+  }
+
+  bool validateDescrizione(String descrizione) {
+    RegExp regex = RegExp(
+        r"^[A-Za-zÀ-ú0-9‘’',\.\(\)\s\/|\\{}\[\],\-!$%&?<>=^+°#*:']{2,255}$");
+    return regex.hasMatch(descrizione);
+  }
+
+  bool validateCitta(String citta) {
+    RegExp regex = RegExp(r'^[A-z À-ù‘-]{2,50}$');
+    return regex.hasMatch(citta);
+  }
+
+  bool validateProvincia(String provincia) {
+    RegExp regex = RegExp(r'^[A-Z]{2}');
+    if (provincia.length > 2) return false;
+    return regex.hasMatch(provincia);
+  }
+
+  bool validateImmagine(String immagine) {
+    RegExp regex = RegExp(r'^.+\.jpe?g$');
+    return regex.hasMatch(immagine);
+  }
+
+  bool validateSito(String sito) {
+    RegExp regex = RegExp(
+      r'^(http:\/\/|https:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$',
+      caseSensitive: false,
+    );
+    return regex.hasMatch(sito);
+  }
+
+  bool validateTipo(String tipo) {
+    RegExp regex = RegExp(r'^[A-z À-ù‘-]{2,50}$');
+    return regex.hasMatch(tipo);
+  }
+
   /// Metodo per selezionare un'immagine dalla galleria.
   void selectImage() async {
     final imagePicker = ImagePicker();
@@ -158,56 +220,210 @@ class _InserisciAlloggioState extends State<InserisciAlloggio> {
                           ],
                         ),
                         const SizedBox(height: 20),
-                        TextFormField(
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: 15.0,
+                              right: 15.0,
+                              top: 15,
+                              bottom: _isNomeValid ? 15 : 20),
+                          child: TextFormField(
                             controller: nomeAlloggioController,
-                            decoration: const InputDecoration(
-                              labelText: 'Nome alloggio',
-                              labelStyle: TextStyle(
-                              fontSize: 15,
+                            onChanged: (value) {
+                              setState(() {
+                                _isNomeValid = validateNome(value);
+                              });
+                            },
+                            decoration: InputDecoration(
+                              labelText: 'Nome Alloggio',
+                              hintText: 'Inserisci il nome...',
+                              // Cambia il colore del testo in rosso se il nome non è valido
+                              errorText: _isNomeValid
+                                  ? null
+                                  : 'Formato nome non corretto (ex. Alloggio Example \n    [max. 50 caratteri])',
+                              errorStyle: const TextStyle(color: Colors.red),
+                              labelStyle: const TextStyle(
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            style: const TextStyle(
                               fontFamily: 'Poppins',
                               fontWeight: FontWeight.bold,
                             ),
-                            ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Inserisci il nome dell\'alloggio';
-                              }
-                              return null;
-                            }),
+                          ),
+                        ),
                         const SizedBox(height: 20),
-                        TextFormField(
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: 15.0,
+                              right: 15.0,
+                              top: 15,
+                              bottom: _isDescrizioneValid ? 15 : 20),
+                          child: TextFormField(
                             controller: descrizioneController,
-                            decoration:
-                                const InputDecoration(labelText: 'Descrizione',
-                                  labelStyle: TextStyle(
-                                    fontSize: 15,
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Inserisci la descrizione dell\'alloggio';
-                              }
-                              return null;
-                            }),
+                            onChanged: (value) {
+                              setState(() {
+                                _isDescrizioneValid = validateDescrizione(value);
+                              });
+                            },
+                            decoration: InputDecoration(
+                              labelText: 'Descrizione',
+                              hintText: 'Inserisci la descrizione...',
+                              // Cambia il colore del testo in rosso se la descrizione non è valida
+                              errorText: _isDescrizioneValid
+                                  ? null
+                                  : 'Lunghezza descrizione non corretta (max. 255 caratteri)',
+                              errorStyle: const TextStyle(color: Colors.red),
+                              labelStyle: const TextStyle(
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            style: const TextStyle(
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
                         const SizedBox(height: 20),
-                        TextFormField(
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: 15.0,
+                              right: 15.0,
+                              top: 15,
+                              bottom: _isTipoValid ? 15 : 20),
+                          child: TextFormField(
                             controller: tipoController,
-                            decoration:
-                                const InputDecoration(labelText: 'Tipo',
-                                  labelStyle: TextStyle(
-                                    fontSize: 15,
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Inserisci il tipo dell\'alloggio';
-                              }
-                              return null;
-                            }),
+                            onChanged: (value) {
+                              setState(() {
+                                _isTipoValid = validateTipo(value);
+                              });
+                            },
+                            decoration: InputDecoration(
+                              labelText: 'Tipologia',
+                              hintText: 'Inserisci il tipo di alloggio...',
+                              // Cambia il colore del testo in rosso se il nome non è valido
+                              errorText: _isTipoValid
+                                  ? null
+                                  : 'Formato tipo non corretto (ex. Bilocale \n    [max. 50 caratteri])',
+                              errorStyle: const TextStyle(color: Colors.red),
+                              labelStyle: const TextStyle(
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            style: const TextStyle(
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 40),
+                        const SizedBox(height: 40),
+                        const Text(
+                          'Luogo',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: 15.0,
+                              right: 15.0,
+                              top: 15,
+                              bottom: _isCittaValid ? 15 : 20),
+                          child: TextFormField(
+                            controller: cittaController,
+                            onChanged: (value) {
+                              setState(() {
+                                _isCittaValid = validateCitta(value);
+                              });
+                            },
+                            decoration: InputDecoration(
+                              labelText: 'Citta',
+                              labelStyle: const TextStyle(
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.bold,
+                              ),
+                              hintText: 'Inserisci la città dell\'alloggio...',
+                              // Cambia il colore del testo in rosso se città non è valida
+                              errorText: _isCittaValid
+                                  ? null
+                                  : 'Formato città non corretto (ex: Napoli)',
+                              errorStyle: const TextStyle(color: Colors.red),
+                            ),
+                            style: const TextStyle(
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: 15.0,
+                              right: 15.0,
+                              top: 15,
+                              bottom: _isViaValid ? 15 : 20),
+                          child: TextFormField(
+                            controller: viaController,
+                            onChanged: (value) {
+                              setState(() {
+                                _isViaValid = validateVia(value);
+                              });
+                            },
+                            decoration: InputDecoration(
+                              labelText: 'Via',
+                              labelStyle: const TextStyle(
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.bold,
+                              ),
+                              hintText: 'Inserisci la via dell\'alloggio...',
+                              // Cambia il colore del testo in rosso se via non è valida
+                              errorText: _isViaValid
+                                  ? null
+                                  : 'Formato via non corretto (ex: Via Fratelli Napoli, 1)',
+                              errorStyle: const TextStyle(color: Colors.red),
+                            ),
+                            style: const TextStyle(
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: 15.0,
+                              right: 15.0,
+                              top: 15,
+                              bottom: _isProvinciaValid ? 15 : 20),
+                          child: TextFormField(
+                            controller: provinciaController,
+                            onChanged: (value) {
+                              setState(() {
+                                _isProvinciaValid = validateProvincia(value);
+                              });
+                            },
+                            decoration: InputDecoration(
+                              labelText: 'Provincia',
+                              labelStyle: const TextStyle(
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.bold,
+                              ),
+                              hintText: 'Inserisci la provincia dell\'alloggio...',
+                              // Cambia il colore del testo in rosso se provincia non è valida
+                              errorText: _isProvinciaValid
+                                  ? null
+                                  : 'Formato provincia non corretta (ex: AV)',
+                              errorStyle: const TextStyle(color: Colors.red),
+                            ),
+                            style: const TextStyle(
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
                         const SizedBox(height: 40),
                         const Text(
                           'Contatti',
@@ -217,94 +433,69 @@ class _InserisciAlloggioState extends State<InserisciAlloggio> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const SizedBox(height: 20),
-                        TextFormField(
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: 15.0,
+                              right: 15.0,
+                              top: 15,
+                              bottom: _isEmailValid ? 15 : 20),
+                          child: TextFormField(
                             controller: emailController,
-                            decoration:
-                                const InputDecoration(
-                                  labelText: 'Email',
-                                  labelStyle: TextStyle(
-                                  fontSize: 15,
-                                  fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Inserisci la mail dell\'alloggio';
-                              }
-                              return null;
-                            }),
-                        const SizedBox(height: 20),
-                        TextFormField(
+                            onChanged: (value) {
+                              setState(() {
+                                _isEmailValid = validateEmail(value);
+                              });
+                            },
+                            decoration: InputDecoration(
+                              labelText: 'Email',
+                              labelStyle: const TextStyle(
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.bold,
+                              ),
+                              hintText: 'Inserisci l\'email...',
+                              errorText: _isEmailValid
+                                  ? null
+                                  : 'Formato email non corretta (ex: esempio@esempio.com)',
+                              errorStyle: const TextStyle(color: Colors.red),
+                            ),
+                            style: const TextStyle(
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: 15.0,
+                              right: 15.0,
+                              top: 15,
+                              bottom: _isSitoValid ? 15 : 20),
+                          child: TextFormField(
                             controller: sitoController,
-                            decoration:
-                                const InputDecoration(
-                                  labelText: 'Sito web',
-                                  labelStyle: TextStyle(
-                                    fontSize: 15,
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Inserisci il sito web dell\'alloggio';
-                              }
-                              return null;
-                            }),
-                        const SizedBox(height: 20),
-                        TextFormField(
-                            controller: cittaController,
-                            decoration:
-                                const InputDecoration(
-                                    labelText: 'Città',
-                                  labelStyle: TextStyle(
-                                    fontSize: 15,
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Inserisci la città dov\è situato l\'alloggio';
-                              }
-                              return null;
-                            }),
-                        TextFormField(
-                            controller: viaController,
-                            decoration: const InputDecoration(
-                              labelText: 'Via',
-                              labelStyle: TextStyle(
-                                fontSize: 15,
+                            onChanged: (value) {
+                              setState(() {
+                                _isSitoValid = validateSito(value);
+                              });
+                            },
+                            decoration: InputDecoration(
+                              labelText: 'URL Sito',
+                              hintText: 'Inserisci URL del sito...',
+                              // Cambia il colore del testo in rosso se il nome non è valido
+                              errorText: _isSitoValid
+                                  ? null
+                                  : 'Formato URL non corretto (ex. https://www.example.it)',
+                              errorStyle: const TextStyle(color: Colors.red),
+                              labelStyle: const TextStyle(
                                 fontFamily: 'Poppins',
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Inserisci la via dov\è situato l\'alloggio';
-                              }
-                              return null;
-                            }),
-                        const SizedBox(height: 20),
-                        TextFormField(
-                            controller: provinciaController,
-                            decoration:
-                                const InputDecoration(
-                                    labelText: 'Provincia',
-                                  labelStyle: TextStyle(
-                                    fontSize: 15,
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Inserisci la provincia dov\è situato l\'alloggio';
-                              }
-                              return null;
-                            }),
+                            style: const TextStyle(
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
                         SizedBox(height: screenWidth * 0.1),
                         ElevatedButton(
                           onPressed: () {
