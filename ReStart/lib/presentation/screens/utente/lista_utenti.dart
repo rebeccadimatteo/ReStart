@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
+import 'package:restart/presentation/components/app_bar_ads.dart';
 import '../../../model/entity/utente_DTO.dart';
 import '../../components/generic_app_bar.dart';
 import 'package:http/http.dart' as http;
@@ -72,10 +73,10 @@ class _ListaUtentiState extends State<ListaUtenti> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: GenericAppBar(
+        appBar: AdsAppBar(
           showBackButton: true,
         ),
-        endDrawer: GenericAppBar.buildDrawer(context),
+        endDrawer: AdsAppBar.buildDrawer(context),
         body: Stack(
           children: [
             Positioned(

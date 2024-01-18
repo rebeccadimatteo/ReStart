@@ -18,7 +18,7 @@ class CaAppBar extends StatelessWidget implements PreferredSizeWidget {
         onTap: () {
           Navigator.pushNamed(
             context,
-            AppRoutes.homeUtente,
+            AppRoutes.homeCA,
           );
         },
         child: Image.asset(

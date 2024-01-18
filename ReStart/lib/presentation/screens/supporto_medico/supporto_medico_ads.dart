@@ -167,6 +167,20 @@ class _SupportoMedicoState extends State<SupportoMedicoAds> {
                             color: Colors.black, size: 30),
                         onPressed: () {
                           deleteSupporto(supporto);
+                          Navigator.pushNamed(context, AppRoutes.homeADS);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                'Supporto eliminato',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                ),
+                              ),
+                              backgroundColor: Colors.lightBlue,
+                              duration: Duration(seconds: 3),
+                            ),
+                          );
                         },
                       ),
                     ),
@@ -314,6 +328,20 @@ class _DetailsSupportoAdsState extends State<DetailsSupportoAds> {
             child: ElevatedButton(
               onPressed: () {
                 deleteSupporto(supporto);
+                Navigator.pushNamed(context, AppRoutes.homeADS);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text(
+                      'Supporto eliminato',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                      ),
+                    ),
+                    backgroundColor: Colors.lightBlue,
+                    duration: Duration(seconds: 3),
+                  ),
+                );
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.transparent,

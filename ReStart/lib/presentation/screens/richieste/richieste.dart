@@ -82,10 +82,10 @@ class _RichiesteState extends State<Richieste> {
           SnackBar(
             content: Text(
               responseBody['result'].toString(),
-              style: TextStyle(color: Colors.black, fontSize: 16),
+              style: const TextStyle(color: Colors.black, fontSize: 16),
             ),
             backgroundColor: Colors.blue[200],
-            duration: Duration(seconds: 5),
+            duration: const Duration(seconds: 5),
             action: SnackBarAction(
               label: 'Chiudi',
               textColor: Colors.deepPurple,
@@ -106,10 +106,10 @@ class _RichiesteState extends State<Richieste> {
           SnackBar(
             content: Text(
               responseBody['result'].toString(),
-              style: TextStyle(color: Colors.black, fontSize: 16),
+              style: const TextStyle(color: Colors.black, fontSize: 16),
             ),
             backgroundColor: Colors.blue[200],
-            duration: Duration(seconds: 5),
+            duration: const Duration(seconds: 5),
             action: SnackBarAction(
               label: 'Chiudi',
               textColor: Colors.deepPurple,
@@ -135,10 +135,10 @@ class _RichiesteState extends State<Richieste> {
           SnackBar(
             content: Text(
               responseBody['result'].toString(),
-              style: TextStyle(color: Colors.black, fontSize: 16),
+              style: const TextStyle(color: Colors.black, fontSize: 16),
             ),
             backgroundColor: Colors.blue[200],
-            duration: Duration(seconds: 5),
+            duration: const Duration(seconds: 5),
             action: SnackBarAction(
               label: 'Chiudi',
               textColor: Colors.deepPurple,
@@ -159,10 +159,10 @@ class _RichiesteState extends State<Richieste> {
           SnackBar(
             content: Text(
               responseBody['result'].toString(),
-              style: TextStyle(color: Colors.black, fontSize: 16),
+              style: const TextStyle(color: Colors.black, fontSize: 16),
             ),
             backgroundColor: Colors.blue[200],
-            duration: Duration(seconds: 5),
+            duration: const Duration(seconds: 5),
             action: SnackBarAction(
               label: 'Chiudi',
               textColor: Colors.deepPurple,
@@ -188,10 +188,10 @@ class _RichiesteState extends State<Richieste> {
           SnackBar(
             content: Text(
               responseBody['result'].toString(),
-              style: TextStyle(color: Colors.black, fontSize: 16),
+              style: const TextStyle(color: Colors.black, fontSize: 16),
             ),
             backgroundColor: Colors.blue[200],
-            duration: Duration(seconds: 5),
+            duration: const Duration(seconds: 5),
             action: SnackBarAction(
               label: 'Chiudi',
               textColor: Colors.deepPurple,
@@ -212,10 +212,10 @@ class _RichiesteState extends State<Richieste> {
           SnackBar(
             content: Text(
               responseBody['result'].toString(),
-              style: TextStyle(color: Colors.black, fontSize: 16),
+              style: const TextStyle(color: Colors.black, fontSize: 16),
             ),
             backgroundColor: Colors.blue[200],
-            duration: Duration(seconds: 5),
+            duration: const Duration(seconds: 5),
             action: SnackBarAction(
               label: 'Chiudi',
               textColor: Colors.deepPurple,
@@ -241,10 +241,10 @@ class _RichiesteState extends State<Richieste> {
           SnackBar(
             content: Text(
               responseBody['result'].toString(),
-              style: TextStyle(color: Colors.black, fontSize: 16),
+              style: const TextStyle(color: Colors.black, fontSize: 16),
             ),
             backgroundColor: Colors.blue[200],
-            duration: Duration(seconds: 5),
+            duration: const Duration(seconds: 5),
             action: SnackBarAction(
               label: 'Chiudi',
               textColor: Colors.deepPurple,
@@ -265,10 +265,10 @@ class _RichiesteState extends State<Richieste> {
           SnackBar(
             content: Text(
               responseBody['result'].toString(),
-              style: TextStyle(color: Colors.black, fontSize: 16),
+              style: const TextStyle(color: Colors.black, fontSize: 16),
             ),
             backgroundColor: Colors.blue[200],
-            duration: Duration(seconds: 5),
+            duration: const Duration(seconds: 5),
             action: SnackBarAction(
               label: 'Chiudi',
               textColor: Colors.deepPurple,
@@ -366,7 +366,7 @@ class _RichiesteState extends State<Richieste> {
               color: Colors.black.withOpacity(0.2),
               spreadRadius: 2,
               blurRadius: 5,
-              offset: Offset(0, 2),
+              offset: const Offset(0, 2),
             ),
           ],
         ),
@@ -379,7 +379,7 @@ class _RichiesteState extends State<Richieste> {
           leading: CircleAvatar(
             radius: 35,
             backgroundImage:
-                Image.asset(evento.immagine ?? 'images/avatar.png').image,
+                Image.asset(evento.immagine).image,
           ),
           title: Text(
             evento.nomeEvento,
@@ -402,15 +402,17 @@ class _RichiesteState extends State<Richieste> {
             mainAxisSize: MainAxisSize.min,
             children: [
               IconButton(
-                icon: Icon(Icons.check),
+                icon: const Icon(Icons.check),
                 onPressed: () {
                   approvaEvento(evento);
+                  Navigator.pushNamed(context, AppRoutes.homeADS);
                 },
               ),
               IconButton(
-                icon: Icon(Icons.close, color: Colors.red),
+                icon: const Icon(Icons.close, color: Colors.red),
                 onPressed: () {
                   rifiutaEvento(evento);
+                  Navigator.pushNamed(context, AppRoutes.homeADS);
                 },
               ),
             ],
@@ -444,7 +446,7 @@ class _RichiesteState extends State<Richieste> {
               color: Colors.black.withOpacity(0.2),
               spreadRadius: 2,
               blurRadius: 5,
-              offset: Offset(0, 2),
+              offset: const Offset(0, 2),
             ),
           ],
         ),
@@ -457,7 +459,7 @@ class _RichiesteState extends State<Richieste> {
           leading: CircleAvatar(
             radius: 35,
             backgroundImage:
-                Image.asset(annuncio.immagine ?? 'images/avatar.png').image,
+                Image.asset(annuncio.immagine).image,
           ),
           title: Text(
             annuncio.nome,
@@ -480,15 +482,17 @@ class _RichiesteState extends State<Richieste> {
             mainAxisSize: MainAxisSize.min,
             children: [
               IconButton(
-                icon: Icon(Icons.check),
+                icon: const Icon(Icons.check),
                 onPressed: () {
                   approvaAnnuncio(annuncio);
+                  Navigator.pushNamed(context, AppRoutes.homeADS);
                 },
               ),
               IconButton(
-                icon: Icon(Icons.close, color: Colors.red),
+                icon: const Icon(Icons.close, color: Colors.red),
                 onPressed: () {
                   rifiutaAnnuncio(annuncio);
+                  Navigator.pushNamed(context, AppRoutes.homeADS);
                 },
               ),
             ],
@@ -528,10 +532,10 @@ class _DetailsLavoroAdsState extends State<DetailsLavoroR> {
           SnackBar(
             content: Text(
               responseBody['result'].toString(),
-              style: TextStyle(color: Colors.black, fontSize: 16),
+              style: const TextStyle(color: Colors.black, fontSize: 16),
             ),
             backgroundColor: Colors.blue[200],
-            duration: Duration(seconds: 5),
+            duration: const Duration(seconds: 5),
             action: SnackBarAction(
               label: 'Chiudi',
               textColor: Colors.deepPurple,
@@ -549,10 +553,10 @@ class _DetailsLavoroAdsState extends State<DetailsLavoroR> {
           SnackBar(
             content: Text(
               responseBody['result'].toString(),
-              style: TextStyle(color: Colors.black, fontSize: 16),
+              style: const TextStyle(color: Colors.black, fontSize: 16),
             ),
             backgroundColor: Colors.blue[200],
-            duration: Duration(seconds: 5),
+            duration: const Duration(seconds: 5),
             action: SnackBarAction(
               label: 'Chiudi',
               textColor: Colors.deepPurple,
@@ -578,10 +582,10 @@ class _DetailsLavoroAdsState extends State<DetailsLavoroR> {
           SnackBar(
             content: Text(
               responseBody['result'].toString(),
-              style: TextStyle(color: Colors.black, fontSize: 16),
+              style: const TextStyle(color: Colors.black, fontSize: 16),
             ),
             backgroundColor: Colors.blue[200],
-            duration: Duration(seconds: 5),
+            duration: const Duration(seconds: 5),
             action: SnackBarAction(
               label: 'Chiudi',
               textColor: Colors.deepPurple,
@@ -599,10 +603,10 @@ class _DetailsLavoroAdsState extends State<DetailsLavoroR> {
           SnackBar(
             content: Text(
               responseBody['result'].toString(),
-              style: TextStyle(color: Colors.black, fontSize: 16),
+              style: const TextStyle(color: Colors.black, fontSize: 16),
             ),
             backgroundColor: Colors.blue[200],
-            duration: Duration(seconds: 5),
+            duration: const Duration(seconds: 5),
             action: SnackBarAction(
               label: 'Chiudi',
               textColor: Colors.deepPurple,
@@ -833,10 +837,10 @@ class _DetailsEventoAdsState extends State<DetailsEventoR> {
           SnackBar(
             content: Text(
               responseBody['result'].toString(),
-              style: TextStyle(color: Colors.black, fontSize: 16),
+              style: const TextStyle(color: Colors.black, fontSize: 16),
             ),
             backgroundColor: Colors.blue[200],
-            duration: Duration(seconds: 5),
+            duration: const Duration(seconds: 5),
             action: SnackBarAction(
               label: 'Chiudi',
               textColor: Colors.deepPurple,
@@ -854,10 +858,10 @@ class _DetailsEventoAdsState extends State<DetailsEventoR> {
           SnackBar(
             content: Text(
               responseBody['result'].toString(),
-              style: TextStyle(color: Colors.black, fontSize: 16),
+              style: const TextStyle(color: Colors.black, fontSize: 16),
             ),
             backgroundColor: Colors.blue[200],
-            duration: Duration(seconds: 5),
+            duration: const Duration(seconds: 5),
             action: SnackBarAction(
               label: 'Chiudi',
               textColor: Colors.deepPurple,
@@ -883,10 +887,10 @@ class _DetailsEventoAdsState extends State<DetailsEventoR> {
           SnackBar(
             content: Text(
               responseBody['result'].toString(),
-              style: TextStyle(color: Colors.black, fontSize: 16),
+              style: const TextStyle(color: Colors.black, fontSize: 16),
             ),
             backgroundColor: Colors.blue[200],
-            duration: Duration(seconds: 5),
+            duration: const Duration(seconds: 5),
             action: SnackBarAction(
               label: 'Chiudi',
               textColor: Colors.deepPurple,
@@ -904,10 +908,10 @@ class _DetailsEventoAdsState extends State<DetailsEventoR> {
           SnackBar(
             content: Text(
               responseBody['result'].toString(),
-              style: TextStyle(color: Colors.black, fontSize: 16),
+              style: const TextStyle(color: Colors.black, fontSize: 16),
             ),
             backgroundColor: Colors.blue[200],
-            duration: Duration(seconds: 5),
+            duration: const Duration(seconds: 5),
             action: SnackBarAction(
               label: 'Chiudi',
               textColor: Colors.deepPurple,

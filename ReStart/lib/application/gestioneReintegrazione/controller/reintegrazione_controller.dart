@@ -243,7 +243,7 @@ class ReintegrazioneController {
       final int idAlloggio =
           params['id'] != null ? int.parse(params['id'].toString()) : 0;
 
-      if (await _service.deleteCorso(idAlloggio)) {
+      if (await _service.deleteAlloggio(idAlloggio)) {
         final responseBody = jsonEncode({'result': "Eliminazione effettuata."});
         return Response.ok(responseBody,
             headers: {'Content-Type': 'application/json'});

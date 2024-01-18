@@ -18,7 +18,7 @@ class AdsAppBar extends StatelessWidget implements PreferredSizeWidget {
         onTap: () {
           Navigator.pushNamed(
             context,
-            AppRoutes.homeUtente,
+            AppRoutes.homeADS,
           );
         },
         child: Image.asset(

@@ -175,6 +175,20 @@ class _AlloggiTemporaneiState extends State<AlloggiTemporaneiAds> {
                             color: Colors.black, size: 30),
                         onPressed: () {
                           deleteAlloggio(alloggio);
+                          Navigator.pushNamed(context, AppRoutes.homeADS);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                'Alloggio eliminato',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                ),
+                              ),
+                              backgroundColor: Colors.lightBlue,
+                              duration: Duration(seconds: 3),
+                            ),
+                          );
                         },
                       ),
                     ),
@@ -311,6 +325,20 @@ class _DetailsAlloggioAdsState extends State<DetailsAlloggioAds> {
             child: ElevatedButton(
               onPressed: () {
                 deleteAlloggio(alloggio);
+                Navigator.pushNamed(context, AppRoutes.homeADS);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text(
+                      'Alloggio eliminato',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                      ),
+                    ),
+                    backgroundColor: Colors.lightBlue,
+                    duration: Duration(seconds: 3),
+                  ),
+                );
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.transparent,

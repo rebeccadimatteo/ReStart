@@ -414,6 +414,20 @@ class _ModifyLavoroState extends State<ModifyLavoro> {
                   ElevatedButton(
                     onPressed: () {
                       submitForm(annuncio);
+                      Navigator.pushNamed(context, AppRoutes.homeADS);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text(
+                            'Annuncio modificato',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                            ),
+                          ),
+                          backgroundColor: Colors.lightBlue,
+                          duration: Duration(seconds: 3),
+                        ),
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.transparent,

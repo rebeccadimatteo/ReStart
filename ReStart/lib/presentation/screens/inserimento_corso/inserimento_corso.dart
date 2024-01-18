@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:restart/presentation/components/app_bar_ads.dart';
 import '../../../model/entity/corso_di_formazione_DTO.dart';
 import '../../components/generic_app_bar.dart';
 import 'package:http/http.dart' as http;
@@ -174,10 +175,10 @@ class _InserisciCorsoState extends State<InserisciCorso> {
     double avatarSize = screenWidth * 0.3;
 
     return Scaffold(
-      appBar: GenericAppBar(
+      appBar: AdsAppBar(
         showBackButton: true,
       ),
-      endDrawer: GenericAppBar.buildDrawer(context),
+      endDrawer: AdsAppBar.buildDrawer(context),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(screenWidth * 0.08),

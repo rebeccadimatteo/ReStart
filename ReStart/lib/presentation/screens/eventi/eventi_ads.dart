@@ -170,6 +170,20 @@ class _CommunityEventsState extends State<CommunityEventsAds> {
                             color: Colors.black, size: 30),
                         onPressed: () {
                           deleteEvento(evento);
+                          Navigator.pushNamed(context, AppRoutes.homeADS);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                'Evento eliminato',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                ),
+                              ),
+                              backgroundColor: Colors.lightBlue,
+                              duration: Duration(seconds: 3),
+                            ),
+                          );
                         },
                       ),
                     ),
@@ -316,6 +330,20 @@ class _DetailsEventoAdsState extends State<DetailsEventoAds> {
             child: ElevatedButton(
               onPressed: () {
                 deleteEvento(evento);
+                Navigator.pushNamed(context, AppRoutes.homeADS);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text(
+                      'Evento eliminato',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                      ),
+                    ),
+                    backgroundColor: Colors.lightBlue,
+                    duration: Duration(seconds: 3),
+                  ),
+                );
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.transparent,

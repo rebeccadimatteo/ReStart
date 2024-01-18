@@ -159,6 +159,7 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
 
       final imageResponse = await imageRequest.send();
       if (imageResponse.statusCode == 200) {
+        Navigator.pushNamed(context, AppRoutes.homeCA);
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text(
@@ -168,7 +169,7 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
                 fontSize: 16,
               ),
             ),
-            backgroundColor: Colors.red,
+            backgroundColor: Colors.lightBlue,
             duration: Duration(seconds: 3),
           ),
         );
@@ -182,7 +183,7 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
                 fontSize: 16,
               ),
             ),
-            backgroundColor: Colors.lightBlue,
+            backgroundColor: Colors.red,
             duration: Duration(seconds: 3),
           ),
         );
@@ -190,6 +191,7 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
             "Errore durante l'upload dell'immagine: ${imageResponse.statusCode}");
       }
     } else if (response.statusCode == 200) {
+      Navigator.pushNamed(context, AppRoutes.homeCA);
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text(
@@ -199,7 +201,7 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
               fontSize: 16,
             ),
           ),
-          backgroundColor: Colors.blue,
+          backgroundColor: Colors.lightBlue,
           duration: Duration(seconds: 3),
         ),
       );

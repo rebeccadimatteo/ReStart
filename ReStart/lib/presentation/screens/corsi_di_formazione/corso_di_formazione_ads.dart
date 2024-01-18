@@ -160,6 +160,20 @@ class _CorsoDiFormazioneState extends State<CorsoDiFormazioneAds> {
                             color: Colors.black, size: 25),
                         onPressed: () {
                           deleteCorso(corso);
+                          Navigator.pushNamed(context, AppRoutes.homeADS);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                'Corso eliminato',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                ),
+                              ),
+                              backgroundColor: Colors.red,
+                              duration: Duration(seconds: 3),
+                            ),
+                          );
                         },
                       ),
                     ),
@@ -292,6 +306,20 @@ class _DetailsCorsoAdsState extends State<DetailsCorsoAds> {
             child: ElevatedButton(
               onPressed: () {
                 deleteCorso(corso);
+                Navigator.pushNamed(context, AppRoutes.homeADS);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text(
+                      'Corso eliminato',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                      ),
+                    ),
+                    backgroundColor: Colors.red,
+                    duration: Duration(seconds: 3),
+                  ),
+                );
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.transparent,

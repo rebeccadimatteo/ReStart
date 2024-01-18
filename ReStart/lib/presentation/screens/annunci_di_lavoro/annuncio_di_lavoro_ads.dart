@@ -181,6 +181,20 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroAds> {
                             color: Colors.black, size: 30),
                         onPressed: () {
                           deleteLavoro(annuncio);
+                          Navigator.pushNamed(context, AppRoutes.homeADS);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                'Annuncio eliminato',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                ),
+                              ),
+                              backgroundColor: Colors.lightBlue,
+                              duration: Duration(seconds: 3),
+                            ),
+                          );
                         },
                       ),
                     ),
@@ -338,6 +352,20 @@ class _DetailsLavoroAdsState extends State<DetailsLavoroAds> {
             child: ElevatedButton(
               onPressed: () {
                 deleteLavoro(annuncio);
+                Navigator.pushNamed(context, AppRoutes.homeADS);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text(
+                      'Annuncio eliminato',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                      ),
+                    ),
+                    backgroundColor: Colors.lightBlue,
+                    duration: Duration(seconds: 3),
+                  ),
+                );
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.transparent,

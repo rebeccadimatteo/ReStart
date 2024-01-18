@@ -190,6 +190,20 @@ class _CommunityEventsState extends State<CommunityEventsPubblicati> {
                                   color: Colors.black, size: 30),
                               onPressed: () {
                                 deleteEvento(evento);
+                                Navigator.pushNamed(context, AppRoutes.homeADS);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                      'Evento eliminato',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                    backgroundColor: Colors.red,
+                                    duration: Duration(seconds: 3),
+                                  ),
+                                );
                               },
                             ),
                           ],
@@ -355,6 +369,20 @@ class _DetailsEventoPub extends State<DetailsEventoPub> {
                                 color: Colors.black, size: 40),
                             onPressed: () {
                               deleteEvento(evento);
+                              Navigator.pushNamed(context, AppRoutes.homeADS);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                    'Evento eliminato',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                  backgroundColor: Colors.red,
+                                  duration: Duration(seconds: 3),
+                                ),
+                              );
                             },
                           ),
                         ],

@@ -194,7 +194,7 @@ class _InserisciEventoState extends State<InserisciEvento> {
 
       final imageResponse = await imageRequest.send();
       if (imageResponse.statusCode == 200) {
-        print("Immagine caricata con successo.");
+        Navigator.pushNamed(context, AppRoutes.homeCA);
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text(
@@ -204,11 +204,12 @@ class _InserisciEventoState extends State<InserisciEvento> {
                 fontSize: 16,
               ),
             ),
-            backgroundColor: Colors.red,
+            backgroundColor: Colors.lightBlue,
             duration: Duration(seconds: 3),
           ),
         );
       } else {
+        Navigator.pushNamed(context, AppRoutes.homeCA);
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text(
@@ -227,6 +228,7 @@ class _InserisciEventoState extends State<InserisciEvento> {
             "Errore durante l'upload dell'immagine: ${imageResponse.statusCode}");
       }
     } else if (response.statusCode == 200) {
+      Navigator.pushNamed(context, AppRoutes.homeCA);
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text(
@@ -236,11 +238,12 @@ class _InserisciEventoState extends State<InserisciEvento> {
               fontSize: 16,
             ),
           ),
-          backgroundColor: Colors.blue,
+          backgroundColor: Colors.lightBlue,
           duration: Duration(seconds: 3),
         ),
       );
     } else {
+      Navigator.pushNamed(context, AppRoutes.homeCA);
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text(
