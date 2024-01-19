@@ -51,16 +51,24 @@ void main() {
 
     test('Reindirizzamento Sezione CommunityEvents', () async {
 
-      final eventoFinder = find.byValueKey('eventoItem_0');
+      final eventoFinder = find.byValueKey('eventoItem');
+      final drawer = find.byValueKey('drawer');
       final endDrawer = find.byType('endDrawer');
+      final sezioneEvento = find.text('Community Events');
       final dettaglioEventoFinder = find.byValueKey('dettaglioEvento');
       final listaEventiFinder = find.byValueKey('listaEventi');
 
-      await driver.waitFor(eventoFinder);
-      await driver.tap(eventoFinder);
+      await driver.tap(drawer);
+
+      await driver.tap(sezioneEvento);
+      await driver.waitFor(sezioneEvento);
 
       await driver.tap(endDrawer);
-      await driver.waitFor(listaEventiFinder);
+      await driver.waitFor(drawer);
+
+      await driver.tap(listaEventiFinder);
+      await driver.waitFor(dettaglioEventoFinder);
+
     });
 
 
