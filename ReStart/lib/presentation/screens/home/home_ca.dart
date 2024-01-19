@@ -39,23 +39,27 @@ class _HomeCaState extends State<HomeCa> {
       ),
       endDrawer: CaAppBar.buildDrawer(context),
       body: CustomScrollView(
+        key: const Key('homeCa'),
         slivers: [
           SliverFillRemaining(
             hasScrollBody: false,
             child: Column(
               children: [
                 const SizedBox(height: 5),
-                _buildFullWidthItem(context, 'OFFERTE DI LAVORO\nPUBBLICATE',
-                    AppRoutes.annuncipubblicati),
+                  _buildFullWidthItem(context, 'OFFERTE DI LAVORO\nPUBBLICATE',
+                      AppRoutes.annuncipubblicati, const Key('annunciPubblicati')),
                 const SizedBox(height: 5),
                 _buildFullWidthItem(context, 'COMMUNITY EVENTS\nPUBBLICATI',
-                    AppRoutes.eventipubblicati),
+                    AppRoutes.eventipubblicati, const Key('eventiPubblicati')),
                 const SizedBox(height: 5),
-                _buildFullWidthItem(
-                    context, 'AGGIUNGI EVENTO', AppRoutes.addevento),
+                Container(
+                  key: const Key('addEventoContainer'),
+                  child: _buildFullWidthItem(
+                      context, 'AGGIUNGI EVENTO', AppRoutes.addevento, const Key('addEvento')),
+                ),
                 const SizedBox(height: 5),
                 _buildFullWidthItem(context, 'AGGIUNGI OFFERTA\nDI LAVORO',
-                    AppRoutes.addannuncio),
+                    AppRoutes.addannuncio, const Key('addAnnuncio')),
               ],
             ),
           ),
@@ -64,10 +68,11 @@ class _HomeCaState extends State<HomeCa> {
     );
   }
 
-  Widget _buildFullWidthItem(BuildContext context, String title, String route) {
+  Widget _buildFullWidthItem(BuildContext context, String title, String route,Key? key) {
     // Widget per i blocchi rettangolari con testo centrato
     return Expanded(
       child: Container(
+        key: key,
         margin: const EdgeInsets.only(top: 20, left: 20, right: 20),
         child: Material(
           borderRadius: BorderRadius.circular(30),

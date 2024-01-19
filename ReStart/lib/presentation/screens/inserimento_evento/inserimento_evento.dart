@@ -81,14 +81,6 @@ class _InserisciEventoState extends State<InserisciEvento> {
     return regex.hasMatch(email);
   }
 
-  /*bool validateSito(String sito) {
-    RegExp regex = RegExp(
-      r'^(http:\/\/|https:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$',
-      caseSensitive: false,
-    );
-    return regex.hasMatch(sito);
-  }*/
-
   bool validateVia(String via) {
     RegExp regex = RegExp(r'^[a-zA-Z .]+(,\s?[a-zA-Z0-9 ]*)?$');
     return regex.hasMatch(via);
@@ -272,6 +264,7 @@ class _InserisciEventoState extends State<InserisciEvento> {
       ),
       endDrawer: CaAppBar.buildDrawer(context),
       body: SingleChildScrollView(
+        key: const Key('inserisciEvento'),
         child: Padding(
           padding: EdgeInsets.all(screenWidth * 0.08),
           child:
@@ -318,6 +311,7 @@ class _InserisciEventoState extends State<InserisciEvento> {
                         top: 15,
                         bottom: _isNomeValid ? 15 : 20),
                     child: TextFormField(
+                      key: const Key('nomeEvento'),
                       controller: nomeController,
                       onChanged: (value) {
                         setState(() {
@@ -349,6 +343,7 @@ class _InserisciEventoState extends State<InserisciEvento> {
                         top: 15,
                         bottom: _isDescrizioneValid ? 15 : 20),
                     child: TextFormField(
+                      key: const Key('descrizione'),
                       controller: descrizioneController,
                       onChanged: (value) {
                         setState(() {
@@ -390,6 +385,7 @@ class _InserisciEventoState extends State<InserisciEvento> {
                         top: 15,
                         bottom: _isCittaValid ? 15 : 20),
                     child: TextFormField(
+                      key: const Key('citta'),
                       controller: cittaController,
                       onChanged: (value) {
                         setState(() {
@@ -421,6 +417,7 @@ class _InserisciEventoState extends State<InserisciEvento> {
                         top: 15,
                         bottom: _isViaValid ? 15 : 20),
                     child: TextFormField(
+                      key: const Key('via'),
                       controller: viaController,
                       onChanged: (value) {
                         setState(() {
@@ -452,6 +449,7 @@ class _InserisciEventoState extends State<InserisciEvento> {
                         top: 15,
                         bottom: _isProvinciaValid ? 15 : 20),
                     child: TextFormField(
+                      key: const Key('provincia'),
                       controller: provinciaController,
                       onChanged: (value) {
                         setState(() {
@@ -487,6 +485,7 @@ class _InserisciEventoState extends State<InserisciEvento> {
                           _selectDate(context);
                         },
                         child: DateTimeFormField(
+                          key: const Key('data'),
                           decoration: const InputDecoration(
                             suffixIcon: Icon(Icons.event_note),
                             labelText: 'Data e ora',
@@ -520,6 +519,7 @@ class _InserisciEventoState extends State<InserisciEvento> {
                         top: 15,
                         bottom: _isEmailValid ? 15 : 20),
                     child: TextFormField(
+                      key: const Key('email'),
                       controller: emailController,
                       onChanged: (value) {
                         setState(() {
@@ -569,6 +569,7 @@ class _InserisciEventoState extends State<InserisciEvento> {
                         borderRadius: BorderRadius.circular(30.0),
                       ),
                       child: Container(
+                        key: const Key('inserisciEventoButton'),
                         width: screenWidth * 0.60,
                         height: screenWidth * 0.1,
                         padding: const EdgeInsets.all(10),

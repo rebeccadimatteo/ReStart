@@ -218,6 +218,7 @@ class _SignUpState extends State<SignUpPage> {
     double avatarSize = screenWidth * 0.4;
     return Scaffold(
       body: SingleChildScrollView(
+        key: const Key('signUpPage'),
         child: Form(
           key: _formKey,
           child: Column(
@@ -330,6 +331,7 @@ class _SignUpState extends State<SignUpPage> {
                     top: 15,
                     bottom: _isCognomeValid ? 15 : 20),
                 child: TextFormField(
+                  key: const Key('cognomeField'),
                   controller: cognomeController,
                   onChanged: (value) {
                     setState(() {
@@ -372,6 +374,7 @@ class _SignUpState extends State<SignUpPage> {
                           _selectDate(context);
                         },
                         child: TextFormField(
+                          key: const Key('dataNascitaField'),
                           readOnly: true,
                           controller: dataNascitaController,
                           decoration: const InputDecoration(
@@ -413,6 +416,7 @@ class _SignUpState extends State<SignUpPage> {
                     top: 15,
                     bottom: _isLuogoNascitaValid ? 15 : 20),
                 child: TextFormField(
+                  key: const Key('luogoNascitaField'),
                   controller: luogoNascitaController,
                   onChanged: (value) {
                     setState(() {
@@ -448,6 +452,7 @@ class _SignUpState extends State<SignUpPage> {
                     top: 15,
                     bottom: _isCodiceFiscaleValid ? 15 : 20),
                 child: TextFormField(
+                  key: const Key('cfField'),
                   controller: codiceFiscaleController,
                   onChanged: (value) {
                     setState(() {
@@ -483,6 +488,7 @@ class _SignUpState extends State<SignUpPage> {
                     top: 15,
                     bottom: _isCodiceFiscaleValid ? 15 : 20),
                 child: DropdownButtonFormField<String>(
+                  key: const Key('genereField'),
                   value: _selectedGender,
                   onChanged: (newValue) {
                     setState(() {
@@ -492,6 +498,7 @@ class _SignUpState extends State<SignUpPage> {
                   items: ['Maschio', 'Femmina', 'Non specificato']
                       .map<DropdownMenuItem<String>>(
                         (String value) => DropdownMenuItem<String>(
+                          key: Key(value),
                           value: value,
                           child: Text(value),
                         ),
@@ -532,6 +539,7 @@ class _SignUpState extends State<SignUpPage> {
                     top: 15,
                     bottom: _isCittaValid ? 15 : 20),
                 child: TextFormField(
+                  key: const Key('cittaField'),
                   controller: cittaController,
                   onChanged: (value) {
                     setState(() {
@@ -567,6 +575,7 @@ class _SignUpState extends State<SignUpPage> {
                     top: 15,
                     bottom: _isViaValid ? 15 : 20),
                 child: TextFormField(
+                  key: const Key('viaField'),
                   controller: viaController,
                   onChanged: (value) {
                     setState(() {
@@ -602,6 +611,7 @@ class _SignUpState extends State<SignUpPage> {
                     top: 15,
                     bottom: _isProvinciaValid ? 15 : 20),
                 child: TextFormField(
+                  key: const Key('provinciaField'),
                   controller: provinciaController,
                   onChanged: (value) {
                     setState(() {
@@ -648,6 +658,7 @@ class _SignUpState extends State<SignUpPage> {
                     top: 15,
                     bottom: _isEmailValid ? 15 : 20),
                 child: TextFormField(
+                  key: const Key('emailField'),
                   controller: emailController,
                   onChanged: (value) {
                     setState(() {
@@ -683,6 +694,7 @@ class _SignUpState extends State<SignUpPage> {
                     top: 15,
                     bottom: _isTelefonoValid ? 15 : 20),
                 child: TextFormField(
+                  key: const Key('telefonoField'),
                   controller: telefonoController,
                   onChanged: (value) {
                     setState(() {
@@ -729,6 +741,7 @@ class _SignUpState extends State<SignUpPage> {
                     top: 15,
                     bottom: _isUsernameValid ? 15 : 20),
                 child: TextFormField(
+                  key: const Key('usernameField'),
                   controller: usernameController,
                   onChanged: (value) {
                     setState(() {
@@ -764,6 +777,7 @@ class _SignUpState extends State<SignUpPage> {
                     top: 15,
                     bottom: _isPasswordValid ? 15 : 20),
                 child: TextFormField(
+                  key: const Key('passwordField'),
                   controller: passwordController,
                   onChanged: (value) {
                     setState(() {
@@ -816,6 +830,7 @@ class _SignUpState extends State<SignUpPage> {
                       ],
                     )),
                 child: TextButton(
+                  key: const Key('signUpButton'),
                   onPressed: () {
                     submitForm();
                     Navigator.pushNamed(context, AppRoutes.login);
