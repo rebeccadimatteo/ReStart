@@ -273,6 +273,17 @@ class _ProfiloState extends State<Profilo> {
                         fontFamily: 'Poppins',
                       ),
                       screenWidth),
+                  buildProfileField(
+                      'Numero di telefono',
+                      utente!.num_telefono,
+                      const TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold,
+                      ),
+                      const TextStyle(
+                        fontFamily: 'Poppins',
+                      ),
+                      screenWidth),
                 ],
               ),
               SizedBox(height: screenWidth * 0.1),
@@ -336,6 +347,7 @@ class ProfiloEdit extends StatefulWidget {
 
 class _ProfiloEditState extends State<ProfiloEdit> {
   final _formKey = GlobalKey<FormState>();
+  late bool _viewPassword;
   DateTime? selectedDate;
   String? _selectedGender;
   XFile? _image;
@@ -372,6 +384,7 @@ class _ProfiloEditState extends State<ProfiloEdit> {
     viaController = null;
     cittaController = null;
     provinciaController = null;
+    _viewPassword = true;
     _checkUserAndNavigate();
   }
 
@@ -520,6 +533,74 @@ class _ProfiloEditState extends State<ProfiloEdit> {
     }
   }
 
+  bool _isCodiceFiscaleValid = true;
+  bool _isEmailValid = true;
+  bool _isViaValid = true;
+  bool _isCittaValid = true;
+  bool _isProvinciaValid = true;
+  bool _isTelefonoValid = true;
+  bool _isNomeValid = true;
+  bool _isCognomeValid = true;
+  bool _isLuogoNascitaValid = true;
+  bool _isPasswordValid = true;
+
+  bool validateCodiceFiscale(String codiceFiscale) {
+    RegExp regex = RegExp(r'^[A-Z]{6}\d{2}[A-Z]\d{2}[A-Z]\d{3}[A-Z]$');
+    return regex.hasMatch(codiceFiscale);
+  }
+
+  bool validateEmail(String email) {
+    RegExp regex = RegExp(r'^[A-Za-z0-9_.]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$');
+    if(email.length < 6 || email.length > 40) {
+      return false;
+    }
+    return regex.hasMatch(email);
+  }
+
+  bool validateVia(String via) {
+    RegExp regex = RegExp(r'^[a-zA-Z .]+(,\s?[a-zA-Z0-9 ]*)?$');
+    return regex.hasMatch(via);
+  }
+
+  bool validateCitta(String citta) {
+    RegExp regex = RegExp(r'^[A-z À-ù‘-]{2,50}$');
+    return regex.hasMatch(citta);
+  }
+
+  bool validateProvincia(String provincia) {
+    RegExp regex = RegExp(r'^[A-Z]{2}');
+    if (provincia.length > 2) return false;
+    return regex.hasMatch(provincia);
+  }
+
+  bool validateTelefono(String telefono) {
+    RegExp regex = RegExp(r'^\+\d{12}$');
+    return regex.hasMatch(telefono);
+  }
+
+  bool validateImmagine(String immagine) {
+    RegExp regex = RegExp(r'^.+\.jpe?g$');
+    return regex.hasMatch(immagine);
+  }
+
+  bool validateNome(String nome) {
+    RegExp regex = RegExp(r'^[A-z À-ù‘-]{2,20}$');
+    return regex.hasMatch(nome);
+  }
+
+  bool validateCognome(String cognome) {
+    RegExp regex = RegExp(r'^[A-z À-ù‘-]{2,20}$');
+    return regex.hasMatch(cognome);
+  }
+
+  bool validatePassword(String password) {
+    return password.length <= 15 && password.length >= 3;
+  }
+
+  bool validateLuogoNascita(String luogo) {
+    return luogo.length <= 20 && luogo.length >= 3;
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -563,20 +644,18 @@ class _ProfiloEditState extends State<ProfiloEdit> {
                     ),
                     const SizedBox(height: 20),
                     TextFormField(
-                      controller: usernameController,
-                      decoration: const InputDecoration(
-                        labelText: 'Username',
-                      ),
-                      style: const TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    TextFormField(
                       controller: emailController,
-                      decoration: const InputDecoration(
+                      onChanged: (value) {
+                        setState(() {
+                          _isEmailValid = validateEmail(value);
+                        });
+                      },
+                      decoration: InputDecoration(
                         labelText: 'Email',
+                        errorText: _isEmailValid
+                            ? null
+                            : 'Formato email non corretta (ex: esempio@esempio.com)',
+                        errorStyle: const TextStyle(color: Colors.red),
                       ),
                       style: const TextStyle(
                         fontFamily: 'Poppins',
@@ -586,9 +665,18 @@ class _ProfiloEditState extends State<ProfiloEdit> {
                     ),
                     TextFormField(
                       controller: nomeController,
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
+                        errorText: _isNomeValid
+                            ? null
+                            : 'Formato nome non corretto (ex. Mirko [max. 20 caratteri])',
+                        errorStyle: const TextStyle(color: Colors.red),
                         labelText: 'Nome',
                       ),
+                      onChanged: (value) {
+                        setState(() {
+                          _isNomeValid = validateNome(value);
+                        });
+                      },
                       style: const TextStyle(
                         fontFamily: 'Poppins',
                         fontSize: 15,
@@ -597,8 +685,17 @@ class _ProfiloEditState extends State<ProfiloEdit> {
                     ),
                     TextFormField(
                       controller: cognomeController,
-                      decoration: const InputDecoration(
+                      onChanged: (value) {
+                        setState(() {
+                          _isCognomeValid = validateCognome(value);
+                        });
+                      },
+                      decoration: InputDecoration(
                         labelText: 'Cognome',
+                        errorText: _isCognomeValid
+                            ? null
+                            : 'Formato cognome non corretto (ex: Rossi [max 20 caratteri])',
+                        errorStyle: const TextStyle(color: Colors.red),
                       ),
                       style: const TextStyle(
                         fontFamily: 'Poppins',
@@ -608,8 +705,17 @@ class _ProfiloEditState extends State<ProfiloEdit> {
                     ),
                     TextFormField(
                       controller: cfController,
-                      decoration: const InputDecoration(
+                      onChanged: (value) {
+                        setState(() {
+                          _isCodiceFiscaleValid = validateCodiceFiscale(value);
+                        });
+                      },
+                      decoration: InputDecoration(
                         labelText: 'Codice fiscale',
+                        errorText: _isCodiceFiscaleValid
+                            ? null
+                            : 'Formato Codice Fiscale non corretto\n  (ex: AAABBB11C22D333E)',
+                        errorStyle: const TextStyle(color: Colors.red),
                       ),
                       style: const TextStyle(
                         fontFamily: 'Poppins',
@@ -674,8 +780,17 @@ class _ProfiloEditState extends State<ProfiloEdit> {
                     ),
                     TextFormField(
                       controller: luogoNascitaController,
-                      decoration: const InputDecoration(
+                      onChanged: (value) {
+                        setState(() {
+                          _isLuogoNascitaValid = validateLuogoNascita(value);
+                        });
+                      },
+                      decoration: InputDecoration(
                         labelText: 'Luogo di nascita',
+                        errorText: _isLuogoNascitaValid
+                            ? null
+                            : 'Formato luogo nascita non corretto (ex: Napoli)',
+                        errorStyle: const TextStyle(color: Colors.red),
                       ),
                       style: const TextStyle(
                         fontFamily: 'Poppins',
@@ -721,9 +836,31 @@ class _ProfiloEditState extends State<ProfiloEdit> {
                     ),
                     TextFormField(
                       controller: passwordController,
-                      obscureText: true,
-                      decoration: const InputDecoration(
+                      onChanged: (value) {
+                        setState(() {
+                          _isPasswordValid = validatePassword(value);
+                        });
+                      },
+                      obscureText: _viewPassword,
+                      decoration: InputDecoration(
                         labelText: 'Password',
+                        errorText: _isPasswordValid
+                            ? null
+                            : 'Formato password non corretto',
+                        errorStyle: const TextStyle(color: Colors.red),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _viewPassword
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                            color: Colors.black,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _viewPassword = !_viewPassword;
+                            });
+                          },
+                        ),
                       ),
                       style: const TextStyle(
                         fontFamily: 'Poppins',
@@ -733,8 +870,17 @@ class _ProfiloEditState extends State<ProfiloEdit> {
                     ),
                     TextFormField(
                       controller: cittaController,
-                      decoration: const InputDecoration(
+                      onChanged: (value) {
+                        setState(() {
+                          _isCittaValid = validateCitta(value);
+                        });
+                      },
+                      decoration: InputDecoration(
                         labelText: 'Città',
+                        errorText: _isCittaValid
+                            ? null
+                            : 'Formato città non corretto (ex: Napoli)',
+                        errorStyle: const TextStyle(color: Colors.red),
                       ),
                       style: const TextStyle(
                         fontFamily: 'Poppins',
@@ -744,8 +890,17 @@ class _ProfiloEditState extends State<ProfiloEdit> {
                     ),
                     TextFormField(
                       controller: viaController,
-                      decoration: const InputDecoration(
+                      onChanged: (value) {
+                        setState(() {
+                          _isViaValid = validateVia(value);
+                        });
+                      },
+                      decoration: InputDecoration(
                         labelText: 'Via',
+                        errorText: _isViaValid
+                            ? null
+                            : 'Formato via non corretto (ex: Via Fratelli Napoli, 1)',
+                        errorStyle: const TextStyle(color: Colors.red),
                       ),
                       style: const TextStyle(
                         fontFamily: 'Poppins',
@@ -755,8 +910,37 @@ class _ProfiloEditState extends State<ProfiloEdit> {
                     ),
                     TextFormField(
                       controller: provinciaController,
-                      decoration: const InputDecoration(
+                      onChanged: (value) {
+                        setState(() {
+                          _isProvinciaValid = validateProvincia(value);
+                        });
+                      },
+                      decoration: InputDecoration(
                         labelText: 'Provincia',
+                        errorText: _isProvinciaValid
+                            ? null
+                            : 'Formato provincia non corretta (ex: AV)',
+                        errorStyle: const TextStyle(color: Colors.red),
+                      ),
+                      style: const TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    TextFormField(
+                      controller: numTelefonoController,
+                      onChanged: (value) {
+                        setState(() {
+                          _isTelefonoValid = validateTelefono(value);
+                        });
+                      },
+                      decoration: InputDecoration(
+                        labelText: 'Numero di telefono',
+                        errorText: _isTelefonoValid
+                            ? null
+                            : 'Formato numero di telefono non corretto (ex: +393330000000)',
+                        errorStyle: const TextStyle(color: Colors.red),
                       ),
                       style: const TextStyle(
                         fontFamily: 'Poppins',

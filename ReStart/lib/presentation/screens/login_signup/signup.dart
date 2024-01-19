@@ -70,7 +70,6 @@ class _SignUpState extends State<SignUpPage> {
   final TextEditingController luogoNascitaController = TextEditingController();
   final TextEditingController dataNascitaController = TextEditingController();
 
-// Aggiungi una variabile booleana per tenere traccia dello stato di validità del codice fiscale
   bool _isCodiceFiscaleValid = true;
   bool _isUsernameValid = true;
   bool _isEmailValid = true;
@@ -78,14 +77,11 @@ class _SignUpState extends State<SignUpPage> {
   bool _isCittaValid = true;
   bool _isProvinciaValid = true;
   bool _isTelefonoValid = true;
-
-  //bool _isImmagineValid = true;
   bool _isNomeValid = true;
   bool _isCognomeValid = true;
   bool _isLuogoNascitaValid = true;
   bool _isPasswordValid = true;
 
-// Aggiungi un metodo per la validazione del codice fiscale
   bool validateCodiceFiscale(String codiceFiscale) {
     RegExp regex = RegExp(r'^[A-Z]{6}\d{2}[A-Z]\d{2}[A-Z]\d{3}[A-Z]$');
     return regex.hasMatch(codiceFiscale);
@@ -366,11 +362,11 @@ class _SignUpState extends State<SignUpPage> {
                 children: [
                   Expanded(
                     child: Padding(
-                      padding: EdgeInsets.only(
+                      padding: const EdgeInsets.only(
                           left: 15.0,
                           right: 15.0,
                           top: 15,
-                          bottom: _isLuogoNascitaValid ? 15 : 20),
+                          bottom: 15),
                       child: GestureDetector(
                         onTap: () {
                           _selectDate(context);
