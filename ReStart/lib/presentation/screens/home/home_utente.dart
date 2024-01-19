@@ -109,6 +109,7 @@ class _HomeUtenteState extends State<HomeUtente> {
                 itemBuilder: (context, index) {
                   EventoDTO evento = eventi[index];
                   return GestureDetector(
+                    key: Key('eventoItem_$index'),
                     onTap: () {
                       Navigator.pushNamed(
                         context,

@@ -37,9 +37,9 @@ void main() {
 
       // Inserisci l'username e la password
       await driver.tap(usernameFieldFinder);
-      await driver.enterText('mallio');
+      await driver.enterText('mariorossi');
       await driver.tap(passwordFieldFinder);
-      await driver.enterText('prova');
+      await driver.enterText('password1');
 
       // Esegui il tap sul pulsante di accesso
       await driver.tap(loginButtonFinder);
@@ -48,6 +48,21 @@ void main() {
       // Verifica la navigazione o la presenza di messaggi di errore
       await driver.waitFor(drawer);
     });
+
+    test('Reindirizzamento Sezione CommunityEvents', () async {
+
+      final eventoFinder = find.byValueKey('eventoItem_0');
+      final endDrawer = find.byType('endDrawer');
+      final dettaglioEventoFinder = find.byValueKey('dettaglioEvento');
+      final listaEventiFinder = find.byValueKey('listaEventi');
+
+      await driver.waitFor(eventoFinder);
+      await driver.tap(eventoFinder);
+
+      await driver.tap(endDrawer);
+      await driver.waitFor(listaEventiFinder);
+    });
+
 
     // Chiudi la connessione al driver dopo i test.
     tearDownAll(() async {

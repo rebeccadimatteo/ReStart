@@ -68,7 +68,7 @@ class _CommunityEventsState extends State<CommunityEvents> {
       appBar: GenericAppBar(
         showBackButton: true,
       ),
-      endDrawer: GenericAppBar.buildDrawer(context),
+      endDrawer: GenericAppBar.buildDrawer(context, key: const Key('listaEventi')),
       body: Stack(
         children: [
           Positioned(
@@ -116,12 +116,12 @@ class _CommunityEventsState extends State<CommunityEvents> {
                           color: Colors.black.withOpacity(0.2),
                           spreadRadius: 2,
                           blurRadius: 5,
-                          offset: Offset(0, 2),
+                          offset: const Offset(0, 2),
                         ),
                       ],
                     ),
                     margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-                    child: ListTile(
+                    child: ListTile( //LISTA EVENTI
                       visualDensity: const VisualDensity(vertical: 4, horizontal: 4),
                       minVerticalPadding: 50,
                       minLeadingWidth: 80,
@@ -193,7 +193,7 @@ class _DetailsEventoState extends State<DetailsEvento> {
       appBar: GenericAppBar(
         showBackButton: true,
       ),
-      endDrawer: GenericAppBar.buildDrawer(context),
+      endDrawer: GenericAppBar.buildDrawer(context, key: const Key('dettagliEvento')),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
