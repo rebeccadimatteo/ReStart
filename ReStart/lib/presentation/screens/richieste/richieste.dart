@@ -90,7 +90,7 @@ class _RichiesteState extends State<Richieste> {
               label: 'Chiudi',
               textColor: Colors.deepPurple,
               onPressed: () {
-                // Codice per chiudere la snackbar
+                Navigator.pushNamed(context, AppRoutes.homeADS);
               },
             ),
           ),
@@ -114,7 +114,7 @@ class _RichiesteState extends State<Richieste> {
               label: 'Chiudi',
               textColor: Colors.deepPurple,
               onPressed: () {
-                // Codice per chiudere la snackbar
+                Navigator.pushNamed(context, AppRoutes.homeADS);
               },
             ),
           ),
@@ -143,7 +143,7 @@ class _RichiesteState extends State<Richieste> {
               label: 'Chiudi',
               textColor: Colors.deepPurple,
               onPressed: () {
-                // Codice per chiudere la snackbar
+                Navigator.pushNamed(context, AppRoutes.homeADS);
               },
             ),
           ),
@@ -167,7 +167,7 @@ class _RichiesteState extends State<Richieste> {
               label: 'Chiudi',
               textColor: Colors.deepPurple,
               onPressed: () {
-                // Codice per chiudere la snackbar
+                Navigator.pushNamed(context, AppRoutes.homeADS);
               },
             ),
           ),
@@ -196,7 +196,7 @@ class _RichiesteState extends State<Richieste> {
               label: 'Chiudi',
               textColor: Colors.deepPurple,
               onPressed: () {
-                // Codice per chiudere la snackbar
+                Navigator.pushNamed(context, AppRoutes.homeADS);
               },
             ),
           ),
@@ -220,7 +220,7 @@ class _RichiesteState extends State<Richieste> {
               label: 'Chiudi',
               textColor: Colors.deepPurple,
               onPressed: () {
-                // Codice per chiudere la snackbar
+                Navigator.pushNamed(context, AppRoutes.homeADS);
               },
             ),
           ),
@@ -249,7 +249,7 @@ class _RichiesteState extends State<Richieste> {
               label: 'Chiudi',
               textColor: Colors.deepPurple,
               onPressed: () {
-                // Codice per chiudere la snackbar
+                Navigator.pushNamed(context, AppRoutes.homeADS);
               },
             ),
           ),
@@ -273,7 +273,7 @@ class _RichiesteState extends State<Richieste> {
               label: 'Chiudi',
               textColor: Colors.deepPurple,
               onPressed: () {
-                // Codice per chiudere la snackbar
+                Navigator.pushNamed(context, AppRoutes.homeADS);
               },
             ),
           ),
