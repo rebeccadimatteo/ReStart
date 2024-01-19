@@ -58,8 +58,8 @@ void main() {
       final dettaglioEventoFinder = find.byValueKey('dettaglioEvento');
       final listaEventiFinder = find.byValueKey('listaEventi');
 
-      await driver.tap(endDrawer);
-      await driver.waitFor(drawer);
+      await driver.tap(drawer);
+      await driver.waitFor(endDrawer);
 
       await driver.tap(sezioneEvento);
       await driver.waitFor(sezioneEvento);

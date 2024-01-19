@@ -179,13 +179,13 @@ class _AlloggiTemporaneiState extends State<AlloggiTemporaneiAds> {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               content: Text(
-                                'Alloggio eliminato',
+                                'Alloggio Temporaneo Eliminato!',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 16,
                                 ),
                               ),
-                              backgroundColor: Colors.lightBlue,
+                              backgroundColor: Colors.red,
                               duration: Duration(seconds: 3),
                             ),
                           );

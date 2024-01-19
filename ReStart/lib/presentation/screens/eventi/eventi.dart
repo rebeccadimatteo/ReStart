@@ -51,7 +51,6 @@ class _CommunityEventsState extends State<CommunityEvents> {
             .map((json) => EventoDTO.fromJson(json))
             .toList();
         setState(() {
-          eventi = data;
         });
       } else {
         print('Chiave "eventi" non trovata nella risposta.');

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:restart/presentation/components/app_bar_ads.dart';
 import '../../../model/entity/utente_DTO.dart';
-import '../../components/generic_app_bar.dart';
 import 'package:http/http.dart' as http;
 
 import '../routes/routes.dart';
@@ -136,7 +135,7 @@ class _ListaUtentiState extends State<ListaUtenti> {
                           backgroundImage: Image.asset(utente.immagine).image,
                         ),
                         title: Text(
-                          utente.nome,
+                          utente.username,
                           style: const TextStyle(
                             fontFamily: 'Genos',
                             fontWeight: FontWeight.bold,
@@ -158,6 +157,20 @@ class _ListaUtentiState extends State<ListaUtenti> {
                               color: Colors.black, size: 30),
                           onPressed: () {
                             deleteUtente(utente);
+                            Navigator.pushNamed(context, AppRoutes.homeADS);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                    'Utente Eliminato!',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                  backgroundColor: Colors.red,
+                                  duration: Duration(seconds: 3),
+                                ),
+                            );
                           },
                         ),
                       ),

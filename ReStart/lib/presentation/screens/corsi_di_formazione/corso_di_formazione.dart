@@ -234,7 +234,7 @@ class _DetailsCorsoState extends State<DetailsCorso> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         const Text(
-                          'Contatti',
+                          'Link al Corso',
                           style: TextStyle(
                             fontSize: 20,
                             fontFamily: 'PoppinsMedium',

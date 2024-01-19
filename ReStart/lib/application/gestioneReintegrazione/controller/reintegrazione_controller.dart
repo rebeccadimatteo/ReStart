@@ -56,6 +56,7 @@ class ReintegrazioneController {
       // Chiamata al servizio per ottenere la lista di alloggi
       final List<SupportoMedicoDTO> listaSupporti =
           await _service.supportiMedici();
+
       // Creazione della risposta con il corpo JSON contenente la lista di supporti
       final responseBody = jsonEncode({'supporti': listaSupporti});
       return Response.ok(responseBody,

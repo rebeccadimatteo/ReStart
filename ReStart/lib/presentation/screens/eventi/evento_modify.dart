@@ -223,7 +223,7 @@ class _ModifyEventoState extends State<ModifyEvento> {
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
             const Text(
-              'Modifica evento',
+              'Modifica Evento',
               style: TextStyle(
                 fontSize: 22,
                 fontFamily: 'Poppins',

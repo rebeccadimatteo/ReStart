@@ -137,7 +137,7 @@ class _ListaUtentiState extends State<ListaUtentiCandidati> {
                                   Image.asset(utente.immagine).image,
                             ),
                             title: Text(
-                              utente.nome,
+                              utente.username,
                               style: const TextStyle(
                                 fontFamily: 'Poppins',
                                 fontWeight: FontWeight.bold,

@@ -177,7 +177,7 @@ class _SupportoMedicoState extends State<SupportoMedicoAds> {
                                   fontSize: 16,
                                 ),
                               ),
-                              backgroundColor: Colors.lightBlue,
+                              backgroundColor: Colors.red,
                               duration: Duration(seconds: 3),
                             ),
                           );

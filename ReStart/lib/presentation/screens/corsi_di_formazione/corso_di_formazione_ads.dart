@@ -164,7 +164,7 @@ class _CorsoDiFormazioneState extends State<CorsoDiFormazioneAds> {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               content: Text(
-                                'Corso eliminato',
+                                'Corso di Formazione Eliminato!',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 16,
@@ -283,7 +283,7 @@ class _DetailsCorsoAdsState extends State<DetailsCorsoAds> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         const Text(
-                          'Contatti',
+                          'Link al Corso',
                           style: TextStyle(
                               fontSize: 25,
                               fontFamily: 'Poppins',
