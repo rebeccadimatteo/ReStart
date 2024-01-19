@@ -30,13 +30,13 @@ class _ModifyLavoroState extends State<ModifyLavoro> {
   late TextEditingController? viaController;
   late TextEditingController? provinciaController;
 
-  final bool _isNomeValid = true;
-  final bool _isDescrizioneValid = true;
-  final bool _isEmailValid = true;
-  final bool _isViaValid = true;
-  final bool _isCittaValid = true;
-  final bool _isProvinciaValid = true;
-  final bool _isTelefonoValid = true;
+  bool _isNomeValid = true;
+  bool _isDescrizioneValid = true;
+  bool _isEmailValid = true;
+  bool _isViaValid = true;
+  bool _isCittaValid = true;
+  bool _isProvinciaValid = true;
+  bool _isTelefonoValid = true;
 
   @override
   void initState() {
@@ -260,6 +260,11 @@ class _ModifyLavoroState extends State<ModifyLavoro> {
                   TextFormField(
                       //initialValue: evento.nomeEvento,
                       controller: nomeController,
+                      onChanged: (value) {
+                        setState(() {
+                          _isNomeValid = validateNome(value);
+                        });
+                      },
                       decoration: InputDecoration(
                         errorText: _isNomeValid
                             ? null
@@ -279,6 +284,11 @@ class _ModifyLavoroState extends State<ModifyLavoro> {
                   const SizedBox(height: 20),
                   TextFormField(
                       controller: descrizioneController,
+                      onChanged: (value) {
+                        setState(() {
+                          _isDescrizioneValid = validateDescrizione(value);
+                        });
+                      },
                       decoration: InputDecoration(
                         errorText: _isDescrizioneValid
                             ? null
@@ -309,6 +319,11 @@ class _ModifyLavoroState extends State<ModifyLavoro> {
                   const SizedBox(height: 20),
                   TextFormField(
                       controller: emailController,
+                      onChanged: (value) {
+                        setState(() {
+                          _isEmailValid = validateEmail(value);
+                        });
+                      },
                       decoration: InputDecoration(
                         errorText: _isEmailValid
                             ? null
@@ -330,6 +345,11 @@ class _ModifyLavoroState extends State<ModifyLavoro> {
                   const SizedBox(height: 20),
                   TextFormField(
                       controller: numTelefonoController,
+                      onChanged: (value) {
+                        setState(() {
+                          _isTelefonoValid = validateTelefono(value);
+                        });
+                      },
                       decoration: InputDecoration(
                         errorText: _isTelefonoValid
                             ? null
@@ -351,6 +371,11 @@ class _ModifyLavoroState extends State<ModifyLavoro> {
                   const SizedBox(height: 20),
                   TextFormField(
                       controller: cittaController,
+                      onChanged: (value) {
+                        setState(() {
+                          _isCittaValid = validateCitta(value);
+                        });
+                      },
                       decoration: InputDecoration(
                         hintText: 'Inserisci la città dell\'annuncio...',
                         errorText: _isCittaValid
@@ -371,6 +396,11 @@ class _ModifyLavoroState extends State<ModifyLavoro> {
                       }),
                   TextFormField(
                       controller: viaController,
+                      onChanged: (value) {
+                        setState(() {
+                          _isViaValid = validateVia(value);
+                        });
+                      },
                       decoration: InputDecoration(
                         errorText: _isViaValid
                             ? null
@@ -392,6 +422,11 @@ class _ModifyLavoroState extends State<ModifyLavoro> {
                   const SizedBox(height: 20),
                   TextFormField(
                       controller: provinciaController,
+                      onChanged: (value) {
+                        setState(() {
+                          _isProvinciaValid = validateProvincia(value);
+                        });
+                      },
                       decoration: InputDecoration(
                         errorText: _isProvinciaValid
                             ? null
