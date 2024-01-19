@@ -78,6 +78,7 @@ class _RichiesteState extends State<Richieste> {
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseBody = jsonDecode(response.body);
       if (responseBody.containsKey('result')) {
+        Navigator.pushNamed(context, AppRoutes.homeADS);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
@@ -102,6 +103,7 @@ class _RichiesteState extends State<Richieste> {
     } else {
       final Map<String, dynamic> responseBody = jsonDecode(response.body);
       if (responseBody.containsKey('result')) {
+        Navigator.pushNamed(context, AppRoutes.homeADS);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
@@ -131,6 +133,7 @@ class _RichiesteState extends State<Richieste> {
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseBody = jsonDecode(response.body);
       if (responseBody.containsKey('result')) {
+        Navigator.pushNamed(context, AppRoutes.homeADS);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
@@ -155,6 +158,7 @@ class _RichiesteState extends State<Richieste> {
     } else {
       final Map<String, dynamic> responseBody = jsonDecode(response.body);
       if (responseBody.containsKey('result')) {
+        Navigator.pushNamed(context, AppRoutes.homeADS);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
@@ -184,6 +188,7 @@ class _RichiesteState extends State<Richieste> {
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseBody = jsonDecode(response.body);
       if (responseBody.containsKey('result')) {
+        Navigator.pushNamed(context, AppRoutes.homeADS);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
@@ -208,6 +213,7 @@ class _RichiesteState extends State<Richieste> {
     } else {
       final Map<String, dynamic> responseBody = jsonDecode(response.body);
       if (responseBody.containsKey('result')) {
+        Navigator.pushNamed(context, AppRoutes.homeADS);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
@@ -237,6 +243,7 @@ class _RichiesteState extends State<Richieste> {
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseBody = jsonDecode(response.body);
       if (responseBody.containsKey('result')) {
+        Navigator.pushNamed(context, AppRoutes.homeADS);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
@@ -249,7 +256,7 @@ class _RichiesteState extends State<Richieste> {
               label: 'Chiudi',
               textColor: Colors.deepPurple,
               onPressed: () {
-                Navigator.pushNamed(context, AppRoutes.homeADS);
+
               },
             ),
           ),
@@ -261,6 +268,7 @@ class _RichiesteState extends State<Richieste> {
     } else {
       final Map<String, dynamic> responseBody = jsonDecode(response.body);
       if (responseBody.containsKey('result')) {
+        Navigator.pushNamed(context, AppRoutes.homeADS);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
@@ -272,9 +280,7 @@ class _RichiesteState extends State<Richieste> {
             action: SnackBarAction(
               label: 'Chiudi',
               textColor: Colors.deepPurple,
-              onPressed: () {
-                Navigator.pushNamed(context, AppRoutes.homeADS);
-              },
+              onPressed: () {  },
             ),
           ),
         );
@@ -532,6 +538,7 @@ class _DetailsLavoroAdsState extends State<DetailsLavoroR> {
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseBody = jsonDecode(response.body);
       if (responseBody.containsKey('result')) {
+        Navigator.pushNamed(context, AppRoutes.homeADS);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
@@ -553,6 +560,7 @@ class _DetailsLavoroAdsState extends State<DetailsLavoroR> {
     } else {
       final Map<String, dynamic> responseBody = jsonDecode(response.body);
       if (responseBody.containsKey('result')) {
+        Navigator.pushNamed(context, AppRoutes.homeADS);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
@@ -582,6 +590,7 @@ class _DetailsLavoroAdsState extends State<DetailsLavoroR> {
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseBody = jsonDecode(response.body);
       if (responseBody.containsKey('result')) {
+        Navigator.pushNamed(context, AppRoutes.homeADS);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
@@ -603,6 +612,7 @@ class _DetailsLavoroAdsState extends State<DetailsLavoroR> {
     } else {
       final Map<String, dynamic> responseBody = jsonDecode(response.body);
       if (responseBody.containsKey('result')) {
+        Navigator.pushNamed(context, AppRoutes.homeADS);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
