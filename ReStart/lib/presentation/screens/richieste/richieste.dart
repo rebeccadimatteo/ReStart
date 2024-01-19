@@ -391,7 +391,9 @@ class _RichiesteState extends State<Richieste> {
             ),
           ),
           subtitle: Text(
-            evento.descrizione,
+            evento.descrizione.length > 20
+                ? '${evento.descrizione.substring(0, 20)}...'
+                : evento.descrizione,
             style: const TextStyle(
               fontFamily: 'Poppins',
               fontSize: 15,
@@ -471,7 +473,9 @@ class _RichiesteState extends State<Richieste> {
             ),
           ),
           subtitle: Text(
-            annuncio.descrizione,
+            annuncio.descrizione.length > 20
+                ? '${annuncio.descrizione.substring(0, 20)}...'
+                : annuncio.descrizione,
             style: const TextStyle(
               fontFamily: 'Poppins',
               fontSize: 15,
@@ -506,7 +510,7 @@ class _RichiesteState extends State<Richieste> {
 /// Visualizza i dettagli di [AnnunciDiLavoro]
 
 class DetailsLavoroR extends StatefulWidget {
-  DetailsLavoroR(this.annuncio);
+  const DetailsLavoroR(this.annuncio);
 
   final AnnuncioDiLavoroDTO annuncio;
 
@@ -812,7 +816,7 @@ class _DetailsLavoroAdsState extends State<DetailsLavoroR> {
 /// Build del widget che viene visualizzato quando viene selezionato un determinato evento dalla sezione [CommunityEvents]
 /// Permette di visualizzare i dettagli dell'evento selezionato
 class DetailsEventoR extends StatefulWidget {
-  DetailsEventoR(this.evento);
+  const DetailsEventoR(this.evento);
 
   final EventoDTO evento;
 

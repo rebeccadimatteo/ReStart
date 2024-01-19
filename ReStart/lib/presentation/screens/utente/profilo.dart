@@ -187,7 +187,7 @@ class _ProfiloState extends State<Profilo> {
                       screenWidth),
                   buildProfileField(
                       'Luogo di nascita',
-                      utente!.luogo_nascita as String,
+                      utente!.luogo_nascita,
                       const TextStyle(
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.bold,
@@ -328,7 +328,7 @@ class _ProfiloState extends State<Profilo> {
 }
 
 class ProfiloEdit extends StatefulWidget {
-  ProfiloEdit({super.key});
+  const ProfiloEdit({super.key});
 
   @override
   State<ProfiloEdit> createState() => _ProfiloEditState();
@@ -466,7 +466,7 @@ class _ProfiloEditState extends State<ProfiloEdit> {
       String via = viaController!.text;
       String citta = cittaController!.text;
       String provincia = provinciaController!.text;
-      String imagePath = 'images/image_${username}.jpg';
+      String imagePath = 'images/image_$username.jpg';
 
       UtenteDTO utenteEdit = UtenteDTO(
         id: u.id,
@@ -541,7 +541,7 @@ class _ProfiloEditState extends State<ProfiloEdit> {
                   children: [
                     Stack(
                       children: [
-                        Container(
+                        SizedBox(
                           width: avatarSize,
                           height: avatarSize,
                           child: CircleAvatar(

@@ -122,7 +122,7 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoro> {
                           color: Colors.black.withOpacity(0.2),
                           spreadRadius: 2,
                           blurRadius: 5,
-                          offset: Offset(0, 2),
+                          offset: const Offset(0, 2),
                         ),
                       ],
                     ),
@@ -148,7 +148,9 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoro> {
                         ),
                       ),
                       subtitle: Text(
-                        annuncio.descrizione,
+                        annuncio.descrizione.length > 20
+                            ? '${annuncio.descrizione.substring(0, 20)}...'
+                            : annuncio.descrizione,
                         style: const TextStyle(
                           fontFamily: 'Poppins',
                           fontSize: 15,
@@ -219,10 +221,10 @@ class _DetailsLavoroState extends State<DetailsLavoro> {
           SnackBar(
             content: Text(
               responseBody['result'].toString(),
-              style: TextStyle(color: Colors.black, fontSize: 16),
+              style: const TextStyle(color: Colors.black, fontSize: 16),
             ),
             backgroundColor: Colors.blue[200],
-            duration: Duration(seconds: 5),
+            duration: const Duration(seconds: 5),
             action: SnackBarAction(
               label: 'Chiudi',
               textColor: Colors.deepPurple,
@@ -238,10 +240,10 @@ class _DetailsLavoroState extends State<DetailsLavoro> {
           SnackBar(
             content: Text(
               responseBody['result'].toString(),
-              style: TextStyle(color: Colors.black, fontSize: 16),
+              style: const TextStyle(color: Colors.black, fontSize: 16),
             ),
             backgroundColor: Colors.blue[200],
-            duration: Duration(seconds: 5),
+            duration: const Duration(seconds: 5),
             action: SnackBarAction(
               label: 'Chiudi',
               textColor: Colors.deepPurple,

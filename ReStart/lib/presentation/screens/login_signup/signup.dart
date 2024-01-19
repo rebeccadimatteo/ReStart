@@ -8,6 +8,7 @@ import '../routes/routes.dart';
 import 'dart:io';
 
 class SignUpPage extends StatefulWidget {
+  @override
   _SignUpState createState() => _SignUpState();
 }
 
@@ -77,7 +78,6 @@ class _SignUpState extends State<SignUpPage> {
   bool _isCittaValid = true;
   bool _isProvinciaValid = true;
   bool _isTelefonoValid = true;
-  bool _isDataValid = true;
 
   //bool _isImmagineValid = true;
   bool _isNomeValid = true;
@@ -161,7 +161,7 @@ class _SignUpState extends State<SignUpPage> {
       String via = viaController.text;
       String citta = cittaController.text;
       String provincia = provinciaController.text;
-      String imagePath = 'images/image_${username}.jpg';
+      String imagePath = 'images/image_$username.jpg';
 
       UtenteDTO utente = UtenteDTO(
         email: email,
@@ -255,7 +255,7 @@ class _SignUpState extends State<SignUpPage> {
                   ),
                 ),
               ),
-              Container(
+              SizedBox(
                 width: avatarSize,
                 height: avatarSize,
                 child: Stack(
@@ -298,7 +298,7 @@ class _SignUpState extends State<SignUpPage> {
                     top: 15,
                     bottom: _isNomeValid ? 15 : 20),
                 child: TextFormField(
-                  key: Key('nomeField'),
+                  key: const Key('nomeField'),
                   controller: nomeController,
                   onChanged: (value) {
                     setState(() {

@@ -6,6 +6,7 @@ import "../routes/routes.dart";
 import "package:http/http.dart" as http;
 
 class LoginPage extends StatefulWidget {
+  @override
   _LoginPageState createState() => _LoginPageState();
 }
 
@@ -128,7 +129,7 @@ class _LoginPageState extends State<LoginPage> {
                         top: 15,
                         bottom: _isUsernameValid ? 15 : 20),
                     child: TextFormField(
-                      key: Key('usernameField'),
+                      key: const Key('usernameField'),
                       controller: usernameController,
                       onChanged: (value) {
                         setState(() {
@@ -162,7 +163,7 @@ class _LoginPageState extends State<LoginPage> {
                         top: 15,
                         bottom: _isPasswordValid ? 15 : 20),
                     child: TextFormField(
-                      key: Key('passwordField'),
+                      key: const Key('passwordField'),
                       controller: pswController,
                       onChanged: (value) {
                         setState(() {
@@ -231,7 +232,7 @@ class _LoginPageState extends State<LoginPage> {
                     ],
                   )),
               child: TextButton(
-                key: Key('loginButton'),
+                key: const Key('loginButton'),
                 onPressed: () {
                   submitForm();
                 },

@@ -1,7 +1,5 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import '../../../model/entity/utente_DTO.dart';
 import '../../../utils/jwt_utils.dart';
@@ -200,7 +198,7 @@ class DiagonalLinePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Color(0xFF424242)
+      ..color = const Color(0xFF424242)
       ..strokeWidth = 5;
 // Disegna una linea dal punto in basso a sinistra (0, size.height)
 // al punto in alto a destra (size.width, 0)

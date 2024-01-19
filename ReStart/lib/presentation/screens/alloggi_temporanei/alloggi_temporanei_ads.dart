@@ -136,7 +136,7 @@ class _AlloggiTemporaneiState extends State<AlloggiTemporaneiAds> {
                           color: Colors.black.withOpacity(0.2),
                           spreadRadius: 2,
                           blurRadius: 5,
-                          offset: Offset(0, 2),
+                          offset: const Offset(0, 2),
                         ),
                       ],
                     ),
@@ -163,7 +163,9 @@ class _AlloggiTemporaneiState extends State<AlloggiTemporaneiAds> {
                         ),
                       ),
                       subtitle: Text(
-                        alloggio.descrizione,
+                        alloggio.descrizione.length > 20
+                            ? '${alloggio.descrizione.substring(0, 20)}...'
+                            : alloggio.descrizione,
                         style: const TextStyle(
                           fontFamily: 'Poppins',
                           fontSize: 15,

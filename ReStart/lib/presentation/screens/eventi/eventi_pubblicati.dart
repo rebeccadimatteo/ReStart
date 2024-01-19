@@ -165,7 +165,9 @@ class _CommunityEventsState extends State<CommunityEventsPubblicati> {
                         ),
                       ),
                       subtitle: Text(
-                        evento.descrizione,
+                        evento.descrizione.length > 20
+                            ? '${evento.descrizione.substring(0, 20)}...'
+                            : evento.descrizione,
                         style: const TextStyle(
                           fontFamily: 'Poppins',
                           fontSize: 15,

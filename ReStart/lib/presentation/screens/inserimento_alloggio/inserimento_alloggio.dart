@@ -4,7 +4,6 @@ import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:restart/presentation/components/app_bar_ads.dart';
 import '../../../model/entity/alloggio_temporaneo_DTO.dart';
-import '../../components/generic_app_bar.dart';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import '../routes/routes.dart';
@@ -125,7 +124,7 @@ class _InserisciAlloggioState extends State<InserisciAlloggio> {
       String provincia = provinciaController.text;
       String email = emailController.text;
       String sito = sitoController.text;
-      String imagePath = 'images/image_${nome}.jpg';
+      String imagePath = 'images/image_$nome.jpg';
 
       AlloggioTemporaneoDTO alloggio = AlloggioTemporaneoDTO(
         nome: nome,
@@ -201,7 +200,7 @@ class _InserisciAlloggioState extends State<InserisciAlloggio> {
                       children: [
                         Stack(
                           children: [
-                            Container(
+                            SizedBox(
                               width: avatarSize,
                               height: avatarSize,
                               child: CircleAvatar(

@@ -1,13 +1,7 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
-import '../../model/entity/utente_DTO.dart';
-import '../../utils/jwt_utils.dart';
 import '../screens/login_signup/start.dart';
 import '../screens/routes/routes.dart';
-
-import 'package:http/http.dart' as http;
 
 /// Classe che builda il widget per mostrare una [AppBar].
 class GenericAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -226,7 +220,6 @@ class GenericAppBar extends StatelessWidget implements PreferredSizeWidget {
                 onTap: () {
                   SessionManager().remove("token");
                   SessionManager().destroy();
-                  print("logout riuscito");
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => Home()),

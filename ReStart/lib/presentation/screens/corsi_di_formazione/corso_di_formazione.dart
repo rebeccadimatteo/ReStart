@@ -132,7 +132,9 @@ class _CorsoDiFormazioneState extends State<CorsoDiFormazione> {
                         ),
                       ),
                       subtitle: Text(
-                        corso.descrizione,
+                        corso.descrizione.length > 20
+                            ? '${corso.descrizione.substring(0, 20)}...'
+                            : corso.descrizione,
                         style: const TextStyle(
                           fontFamily: 'Poppins',
                           fontSize: 13,

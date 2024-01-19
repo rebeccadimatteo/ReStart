@@ -51,6 +51,7 @@ class _CommunityEventsState extends State<CommunityEvents> {
             .map((json) => EventoDTO.fromJson(json))
             .toList();
         setState(() {
+          eventi = data;
         });
       } else {
         print('Chiave "eventi" non trovata nella risposta.');
@@ -139,7 +140,9 @@ class _CommunityEventsState extends State<CommunityEvents> {
                         ),
                       ),
                       subtitle: Text(
-                        evento.descrizione,
+                        evento.descrizione.length > 20
+                            ? '${evento.descrizione.substring(0, 20)}...'
+                            : evento.descrizione,
                         style: const TextStyle(
                           fontFamily: 'Poppins',
                           fontSize: 15,

@@ -122,7 +122,7 @@ class _CorsoDiFormazioneState extends State<CorsoDiFormazioneAds> {
                           color: Colors.black.withOpacity(0.2),
                           spreadRadius: 2,
                           blurRadius: 5,
-                          offset: Offset(0, 2),
+                          offset: const Offset(0, 2),
                         ),
                       ],
                     ),
@@ -148,7 +148,9 @@ class _CorsoDiFormazioneState extends State<CorsoDiFormazioneAds> {
                         ),
                       ),
                       subtitle: Text(
-                        corso.descrizione,
+                        corso.descrizione.length > 20
+                            ? '${corso.descrizione.substring(0, 20)}...'
+                            : corso.descrizione,
                         style: const TextStyle(
                           fontFamily: 'Poppins',
                           fontSize: 14,
@@ -278,7 +280,7 @@ class _DetailsCorsoAdsState extends State<DetailsCorsoAds> {
               child: Align(
                   alignment: Alignment.bottomCenter,
                   child: Padding(
-                    padding: EdgeInsets.only(bottom: 30),
+                    padding: const EdgeInsets.only(bottom: 30),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [

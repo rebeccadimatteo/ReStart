@@ -32,12 +32,12 @@ class _ModifyEventoState extends State<ModifyEvento> {
   late TextEditingController? viaController;
   late TextEditingController? provinciaController;
 
-  bool _isNomeValid = true;
-  bool _isDescrizioneValid = true;
-  bool _isEmailValid = true;
-  bool _isViaValid = true;
-  bool _isCittaValid = true;
-  bool _isProvinciaValid = true;
+  final bool _isNomeValid = true;
+  final bool _isDescrizioneValid = true;
+  final bool _isEmailValid = true;
+  final bool _isViaValid = true;
+  final bool _isCittaValid = true;
+  final bool _isProvinciaValid = true;
 
   DateTime? selectedDate;
 
@@ -109,7 +109,7 @@ class _ModifyEventoState extends State<ModifyEvento> {
       String provincia = provinciaController!.text;
       String email = emailController!.text;
       // DateTime data = dataController!.text;
-      String imagePath = 'images/image_${nome}.jpg';
+      String imagePath = 'images/image_$nome.jpg';
 
       EventoDTO evento = EventoDTO(
         id: event.id,
@@ -237,7 +237,7 @@ class _ModifyEventoState extends State<ModifyEvento> {
                 children: [
                   Stack(
                     children: [
-                      Container(
+                      SizedBox(
                         width: avatarSize,
                         height: avatarSize,
                         child: CircleAvatar(
@@ -252,7 +252,7 @@ class _ModifyEventoState extends State<ModifyEvento> {
                         left: screenWidth * 0.18,
                         child: IconButton(
                           onPressed: selectImage,
-                          icon: Icon(Icons.add_a_photo_sharp),
+                          icon: const Icon(Icons.add_a_photo_sharp),
                         ),
                       )
                     ],
@@ -398,7 +398,7 @@ class _ModifyEventoState extends State<ModifyEvento> {
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Inserisci la provincia dov\è situato l\'evento';
+                          return 'Inserisci la provincia dov\'è situato l\'evento';
                         }
                         return null;
                       }),

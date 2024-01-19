@@ -4,7 +4,6 @@ import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:restart/presentation/components/app_bar_ads.dart';
 import '../../../model/entity/corso_di_formazione_DTO.dart';
-import '../../components/generic_app_bar.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io';
 import '../routes/routes.dart';
@@ -118,7 +117,7 @@ class _InserisciCorsoState extends State<InserisciCorso> {
       String cognomeResponsabile = cognomeResponsabileController.text;
       String descrizione = descrizioneController.text;
       String urlCorso = urlCorsoController.text;
-      String imagePath = 'images/image_${nomeCorso}.jpg';
+      String imagePath = 'images/image_$nomeCorso.jpg';
 
       /// Crea il DTO con il percorso dell'immagine
       CorsoDiFormazioneDTO corso = CorsoDiFormazioneDTO(
@@ -213,7 +212,7 @@ class _InserisciCorsoState extends State<InserisciCorso> {
                         left: screenWidth * 0.18,
                         child: IconButton(
                           onPressed: selectImage,
-                          icon: Icon(Icons.add_a_photo_sharp),
+                          icon: const Icon(Icons.add_a_photo_sharp),
                         ),
                       )
                     ],

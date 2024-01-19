@@ -17,7 +17,7 @@ class _LavoroAdattoState extends State<LavoroAdatto> {
   String? _selectedEducationLevel;
   int? _yearsOfExperience;
   bool _hasBeenLeader = false;
-  List<String> _selectedSkills = [];
+  final List<String> _selectedSkills = [];
   final _formKey = GlobalKey<FormState>();
   var token = SessionManager().get('token');
   late UtenteDTO utente;

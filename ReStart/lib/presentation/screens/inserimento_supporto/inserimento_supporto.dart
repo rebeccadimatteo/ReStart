@@ -1,18 +1,16 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:restart/presentation/components/app_bar_ads.dart';
-
 import '../../../model/entity/supporto_medico_DTO.dart';
-import '../../components/generic_app_bar.dart';
 import '../routes/routes.dart';
 
 ///Classe che rappresenta la schermata per inserire un [SupportoMedico]
 class InserisciSupporto extends StatefulWidget {
+  @override
   _InserisciSupportoState createState() => _InserisciSupportoState();
 }
 
@@ -132,7 +130,7 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
       String citta = cittaController.text;
       String via = viaController.text;
       String provincia = provinciaController.text;
-      String imagePath = 'images/image_${nomeMedico}.jpg';
+      String imagePath = 'images/image_$nomeMedico.jpg';
 
       SupportoMedicoDTO supporto = SupportoMedicoDTO(
           immagine: imagePath,
@@ -213,7 +211,7 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
                 children: [
                   Stack(
                     children: [
-                      Container(
+                      SizedBox(
                         width: avatarSize,
                         height: avatarSize,
                         child: CircleAvatar(
@@ -228,7 +226,7 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
                         left: screenWidth * 0.18,
                         child: IconButton(
                           onPressed: selectImage,
-                          icon: Icon(Icons.add_a_photo_sharp),
+                          icon: const Icon(Icons.add_a_photo_sharp),
                         ),
                       )
                     ],

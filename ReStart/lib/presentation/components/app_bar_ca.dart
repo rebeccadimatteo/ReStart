@@ -186,7 +186,6 @@ class CaAppBar extends StatelessWidget implements PreferredSizeWidget {
               onTap: () {
                 SessionManager().remove("token");
                 SessionManager().destroy();
-                print("logout riuscito");
                 Navigator.pushNamed(
                   context,
                   AppRoutes.home,

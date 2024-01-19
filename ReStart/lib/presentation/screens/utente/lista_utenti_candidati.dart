@@ -4,13 +4,12 @@ import 'package:flutter_session_manager/flutter_session_manager.dart';
 import '../../../model/entity/annuncio_di_lavoro_DTO.dart';
 import '../../../model/entity/utente_DTO.dart';
 import '../../components/app_bar_ca.dart';
-import '../../components/generic_app_bar.dart';
 import 'package:http/http.dart' as http;
 
 import '../routes/routes.dart';
 
 class ListaUtentiCandidati extends StatefulWidget {
-  ListaUtentiCandidati({super.key});
+  const ListaUtentiCandidati({super.key});
 
   @override
   State<ListaUtentiCandidati> createState() => _ListaUtentiState();
@@ -119,7 +118,7 @@ class _ListaUtentiState extends State<ListaUtentiCandidati> {
                                 color: Colors.black.withOpacity(0.2),
                                 spreadRadius: 2,
                                 blurRadius: 5,
-                                offset: Offset(0, 2),
+                                offset: const Offset(0, 2),
                               ),
                             ],
                           ),
@@ -349,7 +348,7 @@ class _ProfiloState extends State<ProfiloCandidato> {
                       screenWidth),
                   buildProfileField(
                       'Luogo di nascita',
-                      utente!.luogo_nascita as String,
+                      utente!.luogo_nascita,
                       const TextStyle(
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.bold,

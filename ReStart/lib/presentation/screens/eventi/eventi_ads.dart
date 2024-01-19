@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import '../../../model/entity/evento_DTO.dart';
 import '../../components/app_bar_ads.dart';
 import '../routes/routes.dart';
@@ -132,7 +133,7 @@ class _CommunityEventsState extends State<CommunityEventsAds> {
                           color: Colors.black.withOpacity(0.2),
                           spreadRadius: 2,
                           blurRadius: 5,
-                          offset: Offset(0, 2),
+                          offset: const Offset(0, 2),
                         ),
                       ],
                     ),
@@ -158,7 +159,9 @@ class _CommunityEventsState extends State<CommunityEventsAds> {
                         ),
                       ),
                       subtitle: Text(
-                        evento.descrizione,
+                        evento.descrizione.length > 20
+                            ? '${evento.descrizione.substring(0, 20)}...'
+                            : evento.descrizione,
                         style: const TextStyle(
                           fontFamily: 'Poppins',
                           fontSize: 15,
@@ -240,8 +243,8 @@ class _DetailsEventoAdsState extends State<DetailsEventoAds> {
   Widget build(BuildContext context) {
     final EventoDTO evento =
         ModalRoute.of(context)?.settings.arguments as EventoDTO;
-    final String data = evento.date.toIso8601String();
-    final String dataBuona = data.substring(0, 10);
+    final DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm:ss');
+    final String data = formatter.format(evento.date);
     return Scaffold(
       appBar: AdsAppBar(
         showBackButton: true,
@@ -315,7 +318,7 @@ class _DetailsEventoAdsState extends State<DetailsEventoAds> {
                               fontWeight: FontWeight.bold
                           ),
                         ),
-                        Text(dataBuona,
+                        Text(data,
                           style: const TextStyle(
                               fontSize: 15,
                               fontFamily: 'Poppins',

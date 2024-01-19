@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import '../../../model/entity/supporto_medico_DTO.dart';
-import '../../../utils/auth_service.dart';
 import '../../components/app_bar_ads.dart';
 import 'package:http/http.dart' as http;
 import '../routes/routes.dart';
@@ -129,7 +128,7 @@ class _SupportoMedicoState extends State<SupportoMedicoAds> {
                           color: Colors.black.withOpacity(0.2),
                           spreadRadius: 2,
                           blurRadius: 5,
-                          offset: Offset(0, 2),
+                          offset: const Offset(0, 2),
                         ),
                       ],
                     ),
@@ -155,7 +154,9 @@ class _SupportoMedicoState extends State<SupportoMedicoAds> {
                         ),
                       ),
                       subtitle: Text(
-                        supporto.descrizione,
+                        supporto.descrizione.length > 20
+                            ? '${supporto.descrizione.substring(0, 20)}...'
+                            : supporto.descrizione,
                         style: const TextStyle(
                           fontFamily: 'Poppins',
                           fontSize: 15,
@@ -282,7 +283,7 @@ class _DetailsSupportoAdsState extends State<DetailsSupportoAds> {
               child: Align(
                   alignment: Alignment.bottomCenter,
                   child: Padding(
-                    padding: EdgeInsets.only(bottom: 30),
+                    padding: const EdgeInsets.only(bottom: 30),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [

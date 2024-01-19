@@ -20,15 +20,15 @@ class Home extends StatelessWidget {
       if (JWTUtils.verifyAccessToken(
           accessToken: await token,
           secretKey: JWTConstants.accessTokenSecretKeyForUtente)) {
-        Navigator.pushNamed(context, AppRoutes.homeUtente);;
+        Navigator.pushNamed(context, AppRoutes.homeUtente);
       } else if (JWTUtils.verifyAccessToken(
           accessToken: await token,
           secretKey: JWTConstants.accessTokenSecretKeyForADS)){
-        Navigator.pushNamed(context, AppRoutes.homeADS);;
+        Navigator.pushNamed(context, AppRoutes.homeADS);
       } else if (JWTUtils.verifyAccessToken(
           accessToken: await token,
           secretKey: JWTConstants.accessTokenSecretKeyForCA)){
-        Navigator.pushNamed(context, AppRoutes.homeCA);;
+        Navigator.pushNamed(context, AppRoutes.homeCA);
       }
     }
   }
@@ -90,7 +90,7 @@ class Home extends StatelessWidget {
                   ],
                 )),
             child: TextButton(
-              key: Key('loginButton'),
+              key: const Key('loginButton'),
               onPressed: () {
                 Navigator.pushNamed(
                   context,
@@ -145,7 +145,7 @@ class Home extends StatelessWidget {
                   ],
                 )),
             child: TextButton(
-              key: Key('signUpButton'),
+              key: const Key('signUpButton'),
               onPressed: () {
                 Navigator.pushNamed(
                   context,

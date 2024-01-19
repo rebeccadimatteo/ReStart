@@ -109,7 +109,7 @@ class _HomeUtenteState extends State<HomeUtente> {
                 itemBuilder: (context, index) {
                   EventoDTO evento = eventi[index];
                   return GestureDetector(
-                    key: Key('eventoItem'),
+                    key: const Key('eventoItem'),
                     onTap: () {
                       Navigator.pushNamed(
                         context,
