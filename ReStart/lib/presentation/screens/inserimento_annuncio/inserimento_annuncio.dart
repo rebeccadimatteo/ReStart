@@ -235,6 +235,7 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
       ),
       endDrawer: CaAppBar.buildDrawer(context),
       body: SingleChildScrollView(
+        key: const Key('inserisciAnnuncio'),
         child: Padding(
           padding: EdgeInsets.all(screenWidth * 0.08),
           child:
@@ -281,6 +282,7 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
                         top: 15,
                         bottom: _isNomeValid ? 15 : 20),
                     child: TextFormField(
+                      key: const Key('nomeAnnuncio'),
                       controller: nomeController,
                       onChanged: (value) {
                         setState(() {
@@ -313,6 +315,7 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
                         top: 15,
                         bottom: _isDescrizioneValid ? 15 : 20),
                     child: TextFormField(
+                      key: const Key('descrizione'),
                       controller: descrizioneController,
                       onChanged: (value) {
                         setState(() {
@@ -354,6 +357,7 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
                         top: 15,
                         bottom: _isCittaValid ? 15 : 20),
                     child: TextFormField(
+                      key: const Key('citta'),
                       controller: cittaController,
                       onChanged: (value) {
                         setState(() {
@@ -386,6 +390,7 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
                         top: 15,
                         bottom: _isViaValid ? 15 : 20),
                     child: TextFormField(
+                      key: const Key('via'),
                       controller: viaController,
                       onChanged: (value) {
                         setState(() {
@@ -417,6 +422,7 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
                         top: 15,
                         bottom: _isProvinciaValid ? 15 : 20),
                     child: TextFormField(
+                      key: const Key('provincia'),
                       controller: provinciaController,
                       onChanged: (value) {
                         setState(() {
@@ -458,6 +464,7 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
                         top: 15,
                         bottom: _isEmailValid ? 15 : 20),
                     child: TextFormField(
+                      key: const Key('email'),
                       controller: emailController,
                       onChanged: (value) {
                         setState(() {
@@ -489,6 +496,7 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
                         top: 15,
                         bottom: _isTelefonoValid ? 15 : 20),
                     child: TextFormField(
+                      key: const Key('numTelefono'),
                       controller: numTelefonoController,
                       onChanged: (value) {
                         setState(() {
@@ -538,6 +546,7 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
                         borderRadius: BorderRadius.circular(30.0),
                       ),
                       child: Container(
+                        key: const Key('inserisciAnnuncioButton'),
                         width: screenWidth * 0.60,
                         height: screenWidth * 0.1,
                         padding: const EdgeInsets.all(10),

@@ -47,19 +47,23 @@ class _HomeCaState extends State<HomeCa> {
               children: [
                 const SizedBox(height: 5),
                   _buildFullWidthItem(context, 'OFFERTE DI LAVORO\nPUBBLICATE',
-                      AppRoutes.annuncipubblicati, const Key('annunciPubblicati')),
+                      AppRoutes.annuncipubblicati),
                 const SizedBox(height: 5),
                 _buildFullWidthItem(context, 'COMMUNITY EVENTS\nPUBBLICATI',
-                    AppRoutes.eventipubblicati, const Key('eventiPubblicati')),
+                    AppRoutes.eventipubblicati),
                 const SizedBox(height: 5),
                 Container(
                   key: const Key('addEventoContainer'),
                   child: _buildFullWidthItem(
-                      context, 'AGGIUNGI EVENTO', AppRoutes.addevento, const Key('addEvento')),
+                      context, 'AGGIUNGI EVENTO', AppRoutes.addevento),
                 ),
                 const SizedBox(height: 5),
-                _buildFullWidthItem(context, 'AGGIUNGI OFFERTA\nDI LAVORO',
-                    AppRoutes.addannuncio, const Key('addAnnuncio')),
+
+                Container(
+                  key: const Key('addAnnuncioContainer'),
+                  child: _buildFullWidthItem(context, 'AGGIUNGI OFFERTA\nDI LAVORO',
+                      AppRoutes.addannuncio),
+                ),
               ],
             ),
           ),
@@ -68,11 +72,10 @@ class _HomeCaState extends State<HomeCa> {
     );
   }
 
-  Widget _buildFullWidthItem(BuildContext context, String title, String route,Key? key) {
+  Widget _buildFullWidthItem(BuildContext context, String title, String route) {
     // Widget per i blocchi rettangolari con testo centrato
     return Expanded(
       child: Container(
-        key: key,
         margin: const EdgeInsets.only(top: 20, left: 20, right: 20),
         child: Material(
           borderRadius: BorderRadius.circular(30),
