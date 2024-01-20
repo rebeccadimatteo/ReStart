@@ -191,6 +191,7 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
       ),
       endDrawer: AdsAppBar.buildDrawer(context),
       body: SingleChildScrollView(
+        key: const Key('inserisciSupporto'),
         child: Padding(
           padding: EdgeInsets.all(screenWidth * 0.08),
           child:
@@ -239,6 +240,7 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
                         top: 15,
                         bottom: _isNomeValid ? 15 : 20),
                     child: TextFormField(
+                      key: const Key('nomeMedico'),
                       controller: nomeMedicoController,
                       onChanged: (value) {
                         setState(() {
@@ -272,6 +274,7 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
                         top: 15,
                         bottom: _isCognomeValid ? 15 : 20),
                     child: TextFormField(
+                      key: const Key('cognomeMedico'),
                       controller: cognomeMedicoController,
                       onChanged: (value) {
                         setState(() {
@@ -305,6 +308,7 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
                         top: 15,
                         bottom: _isDescrizioneValid ? 15 : 20),
                     child: TextFormField(
+                      key: const Key('descrizione'),
                       controller: descrizioneController,
                       onChanged: (value) {
                         setState(() {
@@ -338,6 +342,7 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
                         top: 15,
                         bottom: _isTipoValid ? 15 : 20),
                     child: TextFormField(
+                      key: const Key('tipologia'),
                       controller: tipoController,
                       onChanged: (value) {
                         setState(() {
@@ -379,6 +384,7 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
                         top: 15,
                         bottom: _isCittaValid ? 15 : 20),
                     child: TextFormField(
+                      key: const Key('citta'),
                       controller: cittaController,
                       onChanged: (value) {
                         setState(() {
@@ -411,6 +417,7 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
                         top: 15,
                         bottom: _isViaValid ? 15 : 20),
                     child: TextFormField(
+                      key: const Key('via'),
                       controller: viaController,
                       onChanged: (value) {
                         setState(() {
@@ -443,6 +450,7 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
                         top: 15,
                         bottom: _isProvinciaValid ? 15 : 20),
                     child: TextFormField(
+                      key: const Key('provincia'),
                       controller: provinciaController,
                       onChanged: (value) {
                         setState(() {
@@ -484,6 +492,7 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
                         top: 15,
                         bottom: _isEmailValid ? 15 : 20),
                     child: TextFormField(
+                      key: const Key('email'),
                       controller: emailController,
                       onChanged: (value) {
                         setState(() {
@@ -515,6 +524,7 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
                         top: 15,
                         bottom: _isTelefonoValid ? 15 : 20),
                     child: TextFormField(
+                      key: const Key('numTelefono'),
                       controller: numTelefonoController,
                       onChanged: (value) {
                         setState(() {
@@ -564,6 +574,7 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
                         borderRadius: BorderRadius.circular(30.0),
                       ),
                       child: Container(
+                        key: const Key('inserisciSupportoButton'),
                         width: screenWidth * 0.60,
                         height: screenWidth * 0.1,
                         padding: const EdgeInsets.all(10),
