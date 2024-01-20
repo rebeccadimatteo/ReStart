@@ -12,9 +12,7 @@ void main() {
 
 // Chiudi la connessione al driver dopo i test.
     tearDownAll(() async {
-      if (driver != null) {
-        driver.close();
-      }
+      driver.close();
     });
 
     test('navigazione alla pagina di login', () async {

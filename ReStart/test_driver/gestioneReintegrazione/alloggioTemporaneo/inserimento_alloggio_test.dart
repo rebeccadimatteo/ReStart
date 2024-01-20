@@ -12,10 +12,8 @@ void main() {
 
 // Chiudi la connessione al driver dopo i test.
     tearDownAll(() async {
-      if (driver != null) {
-        driver.close();
-      }
-    });
+      driver.close();
+        });
 
     test('navigazione alla pagina di login', () async {
       // Trova e clicca sul pulsante di login
@@ -57,7 +55,42 @@ void main() {
       await driver.tap(find.byTooltip('Open navigation menu'));
       await driver.tap(find.text('Inserisci alloggio temporaneo'));
 
+      final scrollable = find.byValueKey('inserisciAlloggio');
+      final nomeFieldFinder = find.byValueKey('nomeAlloggioField');
+      final descrizioneFieldFinder = find.byValueKey('descrizioneField');
+      final tipologiaFieldFinder = find.byValueKey('tipoField');
+      final cittaFieldFinder = find.byValueKey('cittaField');
+      final viaFieldFinder = find.byValueKey('viaField');
+      final provinciaFieldFinder = find.byValueKey('provinciaField');
+      final emailFieldFinder = find.byValueKey('emailField');
+      final urlFieldFinder = find.byValueKey('sitoField');
+      final inserisciButtonFinder = find.byValueKey('inserisciButton');
 
+      await driver.tap(nomeFieldFinder);
+      await driver.enterText('Casa Valeria');
+      await driver.tap(descrizioneFieldFinder);
+      await driver.enterText('Spazioso appartamento nel centro urbano di Milano con vista panoramica sulla città, arredi moderni e ambienti accoglienti per soggiorni memorabili.');
+      await driver.tap(tipologiaFieldFinder);
+      await driver.enterText('Appartamento');
+      await driver.tap(cittaFieldFinder);
+      await driver.enterText('Milano');
+      await driver.scroll(
+        scrollable,
+        0.0,      // Distanza di scroll sull'asse X
+        -900.0,   // Distanza di scroll sull'asse Y (negativo per scroll verso il basso)
+        Duration(milliseconds: 900), // Durata dello scroll
+      );
+      await driver.tap(viaFieldFinder);
+      await driver.enterText('Via Dante, 256');
+      await driver.tap(provinciaFieldFinder);
+      await driver.enterText('MI');
+      await driver.tap(emailFieldFinder);
+      await driver.enterText('casavaleria@gmail.com');
+      await driver.tap(urlFieldFinder);
+      await driver.enterText('www.casavaleria.it');
+
+      await driver.tap(inserisciButtonFinder);
+      await driver.waitFor(find.text('Richiesta inviata con successo'));
     });
   });
 }

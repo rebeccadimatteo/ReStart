@@ -12,10 +12,8 @@ void main() {
 
 // Chiudi la connessione al driver dopo i test.
     tearDownAll(() async {
-      if (driver != null) {
-        driver.close();
-      }
-    });
+      driver.close();
+        });
 
     test('navigazione alla pagina di login', () async {
       // Trova e clicca sul pulsante di login
@@ -55,7 +53,7 @@ void main() {
     //inserimento alloggio temporaneo
     test('Inserimento corso di formazione', () async {
       await driver.tap(find.byTooltip('Open navigation menu'));
-      await driver.tap(find.text('Inserisci corso'));
+      await driver.tap(find.text('Inserisci corso di formazione'));
       final scrollable = find.byValueKey('inserisciCorso');
       final nomeFinder = find.byValueKey('nome');
       final nomeResponsabileFinder = find.byValueKey('nomeResponsabile');

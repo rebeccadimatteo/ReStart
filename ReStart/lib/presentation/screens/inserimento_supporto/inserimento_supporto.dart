@@ -552,7 +552,7 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
                   SizedBox(height: screenWidth * 0.1),
                   ElevatedButton(
                     onPressed: () {
-                      submitForm;
+                      submitForm();
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.transparent,

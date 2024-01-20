@@ -180,6 +180,7 @@ class _InserisciAlloggioState extends State<InserisciAlloggio> {
         ),
         endDrawer: AdsAppBar.buildDrawer(context),
         body: SingleChildScrollView(
+          key: const Key('inserisciAlloggio'),
           child: Padding(
             padding: EdgeInsets.all(screenWidth * 0.08),
             child: Column(
@@ -227,6 +228,7 @@ class _InserisciAlloggioState extends State<InserisciAlloggio> {
                               top: 15,
                               bottom: _isNomeValid ? 15 : 20),
                           child: TextFormField(
+                            key: const Key('nomeAlloggioField'),
                             controller: nomeAlloggioController,
                             onChanged: (value) {
                               setState(() {
@@ -260,6 +262,7 @@ class _InserisciAlloggioState extends State<InserisciAlloggio> {
                               top: 15,
                               bottom: _isDescrizioneValid ? 15 : 20),
                           child: TextFormField(
+                            key: const Key('descrizioneField'),
                             controller: descrizioneController,
                             onChanged: (value) {
                               setState(() {
@@ -293,6 +296,7 @@ class _InserisciAlloggioState extends State<InserisciAlloggio> {
                               top: 15,
                               bottom: _isTipoValid ? 15 : 20),
                           child: TextFormField(
+                            key: const Key('tipoField'),
                             controller: tipoController,
                             onChanged: (value) {
                               setState(() {
@@ -335,6 +339,7 @@ class _InserisciAlloggioState extends State<InserisciAlloggio> {
                               top: 15,
                               bottom: _isCittaValid ? 15 : 20),
                           child: TextFormField(
+                            key: const Key('cittaField'),
                             controller: cittaController,
                             onChanged: (value) {
                               setState(() {
@@ -367,6 +372,7 @@ class _InserisciAlloggioState extends State<InserisciAlloggio> {
                               top: 15,
                               bottom: _isViaValid ? 15 : 20),
                           child: TextFormField(
+                            key: const Key('viaField'),
                             controller: viaController,
                             onChanged: (value) {
                               setState(() {
@@ -399,6 +405,7 @@ class _InserisciAlloggioState extends State<InserisciAlloggio> {
                               top: 15,
                               bottom: _isProvinciaValid ? 15 : 20),
                           child: TextFormField(
+                            key: const Key('provinciaField'),
                             controller: provinciaController,
                             onChanged: (value) {
                               setState(() {
@@ -440,6 +447,7 @@ class _InserisciAlloggioState extends State<InserisciAlloggio> {
                               top: 15,
                               bottom: _isEmailValid ? 15 : 20),
                           child: TextFormField(
+                            key: const Key('emailField'),
                             controller: emailController,
                             onChanged: (value) {
                               setState(() {
@@ -471,6 +479,7 @@ class _InserisciAlloggioState extends State<InserisciAlloggio> {
                               top: 15,
                               bottom: _isSitoValid ? 15 : 20),
                           child: TextFormField(
+                            key: const Key('sitoField'),
                             controller: sitoController,
                             onChanged: (value) {
                               setState(() {
@@ -498,8 +507,9 @@ class _InserisciAlloggioState extends State<InserisciAlloggio> {
                         ),
                         SizedBox(height: screenWidth * 0.1),
                         ElevatedButton(
+                          key: const Key('inserisciButton'),
                           onPressed: () {
-                            submitForm;
+                            submitForm();
                           },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.transparent,

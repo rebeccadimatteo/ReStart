@@ -24,6 +24,7 @@ class ReintegrazioneController {
     _router.post('/visualizzaSupporti', _visualizzaSupporti);
     _router.post('/addCorso', _addCorso);
     _router.post('/addSupporto', _addSupporto);
+    _router.post('/addAlloggio', _addAlloggio);
     _router.post('/addImage', _uploadImage);
     _router.post('/deleteCorso', _deleteCorso);
     _router.post('/deleteAlloggio', _deleteAlloggio);
@@ -119,7 +120,48 @@ class ReintegrazioneController {
           body: 'Errore durante l\'inserimento del corso di formazione: $e');
     }
   }
+  Future<Response> _addAlloggio(Request request) async {
+    try {
+      final String requestBody = await request.readAsString();
+      final Map<String, dynamic> params = jsonDecode(requestBody);
+      final String nome = params['nome'] ?? '';
+      final String descrizione = params['descrizione'] ?? '';
+      final String tipo = params['tipo'] ?? '';
+      final String citta = params['citta'] ?? '';
+      final String via = params['via'] ?? '';
+      final String provincia = params['provincia'] ?? '';
+      final String email = params['email'] ?? '';
+      final String sito = params['sito'] ?? '';
+      final String immagine = params['immagine'] ?? '';
 
+      AlloggioTemporaneoDTO alloggio = AlloggioTemporaneoDTO(
+        nome: nome,
+        descrizione: descrizione,
+        tipo: tipo,
+        citta: citta,
+        via: via,
+        provincia: provincia,
+        email: email,
+        sito: sito,
+        immagine: immagine,
+      );
+
+      if (await _service.addAlloggio(alloggio)) {
+        final responseBody = jsonEncode({'result': "Inserimento effettuato."});
+        return Response.ok(responseBody,
+            headers: {'Content-Type': 'application/json'});
+      } else {
+        final responseBody =
+        jsonEncode({'result': 'Inserimento non effettuato'});
+        return Response.badRequest(
+            body: responseBody, headers: {'Content-Type': 'application/json'});
+      }
+    } catch (e) {
+      // Gestione degli errori durante la chiamata al servizio
+      return Response.internalServerError(
+          body: 'Errore durante l\'inserimento del corso di formazione: $e');
+    }
+  }
   Future<Response> _uploadImage(Request request) async {
     try {
       if (!request.isMultipartForm) {
