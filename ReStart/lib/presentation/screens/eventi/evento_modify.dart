@@ -108,7 +108,6 @@ class _ModifyEventoState extends State<ModifyEvento> {
       String via = viaController!.text;
       String provincia = provinciaController!.text;
       String email = emailController!.text;
-      // DateTime data = dataController!.text;
       String imagePath = 'images/image_$nome.jpg';
 
       EventoDTO evento = EventoDTO(
@@ -264,6 +263,12 @@ class _ModifyEventoState extends State<ModifyEvento> {
                         _isNomeValid = validateNome(value);
                       });
                     },
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Inserisci il nome dell\'evento';
+                      }
+                      return null;
+                    },
                     decoration: InputDecoration(
                       errorText: _isNomeValid
                           ? null
@@ -276,10 +281,6 @@ class _ModifyEventoState extends State<ModifyEvento> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {}
-                      return null;
-                    },
                   ),
                   const SizedBox(height: 20),
                   TextFormField(

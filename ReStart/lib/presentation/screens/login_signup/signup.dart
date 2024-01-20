@@ -302,6 +302,12 @@ class _SignUpState extends State<SignUpPage> {
                       _isNomeValid = validateNome(value);
                     });
                   },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Inserisci un nome';
+                    }
+                    return null;
+                  },
                   decoration: InputDecoration(
                     border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(30)),
@@ -337,6 +343,12 @@ class _SignUpState extends State<SignUpPage> {
                     setState(() {
                       _isCognomeValid = validateCognome(value);
                     });
+                  },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Inserisci un cognome';
+                    }
+                    return null;
                   },
                   decoration: InputDecoration(
                     border: const OutlineInputBorder(
@@ -399,7 +411,7 @@ class _SignUpState extends State<SignUpPage> {
                           },
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Data di nascita';
+                              return 'Inserisci una data di nascita';
                             }
                             return null;
                           },
@@ -422,6 +434,12 @@ class _SignUpState extends State<SignUpPage> {
                     setState(() {
                       _isLuogoNascitaValid = validateLuogoNascita(value);
                     });
+                  },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Inserisci un luogo di nascita';
+                    }
+                    return null;
                   },
                   decoration: InputDecoration(
                     border: const OutlineInputBorder(
@@ -459,6 +477,12 @@ class _SignUpState extends State<SignUpPage> {
                       _isCodiceFiscaleValid = validateCodiceFiscale(value);
                     });
                   },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Inserisci un codice fiscale';
+                    }
+                    return null;
+                  },
                   decoration: InputDecoration(
                     border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(30)),
@@ -494,6 +518,12 @@ class _SignUpState extends State<SignUpPage> {
                     setState(() {
                       _selectedGender = newValue;
                     });
+                  },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Inserisci un genere';
+                    }
+                    return null;
                   },
                   items: ['Maschio', 'Femmina', 'Non specificato']
                       .map<DropdownMenuItem<String>>(
@@ -546,6 +576,12 @@ class _SignUpState extends State<SignUpPage> {
                       _isCittaValid = validateCitta(value);
                     });
                   },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Inserisci una città';
+                    }
+                    return null;
+                  },
                   decoration: InputDecoration(
                     border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(30)),
@@ -582,6 +618,12 @@ class _SignUpState extends State<SignUpPage> {
                       _isViaValid = validateVia(value);
                     });
                   },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Inserisci una via';
+                    }
+                    return null;
+                  },
                   decoration: InputDecoration(
                     border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(30)),
@@ -617,6 +659,12 @@ class _SignUpState extends State<SignUpPage> {
                     setState(() {
                       _isProvinciaValid = validateProvincia(value);
                     });
+                  },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Inserisci una provincia';
+                    }
+                    return null;
                   },
                   decoration: InputDecoration(
                     border: const OutlineInputBorder(
@@ -665,6 +713,12 @@ class _SignUpState extends State<SignUpPage> {
                       _isEmailValid = validateEmail(value);
                     });
                   },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Inserisci una email';
+                    }
+                    return null;
+                  },
                   decoration: InputDecoration(
                     border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(30)),
@@ -700,6 +754,12 @@ class _SignUpState extends State<SignUpPage> {
                     setState(() {
                       _isTelefonoValid = validateTelefono(value);
                     });
+                  },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Inserisci un numero di telefono';
+                    }
+                    return null;
                   },
                   decoration: InputDecoration(
                     border: const OutlineInputBorder(
@@ -748,6 +808,12 @@ class _SignUpState extends State<SignUpPage> {
                       _isUsernameValid = validateUsername(value);
                     });
                   },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Inserisci un username';
+                    }
+                    return null;
+                  },
                   decoration: InputDecoration(
                     border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(30)),
@@ -783,6 +849,12 @@ class _SignUpState extends State<SignUpPage> {
                     setState(() {
                       _isPasswordValid = validatePassword(value);
                     });
+                  },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Inserisci una password';
+                    }
+                    return null;
                   },
                   obscureText: true,
                   decoration: InputDecoration(

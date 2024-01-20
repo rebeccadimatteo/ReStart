@@ -277,10 +277,12 @@ class _ModifyLavoroState extends State<ModifyLavoro> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {}
-                        return null;
-                      }),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Inserisci il nome dell\'annuncio';
+                      }
+                      return null;
+                    },),
                   const SizedBox(height: 20),
                   TextFormField(
                       controller: descrizioneController,

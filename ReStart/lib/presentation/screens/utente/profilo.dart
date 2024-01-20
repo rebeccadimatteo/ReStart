@@ -650,6 +650,12 @@ class _ProfiloEditState extends State<ProfiloEdit> {
                           _isEmailValid = validateEmail(value);
                         });
                       },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Inserisci una email';
+                        }
+                        return null;
+                      },
                       decoration: InputDecoration(
                         labelText: 'Email',
                         errorText: _isEmailValid
@@ -665,6 +671,12 @@ class _ProfiloEditState extends State<ProfiloEdit> {
                     ),
                     TextFormField(
                       controller: nomeController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Inserisci un nome';
+                        }
+                        return null;
+                      },
                       decoration: InputDecoration(
                         errorText: _isNomeValid
                             ? null
@@ -690,6 +702,12 @@ class _ProfiloEditState extends State<ProfiloEdit> {
                           _isCognomeValid = validateCognome(value);
                         });
                       },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Inserisci un cognome';
+                        }
+                        return null;
+                      },
                       decoration: InputDecoration(
                         labelText: 'Cognome',
                         errorText: _isCognomeValid
@@ -709,6 +727,12 @@ class _ProfiloEditState extends State<ProfiloEdit> {
                         setState(() {
                           _isCodiceFiscaleValid = validateCodiceFiscale(value);
                         });
+                      },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Inserisci un codice fiscale';
+                        }
+                        return null;
                       },
                       decoration: InputDecoration(
                         labelText: 'Codice fiscale',
@@ -785,6 +809,12 @@ class _ProfiloEditState extends State<ProfiloEdit> {
                           _isLuogoNascitaValid = validateLuogoNascita(value);
                         });
                       },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Inserisci un luogo di nascita';
+                        }
+                        return null;
+                      },
                       decoration: InputDecoration(
                         labelText: 'Luogo di nascita',
                         errorText: _isLuogoNascitaValid
@@ -841,6 +871,12 @@ class _ProfiloEditState extends State<ProfiloEdit> {
                           _isPasswordValid = validatePassword(value);
                         });
                       },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Inserisci una password';
+                        }
+                        return null;
+                      },
                       obscureText: _viewPassword,
                       decoration: InputDecoration(
                         labelText: 'Password',
@@ -875,6 +911,12 @@ class _ProfiloEditState extends State<ProfiloEdit> {
                           _isCittaValid = validateCitta(value);
                         });
                       },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Inserisci una città';
+                        }
+                        return null;
+                      },
                       decoration: InputDecoration(
                         labelText: 'Città',
                         errorText: _isCittaValid
@@ -894,6 +936,12 @@ class _ProfiloEditState extends State<ProfiloEdit> {
                         setState(() {
                           _isViaValid = validateVia(value);
                         });
+                      },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Inserisci una via';
+                        }
+                        return null;
                       },
                       decoration: InputDecoration(
                         labelText: 'Via',
@@ -915,6 +963,12 @@ class _ProfiloEditState extends State<ProfiloEdit> {
                           _isProvinciaValid = validateProvincia(value);
                         });
                       },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Inserisci una provincia';
+                        }
+                        return null;
+                      },
                       decoration: InputDecoration(
                         labelText: 'Provincia',
                         errorText: _isProvinciaValid
@@ -934,6 +988,12 @@ class _ProfiloEditState extends State<ProfiloEdit> {
                         setState(() {
                           _isTelefonoValid = validateTelefono(value);
                         });
+                      },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Inserisci un numero di telefono';
+                        }
+                        return null;
                       },
                       decoration: InputDecoration(
                         labelText: 'Numero di telefono',

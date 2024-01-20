@@ -318,6 +318,12 @@ class _InserisciEventoState extends State<InserisciEvento> {
                           _isNomeValid = validateNome(value);
                         });
                       },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Inserisci un nome';
+                        }
+                        return null;
+                      },
                       decoration: InputDecoration(
                         labelText: 'Nome',
                         hintText: 'Inserisci il nome dell\'evento...',
@@ -349,6 +355,12 @@ class _InserisciEventoState extends State<InserisciEvento> {
                         setState(() {
                           _isDescrizioneValid = validateDescrizione(value);
                         });
+                      },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Inserisci una descrizione';
+                        }
+                        return null;
                       },
                       decoration: InputDecoration(
                         labelText: 'Descrizione',
@@ -392,6 +404,12 @@ class _InserisciEventoState extends State<InserisciEvento> {
                           _isCittaValid = validateCitta(value);
                         });
                       },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Inserisci una città';
+                        }
+                        return null;
+                      },
                       decoration: InputDecoration(
                         labelText: 'Citta',
                         labelStyle: const TextStyle(
@@ -423,6 +441,12 @@ class _InserisciEventoState extends State<InserisciEvento> {
                         setState(() {
                           _isViaValid = validateVia(value);
                         });
+                      },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Inserisci una via';
+                        }
+                        return null;
                       },
                       decoration: InputDecoration(
                         labelText: 'Via',
@@ -456,6 +480,12 @@ class _InserisciEventoState extends State<InserisciEvento> {
                           _isProvinciaValid = validateProvincia(value);
                         });
                       },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Inserisci una provincia';
+                        }
+                        return null;
+                      },
                       decoration: InputDecoration(
                         labelText: 'Provincia',
                         labelStyle: const TextStyle(
@@ -485,6 +515,7 @@ class _InserisciEventoState extends State<InserisciEvento> {
                           _selectDate(context);
                         },
                         child: DateTimeFormField(
+
                           key: const Key('data'),
                           decoration: const InputDecoration(
                             suffixIcon: Icon(Icons.event_note),
@@ -496,7 +527,7 @@ class _InserisciEventoState extends State<InserisciEvento> {
                           ),
                           firstDate: DateTime.now(),
                           validator: (e) => (e?.day ?? 0) == 1
-                              ? 'Please not the first day'
+                              ? 'Non il primo giorno'
                               : null,
                           onChanged: (DateTime? value) {
                             selectedDate = value;
@@ -525,6 +556,12 @@ class _InserisciEventoState extends State<InserisciEvento> {
                         setState(() {
                           _isEmailValid = validateEmail(value);
                         });
+                      },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Inserisci una email';
+                        }
+                        return null;
                       },
                       decoration: InputDecoration(
                         labelText: 'Email',

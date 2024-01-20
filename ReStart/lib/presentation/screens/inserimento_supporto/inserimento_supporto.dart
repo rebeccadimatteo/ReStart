@@ -147,7 +147,7 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
       /// Invia i dati al server con il percorso dell'immagine
       await sendDataToServer(supporto);
     } else {
-      print("Errore creazione ogetto corso");
+      print("Errore creazione oggetto corso");
     }
   }
 
@@ -171,11 +171,66 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
 
       final imageResponse = await imageRequest.send();
       if (imageResponse.statusCode == 200) {
-        print("Immagine caricata con successo.");
+        Navigator.pushNamed(context, AppRoutes.homeCA);
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+              'Supporto medico inserito con successo',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+              ),
+            ),
+            backgroundColor: Colors.lightBlue,
+            duration: Duration(seconds: 3),
+          ),
+        );
       } else {
-        print(
-            "Errore durante l'upload dell'immagine: ${imageResponse.statusCode}");
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+              'Impossibile inserire il supporto medico. Riprovare',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+              ),
+            ),
+            backgroundColor: Colors.red,
+            duration: Duration(seconds: 3),
+          ),
+        );
       }
+    } else if (response.statusCode == 200) {
+      Navigator.pushNamed(context, AppRoutes.homeCA);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Supporto medico inserito con successo',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+            ),
+          ),
+          backgroundColor: Colors.lightBlue,
+          duration: Duration(seconds: 3),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Impossibile inserire il supporto medico. Riprovare',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+            ),
+          ),
+          backgroundColor: Colors.red,
+          duration: Duration(seconds: 3),
+        ),
+      );
     }
   }
 
@@ -205,7 +260,6 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 20),
             Form(
               key: _formKey,
               child: Column(
@@ -232,7 +286,6 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
                       )
                     ],
                   ),
-                  const SizedBox(height: 15),
                   Padding(
                     padding: EdgeInsets.only(
                         left: 15.0,
@@ -246,6 +299,12 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
                         setState(() {
                           _isNomeValid = validateNome(value);
                         });
+                      },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Inserisci il nome del medico';
+                        }
+                        return null;
                       },
                       decoration: InputDecoration(
                         labelText: 'Nome Medico',
@@ -266,7 +325,6 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 20),
                   Padding(
                     padding: EdgeInsets.only(
                         left: 15.0,
@@ -280,6 +338,12 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
                         setState(() {
                           _isCognomeValid = validateNome(value);
                         });
+                      },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Inserisci il cognome del medico';
+                        }
+                        return null;
                       },
                       decoration: InputDecoration(
                         labelText: 'Cognome Medico',
@@ -300,7 +364,6 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 20),
                   Padding(
                     padding: EdgeInsets.only(
                         left: 15.0,
@@ -334,7 +397,6 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 20),
                   Padding(
                     padding: EdgeInsets.only(
                         left: 15.0,
@@ -348,6 +410,12 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
                         setState(() {
                           _isTipoValid = validateNome(value);
                         });
+                      },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Inserisci un tipo';
+                        }
+                        return null;
                       },
                       decoration: InputDecoration(
                         labelText: 'Tipologia',
@@ -391,6 +459,12 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
                           _isCittaValid = validateCitta(value);
                         });
                       },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Inserisci una città';
+                        }
+                        return null;
+                      },
                       decoration: InputDecoration(
                         labelText: 'Citta',
                         labelStyle: const TextStyle(
@@ -424,6 +498,12 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
                           _isViaValid = validateVia(value);
                         });
                       },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Inserisci una via';
+                        }
+                        return null;
+                      },
                       decoration: InputDecoration(
                         labelText: 'Via',
                         labelStyle: const TextStyle(
@@ -456,6 +536,12 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
                         setState(() {
                           _isProvinciaValid = validateProvincia(value);
                         });
+                      },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Inserisci una provincia';
+                        }
+                        return null;
                       },
                       decoration: InputDecoration(
                         labelText: 'Provincia',
@@ -499,6 +585,12 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
                           _isEmailValid = validateEmail(value);
                         });
                       },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Inserisci una email';
+                        }
+                        return null;
+                      },
                       decoration: InputDecoration(
                         labelText: 'Email',
                         labelStyle: const TextStyle(
@@ -530,6 +622,12 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
                         setState(() {
                           _isTelefonoValid = validateTelefono(value);
                         });
+                      },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Inserisci un numero di telefono';
+                        }
+                        return null;
                       },
                       decoration: InputDecoration(
                         labelText: 'Numero di telefono',

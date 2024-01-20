@@ -241,7 +241,7 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
             const Text(
-              'Inserisci Annuncio di Lavoro',
+              'Inserisci Offerta di Lavoro',
               style: TextStyle(
                 fontSize: 20,
                 fontFamily: 'Poppins',
@@ -289,6 +289,12 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
                           _isNomeValid = validateNome(value);
                         });
                       },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Inserisci un nome';
+                        }
+                        return null;
+                      },
                       decoration: InputDecoration(
                         labelText: 'Nome',
                         hintText: 'Inserisci il nome del lavoro...',
@@ -321,6 +327,12 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
                         setState(() {
                           _isDescrizioneValid = validateDescrizione(value);
                         });
+                      },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Inserisci una descrizione';
+                        }
+                        return null;
                       },
                       decoration: InputDecoration(
                         labelText: 'Descrizione',
@@ -364,6 +376,12 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
                           _isCittaValid = validateCitta(value);
                         });
                       },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Inserisci una città';
+                        }
+                        return null;
+                      },
                       decoration: InputDecoration(
                         labelText: 'Citta',
                         labelStyle: const TextStyle(
@@ -397,6 +415,12 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
                           _isViaValid = validateVia(value);
                         });
                       },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Inserisci una via';
+                        }
+                        return null;
+                      },
                       decoration: InputDecoration(
                         labelText: 'Via',
                         labelStyle: const TextStyle(
@@ -428,6 +452,12 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
                         setState(() {
                           _isProvinciaValid = validateProvincia(value);
                         });
+                      },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Inserisci una provincia';
+                        }
+                        return null;
                       },
                       decoration: InputDecoration(
                         labelText: 'Provincia',
@@ -471,6 +501,12 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
                           _isEmailValid = validateEmail(value);
                         });
                       },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Inserisci una email';
+                        }
+                        return null;
+                      },
                       decoration: InputDecoration(
                         labelText: 'Email',
                         labelStyle: const TextStyle(
@@ -502,6 +538,12 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
                         setState(() {
                           _isTelefonoValid = validateTelefono(value);
                         });
+                      },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Inserisci un numero di telefono';
+                        }
+                        return null;
                       },
                       decoration: InputDecoration(
                         labelText: 'Numero di telefono',

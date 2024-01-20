@@ -159,11 +159,66 @@ class _InserisciCorsoState extends State<InserisciCorso> {
 
       final imageResponse = await imageRequest.send();
       if (imageResponse.statusCode == 200) {
-        print("Immagine caricata con successo.");
+        Navigator.pushNamed(context, AppRoutes.homeCA);
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+              'Corso inserito con successo',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+              ),
+            ),
+            backgroundColor: Colors.lightBlue,
+            duration: Duration(seconds: 3),
+          ),
+        );
       } else {
-        print(
-            "Errore durante l'upload dell'immagine: ${imageResponse.statusCode}");
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+              'Impossibile inserire il corso. Riprovare',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+              ),
+            ),
+            backgroundColor: Colors.red,
+            duration: Duration(seconds: 3),
+          ),
+        );
       }
+    } else if (response.statusCode == 200) {
+      Navigator.pushNamed(context, AppRoutes.homeCA);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Corso inserito con successo',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+            ),
+          ),
+          backgroundColor: Colors.lightBlue,
+          duration: Duration(seconds: 3),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Impossibile inserire il corso. Riprovare',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+            ),
+          ),
+          backgroundColor: Colors.red,
+          duration: Duration(seconds: 3),
+        ),
+      );
     }
   }
 
@@ -218,7 +273,6 @@ class _InserisciCorsoState extends State<InserisciCorso> {
                       )
                     ],
                   ),
-                  const SizedBox(height: 15),
                   Padding(
                     padding: EdgeInsets.only(
                         left: 15.0,
@@ -232,6 +286,12 @@ class _InserisciCorsoState extends State<InserisciCorso> {
                         setState(() {
                           _isNomeCorsoValid = validateNomeCorso(value);
                         });
+                      },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Inserisci un nome';
+                        }
+                        return null;
                       },
                       decoration: InputDecoration(
                         labelText: 'Nome Corso',
@@ -252,7 +312,6 @@ class _InserisciCorsoState extends State<InserisciCorso> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 20),
                   Padding(
                     padding: EdgeInsets.only(
                         left: 15.0,
@@ -266,6 +325,12 @@ class _InserisciCorsoState extends State<InserisciCorso> {
                         setState(() {
                           _isNomeRespValid = validateNomeResp(value);
                         });
+                      },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Inserisci il nome del responsabile';
+                        }
+                        return null;
                       },
                       decoration: InputDecoration(
                         labelText: 'Nome Responsabile',
@@ -301,6 +366,12 @@ class _InserisciCorsoState extends State<InserisciCorso> {
                           _isCognomeRespValid = validateCognomeResp(value);
                         });
                       },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Inserisci il cognome del responsabile';
+                        }
+                        return null;
+                      },
                       decoration: InputDecoration(
                         labelText: 'Cognome Responsabile',
                         hintText: 'Inserisci il cognome del responsabile...',
@@ -334,6 +405,12 @@ class _InserisciCorsoState extends State<InserisciCorso> {
                         setState(() {
                           _isDescrizioneValid = validateDescrizione(value);
                         });
+                      },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Inserisci una descrizione';
+                        }
+                        return null;
                       },
                       decoration: InputDecoration(
                         labelText: 'Descrizione',
@@ -378,6 +455,12 @@ class _InserisciCorsoState extends State<InserisciCorso> {
                           _isEmailValid = validateEmail(value);
                         });
                       },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Inserisci una email';
+                        }
+                        return null;
+                      },
                       decoration: InputDecoration(
                         labelText: 'Email',
                         labelStyle: const TextStyle(
@@ -409,6 +492,12 @@ class _InserisciCorsoState extends State<InserisciCorso> {
                         setState(() {
                           _isTelefonoValid = validateTelefono(value);
                         });
+                      },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Inserisci un numero di telefono';
+                        }
+                        return null;
                       },
                       decoration: InputDecoration(
                         labelText: 'Numero di telefono',
@@ -442,6 +531,12 @@ class _InserisciCorsoState extends State<InserisciCorso> {
                         setState(() {
                           _isSitoValid = validateSito(value);
                         });
+                      },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Inserisci un sito';
+                        }
+                        return null;
                       },
                       decoration: InputDecoration(
                         labelText: 'URL Sito',

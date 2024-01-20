@@ -161,10 +161,66 @@ class _InserisciAlloggioState extends State<InserisciAlloggio> {
 
       final imageResponse = await imageRequest.send();
       if (imageResponse.statusCode == 200) {
-        print("Immagine caricata con successo.");
+        Navigator.pushNamed(context, AppRoutes.homeCA);
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+              'Alloggio inserito con successo',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+              ),
+            ),
+            backgroundColor: Colors.lightBlue,
+            duration: Duration(seconds: 3),
+          ),
+        );
       } else {
-        print("Errore durante l'upload dell'immagine: ${imageResponse.statusCode}");
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+              'Impossibile inserire l\'alloggio. Riprovare',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+              ),
+            ),
+            backgroundColor: Colors.red,
+            duration: Duration(seconds: 3),
+          ),
+        );
       }
+    } else if (response.statusCode == 200) {
+      Navigator.pushNamed(context, AppRoutes.homeCA);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Alloggio inserito con successo',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+            ),
+          ),
+          backgroundColor: Colors.lightBlue,
+          duration: Duration(seconds: 3),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Impossibile inserire l\'alloggio. Riprovare',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+            ),
+          ),
+          backgroundColor: Colors.red,
+          duration: Duration(seconds: 3),
+        ),
+      );
     }
   }
 
@@ -220,7 +276,6 @@ class _InserisciAlloggioState extends State<InserisciAlloggio> {
                             )
                           ],
                         ),
-                        const SizedBox(height: 20),
                         Padding(
                           padding: EdgeInsets.only(
                               left: 15.0,
@@ -234,6 +289,12 @@ class _InserisciAlloggioState extends State<InserisciAlloggio> {
                               setState(() {
                                 _isNomeValid = validateNome(value);
                               });
+                            },
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Inserisci un nome';
+                              }
+                              return null;
                             },
                             decoration: InputDecoration(
                               labelText: 'Nome Alloggio',
@@ -254,7 +315,6 @@ class _InserisciAlloggioState extends State<InserisciAlloggio> {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 20),
                         Padding(
                           padding: EdgeInsets.only(
                               left: 15.0,
@@ -268,6 +328,12 @@ class _InserisciAlloggioState extends State<InserisciAlloggio> {
                               setState(() {
                                 _isDescrizioneValid = validateDescrizione(value);
                               });
+                            },
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Inserisci una descrizione';
+                              }
+                              return null;
                             },
                             decoration: InputDecoration(
                               labelText: 'Descrizione',
@@ -288,7 +354,6 @@ class _InserisciAlloggioState extends State<InserisciAlloggio> {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 20),
                         Padding(
                           padding: EdgeInsets.only(
                               left: 15.0,
@@ -302,6 +367,12 @@ class _InserisciAlloggioState extends State<InserisciAlloggio> {
                               setState(() {
                                 _isTipoValid = validateTipo(value);
                               });
+                            },
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Inserisci un tipo';
+                              }
+                              return null;
                             },
                             decoration: InputDecoration(
                               labelText: 'Tipologia',
@@ -322,7 +393,6 @@ class _InserisciAlloggioState extends State<InserisciAlloggio> {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 40),
                         const SizedBox(height: 40),
                         const Text(
                           'Luogo',
@@ -345,6 +415,12 @@ class _InserisciAlloggioState extends State<InserisciAlloggio> {
                               setState(() {
                                 _isCittaValid = validateCitta(value);
                               });
+                            },
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Inserisci una città';
+                              }
+                              return null;
                             },
                             decoration: InputDecoration(
                               labelText: 'Citta',
@@ -379,6 +455,12 @@ class _InserisciAlloggioState extends State<InserisciAlloggio> {
                                 _isViaValid = validateVia(value);
                               });
                             },
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Inserisci una via';
+                              }
+                              return null;
+                            },
                             decoration: InputDecoration(
                               labelText: 'Via',
                               labelStyle: const TextStyle(
@@ -411,6 +493,12 @@ class _InserisciAlloggioState extends State<InserisciAlloggio> {
                               setState(() {
                                 _isProvinciaValid = validateProvincia(value);
                               });
+                            },
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Inserisci una provincia';
+                              }
+                              return null;
                             },
                             decoration: InputDecoration(
                               labelText: 'Provincia',
@@ -454,6 +542,12 @@ class _InserisciAlloggioState extends State<InserisciAlloggio> {
                                 _isEmailValid = validateEmail(value);
                               });
                             },
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Inserisci una email';
+                              }
+                              return null;
+                            },
                             decoration: InputDecoration(
                               labelText: 'Email',
                               labelStyle: const TextStyle(
@@ -485,6 +579,12 @@ class _InserisciAlloggioState extends State<InserisciAlloggio> {
                               setState(() {
                                 _isSitoValid = validateSito(value);
                               });
+                            },
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Inserisci un sito';
+                              }
+                              return null;
                             },
                             decoration: InputDecoration(
                               labelText: 'URL Sito',

@@ -136,6 +136,12 @@ class _LoginPageState extends State<LoginPage> {
                           _isUsernameValid = validateUsername(value);
                         });
                       },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Inserisci un username';
+                        }
+                        return null;
+                      },
                       decoration: InputDecoration(
                           border: const OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(30)),
@@ -169,6 +175,12 @@ class _LoginPageState extends State<LoginPage> {
                         setState(() {
                           _isPasswordValid = validatePsw(value);
                         });
+                      },
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Inserisci una password';
+                        }
+                        return null;
                       },
                       obscureText: _viewPassword,
                       decoration: InputDecoration(
