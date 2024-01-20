@@ -86,7 +86,7 @@ void main() {
       await driver.enterText('https://www.example.com/corso-python-avanzato');
       await driver.tap(buttonFinder);
 
-      await driver.waitFor(find.text('Richiesta inviata con successo'));
+      await driver.waitFor(find.text('Corso inserito con successo'));
     });
   });
 }

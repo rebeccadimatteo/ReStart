@@ -307,6 +307,7 @@ class _DetailsEventoPub extends State<DetailsEventoPub> {
               padding: const EdgeInsets.all(10.0),
               child: Text(
                 evento.descrizione,
+                textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontFamily: 'Poppins',
                   fontSize: 15,

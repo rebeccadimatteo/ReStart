@@ -210,7 +210,7 @@ class _DetailsCorsoState extends State<DetailsCorso> {
             corso.nomeCorso,
             textAlign: TextAlign.center,
             style: const TextStyle(
-              fontSize: 35,
+              fontSize: 30,
               fontFamily: 'Genos',
               fontWeight: FontWeight.bold,
             ),
@@ -222,7 +222,6 @@ class _DetailsCorsoState extends State<DetailsCorso> {
                 style: const TextStyle(
                   fontSize: 15,
                   fontFamily: 'Poppins',
-                  fontWeight: FontWeight.bold,
                 ),
                 textAlign: TextAlign.center
             ),
@@ -245,9 +244,8 @@ class _DetailsCorsoState extends State<DetailsCorso> {
                         ),
                         Text(corso.urlCorso,
                         style: const TextStyle(
-                            fontSize: 13,
+                            fontSize: 15,
                             fontFamily: 'Poppins',
-                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ],

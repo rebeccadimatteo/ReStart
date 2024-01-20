@@ -285,9 +285,10 @@ class _DetailsLavoroState extends State<DetailsLavoro> {
           const SizedBox(height: 20),
           Text(
             annuncio.nome,
+            textAlign: TextAlign.center,
             style: const TextStyle(
               fontWeight: FontWeight.bold,
-              fontFamily: 'Poppins',
+              fontFamily: 'Genos',
               fontSize: 30,
             ),
           ),
@@ -298,12 +299,11 @@ class _DetailsLavoroState extends State<DetailsLavoro> {
               padding: const EdgeInsets.all(10.0),
               child: Text(
                 annuncio.descrizione,
+                textAlign: TextAlign.center,
                 style: const TextStyle(
-                  fontWeight: FontWeight.bold,
                   fontFamily: 'Poppins',
                   fontSize: 15,
                 ),
-                textAlign: TextAlign.center,
               ),
             ),
           ),
@@ -330,7 +330,6 @@ class _DetailsLavoroState extends State<DetailsLavoro> {
                           style: const TextStyle(
                             fontFamily: 'Poppins',
                             fontSize: 15,
-                            fontWeight: FontWeight.bold,
                           ),
                         ),
                         const SizedBox(width: 10),
@@ -338,8 +337,7 @@ class _DetailsLavoroState extends State<DetailsLavoro> {
                           annuncio.numTelefono,
                           style: const TextStyle(
                             fontFamily: 'Poppins',
-                            fontSize: 13,
-                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
                           ),
                         ),
                         const SizedBox(height: 20),
@@ -356,7 +354,6 @@ class _DetailsLavoroState extends State<DetailsLavoro> {
                           style: const TextStyle(
                             fontFamily: 'Poppins',
                             fontSize: 15,
-                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ],

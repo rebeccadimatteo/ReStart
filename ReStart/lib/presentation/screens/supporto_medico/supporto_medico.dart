@@ -32,9 +32,8 @@ class _SupportoMedicoState extends State<SupportoMedico> {
     final response = await http.post(
         Uri.parse('http://10.0.2.2:8080/autenticazione/checkUserUtente'),
         body: jsonEncode(token),
-        headers: {'Content-Type': 'application/json'}
-    );
-    if(response.statusCode != 200){
+        headers: {'Content-Type': 'application/json'});
+    if (response.statusCode != 200) {
       Navigator.pushNamed(context, AppRoutes.home);
     }
   }
@@ -123,9 +122,11 @@ class _SupportoMedicoState extends State<SupportoMedico> {
                         ),
                       ],
                     ),
-                    margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+                    margin:
+                        const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
                     child: ListTile(
-                      visualDensity: const VisualDensity(vertical: 4, horizontal: 4),
+                      visualDensity:
+                          const VisualDensity(vertical: 4, horizontal: 4),
                       minVerticalPadding: 50,
                       minLeadingWidth: 80,
                       tileColor: Colors.transparent,
@@ -170,7 +171,6 @@ class DetailsSupporto extends StatefulWidget {
 }
 
 class _DetailsSupportoState extends State<DetailsSupporto> {
-
   @override
   void initState() {
     super.initState();
@@ -205,22 +205,15 @@ class _DetailsSupportoState extends State<DetailsSupporto> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image:  Image.asset(supporto.immagine).image),
+                    fit: BoxFit.cover,
+                    image: Image.asset(supporto.immagine).image),
               ),
             ),
           ),
           const SizedBox(height: 20),
           Text(
-            supporto.nomeMedico,
-            style: const TextStyle(
-              fontFamily: 'Genos',
-              fontWeight: FontWeight.bold,
-              fontSize: 30,
-            ),
-          ),
-          Text(
-            supporto.cognomeMedico,
+            "${supporto.nomeMedico} ${supporto.cognomeMedico}",
+            textAlign: TextAlign.center,
             style: const TextStyle(
               fontFamily: 'Genos',
               fontWeight: FontWeight.bold,
@@ -230,12 +223,13 @@ class _DetailsSupportoState extends State<DetailsSupporto> {
           const SizedBox(height: 10),
           Padding(
             padding: const EdgeInsets.all(10.0),
-            child: Text(supporto.descrizione,
-               style: const TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          ),
+            child: Text(
+              supporto.descrizione,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 15,
+              ),
             ),
           ),
           Expanded(
@@ -251,32 +245,30 @@ class _DetailsSupportoState extends State<DetailsSupporto> {
                           style: TextStyle(
                             fontFamily: 'PoppinsMedium',
                             fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        Text(supporto.numTelefono,
-                          style: const TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        Text(supporto.email,
-                          style: const TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 13,
-                            fontWeight: FontWeight.bold,
                           ),
                         ),
                         const SizedBox(width: 8),
                         Text(
-                            '${supporto.via}, ${supporto.citta}, ${supporto.provincia}',
-                         style: const TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 15,
-                           fontWeight: FontWeight.bold,
+                          supporto.numTelefono,
+                          style: const TextStyle(
+                            fontFamily: 'Poppins',
+                            fontSize: 15,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          supporto.email,
+                          style: const TextStyle(
+                            fontFamily: 'Poppins',
+                            fontSize: 15,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          '${supporto.via}, ${supporto.citta}, ${supporto.provincia}',
+                          style: const TextStyle(
+                            fontFamily: 'Poppins',
+                            fontSize: 15,
                           ),
                         ),
                       ],

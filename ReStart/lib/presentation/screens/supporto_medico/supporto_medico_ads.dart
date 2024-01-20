@@ -253,21 +253,14 @@ class _DetailsSupportoAdsState extends State<DetailsSupportoAds> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
-                    fit: BoxFit.cover, image: Image.asset(supporto.immagine).image),
+                    fit: BoxFit.cover,
+                    image: Image.asset(supporto.immagine).image),
               ),
             ),
           ),
           const SizedBox(height: 20),
           Text(
-            supporto.nomeMedico,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontFamily: 'Genos',
-              fontSize: 30,
-            ),
-          ),
-          Text(
-            supporto.cognomeMedico,
+            "${supporto.nomeMedico} ${supporto.cognomeMedico}",
             style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontFamily: 'Genos',
@@ -277,7 +270,14 @@ class _DetailsSupportoAdsState extends State<DetailsSupportoAds> {
           const SizedBox(height: 10),
           Padding(
             padding: const EdgeInsets.all(10.0),
-            child: Text(supporto.descrizione),
+            child: Text(
+              supporto.descrizione,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 15,
+              ),
+            ),
           ),
           Expanded(
               child: Align(
@@ -296,7 +296,8 @@ class _DetailsSupportoAdsState extends State<DetailsSupportoAds> {
                           ),
                         ),
                         const SizedBox(width: 8),
-                        Text(supporto.numTelefono,
+                        Text(
+                          supporto.numTelefono,
                           style: const TextStyle(
                             fontFamily: 'Poppins',
                             fontSize: 15,
@@ -304,7 +305,8 @@ class _DetailsSupportoAdsState extends State<DetailsSupportoAds> {
                           ),
                         ),
                         const SizedBox(width: 8),
-                        Text(supporto.email,
+                        Text(
+                          supporto.email,
                           style: const TextStyle(
                             fontFamily: 'Poppins',
                             fontSize: 13,

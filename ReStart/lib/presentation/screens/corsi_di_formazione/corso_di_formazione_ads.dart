@@ -141,9 +141,9 @@ class _CorsoDiFormazioneState extends State<CorsoDiFormazioneAds> {
                       title: Text(
                         corso.nomeCorso,
                         style: const TextStyle(
-                          fontFamily: 'Poppins',
+                          fontFamily: 'Genos',
                           fontWeight: FontWeight.bold,
-                          fontSize: 18,
+                          fontSize: 20,
                           color: Colors.black,
                         ),
                       ),
@@ -259,7 +259,7 @@ class _DetailsCorsoAdsState extends State<DetailsCorsoAds> {
             textAlign: TextAlign.center,
             style: const TextStyle(
               fontWeight: FontWeight.bold,
-              fontFamily: 'Poppins',
+              fontFamily: 'Genos',
               fontSize: 30,
             ),
           ),
@@ -271,7 +271,6 @@ class _DetailsCorsoAdsState extends State<DetailsCorsoAds> {
               textAlign: TextAlign.center,
               style: const TextStyle(
                 fontFamily: 'Poppins',
-                fontWeight: FontWeight.bold,
                 fontSize: 15,
               ),
             ),

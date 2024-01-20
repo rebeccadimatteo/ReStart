@@ -31,9 +31,8 @@ class _CommunityEventsState extends State<CommunityEvents> {
     final response = await http.post(
         Uri.parse('http://10.0.2.2:8080/autenticazione/checkUserUtente'),
         body: jsonEncode(token),
-        headers: {'Content-Type': 'application/json'}
-    );
-    if(response.statusCode != 200){
+        headers: {'Content-Type': 'application/json'});
+    if (response.statusCode != 200) {
       Navigator.pushNamed(context, AppRoutes.home);
     }
   }
@@ -41,15 +40,15 @@ class _CommunityEventsState extends State<CommunityEvents> {
   /// Metodo che permette di inviare la richiesta al server
   /// per ottenere la lista di tutti gli [EventoDTO] presenti nel database
   Future<void> fetchDataFromServer() async {
-    final response = await http.post(Uri.parse(
-        'http://10.0.2.2:8080/gestioneEvento/eventiApprovati'));
+    final response = await http
+        .post(Uri.parse('http://10.0.2.2:8080/gestioneEvento/eventiApprovati'));
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseBody = json.decode(response.body);
       if (responseBody.containsKey('eventi')) {
         final List<EventoDTO> data =
-        List<Map<String, dynamic>>.from(responseBody['eventi'])
-            .map((json) => EventoDTO.fromJson(json))
-            .toList();
+            List<Map<String, dynamic>>.from(responseBody['eventi'])
+                .map((json) => EventoDTO.fromJson(json))
+                .toList();
         setState(() {
           eventi = data;
         });
@@ -68,7 +67,8 @@ class _CommunityEventsState extends State<CommunityEvents> {
       appBar: GenericAppBar(
         showBackButton: true,
       ),
-      endDrawer: GenericAppBar.buildDrawer(context, key: const Key('listaEventi')),
+      endDrawer:
+          GenericAppBar.buildDrawer(context, key: const Key('listaEventi')),
       body: Stack(
         children: [
           Positioned(
@@ -120,9 +120,12 @@ class _CommunityEventsState extends State<CommunityEvents> {
                         ),
                       ],
                     ),
-                    margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-                    child: ListTile( //LISTA EVENTI
-                      visualDensity: const VisualDensity(vertical: 4, horizontal: 4),
+                    margin:
+                        const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+                    child: ListTile(
+                      //LISTA EVENTI
+                      visualDensity:
+                          const VisualDensity(vertical: 4, horizontal: 4),
                       minVerticalPadding: 50,
                       minLeadingWidth: 80,
                       tileColor: Colors.transparent,
@@ -188,14 +191,16 @@ class _DetailsEventoState extends State<DetailsEvento> {
 
   @override
   Widget build(BuildContext context) {
-    final EventoDTO evento = ModalRoute.of(context)?.settings.arguments as EventoDTO;
+    final EventoDTO evento =
+        ModalRoute.of(context)?.settings.arguments as EventoDTO;
     final DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm:ss');
     final String data = formatter.format(evento.date);
     return Scaffold(
       appBar: GenericAppBar(
         showBackButton: true,
       ),
-      endDrawer: GenericAppBar.buildDrawer(context, key: const Key('dettagliEvento')),
+      endDrawer:
+          GenericAppBar.buildDrawer(context, key: const Key('dettagliEvento')),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -217,6 +222,7 @@ class _DetailsEventoState extends State<DetailsEvento> {
           const SizedBox(height: 20),
           Text(
             evento.nomeEvento,
+            textAlign: TextAlign.center,
             style: const TextStyle(
               fontFamily: 'Genos',
               fontWeight: FontWeight.bold,
@@ -227,59 +233,55 @@ class _DetailsEventoState extends State<DetailsEvento> {
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: Text(
-                evento.descrizione,
+              evento.descrizione,
+              textAlign: TextAlign.center,
               style: const TextStyle(
                 fontFamily: 'Poppins',
-                fontWeight: FontWeight.bold,
                 fontSize: 15,
               ),
             ),
           ),
           Expanded(
-              child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 30),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        const Text(
-                          'Contatti',
-                          style: TextStyle(
-                              fontSize: 20,
-                              fontFamily: 'PoppinsMedium',
-                              fontWeight: FontWeight.bold
-                          ),
-                        ),
-                        Text(
-                            evento.email,
-                          style: const TextStyle(
-                              fontSize: 15,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.bold
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-                        const Text(
-                          'Informazioni',
-                          style: TextStyle(
-                              fontSize: 20,
-                              fontFamily: 'PoppinsMedium',
-                              fontWeight: FontWeight.bold
-                          ),
-                        ),
-                        Text(
-                            data,
-                          style: const TextStyle(
-                              fontSize: 15,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.bold
-                          ),
-                        ),
-                      ],
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 30),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    const Text(
+                      'Contatti',
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontFamily: 'PoppinsMedium',
+                          fontWeight: FontWeight.bold),
                     ),
-                  ),
+                    Text(
+                      evento.email,
+                      style: const TextStyle(
+                          fontSize: 15,
+                          fontFamily: 'Poppins',
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    const Text(
+                      'Informazioni',
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontFamily: 'PoppinsMedium',
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      data,
+                      style: const TextStyle(
+                          fontSize: 15,
+                          fontFamily: 'Poppins',
+                      ),
+                    ),
+                  ],
+                ),
               ),
+            ),
           ),
         ],
       ),

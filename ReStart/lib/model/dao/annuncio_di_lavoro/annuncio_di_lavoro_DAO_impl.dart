@@ -240,7 +240,7 @@ class AnnuncioDiLavoroDAOImpl implements AnnuncioDiLavoroDAO {
       var result = await connection.execute(
         Sql.named(
             'SELECT DISTINCT a.id, a.id_ca, a.nome, a.descrizione, a.approvato, c.email,'
-            ' c.sito, i.immagine, ind.via, ind.citta, ind.provincia'
+            ' c.sito, c.num_telefono, i.immagine, ind.via, ind.citta, ind.provincia'
             ' FROM public."AnnuncioDiLavoro" as a, public."Contatti" as c, public."Immagine" as i, '
             ' public."Indirizzo" as ind, public."CA" as ca '
             ' WHERE a.id= c.id_annuncio'

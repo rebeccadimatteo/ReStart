@@ -277,6 +277,7 @@ class _DetailsLavoroAdsState extends State<DetailsLavoroAds> {
           const SizedBox(height: 20),
           Text(
             annuncio.nome,
+            textAlign: TextAlign.center,
             style: const TextStyle(
                 fontSize: 30,
                 fontFamily: 'Genos',

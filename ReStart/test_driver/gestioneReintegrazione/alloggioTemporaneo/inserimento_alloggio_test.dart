@@ -90,7 +90,7 @@ void main() {
       await driver.enterText('www.casavaleria.it');
 
       await driver.tap(inserisciButtonFinder);
-      await driver.waitFor(find.text('Richiesta inviata con successo'));
+      await driver.waitFor(find.text('Alloggio inserito con successo'));
     });
   });
 }

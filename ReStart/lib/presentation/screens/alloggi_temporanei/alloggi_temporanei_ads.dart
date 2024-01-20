@@ -150,8 +150,7 @@ class _AlloggiTemporaneiState extends State<AlloggiTemporaneiAds> {
                       tileColor: Colors.transparent,
                       leading: CircleAvatar(
                         radius: 35,
-                        backgroundImage:
-                        Image.asset(alloggio.immagine).image,
+                        backgroundImage: Image.asset(alloggio.immagine).image,
                       ),
                       title: Text(
                         alloggio.nome,
@@ -262,7 +261,8 @@ class _DetailsAlloggioAdsState extends State<DetailsAlloggioAds> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
-                    fit: BoxFit.cover, image: Image.asset(alloggio.immagine).image),
+                    fit: BoxFit.cover,
+                    image: Image.asset(alloggio.immagine).image),
               ),
             ),
           ),
@@ -279,10 +279,10 @@ class _DetailsAlloggioAdsState extends State<DetailsAlloggioAds> {
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: Text(
-                alloggio.descrizione,
+              alloggio.descrizione,
+              textAlign: TextAlign.center,
               style: const TextStyle(
                 fontFamily: 'Poppins',
-                fontWeight: FontWeight.bold,
                 fontSize: 15,
               ),
             ),
@@ -304,14 +304,15 @@ class _DetailsAlloggioAdsState extends State<DetailsAlloggioAds> {
                   ),
                 ),
                 Text(
-                    alloggio.email,
+                  alloggio.email,
                   style: const TextStyle(
                     fontFamily: 'Poppins',
                     fontWeight: FontWeight.bold,
                     fontSize: 15,
                   ),
                 ),
-                Text(alloggio.sito,
+                Text(
+                  alloggio.sito,
                   style: const TextStyle(
                     fontFamily: 'Poppins',
                     fontWeight: FontWeight.bold,

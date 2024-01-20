@@ -184,7 +184,7 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroPubblicati> {
                         annuncio.nome,
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontFamily: 'Poppins',
+                          fontFamily: 'Genos',
                           fontSize: 20,
                         ),
                       ),
@@ -193,7 +193,6 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroPubblicati> {
                             ? '${annuncio.descrizione.substring(0, 20)}...'
                             : annuncio.descrizione,
                         style: const TextStyle(
-                          fontWeight: FontWeight.bold,
                           fontFamily: 'Poppins',
                           fontSize: 15,
                         ),
@@ -317,7 +316,7 @@ class _DetailsLavoroPub extends State<DetailsLavoroPub> {
             textAlign: TextAlign.center,
             style: const TextStyle(
               fontWeight: FontWeight.bold,
-              fontFamily: 'Poppins',
+              fontFamily: 'Genos',
               fontSize: 30,
             ),
           ),
@@ -328,9 +327,8 @@ class _DetailsLavoroPub extends State<DetailsLavoroPub> {
               annuncio.descrizione,
               textAlign: TextAlign.center,
               style: const TextStyle(
-                fontWeight: FontWeight.bold,
                 fontFamily: 'Poppins',
-                fontSize: 20,
+                fontSize: 15,
               ),
             ),
           ),
@@ -352,27 +350,24 @@ class _DetailsLavoroPub extends State<DetailsLavoroPub> {
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      annuncio.numTelefono,
+                      annuncio.email,
                       style: const TextStyle(
-                        fontWeight: FontWeight.bold,
                         fontFamily: 'Poppins',
                         fontSize: 15,
                       ),
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      annuncio.email,
+                      annuncio.numTelefono,
                       style: const TextStyle(
-                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
                         fontFamily: 'Poppins',
-                        fontSize: 13,
                       ),
                     ),
                     const SizedBox(width: 8),
                     Text(
                       '${annuncio.via}, ${annuncio.citta}, ${annuncio.provincia}',
                       style: const TextStyle(
-                        fontWeight: FontWeight.bold,
                         fontFamily: 'Poppins',
                         fontSize: 15,
                       ),

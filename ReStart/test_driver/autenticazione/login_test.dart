@@ -43,9 +43,9 @@ void main() {
 
       // Inserisci l'username e la password
       await driver.tap(usernameFieldFinder);
-      await driver.enterText('mallio');
+      await driver.enterText('mariorossi');
       await driver.tap(passwordFieldFinder);
-      await driver.enterText('prova');
+      await driver.enterText('password1');
 
       // Esegui il tap sul pulsante di accesso
       await driver.tap(loginButtonFinder);

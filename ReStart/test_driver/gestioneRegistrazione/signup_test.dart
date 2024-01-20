@@ -83,9 +83,9 @@ void main() {
       await driver.tap(emailFieldFinder);
       await driver.enterText('mariorossi@gmail.com');
       await driver.tap(passwordFieldFinder);
-      await driver.enterText('prova');
+      await driver.enterText('password1');
       await driver.tap(usernameFieldFinder);
-      await driver.enterText('mariorossi');
+      await driver.enterText('mariorossi1');
 
       await driver.tap(signUpButtonFinder);
 
@@ -104,7 +104,7 @@ void main() {
       await driver.tap(usernameFieldFinder);
       await driver.enterText('mariorossi');
       await driver.tap(passwordFieldFinder);
-      await driver.enterText('prova');
+      await driver.enterText('password1');
 
       // Esegui il tap sul pulsante di accesso
       await driver.tap(loginButtonFinder);

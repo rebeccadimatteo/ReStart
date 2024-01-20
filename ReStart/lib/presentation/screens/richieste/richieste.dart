@@ -663,8 +663,9 @@ class _DetailsLavoroAdsState extends State<DetailsLavoroR> {
           const SizedBox(height: 20),
           Text(
             annuncio.nome,
+            textAlign: TextAlign.center,
             style: const TextStyle(
-              fontFamily: 'Poppins',
+              fontFamily: 'Genos',
               fontWeight: FontWeight.bold,
               fontSize: 30,
             ),
@@ -677,8 +678,7 @@ class _DetailsLavoroAdsState extends State<DetailsLavoroR> {
               textAlign: TextAlign.center,
               style: const TextStyle(
                 fontFamily: 'Poppins',
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
+                fontSize: 15,
               ),
             ),
           ),
@@ -981,6 +981,7 @@ class _DetailsEventoAdsState extends State<DetailsEventoR> {
           const SizedBox(height: 20),
           Text(
             evento.nomeEvento,
+            textAlign: TextAlign.center,
             style: const TextStyle(
               fontFamily: 'Genos',
               fontWeight: FontWeight.bold,
@@ -992,9 +993,9 @@ class _DetailsEventoAdsState extends State<DetailsEventoR> {
             padding: const EdgeInsets.all(10.0),
             child: Text(
               evento.descrizione,
+              textAlign: TextAlign.center,
               style: const TextStyle(
                 fontFamily: 'Poppins',
-                fontWeight: FontWeight.bold,
                 fontSize: 15,
               ),
             ),

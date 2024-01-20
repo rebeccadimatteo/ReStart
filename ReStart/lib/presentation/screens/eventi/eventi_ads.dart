@@ -269,6 +269,7 @@ class _DetailsEventoAdsState extends State<DetailsEventoAds> {
           const SizedBox(height: 20),
           Text(
             evento.nomeEvento,
+            textAlign: TextAlign.center,
             style: const TextStyle(
                 fontSize: 30,
                 fontFamily: 'Genos',
@@ -279,6 +280,7 @@ class _DetailsEventoAdsState extends State<DetailsEventoAds> {
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: Text(evento.descrizione,
+              textAlign: TextAlign.center,
               style: const TextStyle(
                 fontFamily: 'Poppins',
                 fontSize: 15,

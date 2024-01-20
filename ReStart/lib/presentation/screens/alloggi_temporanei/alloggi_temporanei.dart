@@ -234,10 +234,10 @@ class _DetailsAlloggioState extends State<DetailsAlloggio> {
             padding: const EdgeInsets.all(10.0),
             child: Text(
               alloggio.descrizione,
+              textAlign: TextAlign.center,
               style: const TextStyle(
               fontSize: 15,
               fontFamily: 'Poppins',
-              fontWeight: FontWeight.bold,
               ),
             ),
           ),
@@ -261,14 +261,12 @@ class _DetailsAlloggioState extends State<DetailsAlloggio> {
                   style: const TextStyle(
                     fontSize: 15,
                     fontFamily: 'Poppins',
-                    fontWeight: FontWeight.bold,
                   ),
                 ),
                 Text(alloggio.sito,
                   style: const TextStyle(
                     fontSize: 15,
                     fontFamily: 'Poppins',
-                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ],

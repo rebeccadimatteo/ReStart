@@ -95,7 +95,7 @@ void main() {
       await driver.enterText("+393495269914");
 
       await driver.tap(buttonFinder);
-      await driver.waitFor(find.text('Richiesta inviata con successo'));
+      await driver.waitFor(find.text('Supporto medico inserito con successo'));
 
     });
   });
