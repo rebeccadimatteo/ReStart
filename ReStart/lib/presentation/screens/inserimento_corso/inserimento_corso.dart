@@ -132,7 +132,7 @@ class _InserisciCorsoState extends State<InserisciCorso> {
       /// Invia i dati al server con il percorso dell'immagine
       await sendDataToServer(corso);
     } else {
-      print("Errore creazione ogetto corso");
+      print("Errore creazione oggetto corso");
     }
   }
 
@@ -179,6 +179,7 @@ class _InserisciCorsoState extends State<InserisciCorso> {
       ),
       endDrawer: AdsAppBar.buildDrawer(context),
       body: SingleChildScrollView(
+        key: const Key('inserisciCorso'),
         child: Padding(
           padding: EdgeInsets.all(screenWidth * 0.08),
           child:
@@ -225,6 +226,7 @@ class _InserisciCorsoState extends State<InserisciCorso> {
                         top: 15,
                         bottom: _isNomeCorsoValid ? 15 : 20),
                     child: TextFormField(
+                      key: const Key('nome'),
                       controller: nomeCorsoController,
                       onChanged: (value) {
                         setState(() {
@@ -258,6 +260,7 @@ class _InserisciCorsoState extends State<InserisciCorso> {
                         top: 15,
                         bottom: _isNomeRespValid ? 15 : 20),
                     child: TextFormField(
+                      key: const Key('nomeResponsabile'),
                       controller: nomeResponsabileController,
                       onChanged: (value) {
                         setState(() {
@@ -291,6 +294,7 @@ class _InserisciCorsoState extends State<InserisciCorso> {
                         top: 15,
                         bottom: _isCognomeRespValid ? 15 : 20),
                     child: TextFormField(
+                      key: const Key('cognomeResponsabile'),
                       controller: cognomeResponsabileController,
                       onChanged: (value) {
                         setState(() {
@@ -324,6 +328,7 @@ class _InserisciCorsoState extends State<InserisciCorso> {
                         top: 15,
                         bottom: _isDescrizioneValid ? 15 : 20),
                     child: TextFormField(
+                      key: const Key('descrizione'),
                       controller: descrizioneController,
                       onChanged: (value) {
                         setState(() {
@@ -366,6 +371,7 @@ class _InserisciCorsoState extends State<InserisciCorso> {
                         top: 15,
                         bottom: _isEmailValid ? 15 : 20),
                     child: TextFormField(
+                      key: const Key('email'),
                       controller: emailController,
                       onChanged: (value) {
                         setState(() {
@@ -397,6 +403,7 @@ class _InserisciCorsoState extends State<InserisciCorso> {
                         top: 15,
                         bottom: _isTelefonoValid ? 15 : 20),
                     child: TextFormField(
+                      key: const Key('numero'),
                       controller: numTelefonoController,
                       onChanged: (value) {
                         setState(() {
@@ -429,6 +436,7 @@ class _InserisciCorsoState extends State<InserisciCorso> {
                         top: 15,
                         bottom: _isSitoValid ? 15 : 20),
                     child: TextFormField(
+                      key: const Key('url'),
                       controller: urlCorsoController,
                       onChanged: (value) {
                         setState(() {
@@ -456,8 +464,9 @@ class _InserisciCorsoState extends State<InserisciCorso> {
                   ),
                   SizedBox(height: screenWidth * 0.1),
                   ElevatedButton(
+                    key: const Key('inserisciButton'),
                     onPressed: () {
-                      submitForm;
+                      submitForm();
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.transparent,
