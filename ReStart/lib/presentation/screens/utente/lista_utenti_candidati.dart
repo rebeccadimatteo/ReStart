@@ -8,6 +8,8 @@ import 'package:http/http.dart' as http;
 
 import '../routes/routes.dart';
 
+/// Classe ListaUtentiCandidati che estende StatefulWidget.
+/// Visualizza un elenco di utenti candidati per un determinato annuncio di lavoro.
 class ListaUtentiCandidati extends StatefulWidget {
   const ListaUtentiCandidati({super.key});
 
@@ -15,6 +17,8 @@ class ListaUtentiCandidati extends StatefulWidget {
   State<ListaUtentiCandidati> createState() => _ListaUtentiState();
 }
 
+/// Stato associato a ListaUtentiCandidati.
+/// Gestisce il ciclo di vita dello stato e la logica di visualizzazione dell'elenco degli utenti candidati.
 class _ListaUtentiState extends State<ListaUtentiCandidati> {
   List<UtenteDTO> utenti = [];
   late AnnuncioDiLavoroDTO annuncio;
@@ -28,6 +32,7 @@ class _ListaUtentiState extends State<ListaUtentiCandidati> {
     _checkUserAndNavigate();
   }
 
+  /// Controlla se l'utente è autorizzato e, in caso negativo, lo reindirizza alla home.
   void _checkUserAndNavigate() async {
     String token = await SessionManager().get('token');
     final response = await http.post(
@@ -39,6 +44,7 @@ class _ListaUtentiState extends State<ListaUtentiCandidati> {
     }
   }
 
+  /// Recupera i dati dei candidati dal server.
   Future<void> fetchDataFromServer() async {
     final response = await http.post(
         Uri.parse('http://10.0.2.2:8080/candidaturaLavoro/listaCandidati'),
@@ -164,11 +170,14 @@ class _ListaUtentiState extends State<ListaUtentiCandidati> {
   }
 }
 
+/// Classe ProfiloCandidato che estende StatefulWidget.
+/// Visualizza il profilo dettagliato di un utente candidato.
 class ProfiloCandidato extends StatefulWidget {
   @override
   State<ProfiloCandidato> createState() => _ProfiloState();
 }
-
+/// Stato associato a ProfiloCandidato.
+/// Gestisce il ciclo di vita dello stato e la logica di visualizzazione del profilo dettagliato di un utente.
 class _ProfiloState extends State<ProfiloCandidato> {
   late UtenteDTO? utente;
   late String userId;

@@ -11,17 +11,25 @@ import '../../components/generic_app_bar.dart';
 import '../routes/routes.dart';
 import 'package:http/http.dart' as http;
 
+
+/// Classe Profilo che estende StatefulWidget.
+/// Visualizza e gestisce il profilo dell'utente.
 class Profilo extends StatefulWidget {
+  const Profilo({super.key});
+
   @override
   State<Profilo> createState() => _ProfiloState();
 }
 
+/// Stato associato a Profilo.
+/// Gestisce il ciclo di vita dello stato e la logica di visualizzazione del profilo dell'utente.
 class _ProfiloState extends State<Profilo> {
   late UtenteDTO? utente;
   late DateTime? selectedDate;
   var token = SessionManager().get('token');
   TextEditingController dataNascitaController = TextEditingController();
 
+  /// Controlla se l'utente è autorizzato e, in caso negativo, lo reindirizza alla home.
   void _checkUserAndNavigate() async {
     String token = await SessionManager().get('token');
     final response = await http.post(
@@ -57,6 +65,8 @@ class _ProfiloState extends State<Profilo> {
     fetchProfiloFromServer();
   }
 
+
+  /// Recupera il profilo dell'utente dal server.
   Future<void> fetchProfiloFromServer() async {
     String user = JWTUtils.getUserFromToken(accessToken: await token);
     final response = await http.post(
@@ -77,7 +87,7 @@ class _ProfiloState extends State<Profilo> {
       print('Errore');
     }
   }
-
+  /// Costruisce un campo del profilo.
   Widget buildProfileField(String label, String value, TextStyle labelStyle,
       TextStyle valueStyle, double screenWidth) {
     return ListTile(
@@ -338,6 +348,8 @@ class _ProfiloState extends State<Profilo> {
   }
 }
 
+/// Classe ProfiloEdit che estende StatefulWidget.
+/// Permette la modifica del profilo dell'utente.
 class ProfiloEdit extends StatefulWidget {
   const ProfiloEdit({super.key});
 
@@ -345,6 +357,8 @@ class ProfiloEdit extends StatefulWidget {
   State<ProfiloEdit> createState() => _ProfiloEditState();
 }
 
+/// Stato associato a ProfiloEdit.
+/// Gestisce il ciclo di vita dello stato e la logica di modifica del profilo dell'utente.
 class _ProfiloEditState extends State<ProfiloEdit> {
   final _formKey = GlobalKey<FormState>();
   late bool _viewPassword;
@@ -433,19 +447,19 @@ class _ProfiloEditState extends State<ProfiloEdit> {
       genereController = TextEditingController(text: utente.genere);
     }
   }
-
+  /// Controlla se l'utente è autorizzato e, in caso negativo, lo reindirizza alla home.
   void _checkUserAndNavigate() async {
     bool isUserValid = await AuthService.checkUserUtente();
     if (!isUserValid) {
       Navigator.pushNamed(context, AppRoutes.home);
     }
   }
-
+  /// Seleziona un'immagine dalla galleria.
   void selectImage() async {
     final imagePicker = ImagePicker();
     _image = await imagePicker.pickImage(source: ImageSource.gallery);
   }
-
+  /// Seleziona una data dal calendario.
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
       context: context,
@@ -462,7 +476,7 @@ class _ProfiloEditState extends State<ProfiloEdit> {
       });
     }
   }
-
+  /// Invia il modulo di modifica del profilo.
   void submitForm() async {
     final UtenteDTO u = ModalRoute.of(context)?.settings.arguments as UtenteDTO;
 
@@ -503,7 +517,7 @@ class _ProfiloEditState extends State<ProfiloEdit> {
       sendEditProfiloToServer(utenteEdit);
     }
   }
-
+  /// Invia i dati modificati del profilo al server.
   Future<void> sendEditProfiloToServer(UtenteDTO utenteEdit) async {
     final response = await http.post(
       Uri.parse('http://10.0.2.2:8080/autenticazione/modifyUtente'),
@@ -1076,6 +1090,7 @@ class _ProfiloEditState extends State<ProfiloEdit> {
     );
   }
 
+  /// Costruisce un campo del profilo da modificare.
   Widget buildProfileField(String label, String value, double screenWidth) {
     return ListTile(
       title: Row(

@@ -7,6 +7,8 @@ import 'package:http/http.dart' as http;
 
 import '../routes/routes.dart';
 
+/// Classe ListaUtenti che estende StatefulWidget.
+/// Questa classe gestisce la visualizzazione di una lista di utenti.
 class ListaUtenti extends StatefulWidget {
   ListaUtenti({super.key});
 
@@ -14,6 +16,8 @@ class ListaUtenti extends StatefulWidget {
   State<ListaUtenti> createState() => _ListaUtentiState();
 }
 
+/// Stato associato a ListaUtenti.
+/// Gestisce il ciclo di vita dello stato e la logica di visualizzazione dell'elenco degli utenti.
 class _ListaUtentiState extends State<ListaUtenti> {
   List<UtenteDTO> utenti = [];
 
@@ -23,7 +27,7 @@ class _ListaUtentiState extends State<ListaUtenti> {
     fetchDataFromServer();
     _checkUserAndNavigate();
   }
-
+  /// Controlla se l'utente è autorizzato e, in caso negativo, lo reindirizza alla home.
   void _checkUserAndNavigate() async {
     String token = await SessionManager().get('token');
     final response = await http.post(
@@ -34,7 +38,7 @@ class _ListaUtentiState extends State<ListaUtenti> {
       Navigator.pushNamed(context, AppRoutes.home);
     }
   }
-
+  /// Recupera i dati degli utenti dal server.
   Future<void> fetchDataFromServer() async {
     final response = await http
         .post(Uri.parse('http://10.0.2.2:8080/autenticazione/listaUtenti'));
@@ -55,7 +59,9 @@ class _ListaUtentiState extends State<ListaUtenti> {
       print('Errore');
     }
   }
-
+  /// Elimina un utente dalla lista.
+  ///
+  /// [UtenteDTO] L'oggetto UtenteDTO che rappresenta l'utente da eliminare.
   Future<void> deleteUtente(UtenteDTO utente) async {
     final response = await http.post(
         Uri.parse('http://10.0.2.2:8080/autenticazione/deleteUtente'),
