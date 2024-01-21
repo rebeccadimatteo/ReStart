@@ -12,7 +12,7 @@ void main() {
   ));
 }
 
-/// Classe che builda il widget contenente l'interfaccia della Start Page
+/// Rappresenta la schermata iniziale dell'applicazione.
 class Home extends StatelessWidget {
   Future<void> checkUser(BuildContext context) async {
     var token = await SessionManager().get("token");
@@ -23,16 +23,17 @@ class Home extends StatelessWidget {
         Navigator.pushNamed(context, AppRoutes.homeUtente);
       } else if (JWTUtils.verifyAccessToken(
           accessToken: await token,
-          secretKey: JWTConstants.accessTokenSecretKeyForADS)){
+          secretKey: JWTConstants.accessTokenSecretKeyForADS)) {
         Navigator.pushNamed(context, AppRoutes.homeADS);
       } else if (JWTUtils.verifyAccessToken(
           accessToken: await token,
-          secretKey: JWTConstants.accessTokenSecretKeyForCA)){
+          secretKey: JWTConstants.accessTokenSecretKeyForCA)) {
         Navigator.pushNamed(context, AppRoutes.homeCA);
       }
     }
   }
 
+  /// Classe che builda il widget contenente l'interfaccia della Start Page
   @override
   Widget build(BuildContext context) {
     checkUser(context);

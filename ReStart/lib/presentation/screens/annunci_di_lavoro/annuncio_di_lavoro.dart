@@ -7,14 +7,15 @@ import '../../components/generic_app_bar.dart';
 import 'package:http/http.dart' as http;
 import '../routes/routes.dart';
 
-/// Classe che implementa la sezione [AnnunciDiLavoro]
+/// Classe che implementa la sezione [AnnunciDiLavoro].
+/// Questa classe gestisce la visualizzazione di annunci di lavoro approvati.
 class AnnunciDiLavoro extends StatefulWidget {
   @override
   _AnnunciDiLavoroState createState() => _AnnunciDiLavoroState();
 }
 
-/// Creazione dello stato di [AnnunciDiLavoro], costituito
-/// dalla lista degli annunci.
+/// Stato di [AnnunciDiLavoro]. Gestisce la lista degli annunci di lavoro
+/// e interagisce con il server per recuperare questi dati.
 class _AnnunciDiLavoroState extends State<AnnunciDiLavoro> {
   List<AnnuncioDiLavoroDTO> annunci = [];
 
@@ -25,6 +26,8 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoro> {
     fetchDataFromServer();
   }
 
+  /// Controlla lo stato di autenticazione dell'utente e lo reindirizza
+  /// alla pagina home in caso di mancata autenticazione.
   void _checkUserAndNavigate() async {
     String token = await SessionManager().get('token');
     final response = await http.post(
@@ -36,14 +39,8 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoro> {
     }
   }
 
-  /// Effettua una richiesta asincrona al server per ottenere dati sugli annunci.
-  /// Questa funzione esegue una richiesta POST al server specificato,
-  /// interpreta la risposta e aggiorna lo stato dell'oggetto corrente con
-  /// i dati ricevuti, se la risposta è valida (status code 200).
-  ///
-  /// In caso di successo, la lista di [AnnuncioDiLavoroDTO] risultante
-  /// viene assegnata alla variabile di stato 'annunci'. In caso di errori
-  /// nella risposta, vengono stampati messaggi di errore sulla console.
+  /// Richiede al server la lista degli annunci di lavoro approvati.
+  /// Aggiorna lo stato con i dati ottenuti in caso di successo.
   Future<void> fetchDataFromServer() async {
     final response = await http.post(
         Uri.parse('http://10.0.2.2:8080/gestioneLavoro/annunciApprovati'));
@@ -65,9 +62,9 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoro> {
     }
   }
 
-  /// Costruisce la schermata che visualizza la lista degli annunci di lavoro disponibili.
-  /// La lista viene costruita dinamicamente utilizzando i dati presenti nella
-  /// lista 'annunci'.
+  /// Costruisce l'interfaccia utente per mostrare la lista degli annunci
+  /// di lavoro disponibili. Utilizza [ListView.builder] per creare un elenco
+  /// scrollabile di annunci.
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -169,20 +166,24 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoro> {
   }
 }
 
-/// Visualizza i dettagli di [AnnunciDiLavoro]
-
+/// Classe che gestisce i dettagli di un annuncio di lavoro.
+/// Mostra maggiori informazioni su un annuncio selezionato.
 class DetailsLavoro extends StatefulWidget {
   @override
   State<DetailsLavoro> createState() => _DetailsLavoroState();
 }
 
 class _DetailsLavoroState extends State<DetailsLavoro> {
+  late String username;
+
   @override
   void initState() {
     super.initState();
     _checkUserAndNavigate();
   }
 
+  /// Controlla lo stato di autenticazione dell'utente e lo reindirizza
+  /// alla pagina home in caso di mancata autenticazione.
   void _checkUserAndNavigate() async {
     String token = await SessionManager().get('token');
     final response = await http.post(
@@ -194,8 +195,11 @@ class _DetailsLavoroState extends State<DetailsLavoro> {
     }
   }
 
-  late String username;
-
+  /// Invia una richiesta di candidatura per un annuncio di lavoro.
+  /// Mostra una notifica dell'esito dell'operazione.
+  ///
+  /// [idL] ID dell'annuncio di lavoro per cui si vuole candidare.
+  /// [context] Contesto dell'interfaccia utente.
   Future<void> apply(int idL, BuildContext context) async {
     var token = SessionManager().get("token");
     username = JWTUtils.getUserFromToken(accessToken: await token);
@@ -207,6 +211,11 @@ class _DetailsLavoroState extends State<DetailsLavoro> {
     sendDataToServer(dataToServer, context);
   }
 
+  /// Invia i dati della candidatura al server.
+  /// Gestisce e mostra la risposta del server.
+  ///
+  /// [dataToServer] Dati della candidatura da inviare al server.
+  /// [context] Contesto dell'interfaccia utente.
   Future<void> sendDataToServer(
       String dataToServer, BuildContext context) async {
     final response = await http.post(
@@ -255,6 +264,9 @@ class _DetailsLavoroState extends State<DetailsLavoro> {
     }
   }
 
+  /// Costruisce l'interfaccia utente per mostrare i dettagli di un annuncio
+  /// di lavoro. Visualizza immagini, descrizioni, dettagli del contatto e
+  /// un pulsante per candidarsi all'annuncio.
   @override
   Widget build(BuildContext context) {
     final AnnuncioDiLavoroDTO annuncio =
@@ -346,8 +358,7 @@ class _DetailsLavoroState extends State<DetailsLavoro> {
                           style: TextStyle(
                               fontSize: 20,
                               fontFamily: 'PoppinsMedium',
-                              fontWeight: FontWeight.bold
-                          ),
+                              fontWeight: FontWeight.bold),
                         ),
                         Text(
                           '${annuncio.via}, ${annuncio.citta}, ${annuncio.provincia}',

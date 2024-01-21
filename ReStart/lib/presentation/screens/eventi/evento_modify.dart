@@ -11,14 +11,15 @@ import 'package:http/http.dart' as http;
 
 import '../routes/routes.dart';
 
-///Classe che rappresenta la schermata per modificare un [Evento]
+/// Classe che rappresenta la schermata per la modifica di un [Evento].
+/// Permette all'utente di modificare le informazioni relative a un evento esistente.
 class ModifyEvento extends StatefulWidget {
   @override
   _ModifyEventoState createState() => _ModifyEventoState();
 }
 
-/// Classe associata a [ModifyEvento] e gestisce la logica e l'interazione
-/// dell'interfaccia utente per modificare un nuovo evento.
+/// Stato associato a [ModifyEvento]. Gestisce la logica e l'interazione
+/// dell'interfaccia utente per modificare un evento.
 class _ModifyEventoState extends State<ModifyEvento> {
   late int idCa;
   var token;
@@ -79,6 +80,8 @@ class _ModifyEventoState extends State<ModifyEvento> {
     }
   }
 
+  /// Verifica lo stato di autenticazione dell'utente e lo reindirizza alla
+  /// pagina home se non autenticato.
   void _checkUserAndNavigate() async {
     String token = await SessionManager().get('token');
     final response = await http.post(
@@ -99,7 +102,7 @@ class _ModifyEventoState extends State<ModifyEvento> {
     _image = await imagePicker.pickImage(source: ImageSource.gallery);
   }
 
-  /// Metodo per inviare il form al server.
+  /// Metodo per inviare il form alla funzione [sendDataToServer].
   void submitForm(EventoDTO event) async {
     if (_formKey.currentState!.validate()) {
       String nome = nomeController!.text;
@@ -130,7 +133,7 @@ class _ModifyEventoState extends State<ModifyEvento> {
     }
   }
 
-  /// Metodo per inviare i dati al server.
+  /// Invia i dati aggiornati dell'evento al server.
   Future<void> sendDataToServer(EventoDTO evento) async {
     final response = await http.post(
       Uri.parse('http://10.0.2.2:8080/gestioneEvento/modifyEvento'),
@@ -160,6 +163,7 @@ class _ModifyEventoState extends State<ModifyEvento> {
     }
   }
 
+  /// Espressioni regolari
   bool validateNome(String nome) {
     RegExp regex = RegExp(r"^[A-Za-zÀ-ú‘’',\(\)\s]{2,50}$");
     return regex.hasMatch(nome);
@@ -173,7 +177,7 @@ class _ModifyEventoState extends State<ModifyEvento> {
 
   bool validateEmail(String email) {
     RegExp regex = RegExp(r'^[A-Za-z0-9_.]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$');
-    if(email.length < 6 || email.length > 40) {
+    if (email.length < 6 || email.length > 40) {
       return false;
     }
     return regex.hasMatch(email);
@@ -205,7 +209,7 @@ class _ModifyEventoState extends State<ModifyEvento> {
     return regex.hasMatch(immagine);
   }
 
-  /// Costruisce la UI per la schermata per la modifica di un evento.
+  /// Costruisce l'interfaccia utente per la modifica di un evento.
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;

@@ -9,14 +9,14 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import '../routes/routes.dart';
 
-///Classe che rappresenta la schermata per modificare un [AnnuncioDiLavoro]
+/// Classe che rappresenta la schermata per modificare un [AnnuncioDiLavoro].
 class ModifyLavoro extends StatefulWidget {
   @override
   _ModifyLavoroState createState() => _ModifyLavoroState();
 }
 
-/// Classe associata a [ModifyLavoro] e gestisce la logica e l'interazione
-/// dell'interfaccia utente per modificare un [AnnuncioDiLavoro].
+/// Classe che gestisce la logica e l'interfaccia utente per modificare
+/// un [AnnuncioDiLavoro].
 class _ModifyLavoroState extends State<ModifyLavoro> {
   late int idCa;
   var token;
@@ -80,6 +80,7 @@ class _ModifyLavoroState extends State<ModifyLavoro> {
     }
   }
 
+  /// Verifica l'autenticazione dell'utente e lo reindirizza se necessario.
   void _checkUserAndNavigate() async {
     String token = await SessionManager().get('token');
     final response = await http.post(
@@ -133,6 +134,7 @@ class _ModifyLavoroState extends State<ModifyLavoro> {
     }
   }
 
+  /// Espressioni regolari
   bool validateNome(String nome) {
     RegExp regex = RegExp(r"^[A-Za-zÀ-ú‘’',\(\)\s]{2,50}$");
     return regex.hasMatch(nome);
@@ -178,7 +180,7 @@ class _ModifyLavoroState extends State<ModifyLavoro> {
     return regex.hasMatch(immagine);
   }
 
-  /// Metodo per inviare i dati al server.
+  /// Metodo per inviare i dati modificati al server.
   Future<void> sendDataToServer(AnnuncioDiLavoroDTO annuncio) async {
     final response = await http.post(
       Uri.parse('http://10.0.2.2:8080/gestioneLavoro/modifyLavoro'),
@@ -206,7 +208,7 @@ class _ModifyLavoroState extends State<ModifyLavoro> {
     }
   }
 
-  /// Costruisce la UI per la schermata della modifica di un lavoro.
+  /// Costruisce l'interfaccia utente per la schermata di modifica di un lavoro.
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -258,31 +260,32 @@ class _ModifyLavoroState extends State<ModifyLavoro> {
                     ],
                   ),
                   TextFormField(
-                      //initialValue: evento.nomeEvento,
-                      controller: nomeController,
-                      onChanged: (value) {
-                        setState(() {
-                          _isNomeValid = validateNome(value);
-                        });
-                      },
-                      decoration: InputDecoration(
-                        errorText: _isNomeValid
-                            ? null
-                            : 'Formato nome non corretto (ex. Programmatore C \n    [max. 50 caratteri])',
-                        errorStyle: const TextStyle(color: Colors.red),
-                        labelText: 'Nome Annuncio di Lavoro',
-                        labelStyle: const TextStyle(
-                          fontSize: 20,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.bold,
-                        ),
+                    //initialValue: evento.nomeEvento,
+                    controller: nomeController,
+                    onChanged: (value) {
+                      setState(() {
+                        _isNomeValid = validateNome(value);
+                      });
+                    },
+                    decoration: InputDecoration(
+                      errorText: _isNomeValid
+                          ? null
+                          : 'Formato nome non corretto (ex. Programmatore C \n    [max. 50 caratteri])',
+                      errorStyle: const TextStyle(color: Colors.red),
+                      labelText: 'Nome Annuncio di Lavoro',
+                      labelStyle: const TextStyle(
+                        fontSize: 20,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold,
                       ),
+                    ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Inserisci il nome dell\'annuncio';
                       }
                       return null;
-                    },),
+                    },
+                  ),
                   const SizedBox(height: 20),
                   TextFormField(
                       controller: descrizioneController,

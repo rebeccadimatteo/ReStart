@@ -8,14 +8,15 @@ import 'package:http/http.dart' as http;
 import 'dart:io';
 import '../routes/routes.dart';
 
-///Classe che rappresenta la schermata per inserire un [CorsoDiFormazione]
+/// InserisciCorso è una classe di tipo StatefulWidget.
+/// Rappresenta la schermata per l'inserimento di un nuovo corso di formazione.
 class InserisciCorso extends StatefulWidget {
   @override
   _InserisciCorsoState createState() => _InserisciCorsoState();
 }
 
-/// Classe associata a [InserisciCorso] e gestisce la logica e l'interazione
-/// dell'interfaccia utente per inserire un nuovo corso di formazione.
+/// _InserisciCorsoState è lo stato associato a InserisciCorso.
+/// Gestisce la logica e l'interazione dell'interfaccia utente per l'inserimento di un nuovo corso di formazione.
 class _InserisciCorsoState extends State<InserisciCorso> {
   @override
   void initState() {
@@ -23,6 +24,7 @@ class _InserisciCorsoState extends State<InserisciCorso> {
     _checkUserAndNavigate();
   }
 
+  /// Verifica se l'utente attuale è autenticato e ha il permesso di inserire corsi di formazione.
   void _checkUserAndNavigate() async {
     String token = await SessionManager().get('token');
     final response = await http.post(
@@ -55,6 +57,7 @@ class _InserisciCorsoState extends State<InserisciCorso> {
   bool _isTelefonoValid = true;
   bool _isSitoValid = true;
 
+  /// Espressioni regolari
   bool validateNomeCorso(String nome) {
     RegExp regex = RegExp(
         r"^[A-Za-zÀ-ú0-9‘’',\.\(\)\s\/|\\{}\[\],\-!$%&?<>=^+°#*:']{2,50}$");
@@ -109,7 +112,7 @@ class _InserisciCorsoState extends State<InserisciCorso> {
     _image = await imagePicker.pickImage(source: ImageSource.gallery);
   }
 
-  /// Metodo per inviare il form al server.
+  /// Metodo per inviare il form al metodo [sendDataToServer].
   void submitForm() async {
     if (_formKey.currentState!.validate()) {
       String nomeCorso = nomeCorsoController.text;
@@ -119,7 +122,6 @@ class _InserisciCorsoState extends State<InserisciCorso> {
       String urlCorso = urlCorsoController.text;
       String imagePath = 'images/image_$nomeCorso.jpg';
 
-      /// Crea il DTO con il percorso dell'immagine
       CorsoDiFormazioneDTO corso = CorsoDiFormazioneDTO(
         nomeCorso: nomeCorso,
         nomeResponsabile: nomeResponsabile,
@@ -128,8 +130,6 @@ class _InserisciCorsoState extends State<InserisciCorso> {
         urlCorso: urlCorso,
         immagine: imagePath,
       );
-
-      /// Invia i dati al server con il percorso dell'immagine
       await sendDataToServer(corso);
     } else {
       print("Errore creazione oggetto corso");
@@ -137,6 +137,7 @@ class _InserisciCorsoState extends State<InserisciCorso> {
   }
 
   /// Metodo per inviare i dati al server.
+  /// Gestisce l'invio del corso di formazione e dell'immagine associata.
   Future<void> sendDataToServer(CorsoDiFormazioneDTO corso) async {
     // Prima invia i dati del corso
     final url =
@@ -222,7 +223,7 @@ class _InserisciCorsoState extends State<InserisciCorso> {
     }
   }
 
-  /// Costruisce la UI per la schermata di inserimento di un corso di formazione.
+  /// Costruisce l'interfaccia utente per la schermata di inserimento di un corso di formazione.
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;

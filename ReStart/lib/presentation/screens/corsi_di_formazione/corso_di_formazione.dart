@@ -6,13 +6,15 @@ import '../../components/generic_app_bar.dart';
 import 'package:http/http.dart' as http;
 import '../routes/routes.dart';
 
-/// Classe che implementa la sezione [CorsoDiFormazione]
+/// Classe che implementa la sezione [CorsoDiFormazione].
+/// Questa classe gestisce la visualizzazione dei corsi di formazione disponibili.
 class CorsoDiFormazione extends StatefulWidget {
   @override
   _CorsoDiFormazioneState createState() => _CorsoDiFormazioneState();
 }
 
-/// Creazione dello stato di [CorsoDiFormazione], costituito dalla lista dei corsi.
+/// Stato per [CorsoDiFormazione]. Gestisce la lista dei corsi di formazione
+/// e interagisce con il server per recuperare questi dati.
 class _CorsoDiFormazioneState extends State<CorsoDiFormazione> {
   List<CorsoDiFormazioneDTO> corsi = [];
 
@@ -23,6 +25,8 @@ class _CorsoDiFormazioneState extends State<CorsoDiFormazione> {
     _checkUserAndNavigate();
   }
 
+  /// Verifica lo stato di autenticazione dell'utente e lo reindirizza alla pagina
+  /// home se non autenticato.
   void _checkUserAndNavigate() async {
     String token = await SessionManager().get('token');
     final response = await http.post(
@@ -34,15 +38,18 @@ class _CorsoDiFormazioneState extends State<CorsoDiFormazione> {
     }
   }
 
-  /// Metodo che permette di inviare la richiesta al server per ottenere la lista di tutti i [CorsoDiFormazioneDTO] presenti nel database
+  /// Richiede al server la lista dei corsi di formazione.
+  /// Aggiorna lo stato con i dati ottenuti in caso di successo.
   Future<void> fetchDataFromServer() async {
-    final response = await http.post(Uri.parse('http://10.0.2.2:8080/gestioneReintegrazione/visualizzaCorsi'));
+    final response = await http.post(Uri.parse(
+        'http://10.0.2.2:8080/gestioneReintegrazione/visualizzaCorsi'));
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseBody = json.decode(response.body);
       if (responseBody.containsKey('corsi')) {
-        final List<CorsoDiFormazioneDTO> data = List<Map<String, dynamic>>.from(responseBody['corsi'])
-            .map((json) => CorsoDiFormazioneDTO.fromJson(json))
-            .toList();
+        final List<CorsoDiFormazioneDTO> data =
+            List<Map<String, dynamic>>.from(responseBody['corsi'])
+                .map((json) => CorsoDiFormazioneDTO.fromJson(json))
+                .toList();
         setState(() {
           corsi = data;
         });
@@ -53,7 +60,8 @@ class _CorsoDiFormazioneState extends State<CorsoDiFormazione> {
       print('Errore');
     }
   }
-  /// Build del widget principale della sezione [CorsoDiFormazione], contenente tutta l'interfaccia grafica
+
+  /// Costruisce l'interfaccia utente per mostrare la lista dei corsi di formazione.
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -112,9 +120,11 @@ class _CorsoDiFormazioneState extends State<CorsoDiFormazione> {
                         ),
                       ],
                     ),
-                    margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+                    margin:
+                        const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
                     child: ListTile(
-                      visualDensity: const VisualDensity(vertical: 4, horizontal: 4),
+                      visualDensity:
+                          const VisualDensity(vertical: 4, horizontal: 4),
                       minVerticalPadding: 50,
                       minLeadingWidth: 80,
                       tileColor: Colors.transparent,
@@ -147,15 +157,13 @@ class _CorsoDiFormazioneState extends State<CorsoDiFormazione> {
               },
             ),
           ),
-
         ],
       ),
     );
   }
 }
 
-/// Build del widget che viene visualizzato quando viene selezionato un determinato corso dalla sezione [CorsoDiFormazione]
-/// Permette di visualizzare i dettagli del corso selezionato
+/// Classe per visualizzare i dettagli di un specifico [CorsoDiFormazione].
 class DetailsCorso extends StatefulWidget {
   @override
   State<DetailsCorso> createState() => _DetailsCorsoState();
@@ -168,6 +176,8 @@ class _DetailsCorsoState extends State<DetailsCorso> {
     _checkUserAndNavigate();
   }
 
+  /// Verifica lo stato di autenticazione dell'utente e lo reindirizza alla pagina
+  /// home se non autenticato.
   void _checkUserAndNavigate() async {
     String token = await SessionManager().get('token');
     final response = await http.post(
@@ -179,9 +189,11 @@ class _DetailsCorsoState extends State<DetailsCorso> {
     }
   }
 
+  /// Costruisce l'interfaccia utente per mostrare i dettagli di un corso di formazione.
   @override
   Widget build(BuildContext context) {
-    final CorsoDiFormazioneDTO corso = ModalRoute.of(context)?.settings.arguments as CorsoDiFormazioneDTO;
+    final CorsoDiFormazioneDTO corso =
+        ModalRoute.of(context)?.settings.arguments as CorsoDiFormazioneDTO;
     return Scaffold(
       appBar: GenericAppBar(
         showBackButton: true,
@@ -196,7 +208,7 @@ class _DetailsCorsoState extends State<DetailsCorso> {
             child: Container(
               width: 200,
               height: 200,
-              decoration:  BoxDecoration(
+              decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
                   fit: BoxFit.cover,
@@ -223,8 +235,7 @@ class _DetailsCorsoState extends State<DetailsCorso> {
                   fontSize: 15,
                   fontFamily: 'Poppins',
                 ),
-                textAlign: TextAlign.center
-            ),
+                textAlign: TextAlign.center),
           ),
           Expanded(
               child: Align(
@@ -242,8 +253,9 @@ class _DetailsCorsoState extends State<DetailsCorso> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        Text(corso.urlCorso,
-                        style: const TextStyle(
+                        Text(
+                          corso.urlCorso,
+                          style: const TextStyle(
                             fontSize: 15,
                             fontFamily: 'Poppins',
                           ),

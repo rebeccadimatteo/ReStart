@@ -7,13 +7,15 @@ import "package:http/http.dart" as http;
 import '../routes/routes.dart';
 
 /// Classe che implementa la sezione [AlloggiTemporaneiAds]
+/// Si tratta di un widget di stato che gestisce la visualizzazione
+/// degli alloggi temporanei disponibili.
 class AlloggiTemporaneiAds extends StatefulWidget {
   @override
   _AlloggiTemporaneiState createState() => _AlloggiTemporaneiState();
 }
 
-/// Creazione dello stato di [AlloggiTemporaneiAds], costituito
-/// dalla lista degli alloggi
+/// Stato per [AlloggiTemporaneiAds]. Questo stato gestisce la lista
+/// degli alloggi temporanei recuperati dal server.
 class _AlloggiTemporaneiState extends State<AlloggiTemporaneiAds> {
   List<AlloggioTemporaneoDTO> alloggi = [];
 
@@ -24,6 +26,8 @@ class _AlloggiTemporaneiState extends State<AlloggiTemporaneiAds> {
     _checkUserAndNavigate();
   }
 
+  /// Verifica l'autenticazione dell'utente e lo reindirizza
+  /// alla pagina home se non autenticato.
   void _checkUserAndNavigate() async {
     String token = await SessionManager().get('token');
     final response = await http.post(
@@ -35,14 +39,8 @@ class _AlloggiTemporaneiState extends State<AlloggiTemporaneiAds> {
     }
   }
 
-  /// Effettua una richiesta asincrona al server per ottenere dati sugli alloggi.
-  /// Questa funzione esegue una richiesta POST al server specificato,
-  /// interpreta la risposta e aggiorna lo stato dell'oggetto corrente con
-  /// i dati ricevuti, se la risposta è valida (status code 200).
-  ///
-  /// In caso di successo, la lista di [AlloggioTemporaneoDTO] risultante
-  /// viene assegnata alla variabile di stato 'alloggi'. In caso di errori
-  /// nella risposta, vengono stampati messaggi di errore sulla console.
+  /// Effettua una chiamata HTTP POST per ottenere i dati sugli alloggi
+  /// dal server. Aggiorna lo stato con questi dati se la chiamata ha successo.
   Future<void> fetchDataFromServer() async {
     final response = await http.post(Uri.parse(
         'http://10.0.2.2:8080/gestioneReintegrazione/visualizzaAlloggi'));
@@ -64,6 +62,11 @@ class _AlloggiTemporaneiState extends State<AlloggiTemporaneiAds> {
     }
   }
 
+  /// Elimina un alloggio specificato dall'elenco degli alloggi disponibili.
+  /// Invia una richiesta al server per rimuovere l'alloggio e aggiorna
+  /// lo stato se l'operazione è andata a buon fine.
+  ///
+  /// [alloggio] AlloggioTemporaneoDTO rappresenta l'alloggio da eliminare.
   Future<void> deleteAlloggio(AlloggioTemporaneoDTO alloggio) async {
     final response = await http.post(
         Uri.parse('http://10.0.2.2:8080/gestioneReintegrazione/deleteAlloggio'),
@@ -77,10 +80,9 @@ class _AlloggiTemporaneiState extends State<AlloggiTemporaneiAds> {
     }
   }
 
-  /// Costruisce la schermata che visualizza la lista degli alloggi disponibili.
-  /// La lista viene costruita dinamicamente utilizzando i dati presenti nella
-  /// lista 'alloggi'. Ogni elemento della lista visualizza il nome, la
-  /// descrizione e un'immagine di anteprima dell'alloggio.
+  /// Costruisce l'interfaccia utente per mostrare la lista di alloggi.
+  /// Utilizza [ListView.builder] per creare un elenco scrollabile di
+  /// elementi alloggio.
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -204,7 +206,8 @@ class _AlloggiTemporaneiState extends State<AlloggiTemporaneiAds> {
   }
 }
 
-/// visualizza i dettagli di un alloggio
+/// Classe che implementa i dettagli di un alloggio
+/// Mostra maggiori informazioni su un alloggio selezionato.
 class DetailsAlloggioAds extends StatefulWidget {
   @override
   State<DetailsAlloggioAds> createState() => _DetailsAlloggioAdsState();
@@ -217,6 +220,8 @@ class _DetailsAlloggioAdsState extends State<DetailsAlloggioAds> {
     _checkUserAndNavigate();
   }
 
+  /// Verifica l'autenticazione dell'utente e lo reindirizza
+  /// alla pagina home se non autenticato.
   void _checkUserAndNavigate() async {
     String token = await SessionManager().get('token');
     final response = await http.post(
@@ -228,6 +233,11 @@ class _DetailsAlloggioAdsState extends State<DetailsAlloggioAds> {
     }
   }
 
+  /// Elimina l'alloggio selezionato. Invia una richiesta al server
+  /// per rimuovere l'alloggio e aggiorna lo stato se l'operazione
+  /// è andata a buon fine.
+  ///
+  /// [alloggio] AlloggioTemporaneoDTO rappresenta l'alloggio da eliminare.
   Future<void> deleteAlloggio(AlloggioTemporaneoDTO alloggio) async {
     final response = await http.post(
         Uri.parse('http://10.0.2.2:8080/gestioneReintegrazione/deleteAlloggio'),
@@ -241,6 +251,8 @@ class _DetailsAlloggioAdsState extends State<DetailsAlloggioAds> {
     }
   }
 
+  /// Costruisce l'interfaccia utente per mostrare i dettagli di un alloggio.
+  /// Visualizza immagini, descrizioni e contatti relativi all'alloggio.
   @override
   Widget build(BuildContext context) {
     final AlloggioTemporaneoDTO alloggio =

@@ -25,6 +25,7 @@ class _SupportoMedicoState extends State<SupportoMedicoAds> {
     _checkUserAndNavigate();
   }
 
+  /// Verifica l'autenticazione dell'utente e naviga alla home se non autorizzato.
   void _checkUserAndNavigate() async {
     String token = await SessionManager().get('token');
     final response = await http.post(
@@ -58,6 +59,7 @@ class _SupportoMedicoState extends State<SupportoMedicoAds> {
     }
   }
 
+  /// Metodo per eliminare un supporto medico
   Future<void> deleteSupporto(SupportoMedicoDTO supporto) async {
     final response = await http.post(
         Uri.parse('http://10.0.2.2:8080/gestioneReintegrazione/deleteSupporto'),
@@ -196,6 +198,7 @@ class _SupportoMedicoState extends State<SupportoMedicoAds> {
   }
 }
 
+/// Classe che definisce la visualizzazione dei dettagli di un [SupportoMedico]
 class DetailsSupportoAds extends StatefulWidget {
   @override
   State<DetailsSupportoAds> createState() => _DetailsSupportoAdsState();
@@ -208,6 +211,7 @@ class _DetailsSupportoAdsState extends State<DetailsSupportoAds> {
     _checkUserAndNavigate();
   }
 
+  /// Verifica l'autenticazione dell'utente e naviga alla home se non autorizzato.
   void _checkUserAndNavigate() async {
     String token = await SessionManager().get('token');
     final response = await http.post(
@@ -219,6 +223,7 @@ class _DetailsSupportoAdsState extends State<DetailsSupportoAds> {
     }
   }
 
+  /// Metodo per eliminare un supporto medico
   Future<void> deleteSupporto(SupportoMedicoDTO supporto) async {
     final response = await http.post(
         Uri.parse('http://10.0.2.2:8080/gestioneReintegrazione/deleteSupporto'),
@@ -232,6 +237,7 @@ class _DetailsSupportoAdsState extends State<DetailsSupportoAds> {
     }
   }
 
+  /// Costruzione dell'interfaccia utente per la visualizzazione dei dettagli di un [SupportoMedico]
   @override
   Widget build(BuildContext context) {
     final SupportoMedicoDTO supporto =

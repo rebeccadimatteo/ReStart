@@ -23,6 +23,7 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
     _checkUserAndNavigate();
   }
 
+  /// Verifica l'autenticazione dell'utente e naviga alla home se non autorizzato.
   void _checkUserAndNavigate() async {
     String token = await SessionManager().get('token');
     final response = await http.post(
@@ -57,6 +58,7 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
   bool _isProvinciaValid = true;
   bool _isTelefonoValid = true;
 
+  /// Espressioni regolari
   bool validateNome(String nome) {
     RegExp regex = RegExp(r'^[A-z À-ù‘-]{2,50}$');
     return regex.hasMatch(nome);
@@ -118,7 +120,7 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
     _image = await imagePicker.pickImage(source: ImageSource.gallery);
   }
 
-  /// Metodo per inviare il form al server.
+  /// Metodo per inviare il form al metodo [sendDataToServer].
   void submitForm() async {
     if (_formKey.currentState!.validate()) {
       String nomeMedico = nomeMedicoController.text;
@@ -144,14 +146,13 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
           via: via,
           provincia: provincia);
 
-      /// Invia i dati al server con il percorso dell'immagine
       await sendDataToServer(supporto);
     } else {
       print("Errore creazione oggetto corso");
     }
   }
 
-  /// Metodo per inviare i dati al server.
+  /// Invia i dati del supporto medico al server.
   Future<void> sendDataToServer(SupportoMedicoDTO supporto) async {
     final response = await http.post(
       Uri.parse('http://10.0.2.2:8080/gestioneReintegrazione/addSupporto'),
@@ -234,7 +235,7 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
     }
   }
 
-  /// Costruisce la UI per la schermata di inserimento del supporto medico.
+  /// Costruisce l'interfaccia utente per la schermata di inserimento del supporto medico.
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;

@@ -7,22 +7,26 @@ import '../../../model/entity/utente_DTO.dart';
 import '../routes/routes.dart';
 import 'dart:io';
 
+/// Rappresenta la schermata di registrazione dell'applicazione.
 class SignUpPage extends StatefulWidget {
   @override
   _SignUpState createState() => _SignUpState();
 }
 
+/// Gestisce la logica e l'interazione dell'interfaccia utente per la registrazione.
 class _SignUpState extends State<SignUpPage> {
   final _formKey = GlobalKey<FormState>();
   String? _selectedGender = 'Non specificato';
   DateTime? selectedDate;
   XFile? _image;
 
+  /// Metodo per selezionare un'immagine dalla galleria.
   void selectImage() async {
     final imagePicker = ImagePicker();
     _image = await imagePicker.pickImage(source: ImageSource.gallery);
   }
 
+  /// Metodo per selezionare la data di nascita.
   Future<void> _selectDate(BuildContext context) async {
     DateTime now = DateTime.now();
     DateTime eighteenYearsAgo = now.subtract(const Duration(days: 365 * 18));
@@ -56,7 +60,6 @@ class _SignUpState extends State<SignUpPage> {
     selectedDate = DateTime.now();
   }
 
-// Aggiungi un controller per il campo del codice fiscale
   final TextEditingController codiceFiscaleController = TextEditingController();
   final TextEditingController nomeController = TextEditingController();
   final TextEditingController usernameController = TextEditingController();
@@ -82,6 +85,7 @@ class _SignUpState extends State<SignUpPage> {
   bool _isLuogoNascitaValid = true;
   bool _isPasswordValid = true;
 
+  /// Espressioni regolari
   bool validateCodiceFiscale(String codiceFiscale) {
     RegExp regex = RegExp(r'^[A-Z]{6}\d{2}[A-Z]\d{2}[A-Z]\d{3}[A-Z]$');
     return regex.hasMatch(codiceFiscale);
@@ -89,7 +93,7 @@ class _SignUpState extends State<SignUpPage> {
 
   bool validateEmail(String email) {
     RegExp regex = RegExp(r'^[A-Za-z0-9_.]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$');
-    if(email.length < 6 || email.length > 40) {
+    if (email.length < 6 || email.length > 40) {
       return false;
     }
     return regex.hasMatch(email);
@@ -144,6 +148,7 @@ class _SignUpState extends State<SignUpPage> {
     return luogo.length <= 20 && luogo.length >= 3;
   }
 
+  /// Metodo per inviare il form di registrazione al metodo [sendDataToServer].
   void submitForm() async {
     if (_formKey.currentState!.validate()) {
       String email = emailController.text;
@@ -181,7 +186,7 @@ class _SignUpState extends State<SignUpPage> {
     }
   }
 
-  /// Metodo per inviare i dati al server.
+  /// Metodo per inviare i dati di registrazione al server.
   Future<void> sendDataToServer(UtenteDTO utente) async {
     final response = await http.post(
       Uri.parse('http://10.0.2.2:8080/registrazione/signup'),
@@ -192,26 +197,21 @@ class _SignUpState extends State<SignUpPage> {
     if (response.statusCode == 200 && _image != null) {
       final imageUrl = Uri.parse('http://10.0.2.2:8080/registrazione/addImage');
       final imageRequest = http.MultipartRequest('POST', imageUrl);
-
-      // Aggiungi l'immagine
-      imageRequest.files.add(await http.MultipartFile.fromPath('immagine', _image!.path));
-
-      // Aggiungi ID del corso e nome del corso come campi di testo
-      imageRequest.fields['nome'] = utente.username; // Assumi che 'nomeCorso' sia una proprietà di CorsoDiFormazioneDTO
+      imageRequest.files
+          .add(await http.MultipartFile.fromPath('immagine', _image!.path));
+      imageRequest.fields['nome'] = utente.username;
 
       final imageResponse = await imageRequest.send();
       if (imageResponse.statusCode == 200) {
-        // L'immagine è stata caricata con successo
         print("Immagine caricata con successo.");
-        // Aggiorna l'UI o esegui altre operazioni
       } else {
-        // Si è verificato un errore nell'upload dell'immagine
-        print("Errore durante l'upload dell'immagine: ${imageResponse.statusCode}");
-        // Mostra un messaggio di errore o esegui altre operazioni di gestione dell'errore
+        print(
+            "Errore durante l'upload dell'immagine: ${imageResponse.statusCode}");
       }
     }
   }
 
+  /// Costruisce l'interfaccia utente per la schermata di registrazione.
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -262,8 +262,8 @@ class _SignUpState extends State<SignUpPage> {
                       radius: avatarSize / 3,
                       backgroundImage: _image != null
                           ? MemoryImage(
-                        File(_image!.path).readAsBytesSync(),
-                      )
+                              File(_image!.path).readAsBytesSync(),
+                            )
                           : Image.asset('images/avatar.png').image,
                     ),
                     Positioned(
@@ -377,10 +377,7 @@ class _SignUpState extends State<SignUpPage> {
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.only(
-                          left: 15.0,
-                          right: 15.0,
-                          top: 15,
-                          bottom: 15),
+                          left: 15.0, right: 15.0, top: 15, bottom: 15),
                       child: GestureDetector(
                         onTap: () {
                           _selectDate(context);

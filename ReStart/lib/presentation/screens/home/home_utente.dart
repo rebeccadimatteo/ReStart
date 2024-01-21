@@ -8,16 +8,21 @@ import '../../components/generic_app_bar.dart';
 import '../routes/routes.dart';
 import "package:http/http.dart" as http;
 
-/// Classe che builda il widget della schermata di home dell'utente
+/// Rappresenta la schermata principale per gli utenti registrati.
+/// Mostra le opzioni disponibili come eventi della community e annunci di lavoro.
 class HomeUtente extends StatefulWidget {
   @override
   State<HomeUtente> createState() => _HomeUtenteState();
 }
 
+/// _HomeUtenteState è lo stato associato a HomeUtente.
+/// Gestisce l'interfaccia utente e il caricamento dei dati dalla rete.
 class _HomeUtenteState extends State<HomeUtente> {
   List<EventoDTO> eventi = [];
   List<AnnuncioDiLavoroDTO> annunci = [];
 
+  /// Inizializzazione dello stato.
+  /// Effettua un controllo di autenticazione e carica i dati degli eventi e degli annunci.
   @override
   void initState() {
     super.initState();
@@ -25,6 +30,8 @@ class _HomeUtenteState extends State<HomeUtente> {
     fetchDataFromServer();
   }
 
+  /// Verifica se l'utente attuale è autenticato.
+  /// In caso negativo, l'utente viene reindirizzato alla schermata di login.
   void _checkUserAndNavigate() async {
     String token = await SessionManager().get('token');
     final response = await http.post(
@@ -36,6 +43,7 @@ class _HomeUtenteState extends State<HomeUtente> {
     }
   }
 
+  /// Carica dati degli eventi e degli annunci di lavoro dal server.
   Future<void> fetchDataFromServer() async {
     final response = await http
         .post(Uri.parse('http://10.0.2.2:8080/gestioneEvento/eventiApprovati'));
@@ -76,6 +84,8 @@ class _HomeUtenteState extends State<HomeUtente> {
     }
   }
 
+  /// Costruisce l'interfaccia utente della schermata principale.
+  /// Utilizza un CustomScrollView per visualizzare vari elementi interattivi.
   @override
   Widget build(BuildContext context) {
     /// Restituisce uno scaffold, dove appbar e drawer presi dal file generic_app_bar.dart.

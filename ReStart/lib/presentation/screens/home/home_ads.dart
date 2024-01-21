@@ -1,16 +1,19 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import "package:http/http.dart" as http;
 import '../../components/app_bar_ads.dart';
 import '../routes/routes.dart';
 
+/// Schermata principale per gli ADS.
+/// Fornisce una visualizzazione a griglia e a lista delle varie sezioni disponibili.
 class HomeAds extends StatefulWidget {
   @override
   State<HomeAds> createState() => _HomeAdsState();
 }
 
+/// Stato per [HomeAds]. Gestisce la logica per la visualizzazione delle
+/// diverse sezioni e la navigazione tra di esse.
 class _HomeAdsState extends State<HomeAds> {
   @override
   void initState() {
@@ -18,6 +21,8 @@ class _HomeAdsState extends State<HomeAds> {
     _checkUserAndNavigate();
   }
 
+  /// Verifica l'autenticazione dell'utente e reindirizza alla pagina home
+  /// se l'utente non è autenticato.
   void _checkUserAndNavigate() async {
     String token = await SessionManager().get('token');
     final response = await http.post(
@@ -29,6 +34,7 @@ class _HomeAdsState extends State<HomeAds> {
     }
   }
 
+  /// Costruisce l'interfaccia utente della pagina principale per gli utenti ADS.
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,6 +85,7 @@ class _HomeAdsState extends State<HomeAds> {
     );
   }
 
+  /// Costruisce un singolo elemento della griglia.
   Widget _buildGridItem(BuildContext context, String title, String route) {
     return Expanded(
       child: Container(
@@ -129,6 +136,7 @@ class _HomeAdsState extends State<HomeAds> {
   }
 }
 
+/// Costruisce un singolo elemento della lista.
 Widget _buildFullWidthItem(BuildContext context, String title, String route) {
   return Expanded(
     child: Container(

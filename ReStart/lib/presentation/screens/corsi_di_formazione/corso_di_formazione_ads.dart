@@ -6,6 +6,8 @@ import '../../../model/entity/corso_di_formazione_DTO.dart';
 import '../../components/app_bar_ads.dart';
 import '../routes/routes.dart';
 
+/// Classe che implementa la sezione [CorsoDiFormazioneAds].
+/// Gestisce la visualizzazione dei corsi di formazione per gli amministratori.
 class CorsoDiFormazioneAds extends StatefulWidget {
   @override
   _CorsoDiFormazioneState createState() => _CorsoDiFormazioneState();
@@ -22,6 +24,8 @@ class _CorsoDiFormazioneState extends State<CorsoDiFormazioneAds> {
     _checkUserAndNavigate();
   }
 
+  /// Verifica lo stato di autenticazione dell'utente amministratore e lo
+  /// reindirizza alla homepage se non autenticato.
   void _checkUserAndNavigate() async {
     String token = await SessionManager().get('token');
     final response = await http.post(
@@ -33,6 +37,8 @@ class _CorsoDiFormazioneState extends State<CorsoDiFormazioneAds> {
     }
   }
 
+  /// Richiede al server la lista dei corsi di formazione.
+  /// Aggiorna lo stato con i dati ottenuti in caso di successo.
   Future<void> fetchDataFromServer() async {
     final response = await http.post(Uri.parse(
         'http://10.0.2.2:8080/gestioneReintegrazione/visualizzaCorsi'));
@@ -54,6 +60,10 @@ class _CorsoDiFormazioneState extends State<CorsoDiFormazioneAds> {
     }
   }
 
+  /// Invia una richiesta al server per eliminare un corso di formazione.
+  /// Aggiorna lo stato in caso di successo.
+  ///
+  /// [corso] Il corso di formazione da eliminare.
   Future<void> deleteCorso(CorsoDiFormazioneDTO corso) async {
     final response = await http.post(
         Uri.parse('http://10.0.2.2:8080/gestioneReintegrazione/deleteCorso'),
@@ -67,6 +77,8 @@ class _CorsoDiFormazioneState extends State<CorsoDiFormazioneAds> {
     }
   }
 
+  /// Costruisce l'interfaccia utente per mostrare la lista dei corsi di
+  /// formazione disponibili agli amministratori.
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -190,21 +202,22 @@ class _CorsoDiFormazioneState extends State<CorsoDiFormazioneAds> {
   }
 }
 
-/// Build del widget che viene visualizzato quando viene selezionato un determinato corso dalla sezione [CorsoDiFormazione]
-/// Permette di visualizzare i dettagli del corso selezionato
+/// Classe per visualizzare i dettagli di un specifico [CorsoDiFormazione]
+/// nella sezione amministratore.
 class DetailsCorsoAds extends StatefulWidget {
   @override
   State<DetailsCorsoAds> createState() => _DetailsCorsoAdsState();
 }
 
 class _DetailsCorsoAdsState extends State<DetailsCorsoAds> {
-
   @override
   void initState() {
     super.initState();
     _checkUserAndNavigate();
   }
 
+  /// Verifica lo stato di autenticazione dell'utente amministratore e lo
+  /// reindirizza alla homepage se non autenticato.
   void _checkUserAndNavigate() async {
     String token = await SessionManager().get('token');
     final response = await http.post(
@@ -216,6 +229,10 @@ class _DetailsCorsoAdsState extends State<DetailsCorsoAds> {
     }
   }
 
+  /// Invia una richiesta al server per eliminare un corso di formazione.
+  /// Gestisce la risposta del server e fornisce feedback all'utente.
+  ///
+  /// [corso] Il corso di formazione da eliminare.
   Future<void> deleteCorso(CorsoDiFormazioneDTO corso) async {
     final response = await http.post(
         Uri.parse('http://10.0.2.2:8080/gestioneReintegrazione/deleteCorso'),
@@ -227,6 +244,8 @@ class _DetailsCorsoAdsState extends State<DetailsCorsoAds> {
     }
   }
 
+  /// Costruisce l'interfaccia utente per mostrare i dettagli di un corso di
+  /// formazione selezionato dagli amministratori.
   @override
   Widget build(BuildContext context) {
     final CorsoDiFormazioneDTO corso =

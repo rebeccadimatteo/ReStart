@@ -11,14 +11,14 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import '../routes/routes.dart';
 
-///Classe che rappresenta la schermata per inserire un [Evento]
+/// Classe InserisciEvento è un StatefulWidget che rappresenta la schermata di inserimento di un nuovo evento.
 class InserisciEvento extends StatefulWidget {
   @override
   _InserisciEventoState createState() => _InserisciEventoState();
 }
 
-/// Classe associata a [InserisciEvento] e gestisce la logica e l'interazione
-/// dell'interfaccia utente per inserire un nuovo evento.
+/// Classe _InserisciEventoState gestisce lo stato del widget InserisciEvento.
+/// Contiene la logica e l'interfaccia utente per l'inserimento di un evento.
 class _InserisciEventoState extends State<InserisciEvento> {
   late int idCa;
   var token;
@@ -30,6 +30,7 @@ class _InserisciEventoState extends State<InserisciEvento> {
     token = SessionManager().get("token");
   }
 
+  /// Verifica se l'utente attuale è autenticato e ha il permesso di inserire eventi.
   void _checkUserAndNavigate() async {
     String token = await SessionManager().get('token');
     final response = await http.post(
@@ -62,6 +63,7 @@ class _InserisciEventoState extends State<InserisciEvento> {
   bool _isProvinciaValid = true;
   final bool _isDataValid = true;
 
+  /// Espressioni regolari
   bool validateNome(String nome) {
     RegExp regex = RegExp(r"^[A-Za-zÀ-ú‘’',\(\)\s]{2,50}$");
     return regex.hasMatch(nome);
@@ -113,6 +115,7 @@ class _InserisciEventoState extends State<InserisciEvento> {
     _image = await imagePicker.pickImage(source: ImageSource.gallery);
   }
 
+  /// Metodo per selezionare una data tramite un DatePicker.
   Future<void> _selectDate(BuildContext context) async {
     DateTime now = DateTime.now();
     DateTime initialDate = now;
@@ -138,7 +141,7 @@ class _InserisciEventoState extends State<InserisciEvento> {
     }
   }
 
-  /// Metodo per inviare il form al server.
+  /// Metodo per inviare il form al metodo [sendDataToServer].
   void submitForm() async {
     if (_formKey.currentState!.validate()) {
       String nome = nomeController.text;
@@ -160,13 +163,12 @@ class _InserisciEventoState extends State<InserisciEvento> {
           immagine: imagePath,
           id_ca: JWTUtils.getIdFromToken(accessToken: await token),
           date: selectedDate!);
-
-      /// Invia i dati al server con il percorso dell'immagine
       sendDataToServer(evento);
     }
   }
 
   /// Metodo per inviare i dati al server.
+  /// Gestisce l'invio dell'evento e dell'immagine associata.
   Future<void> sendDataToServer(EventoDTO evento) async {
     final response = await http.post(
       Uri.parse('http://10.0.2.2:8080/gestioneEvento/addEvento'),
@@ -252,7 +254,7 @@ class _InserisciEventoState extends State<InserisciEvento> {
     }
   }
 
-  /// Costruisce la UI per la schermata di inserimento di un evento.
+  /// Costruisce l'interfaccia utente per la schermata di inserimento di un evento.
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -515,7 +517,6 @@ class _InserisciEventoState extends State<InserisciEvento> {
                           _selectDate(context);
                         },
                         child: DateTimeFormField(
-
                           key: const Key('data'),
                           decoration: const InputDecoration(
                             suffixIcon: Icon(Icons.event_note),
@@ -526,9 +527,8 @@ class _InserisciEventoState extends State<InserisciEvento> {
                             ),
                           ),
                           firstDate: DateTime.now(),
-                          validator: (e) => (e?.day ?? 0) == 1
-                              ? 'Non il primo giorno'
-                              : null,
+                          validator: (e) =>
+                              (e?.day ?? 0) == 1 ? 'Non il primo giorno' : null,
                           onChanged: (DateTime? value) {
                             selectedDate = value;
                           },

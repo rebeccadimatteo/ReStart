@@ -31,6 +31,7 @@ import '../supporto_medico/supporto_medico_ads.dart';
 import '../utente/lista_utenti_candidati.dart';
 import '../utente/profilo.dart';
 
+/// Classe che definisce le routes per la navigazione tra gli screens.
 class AppRoutes {
   static const String home = '/';
   static const String homeUtente = '/homeUtente';
@@ -51,46 +52,31 @@ class AppRoutes {
   static const String profilo = '/profilo';
   static const String modificaprofilo = '/profilo/edit';
   static const String annunciAds = '/annunciDiLavoroAds';
-
-  //NB: I DETTAGLI DELLE SEZIONI NEGLI ADS NON SONO A PRIORITA ALTA
   static const String dettagliannuncioAds = '/annunciDiLavoroAds/dettagliAds';
   static const String alloggiAds = '/alloggiTemporaneiAds';
-
   static const String dettaglialloggioAds = '/alloggiTemporaneiAds/dettagliAds';
   static const String eventiAds = '/communityEventsAds';
-
   static const String dettaglieventoAds = '/communityEventsAds/dettagliAds';
   static const String corsiAds = '/corsiDiFormazioneAds';
-
   static const String dettaglicorsoAds = '/corsiDiFormazioneAds/dettagliAds';
   static const String supportiAds = '/supportiMediciAds';
-
   static const String dettaglisupportoAds = '/supportiMediciAds/dettagliAds';
   static const String richiesteAds = '/richieste';
-
   static const String annuncipubblicati = '/annunciPubblicati';
   static const String dettagliannunciopub = '/annunciPubblicati/dettagli';
   static const String eventipubblicati = '/eventiPubblicati';
   static const String dettaglieventipub = '/eventiPubblicati/dettagli';
   static const String addevento = '/aggiungiEvento';
   static const String addannuncio = '/aggiungiAnnuncio';
-
   static const String modificaevento = '/modifyEvento';
   static const String modificalavoro = '/modifyAnnuncio';
-
   static const String lavoroadatto = '/lavoroAdatto';
-
   static const String listaCandidati = '/annunciPubblicati/listaCandidati';
-  static const String profiloCandidato =
-      '/annunciPubblicati/listaCandidati/profilo';
-
-  static const String visualizzaLavoroAdatto =
-      '/lavoroAdatto/visualizzaLavoroAdatto';
-
+  static const String profiloCandidato = '/annunciPubblicati/listaCandidati/profilo';
+  static const String visualizzaLavoroAdatto = '/lavoroAdatto/visualizzaLavoroAdatto';
   static const String inserisciCorso = '/aggiungiCorso';
   static const String inserisciAlloggio = '/aggiungiAlloggio';
   static const String inserisciSupporto = '/aggiungiSupporto';
-
   static const String listaUtenti = '/listaUtenti';
 
   /// Definizione di tutte le [AppRoutes]

@@ -27,6 +27,7 @@ class _SupportoMedicoState extends State<SupportoMedico> {
     _checkUserAndNavigate();
   }
 
+  /// Verifica l'autenticazione dell'utente e naviga alla home se non autorizzato.
   void _checkUserAndNavigate() async {
     String token = await SessionManager().get('token');
     final response = await http.post(
@@ -165,6 +166,7 @@ class _SupportoMedicoState extends State<SupportoMedico> {
   }
 }
 
+/// Classe che definisce la visualizzazione dei dettagli di un [SupportoMedico]
 class DetailsSupporto extends StatefulWidget {
   @override
   State<DetailsSupporto> createState() => _DetailsSupportoState();
@@ -177,6 +179,7 @@ class _DetailsSupportoState extends State<DetailsSupporto> {
     _checkUserAndNavigate();
   }
 
+  /// Verifica l'autenticazione dell'utente e naviga alla home se non autorizzato.
   void _checkUserAndNavigate() async {
     bool isUserValid = await AuthService.checkUserUtente();
     if (!isUserValid) {
@@ -184,6 +187,7 @@ class _DetailsSupportoState extends State<DetailsSupporto> {
     }
   }
 
+  /// Costruzione dell'interfaccia utente per la visualizzazione dei dettagli di un [SupportoMedico]
   @override
   Widget build(BuildContext context) {
     final SupportoMedicoDTO supporto =

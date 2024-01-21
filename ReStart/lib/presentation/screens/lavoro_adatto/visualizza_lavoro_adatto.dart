@@ -4,16 +4,18 @@ import 'package:flutter_session_manager/flutter_session_manager.dart';
 import '../../../model/entity/utente_DTO.dart';
 import '../../../utils/jwt_utils.dart';
 import '../../components/generic_app_bar.dart';
-
 import 'package:http/http.dart' as http;
-
 import '../routes/routes.dart';
 
+/// VisualizzaLavoroAdatto è una classe di tipo StatefulWidget.
+/// Rappresenta la schermata che visualizza il lavoro adatto all'utente.
 class VisualizzaLavoroAdatto extends StatefulWidget {
   @override
   State<VisualizzaLavoroAdatto> createState() => _VisualizzaLavoroAdattoState();
 }
 
+/// _VisualizzaLavoroAdattoState è lo stato associato a VisualizzaLavoroAdatto.
+/// Gestisce la logica e l'interazione dell'interfaccia utente per la visualizzazione del lavoro adatto.
 class _VisualizzaLavoroAdattoState extends State<VisualizzaLavoroAdatto> {
   late UtenteDTO utente; // Definizione del futuro per l'utente
   var token = SessionManager().get('token');
@@ -41,6 +43,7 @@ class _VisualizzaLavoroAdattoState extends State<VisualizzaLavoroAdatto> {
     fetchProfiloFromServer();
   }
 
+  /// Verifica se l'utente attuale è autenticato e ha il permesso di accedere a questa pagina.
   void _checkUserAndNavigate() async {
     String token = await SessionManager().get('token');
     final response = await http.post(
@@ -52,6 +55,7 @@ class _VisualizzaLavoroAdattoState extends State<VisualizzaLavoroAdatto> {
     }
   }
 
+  /// Recupera i dettagli dell'utente dal server.
   Future<void> fetchProfiloFromServer() async {
     String user = JWTUtils.getUserFromToken(accessToken: await token);
     print(user);
@@ -77,6 +81,7 @@ class _VisualizzaLavoroAdattoState extends State<VisualizzaLavoroAdatto> {
     }
   }
 
+  /// Costruisce l'interfaccia utente per la schermata di visualizzazione del lavoro adatto.
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -110,11 +115,17 @@ class _VisualizzaLavoroAdattoState extends State<VisualizzaLavoroAdatto> {
                   const SizedBox(height: 40),
                   const Text(
                     'IL LAVORO CHE FA',
-                    style: TextStyle(fontSize: 32, fontFamily: 'PoppinsMedium', fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        fontSize: 32,
+                        fontFamily: 'PoppinsMedium',
+                        fontWeight: FontWeight.bold),
                   ),
                   const Text(
                     'PER TE È:',
-                    style: TextStyle(fontSize: 32, fontFamily: 'PoppinsMedium', fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        fontSize: 32,
+                        fontFamily: 'PoppinsMedium',
+                        fontWeight: FontWeight.bold),
                   ),
                   Text(
                     utente.lavoro_adatto!,
@@ -139,7 +150,10 @@ class _VisualizzaLavoroAdattoState extends State<VisualizzaLavoroAdatto> {
                 children: <Widget>[
                   const Text(
                     'Vuoi ripetere il test?',
-                    style: TextStyle(fontSize: 18, fontFamily: 'Poppins', fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 10),
                   ElevatedButton(
@@ -200,8 +214,6 @@ class DiagonalLinePainter extends CustomPainter {
     final paint = Paint()
       ..color = const Color(0xFF424242)
       ..strokeWidth = 5;
-// Disegna una linea dal punto in basso a sinistra (0, size.height)
-// al punto in alto a destra (size.width, 0)
     canvas.drawLine(Offset(-150, size.height), Offset(size.width, 200), paint);
   }
 

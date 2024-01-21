@@ -28,6 +28,7 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
     token = SessionManager().get("token");
   }
 
+  /// Verifica se l'utente attuale è autenticato e ha il permesso di inserire annunci di lavoro.
   void _checkUserAndNavigate() async {
     String token = await SessionManager().get('token');
     final response = await http.post(
@@ -58,6 +59,7 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
   bool _isProvinciaValid = true;
   bool _isTelefonoValid = true;
 
+  /// Espressioni regolari
   bool validateNome(String nome) {
     RegExp regex = RegExp(r"^[A-Za-zÀ-ú‘’',\(\)\s]{2,50}$");
     return regex.hasMatch(nome);
@@ -109,7 +111,7 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
     _image = await imagePicker.pickImage(source: ImageSource.gallery);
   }
 
-  /// Metodo per inviare il form al server.
+  /// Metodo per inviare il form al metodo [sendDataToServer].
   void submitForm() async {
     if (_formKey.currentState!.validate()) {
       String nome = nomeController.text;
@@ -140,6 +142,7 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
   }
 
   /// Metodo per inviare i dati al server.
+  /// Gestisce l'invio dell'annuncio di lavoro e dell'immagine associata.
   Future<void> sendDataToServer(AnnuncioDiLavoroDTO annuncio) async {
     final response = await http.post(
       Uri.parse('http://10.0.2.2:8080/gestioneLavoro/addLavoro'),
@@ -223,7 +226,7 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
     }
   }
 
-  /// Costruisce la UI per la schermata di inserimento di un annuncio di lavoro.
+  /// Costruisce l'interfaccia utente per la schermata di inserimento di un annuncio di lavoro.
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;

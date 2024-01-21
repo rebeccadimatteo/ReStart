@@ -5,11 +5,13 @@ import "../../../utils/jwt_utils.dart";
 import "../routes/routes.dart";
 import "package:http/http.dart" as http;
 
+/// Rappresenta la schermata di login dell'applicazione.
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
 }
 
+/// Gestisce la logica e l'interazione dell'interfaccia utente per il login.
 class _LoginPageState extends State<LoginPage> {
   late bool _viewPassword;
   final _formKey = GlobalKey<FormState>();
@@ -19,10 +21,12 @@ class _LoginPageState extends State<LoginPage> {
   bool _isUsernameValid = true;
   bool _isPasswordValid = true;
 
+  /// Valida il nome utente
   bool validateUsername(String username) {
     return username.length <= 15 && username.length >= 3;
   }
 
+  /// Valida la password
   bool validatePsw(String password) {
     return password.length <= 15 && password.length >= 3;
   }
@@ -33,6 +37,7 @@ class _LoginPageState extends State<LoginPage> {
     _viewPassword = true;
   }
 
+  /// Gestisce il submit del form mandando i dati al metodo [auth]
   void submitForm() async {
     if (_formKey.currentState!.validate()) {
       String email = usernameController.text;
@@ -46,6 +51,7 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+  /// Autentica l'utente e gestisce la navigazione in base al tipo di utente.
   void auth(BuildContext context, String authJson) async {
     final response = await http.post(
       Uri.parse('http://10.0.2.2:8080/autenticazione/login'),
@@ -90,6 +96,7 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+  /// Costruisce l'interfaccia utente per la schermata di login.
   @override
   Widget build(BuildContext context) {
     return Scaffold(

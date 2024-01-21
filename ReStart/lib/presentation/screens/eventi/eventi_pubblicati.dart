@@ -7,14 +7,15 @@ import '../../components/app_bar_ca.dart';
 import 'package:http/http.dart' as http;
 import '../routes/routes.dart';
 
-/// Classe che implementa la sezione [CommunityEventsPubblicati]
+/// Classe che implementa la sezione [CommunityEventsPubblicati].
+/// Gestisce la visualizzazione degli eventi della comunità pubblicati dall'utente.
 class CommunityEventsPubblicati extends StatefulWidget {
   @override
   _CommunityEventsState createState() => _CommunityEventsState();
 }
 
-/// Creazione dello stato di [CommunityEventsPubblicati],
-/// costituito dalla lista degli eventi pubblicati
+/// Stato per [CommunityEventsPubblicati]. Gestisce la lista degli eventi pubblicati
+/// e interagisce con il server per recuperare questi dati.
 class _CommunityEventsState extends State<CommunityEventsPubblicati> {
   List<EventoDTO> eventi = [];
   var token = SessionManager().get("token");
@@ -27,6 +28,8 @@ class _CommunityEventsState extends State<CommunityEventsPubblicati> {
     _checkUserAndNavigate();
   }
 
+  /// Verifica lo stato di autenticazione dell'utente e lo reindirizza alla
+  /// pagina home se non autenticato.
   void _checkUserAndNavigate() async {
     String token = await SessionManager().get('token');
     final response = await http.post(
@@ -38,8 +41,8 @@ class _CommunityEventsState extends State<CommunityEventsPubblicati> {
     }
   }
 
-  /// Metodo che permette di inviare la richiesta al server per ottenere
-  /// la lista di tutti gli [EventoDTO] presenti nel database
+  /// Richiede al server la lista degli eventi pubblicati dall'utente.
+  /// Aggiorna lo stato con i dati ottenuti in caso di successo.
   Future<void> fetchDataFromServer() async {
     String user = JWTUtils.getUserFromToken(accessToken: await token);
     Map<String, dynamic> username = {"username": user};
@@ -70,6 +73,10 @@ class _CommunityEventsState extends State<CommunityEventsPubblicati> {
     }
   }
 
+  /// Invia una richiesta al server per eliminare un evento pubblicato.
+  /// Aggiorna lo stato in caso di successo.
+  ///
+  /// [evento] L'evento da eliminare.
   Future<void> deleteEvento(EventoDTO evento) async {
     final response = await http.post(
         Uri.parse('http://10.0.2.2:8080/gestioneEvento/deleteEvento'),
@@ -83,8 +90,7 @@ class _CommunityEventsState extends State<CommunityEventsPubblicati> {
     }
   }
 
-  /// Build del widget principale della sezione [CommunityEvents],
-  /// contenente tutta l'interfaccia grafica
+  /// Costruisce l'interfaccia utente per mostrare la lista degli eventi pubblicati.
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -223,25 +229,25 @@ class _CommunityEventsState extends State<CommunityEventsPubblicati> {
   }
 }
 
+/// Classe per visualizzare i dettagli di un specifico [EventoDTO]
+/// selezionato nella sezione [CommunityEventsPubblicati].
 class DetailsEventoPub extends StatefulWidget {
   @override
   _DetailsEventoPub createState() => _DetailsEventoPub();
 }
 
-/// Build del widget che viene visualizzato quando viene selezionato un
-/// determinato evento dalla sezione [CommunityEvents]
-/// Permette di visualizzare i dettagli dell'evento selezionato
 class _DetailsEventoPub extends State<DetailsEventoPub> {
   List<EventoDTO> eventi = [];
   var token = SessionManager().get("token");
 
-  /// Inizializzazione dello stato, con chiamata alla funzione [fetchDataFromServer]
   @override
   void initState() {
     _checkUserAndNavigate();
     super.initState();
   }
 
+  /// Verifica lo stato di autenticazione dell'utente e lo reindirizza alla
+  /// pagina home se non autenticato.
   void _checkUserAndNavigate() async {
     String token = await SessionManager().get('token');
     final response = await http.post(
@@ -253,6 +259,10 @@ class _DetailsEventoPub extends State<DetailsEventoPub> {
     }
   }
 
+  /// Invia una richiesta al server per eliminare un evento pubblicato.
+  /// Gestisce la risposta del server e fornisce feedback all'utente.
+  ///
+  /// [evento] L'evento da eliminare.
   Future<void> deleteEvento(EventoDTO evento) async {
     final response = await http.post(
         Uri.parse('http://10.0.2.2:8080/gestioneEvento/deleteEvento'),
@@ -266,6 +276,7 @@ class _DetailsEventoPub extends State<DetailsEventoPub> {
     }
   }
 
+  /// Costruisce l'interfaccia utente per mostrare i dettagli di un evento pubblicato.
   @override
   Widget build(BuildContext context) {
     final EventoDTO evento =
@@ -273,131 +284,130 @@ class _DetailsEventoPub extends State<DetailsEventoPub> {
     final String data = evento.date.toIso8601String();
     final String dataBuona = data.substring(0, 10);
     return Scaffold(
-        appBar: CaAppBar(
-          showBackButton: true,
-        ),
-        endDrawer: CaAppBar.buildDrawer(context),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                width: 200,
-                height: 200,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                      fit: BoxFit.cover, image: AssetImage(evento.immagine)),
-                ),
+      appBar: CaAppBar(
+        showBackButton: true,
+      ),
+      endDrawer: CaAppBar.buildDrawer(context),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              width: 200,
+              height: 200,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                    fit: BoxFit.cover, image: AssetImage(evento.immagine)),
               ),
             ),
-            const SizedBox(height: 20),
-            Text(
-              evento.nomeEvento,
+          ),
+          const SizedBox(height: 20),
+          Text(
+            evento.nomeEvento,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontFamily: 'Genos',
+              fontSize: 30,
+            ),
+          ),
+          const SizedBox(height: 10),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Text(
+              evento.descrizione,
               textAlign: TextAlign.center,
               style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontFamily: 'Genos',
-                fontSize: 30,
+                fontFamily: 'Poppins',
+                fontSize: 15,
+                color: Colors.black,
               ),
             ),
-            const SizedBox(height: 10),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Text(
-                evento.descrizione,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 15,
-                  color: Colors.black,
-                ),
-              ),
-            ),
-            Expanded(
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 30),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      const Text(
-                        'Contatti',
-                        style: TextStyle(
-                            fontSize: 20,
-                            fontFamily: 'PoppinsMedium',
-                            fontWeight: FontWeight.bold),
+          ),
+          Expanded(
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 30),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    const Text(
+                      'Contatti',
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontFamily: 'PoppinsMedium',
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      evento.email,
+                      style: const TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 15,
+                        color: Colors.black,
                       ),
-                      Text(
-                        evento.email,
-                        style: const TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 15,
-                          color: Colors.black,
+                    ),
+                    const SizedBox(height: 20),
+                    const Text(
+                      'Informazioni',
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontFamily: 'PoppinsMedium',
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      dataBuona,
+                      style: const TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 15,
+                        color: Colors.black,
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.edit,
+                              color: Colors.black, size: 40),
+                          onPressed: () {
+                            Navigator.pushNamed(
+                                context, AppRoutes.modificaevento,
+                                arguments: evento);
+                          },
                         ),
-                      ),
-                      const SizedBox(height: 20),
-                      const Text(
-                        'Informazioni',
-                        style: TextStyle(
-                            fontSize: 20,
-                            fontFamily: 'PoppinsMedium',
-                            fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        dataBuona,
-                        style: const TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 15,
-                          color: Colors.black,
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.edit,
-                                color: Colors.black, size: 40),
-                            onPressed: () {
-                              Navigator.pushNamed(
-                                  context, AppRoutes.modificaevento,
-                                  arguments: evento);
-                            },
-                          ),
-                          const SizedBox(width: 20),
-                          IconButton(
-                            icon: const Icon(Icons.delete,
-                                color: Colors.black, size: 40),
-                            onPressed: () {
-                              deleteEvento(evento);
-                              Navigator.pushNamed(context, AppRoutes.homeADS);
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text(
-                                    'Evento eliminato',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16,
-                                    ),
+                        const SizedBox(width: 20),
+                        IconButton(
+                          icon: const Icon(Icons.delete,
+                              color: Colors.black, size: 40),
+                          onPressed: () {
+                            deleteEvento(evento);
+                            Navigator.pushNamed(context, AppRoutes.homeADS);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                  'Evento eliminato',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
                                   ),
-                                  backgroundColor: Colors.red,
-                                  duration: Duration(seconds: 3),
                                 ),
-                              );
-                            },
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                                backgroundColor: Colors.red,
+                                duration: Duration(seconds: 3),
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
+      ),
     );
   }
 }
-

@@ -7,13 +7,15 @@ import '../../../model/entity/evento_DTO.dart';
 import '../../components/app_bar_ads.dart';
 import '../routes/routes.dart';
 
-/// Classe che implementa la sezione [CommunityEvents]
+/// Classe che implementa la sezione [CommunityEventsAds].
+/// Gestisce la visualizzazione degli eventi della comunità destinati agli amministratori.
 class CommunityEventsAds extends StatefulWidget {
   @override
   _CommunityEventsState createState() => _CommunityEventsState();
 }
 
-/// Creazione dello stato di [CommunityEvents], costituito dalla lista degli eventi
+/// Stato per [CommunityEventsAds]. Gestisce la lista degli eventi
+/// e interagisce con il server per recuperare questi dati.
 class _CommunityEventsState extends State<CommunityEventsAds> {
   List<EventoDTO> eventi = [];
 
@@ -25,6 +27,8 @@ class _CommunityEventsState extends State<CommunityEventsAds> {
     _checkUserAndNavigate();
   }
 
+  /// Verifica lo stato di autenticazione dell'utente amministratore e lo
+  /// reindirizza alla homepage se non autenticato.
   void _checkUserAndNavigate() async {
     String token = await SessionManager().get('token');
     final response = await http.post(
@@ -36,7 +40,8 @@ class _CommunityEventsState extends State<CommunityEventsAds> {
     }
   }
 
-  /// Metodo che permette di inviare la richiesta al server per ottenere la lista di tutti gli [EventoDTO] presenti nel database
+  /// Richiede al server la lista degli eventi.
+  /// Aggiorna lo stato con i dati ottenuti in caso di successo.
   Future<void> fetchDataFromServer() async {
     final response = await http.post(
         Uri.parse('http://10.0.2.2:8080/gestioneEvento/visualizzaEventi'));
@@ -64,6 +69,10 @@ class _CommunityEventsState extends State<CommunityEventsAds> {
     }
   }
 
+  /// Invia una richiesta al server per eliminare un evento.
+  /// Aggiorna lo stato in caso di successo.
+  ///
+  /// [evento] L'evento da eliminare.
   Future<void> deleteEvento(EventoDTO evento) async {
     final response = await http.post(
         Uri.parse('http://10.0.2.2:8080/gestioneEvento/deleteEvento'),
@@ -77,7 +86,7 @@ class _CommunityEventsState extends State<CommunityEventsAds> {
     }
   }
 
-  /// Build del widget principale della sezione [CommunityEvents], contenente tutta l'interfaccia grafica
+  /// Costruisce l'interfaccia utente per mostrare la lista degli eventi della comunità.
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -201,8 +210,8 @@ class _CommunityEventsState extends State<CommunityEventsAds> {
   }
 }
 
-/// Build del widget che viene visualizzato quando viene selezionato un determinato evento dalla sezione [CommunityEvents]
-/// Permette di visualizzare i dettagli dell'evento selezionato
+/// Classe per visualizzare i dettagli di un specifico [EventoDTO]
+/// selezionato nella sezione [CommunityEventsAds].
 class DetailsEventoAds extends StatefulWidget {
   @override
   State<DetailsEventoAds> createState() => _DetailsEventoAdsState();
@@ -215,6 +224,8 @@ class _DetailsEventoAdsState extends State<DetailsEventoAds> {
     _checkUserAndNavigate();
   }
 
+  /// Verifica lo stato di autenticazione dell'utente amministratore e lo
+  /// reindirizza alla homepage se non autenticato.
   void _checkUserAndNavigate() async {
     String token = await SessionManager().get('token');
     final response = await http.post(
@@ -226,6 +237,10 @@ class _DetailsEventoAdsState extends State<DetailsEventoAds> {
     }
   }
 
+  /// Invia una richiesta al server per eliminare un evento.
+  /// Gestisce la risposta del server e fornisce feedback all'utente.
+  ///
+  /// [evento] L'evento da eliminare.
   Future<void> deleteEvento(EventoDTO evento) async {
     final response = await http.post(
         Uri.parse('http://10.0.2.2:8080/gestioneEvento/deleteEvento'),
@@ -239,6 +254,7 @@ class _DetailsEventoAdsState extends State<DetailsEventoAds> {
     }
   }
 
+  /// Costruisce l'interfaccia utente per mostrare i dettagli di un evento selezionato.
   @override
   Widget build(BuildContext context) {
     final EventoDTO evento =
@@ -261,7 +277,8 @@ class _DetailsEventoAdsState extends State<DetailsEventoAds> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
-                    fit: BoxFit.cover, image: Image.asset(evento.immagine).image,
+                  fit: BoxFit.cover,
+                  image: Image.asset(evento.immagine).image,
                 ),
               ),
             ),
@@ -271,15 +288,13 @@ class _DetailsEventoAdsState extends State<DetailsEventoAds> {
             evento.nomeEvento,
             textAlign: TextAlign.center,
             style: const TextStyle(
-                fontSize: 30,
-                fontFamily: 'Genos',
-                fontWeight: FontWeight.bold
-            ),
+                fontSize: 30, fontFamily: 'Genos', fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 10),
           Padding(
             padding: const EdgeInsets.all(10.0),
-            child: Text(evento.descrizione,
+            child: Text(
+              evento.descrizione,
               textAlign: TextAlign.center,
               style: const TextStyle(
                 fontFamily: 'Poppins',
@@ -301,15 +316,14 @@ class _DetailsEventoAdsState extends State<DetailsEventoAds> {
                           style: TextStyle(
                               fontSize: 20,
                               fontFamily: 'PoppinsMedium',
-                              fontWeight: FontWeight.bold
-                          ),
+                              fontWeight: FontWeight.bold),
                         ),
-                        Text(evento.email,
+                        Text(
+                          evento.email,
                           style: const TextStyle(
                               fontSize: 15,
                               fontFamily: 'Poppins',
-                              fontWeight: FontWeight.bold
-                          ),
+                              fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(height: 20),
                         const Text(
@@ -317,10 +331,10 @@ class _DetailsEventoAdsState extends State<DetailsEventoAds> {
                           style: TextStyle(
                               fontSize: 20,
                               fontFamily: 'PoppinsMedium',
-                              fontWeight: FontWeight.bold
-                          ),
+                              fontWeight: FontWeight.bold),
                         ),
-                        Text(data,
+                        Text(
+                          data,
                           style: const TextStyle(
                               fontSize: 15,
                               fontFamily: 'Poppins',

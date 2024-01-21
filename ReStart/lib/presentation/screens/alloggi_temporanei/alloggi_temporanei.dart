@@ -15,6 +15,7 @@ class AlloggiTemporanei extends StatefulWidget {
 /// Creazione dello stato di [AlloggiTemporanei], costituito
 /// dalla lista degli alloggi
 class _AlloggiTemporaneiState extends State<AlloggiTemporanei> {
+  /// Lista degli alloggi disponibili
   List<AlloggioTemporaneoDTO> alloggi = [];
 
   @override
@@ -24,14 +25,15 @@ class _AlloggiTemporaneiState extends State<AlloggiTemporanei> {
     _checkUserAndNavigate();
   }
 
+  /// Verifica l'utente e reindirizza se necessario
   void _checkUserAndNavigate() async {
     String token = await SessionManager().get('token');
     final response = await http.post(
-        Uri.parse('http://10.0.2.2:8080/autenticazione/checkUserUtente'),
-        body: jsonEncode(token),
-        headers: {'Content-Type': 'application/json'}
+      Uri.parse('http://10.0.2.2:8080/autenticazione/checkUserUtente'),
+      body: jsonEncode(token),
+      headers: {'Content-Type': 'application/json'},
     );
-    if(response.statusCode != 200){
+    if (response.statusCode != 200) {
       Navigator.pushNamed(context, AppRoutes.home);
     }
   }
@@ -127,9 +129,11 @@ class _AlloggiTemporaneiState extends State<AlloggiTemporanei> {
                         ),
                       ],
                     ),
-                    margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+                    margin:
+                        const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
                     child: ListTile(
-                      visualDensity: const VisualDensity(vertical: 4, horizontal: 4),
+                      visualDensity:
+                          const VisualDensity(vertical: 4, horizontal: 4),
                       minVerticalPadding: 50,
                       minLeadingWidth: 80,
                       tileColor: Colors.transparent,
@@ -168,26 +172,27 @@ class _AlloggiTemporaneiState extends State<AlloggiTemporanei> {
   }
 }
 
-/// visualizza i dettagli di un alloggio
+/// Visualizza i dettagli di un alloggio
 class DetailsAlloggio extends StatefulWidget {
   @override
   State<DetailsAlloggio> createState() => _DetailsAlloggioState();
 }
 
 class _DetailsAlloggioState extends State<DetailsAlloggio> {
-
   @override
   void initState() {
     super.initState();
     _checkUserAndNavigate();
   }
 
+  /// Verifica l'utente e reindirizza se necessario
   void _checkUserAndNavigate() async {
     String token = await SessionManager().get('token');
     final response = await http.post(
-        Uri.parse('http://10.0.2.2:8080/autenticazione/checkUserUtente'),
-        body: jsonEncode(token),
-        headers: {'Content-Type': 'application/json'});
+      Uri.parse('http://10.0.2.2:8080/autenticazione/checkUserUtente'),
+      body: jsonEncode(token),
+      headers: {'Content-Type': 'application/json'},
+    );
     if (response.statusCode != 200) {
       Navigator.pushNamed(context, AppRoutes.home);
     }
@@ -236,8 +241,8 @@ class _DetailsAlloggioState extends State<DetailsAlloggio> {
               alloggio.descrizione,
               textAlign: TextAlign.center,
               style: const TextStyle(
-              fontSize: 15,
-              fontFamily: 'Poppins',
+                fontSize: 15,
+                fontFamily: 'Poppins',
               ),
             ),
           ),
@@ -257,13 +262,15 @@ class _DetailsAlloggioState extends State<DetailsAlloggio> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                Text(alloggio.email,
+                Text(
+                  alloggio.email,
                   style: const TextStyle(
                     fontSize: 15,
                     fontFamily: 'Poppins',
                   ),
                 ),
-                Text(alloggio.sito,
+                Text(
+                  alloggio.sito,
                   style: const TextStyle(
                     fontSize: 15,
                     fontFamily: 'Poppins',

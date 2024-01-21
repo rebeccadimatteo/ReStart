@@ -7,14 +7,17 @@ import '../../components/app_bar_ca.dart';
 import 'package:http/http.dart' as http;
 import '../routes/routes.dart';
 
-/// Classe che implementa la sezione [AnnunciDiLavoroPubblicati]
+/// Classe che implementa la sezione [AnnunciDiLavoroPubblicati].
+/// Si tratta di un widget di stato che gestisce la visualizzazione degli annunci
+/// di lavoro pubblicati.
 class AnnunciDiLavoroPubblicati extends StatefulWidget {
   @override
   _AnnunciDiLavoroState createState() => _AnnunciDiLavoroState();
 }
 
-/// Creazione dello stato di [AnnunciDiLavoroPubblicati], costituito dalla
-/// lista degli annunci pubblicati
+/// Stato per [AnnunciDiLavoroPubblicati]. Gestisce la lista degli annunci
+/// di lavoro pubblicati e interagisce con il server per recuperare e
+/// manipolare questi dati.
 class _AnnunciDiLavoroState extends State<AnnunciDiLavoroPubblicati> {
   List<AnnuncioDiLavoroDTO> annunci = [];
   var token = SessionManager().get("token");
@@ -26,6 +29,8 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroPubblicati> {
     _checkUserAndNavigate();
   }
 
+  /// Verifica l'autenticazione dell'utente e lo reindirizza alla pagina home
+  /// se non autenticato.
   void _checkUserAndNavigate() async {
     String token = await SessionManager().get('token');
     final response = await http.post(
@@ -37,14 +42,8 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroPubblicati> {
     }
   }
 
-  /// Effettua una richiesta asincrona al server per ottenere dati sugli annunci.
-  /// Questa funzione esegue una richiesta POST al server specificato,
-  /// interpreta la risposta e aggiorna lo stato dell'oggetto corrente con
-  /// i dati ricevuti, se la risposta è valida (status code 200).
-  ///
-  /// In caso di successo, la lista di [AnnuncioDiLavoroDTO] risultante
-  /// viene assegnata alla variabile di stato 'annunci'. In caso di errori
-  /// nella risposta, vengono stampati messaggi di errore sulla console.
+  /// Richiede al server la lista degli annunci di lavoro pubblicati.
+  /// Aggiorna lo stato con i dati ottenuti in caso di successo.
   Future<void> fetchDataFromServer() async {
     String user = JWTUtils.getUserFromToken(accessToken: await token);
     Map<String, dynamic> username = {"username": user};
@@ -75,6 +74,10 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroPubblicati> {
     }
   }
 
+  /// Invia una richiesta al server per eliminare un annuncio di lavoro.
+  /// Aggiorna lo stato in caso di successo.
+  ///
+  /// [annuncio] L'annuncio di lavoro da eliminare.
   Future<void> deleteLavoro(AnnuncioDiLavoroDTO annuncio) async {
     final response = await http.post(
         Uri.parse('http://10.0.2.2:8080/gestioneLavoro/deleteLavoro'),
@@ -88,6 +91,10 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroPubblicati> {
     }
   }
 
+  /// Invia una richiesta al server per modificare un annuncio di lavoro.
+  /// Aggiorna lo stato in caso di successo.
+  ///
+  /// [annuncio] L'annuncio di lavoro da modificare.
   Future<void> modifyLavoro(AnnuncioDiLavoroDTO annuncio) async {
     final response = await http.post(
         Uri.parse('http://10.0.2.2:8080/gestioneLavoro/modifyLavoro'),
@@ -107,9 +114,9 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroPubblicati> {
     }
   }
 
-  /// Costruisce la schermata che visualizza la lista degli annunci di lavoro pubblicati.
-  /// La lista viene costruita dinamicamente utilizzando i dati presenti nella
-  /// lista 'annunci'.
+  /// Costruisce l'interfaccia utente per mostrare la lista degli annunci
+  /// di lavoro pubblicati. Utilizza [ListView.builder] per creare un elenco
+  /// scrollabile di annunci.
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -169,10 +176,10 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroPubblicati> {
                       ],
                     ),
                     margin:
-                    const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+                        const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
                     child: ListTile(
                       visualDensity:
-                      const VisualDensity(vertical: 4, horizontal: 4),
+                          const VisualDensity(vertical: 4, horizontal: 4),
                       minVerticalPadding: 50,
                       minLeadingWidth: 80,
                       tileColor: Colors.transparent,
@@ -246,7 +253,8 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroPubblicati> {
   }
 }
 
-/// Visualizza i dettagli di [AnnunciDiLavoro]
+/// Classe che gestisce i dettagli di un annuncio di lavoro pubblicato.
+/// Mostra maggiori informazioni su un annuncio selezionato.
 class DetailsLavoroPub extends StatefulWidget {
   @override
   _DetailsLavoroPub createState() => _DetailsLavoroPub();
@@ -262,6 +270,8 @@ class _DetailsLavoroPub extends State<DetailsLavoroPub> {
     _checkUserAndNavigate();
   }
 
+  /// Verifica l'autenticazione dell'utente e lo reindirizza alla pagina home
+  /// se non autenticato.
   void _checkUserAndNavigate() async {
     String token = await SessionManager().get('token');
     final response = await http.post(
@@ -273,6 +283,10 @@ class _DetailsLavoroPub extends State<DetailsLavoroPub> {
     }
   }
 
+  /// Invia una richiesta al server per eliminare un annuncio di lavoro.
+  /// Aggiorna lo stato in caso di successo.
+  ///
+  /// [annuncio] L'annuncio di lavoro da eliminare.
   Future<void> deleteLavoro(AnnuncioDiLavoroDTO annuncio) async {
     final response = await http.post(
         Uri.parse('http://10.0.2.2:8080/gestioneLavoro/deleteLavoro'),
@@ -286,6 +300,9 @@ class _DetailsLavoroPub extends State<DetailsLavoroPub> {
     }
   }
 
+  /// Costruisce l'interfaccia utente per mostrare i dettagli di un annuncio
+  /// di lavoro. Visualizza immagini, descrizioni, dettagli del contatto e
+  /// opzioni per la gestione dell'annuncio.
   @override
   Widget build(BuildContext context) {
     final AnnuncioDiLavoroDTO annuncio =
@@ -372,7 +389,6 @@ class _DetailsLavoroPub extends State<DetailsLavoroPub> {
                         fontSize: 15,
                       ),
                     ),
-
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

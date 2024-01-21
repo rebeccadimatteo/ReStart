@@ -6,15 +6,16 @@ import '../../components/app_bar_ads.dart';
 import 'package:http/http.dart' as http;
 import '../routes/routes.dart';
 
-
-/// Classe che implementa la sezione [AnnunciDiLavoroAds]
+/// Classe che implementa la sezione [AnnunciDiLavoroAds].
+/// Questa classe gestisce la visualizzazione degli annunci di lavoro
+/// destinati agli amministratori del sistema.
 class AnnunciDiLavoroAds extends StatefulWidget {
   @override
   _AnnunciDiLavoroState createState() => _AnnunciDiLavoroState();
 }
 
-/// Creazione dello stato di [AnnunciDiLavoroAds], costituito
-/// dalla lista degli annunci
+/// Stato per [AnnunciDiLavoroAds]. Gestisce la lista degli annunci di lavoro
+/// e interagisce con il server per recuperare questi dati.
 class _AnnunciDiLavoroState extends State<AnnunciDiLavoroAds> {
   List<AnnuncioDiLavoroDTO> annunci = [];
 
@@ -25,26 +26,21 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroAds> {
     _checkUserAndNavigate();
   }
 
+  /// Verifica lo stato di autenticazione dell'utente e reindirizza alla pagina
+  /// home se non autenticato.
   void _checkUserAndNavigate() async {
     String token = await SessionManager().get('token');
     final response = await http.post(
         Uri.parse('http://10.0.2.2:8080/autenticazione/checkUserADS'),
         body: jsonEncode(token),
-        headers: {'Content-Type': 'application/json'}
-    );
-    if(response.statusCode != 200){
+        headers: {'Content-Type': 'application/json'});
+    if (response.statusCode != 200) {
       Navigator.pushNamed(context, AppRoutes.home);
     }
   }
 
-  /// Effettua una richiesta asincrona al server per ottenere dati sugli annunci.
-  /// Questa funzione esegue una richiesta POST al server specificato,
-  /// interpreta la risposta e aggiorna lo stato dell'oggetto corrente con
-  /// i dati ricevuti, se la risposta è valida (status code 200).
-  ///
-  /// In caso di successo, la lista di [AnnuncioDiLavoroDTO] risultante
-  /// viene assegnata alla variabile di stato 'annunci'. In caso di errori
-  /// nella risposta, vengono stampati messaggi di errore sulla console.
+  /// Richiede al server la lista degli annunci di lavoro.
+  /// Aggiorna lo stato con i dati ottenuti in caso di successo.
   Future<void> fetchDataFromServer() async {
     final response = await http.post(
         Uri.parse('http://10.0.2.2:8080/gestioneLavoro/visualizzaLavori'));
@@ -72,6 +68,10 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroAds> {
     }
   }
 
+  /// Invia una richiesta al server per eliminare un annuncio di lavoro.
+  /// Aggiorna lo stato in caso di successo.
+  ///
+  /// [annuncio] L'annuncio di lavoro da eliminare.
   Future<void> deleteLavoro(AnnuncioDiLavoroDTO annuncio) async {
     final response = await http.post(
         Uri.parse('http://10.0.2.2:8080/gestioneLavoro/deleteLavoro'),
@@ -85,9 +85,9 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroAds> {
     }
   }
 
-  /// Costruisce la schermata che visualizza la lista degli annunci di lavoro disponibili.
-  /// La lista viene costruita dinamicamente utilizzando i dati presenti nella
-  /// lista 'annunci'.
+  /// Costruisce l'interfaccia utente per mostrare la lista degli annunci
+  /// di lavoro disponibili. Utilizza [ListView.builder] per creare un elenco
+  /// scrollabile di annunci.
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -148,10 +148,10 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroAds> {
                       ],
                     ),
                     margin:
-                    const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+                        const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
                     child: ListTile(
                       visualDensity:
-                      const VisualDensity(vertical: 4, horizontal: 4),
+                          const VisualDensity(vertical: 4, horizontal: 4),
                       minVerticalPadding: 50,
                       minLeadingWidth: 80,
                       tileColor: Colors.transparent,
@@ -211,33 +211,37 @@ class _AnnunciDiLavoroState extends State<AnnunciDiLavoroAds> {
   }
 }
 
-/// Visualizza i dettagli di [AnnunciDiLavoro]
-
+/// Classe che gestisce i dettagli di un annuncio di lavoro.
+/// Mostra maggiori informazioni su un annuncio selezionato.
 class DetailsLavoroAds extends StatefulWidget {
   @override
   State<DetailsLavoroAds> createState() => _DetailsLavoroAdsState();
 }
 
 class _DetailsLavoroAdsState extends State<DetailsLavoroAds> {
-
   @override
-  void initState(){
+  void initState() {
     super.initState();
     _checkUserAndNavigate();
   }
 
+  /// Verifica lo stato di autenticazione dell'utente e reindirizza alla pagina
+  /// home se non autenticato.
   void _checkUserAndNavigate() async {
     String token = await SessionManager().get('token');
     final response = await http.post(
         Uri.parse('http://10.0.2.2:8080/autenticazione/checkUserADS'),
         body: jsonEncode(token),
-        headers: {'Content-Type': 'application/json'}
-    );
-    if(response.statusCode != 200){
+        headers: {'Content-Type': 'application/json'});
+    if (response.statusCode != 200) {
       Navigator.pushNamed(context, AppRoutes.home);
     }
   }
 
+  /// Invia una richiesta al server per eliminare un annuncio di lavoro.
+  /// Gestisce la risposta del server e fornisce feedback all'utente.
+  ///
+  /// [annuncio] L'annuncio di lavoro da eliminare.
   Future<void> deleteLavoro(AnnuncioDiLavoroDTO annuncio) async {
     final response = await http.post(
         Uri.parse('http://10.0.2.2:8080/gestioneLavoro/deleteLavoro'),
@@ -249,6 +253,9 @@ class _DetailsLavoroAdsState extends State<DetailsLavoroAds> {
     }
   }
 
+  /// Costruisce l'interfaccia utente per mostrare i dettagli di un annuncio
+  /// di lavoro. Visualizza immagini, descrizioni, dettagli di contatto e
+  /// un pulsante per eliminare l'annuncio.
   @override
   Widget build(BuildContext context) {
     final AnnuncioDiLavoroDTO annuncio =
@@ -269,7 +276,8 @@ class _DetailsLavoroAdsState extends State<DetailsLavoroAds> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
-                  fit: BoxFit.cover, image: Image.asset(annuncio.immagine).image,
+                  fit: BoxFit.cover,
+                  image: Image.asset(annuncio.immagine).image,
                 ),
               ),
             ),
@@ -279,10 +287,7 @@ class _DetailsLavoroAdsState extends State<DetailsLavoroAds> {
             annuncio.nome,
             textAlign: TextAlign.center,
             style: const TextStyle(
-                fontSize: 30,
-                fontFamily: 'Genos',
-                fontWeight: FontWeight.bold
-            ),
+                fontSize: 30, fontFamily: 'Genos', fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 10),
           Padding(
@@ -310,15 +315,14 @@ class _DetailsLavoroAdsState extends State<DetailsLavoroAds> {
                           style: TextStyle(
                               fontSize: 20,
                               fontFamily: 'PoppinsMedium',
-                              fontWeight: FontWeight.bold
-                          ),
+                              fontWeight: FontWeight.bold),
                         ),
-                        Text(annuncio.email,
+                        Text(
+                          annuncio.email,
                           style: const TextStyle(
                               fontSize: 15,
                               fontFamily: 'Poppins',
-                              fontWeight: FontWeight.bold
-                          ),
+                              fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(width: 8),
                         Text(
@@ -335,8 +339,7 @@ class _DetailsLavoroAdsState extends State<DetailsLavoroAds> {
                           style: TextStyle(
                               fontSize: 20,
                               fontFamily: 'PoppinsMedium',
-                              fontWeight: FontWeight.bold
-                          ),
+                              fontWeight: FontWeight.bold),
                         ),
                         Text(
                           '${annuncio.via}, ${annuncio.citta}, ${annuncio.provincia}',

@@ -8,11 +8,13 @@ import '../../../utils/auth_service.dart';
 import '../../components/app_bar_ads.dart';
 import '../routes/routes.dart';
 
+/// Rappresenta la schermata per la gestione delle richieste di eventi e annunci di lavoro da parte degli amministratori ADS.
 class Richieste extends StatefulWidget {
   @override
   State<Richieste> createState() => _RichiesteState();
 }
 
+/// Gestisce la logica e l'interazione dell'interfaccia utente per la visualizzazione e gestione delle richieste.
 class _RichiesteState extends State<Richieste> {
   List<EventoDTO> eventi = [];
   List<AnnuncioDiLavoroDTO> annunci = [];
@@ -24,6 +26,7 @@ class _RichiesteState extends State<Richieste> {
     _checkUserAndNavigate();
   }
 
+  /// Metodo per verificare la validità dell'utente e reindirizzare se non autorizzato.
   void _checkUserAndNavigate() async {
     bool isUserValid = await AuthService.checkUserADS();
     if (!isUserValid) {
@@ -31,6 +34,7 @@ class _RichiesteState extends State<Richieste> {
     }
   }
 
+  /// Metodo per recuperare dati di eventi e annunci dal server.
   Future<void> fetchDataFromServer() async {
     final response = await http.post(
         Uri.parse('http://10.0.2.2:8080/gestioneEvento/visualizzaEventi'));
@@ -70,6 +74,7 @@ class _RichiesteState extends State<Richieste> {
     }
   }
 
+  /// Metodo per approvare un evento
   Future<void> approvaEvento(EventoDTO e) async {
     final response = await http.post(
       Uri.parse('http://10.0.2.2:8080/gestioneEvento/approveEvento'),
@@ -125,6 +130,7 @@ class _RichiesteState extends State<Richieste> {
     }
   }
 
+  /// Metodo per rifiutare un evento
   Future<void> rifiutaEvento(EventoDTO e) async {
     final response = await http.post(
       Uri.parse('http://10.0.2.2:8080/gestioneEvento/rejectEvento'),
@@ -180,6 +186,7 @@ class _RichiesteState extends State<Richieste> {
     }
   }
 
+  /// Metodo per approvare un annuncio
   Future<void> approvaAnnuncio(AnnuncioDiLavoroDTO a) async {
     final response = await http.post(
       Uri.parse('http://10.0.2.2:8080/gestioneLavoro/approveLavoro'),
@@ -235,6 +242,7 @@ class _RichiesteState extends State<Richieste> {
     }
   }
 
+  /// Metodo per rifiutare un annuncio
   Future<void> rifiutaAnnuncio(AnnuncioDiLavoroDTO a) async {
     final response = await http.post(
       Uri.parse('http://10.0.2.2:8080/gestioneLavoro/rejectLavoro'),
@@ -255,9 +263,7 @@ class _RichiesteState extends State<Richieste> {
             action: SnackBarAction(
               label: 'Chiudi',
               textColor: Colors.deepPurple,
-              onPressed: () {
-
-              },
+              onPressed: () {},
             ),
           ),
         );
@@ -280,7 +286,7 @@ class _RichiesteState extends State<Richieste> {
             action: SnackBarAction(
               label: 'Chiudi',
               textColor: Colors.deepPurple,
-              onPressed: () {  },
+              onPressed: () {},
             ),
           ),
         );
@@ -288,25 +294,26 @@ class _RichiesteState extends State<Richieste> {
     }
   }
 
+  /// Costruzione dell'interfaccia utente per la visualizzazione delle richieste
   @override
   Widget build(BuildContext context) {
     if (eventi.isEmpty && annunci.isEmpty) {
       // Nessuna richiesta
       return Scaffold(
-          appBar: AdsAppBar(
-            showBackButton: true,
-          ),
-          endDrawer: AdsAppBar.buildDrawer(context),
-          body: const Center(
-            child: Text(
-              'Nessuna richiesta',
-              style: TextStyle(
-                fontSize: 20,
-                fontFamily: 'PoppinsMedium',
-                fontWeight: FontWeight.bold,
-              ),
+        appBar: AdsAppBar(
+          showBackButton: true,
+        ),
+        endDrawer: AdsAppBar.buildDrawer(context),
+        body: const Center(
+          child: Text(
+            'Nessuna richiesta',
+            style: TextStyle(
+              fontSize: 20,
+              fontFamily: 'PoppinsMedium',
+              fontWeight: FontWeight.bold,
             ),
           ),
+        ),
       );
     }
     return Scaffold(
@@ -384,8 +391,7 @@ class _RichiesteState extends State<Richieste> {
           tileColor: Colors.transparent,
           leading: CircleAvatar(
             radius: 35,
-            backgroundImage:
-                Image.asset(evento.immagine).image,
+            backgroundImage: Image.asset(evento.immagine).image,
           ),
           title: Text(
             evento.nomeEvento,
@@ -466,8 +472,7 @@ class _RichiesteState extends State<Richieste> {
           tileColor: Colors.transparent,
           leading: CircleAvatar(
             radius: 35,
-            backgroundImage:
-                Image.asset(annuncio.immagine).image,
+            backgroundImage: Image.asset(annuncio.immagine).image,
           ),
           title: Text(
             annuncio.nome,
@@ -513,8 +518,7 @@ class _RichiesteState extends State<Richieste> {
   }
 }
 
-/// Visualizza i dettagli di [AnnunciDiLavoro]
-
+/// Classe DetailsLavoroR rappresenta la schermata di dettaglio per un [AnnuncioDiLavoroDTO] nella sezione Richieste.
 class DetailsLavoroR extends StatefulWidget {
   const DetailsLavoroR(this.annuncio);
 
@@ -530,6 +534,7 @@ class _DetailsLavoroAdsState extends State<DetailsLavoroR> {
 
   _DetailsLavoroAdsState({required this.annuncio});
 
+  /// Metodo per approvare un annuncio
   Future<void> approvaAnnuncio(AnnuncioDiLavoroDTO a) async {
     final response = await http.post(
       Uri.parse('http://10.0.2.2:8080/gestioneLavoro/approveLavoro'),
@@ -582,6 +587,7 @@ class _DetailsLavoroAdsState extends State<DetailsLavoroR> {
     }
   }
 
+  /// Metodo per rifiutare un annuncio
   Future<void> rifiutaAnnuncio(AnnuncioDiLavoroDTO a) async {
     final response = await http.post(
       Uri.parse('http://10.0.2.2:8080/gestioneLavoro/rejectLavoro'),
@@ -634,6 +640,7 @@ class _DetailsLavoroAdsState extends State<DetailsLavoroR> {
     }
   }
 
+  /// Costruzione dell'interfaccia utente per i dettagli dell'annuncio
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
@@ -839,6 +846,7 @@ class _DetailsEventoAdsState extends State<DetailsEventoR> {
 
   _DetailsEventoAdsState({required this.evento});
 
+  /// Metodo per approvare un evento
   Future<void> approvaEvento(EventoDTO e) async {
     final response = await http.post(
       Uri.parse('http://10.0.2.2:8080/gestioneEvento/approveEvento'),
@@ -889,6 +897,7 @@ class _DetailsEventoAdsState extends State<DetailsEventoR> {
     }
   }
 
+  /// Metodo per rifiutare un evento
   Future<void> rifiutaEvento(EventoDTO e) async {
     final response = await http.post(
       Uri.parse('http://10.0.2.2:8080/gestioneEvento/rejectEvento'),
@@ -939,6 +948,7 @@ class _DetailsEventoAdsState extends State<DetailsEventoR> {
     }
   }
 
+  /// Costruzione dell'interfaccia utente per i dettagli dell'evento
   @override
   Widget build(BuildContext context) {
     final String isoString = evento.date.toIso8601String();
@@ -948,10 +958,7 @@ class _DetailsEventoAdsState extends State<DetailsEventoR> {
 
     DateFormat outputFormat = DateFormat("yyyy-MM-dd HH:mm");
     final String formattedDate = outputFormat.format(parsedDate);
-    final double screenWidth = MediaQuery
-        .of(context)
-        .size
-        .width;
+    final double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
       appBar: AdsAppBar(
@@ -971,9 +978,7 @@ class _DetailsEventoAdsState extends State<DetailsEventoR> {
                 shape: BoxShape.circle,
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: Image
-                      .asset(evento.immagine)
-                      .image,
+                  image: Image.asset(evento.immagine).image,
                 ),
               ),
             ),
