@@ -11,6 +11,9 @@ class SupportoMedicoDTO {
   late String _citta;
   late String _provincia;
 
+  /// Costruttore di [SupportoMedicoDTO].
+  ///
+  /// Inizializza un'istanza di [SupportoMedicoDTO] con valori per tutte le proprietà richieste.
   SupportoMedicoDTO({
     int? id,
     required String nomeMedico,
@@ -97,7 +100,9 @@ class SupportoMedicoDTO {
     _provincia = value;
   }
 
-  // Factory method per la creazione del DTO da una mappa (solitamente utilizzato quando si deserializzano dati da JSON).
+  /// Factory method per creare un'istanza di [SupportoMedicoDTO] da una mappa JSON.
+  ///
+  /// Il metodo prende in input una mappa (json) e restituisce un'istanza di [SupportoMedicoDTO].
   factory SupportoMedicoDTO.fromJson(Map<String, dynamic> json) {
     return SupportoMedicoDTO(
       id: json['id'],
@@ -124,7 +129,9 @@ class SupportoMedicoDTO {
     );
   }
 
-  // Metodo per convertire il DTO in una mappa (solitamente utilizzato quando si serializzano dati in JSON).
+  /// Metodo per convertire il DTO in una mappa JSON.
+  ///
+  /// Restituisce una mappa JSON rappresentante l'istanza corrente.
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -141,6 +148,9 @@ class SupportoMedicoDTO {
     };
   }
 
+  /// Metodo per convertire il DTO in una mappa.
+  ///
+  /// Restituisce una mappa rappresentante l'istanza corrente.
   Map<String, dynamic> toMap() {
     return {
       'id': id,
@@ -157,6 +167,9 @@ class SupportoMedicoDTO {
     };
   }
 
+  /// Factory method per creare un'istanza di [SupportoMedicoDTO] da una mappa.
+  ///
+  /// Prende in input una mappa e restituisce un'istanza di [SupportoMedicoDTO].
   factory SupportoMedicoDTO.fromMap(Map<String, dynamic> map) {
     return SupportoMedicoDTO(
       id: map['id'] as int,
@@ -173,6 +186,9 @@ class SupportoMedicoDTO {
     );
   }
 
+  /// Metodo per rappresentare l'istanza come stringa.
+  ///
+  /// Restituisce una stringa che rappresenta l'istanza corrente.
   @override
   String toString() {
     return 'SupportoMedicoDTO{_id: $_id, _immagine: $_immagine, _nomeMedico: $_nomeMedico, _cognomeMedico: $_cognomeMedico, _descrizione: $_descrizione, _tipo: $_tipo, _email: $_email, _numTelefono: $_numTelefono, _via: $_via, _citta: $_citta, _provincia: $_provincia}';

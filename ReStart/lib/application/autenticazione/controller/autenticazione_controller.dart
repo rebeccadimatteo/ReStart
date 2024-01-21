@@ -15,13 +15,23 @@ import 'package:shelf_router/shelf_router.dart' as shelf_router;
 
 import '../service/autonticazione_service_impl.dart';
 
+/// Controller per la gestione dell'autenticazione.
+///
+/// Questa classe gestisce le richieste HTTP relative all'autenticazione
+/// e alla gestione degli utenti. Utilizza il pattern Router per definire
+/// i vari endpoint.
 class AutenticazioneController {
+  /// Service per gestire le operazioni relative all'autenticazione.
   late final AutenticazioneService _authService;
+
+  /// Router per la gestione dei percorsi HTTP.
   late final shelf_router.Router _router;
 
+  /// Costruttore che inizializza il servizio di autenticazione e configura i percorsi.
   AutenticazioneController() {
     _authService = AutenticazioneServiceImpl();
     _router = shelf_router.Router();
+    // Configurazione di vari percorsi POST e ALL per diverse funzionalità.
     _router.post('/login', _login);
     _router.post('/deleteUtente', _deleteUtente);
     _router.post('/listaUtenti', _listaUtenti);
@@ -34,8 +44,12 @@ class AutenticazioneController {
     _router.all('/<ignored|.*>', _notFound);
   }
 
+  /// Fornisce l'accesso al router.
   shelf_router.Router get router => _router;
 
+  /// Gestisce il login degli utenti.
+  ///
+  /// Decodifica la richiesta, autentica l'utente e genera un token JWT in caso di successo.
   Future<Response> _login(Request request) async {
     try {
       String requestBody = await request.readAsString();
@@ -79,6 +93,9 @@ class AutenticazioneController {
     }
   }
 
+  /// Elimina un utente specificato nella richiesta.
+  ///
+  /// Decodifica la richiesta e invoca il servizio di autenticazione per eliminare l'utente.
   Future<Response> _deleteUtente(Request request) async {
     try {
       final String requestBody = await request.readAsString();
@@ -103,6 +120,9 @@ class AutenticazioneController {
     }
   }
 
+  /// Fornisce un elenco di tutti gli utenti.
+  ///
+  /// Recupera la lista degli utenti dal service di autenticazione e la restituisce.
   Future<Response> _listaUtenti(Request request) async {
     try {
       final List<UtenteDTO> listaUser = await _authService.listaUtenti();
@@ -115,6 +135,9 @@ class AutenticazioneController {
     }
   }
 
+  /// Visualizza i dettagli di un singolo utente.
+  ///
+  /// Decodifica la richiesta e recupera i dettagli dell'utente specificato.
   _visualizzaUtente(Request request) async {
     try {
       final String requestBody = await request.readAsString();
@@ -139,6 +162,9 @@ class AutenticazioneController {
     }
   }
 
+  /// Modifica i dettagli di un utente.
+  ///
+  /// Decodifica la richiesta e aggiorna i dettagli dell'utente specificato.
   Future<Response> _modifyUtente(Request request) async {
     try {
       final String requestBody = await request.readAsString();
@@ -197,6 +223,9 @@ class AutenticazioneController {
     }
   }
 
+  /// Gestisce il caricamento di un'immagine per un utente.
+  ///
+  /// Decodifica la richiesta multipart e salva l'immagine fornita.
   Future<Response> _uploadImage(Request request) async {
     try {
       if (!request.isMultipartForm) {
@@ -243,6 +272,9 @@ class AutenticazioneController {
     }
   }
 
+  /// Verifica lo status di un utente in base al token JWT fornito.
+  ///
+  /// Decodifica la richiesta e verifica se l'utente è autorizzato.
   Future<Response> _checkUserUtente(Request request) async {
     try {
       String requestBody = await request.readAsString();
@@ -261,6 +293,9 @@ class AutenticazioneController {
     }
   }
 
+  /// Verifica lo status di un CA (Collaboratore aziendale).
+  ///
+  /// Decodifica la richiesta e verifica se il CA è autorizzato.
   Future<Response> _checkUserCA(Request request) async {
     try {
       String requestBody = await request.readAsString();
@@ -279,6 +314,9 @@ class AutenticazioneController {
     }
   }
 
+  /// Verifica lo status di un ADS (Amministratore di sistema).
+  ///
+  /// Decodifica la richiesta e verifica se l'ADS è autorizzato.
   Future<Response> _checkUserADS(Request request) async {
     try {
       String requestBody = await request.readAsString();
@@ -297,11 +335,17 @@ class AutenticazioneController {
     }
   }
 
+  /// Gestisce le richieste a percorsi non trovati.
+  ///
+  /// Restituisce una risposta indicando che il percorso non è stato trovato.
   Future<Response> _notFound(Request request) async {
     return Response.notFound('Endpoint non trovato',
         headers: {'Content-Type': 'text/plain'});
   }
 
+  /// Analizza il corpo di una richiesta form-encoded e lo trasforma in un dizionario.
+  ///
+  /// Utilizza per processare i dati form-encoded nelle richieste POST.
   Map<String, dynamic> parseFormBody(String body) {
     final Map<String, dynamic> formData = {};
     final List<String> pairs = body.split("&");

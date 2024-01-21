@@ -2,8 +2,21 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'lavoro_adatto_adapter.dart';
 
-class LavoroAdattoAdapterImpl implements LavoroAdattoAdapter{
+/// Implementazione dell'adapter di Lavoro Adatto.
+///
+/// Utilizza un servizio esterno per determinare il lavoro più adatto basandosi sui dati forniti.
+class LavoroAdattoAdapterImpl implements LavoroAdattoAdapter {
   LavoroAdattoAdapterImpl();
+
+  /// Implementa il metodo per determinare il lavoro più adatto.
+  ///
+  /// Effettua una richiesta POST a un servizio esterno, inviando i dati dell'utente.
+  /// In base alla risposta del servizio, restituisce il titolo del lavoro più adatto.
+  ///
+  /// Accetta un [Map<String, dynamic>] contenente i dati necessari per la valutazione.
+  /// Restituisce una [Future<String>] che rappresenta il lavoro calcolato come più adatto.
+  ///
+  /// Solleva un'eccezione in caso di errore nella comunicazione con il servizio o se la risposta non è quella attesa.
   @override
   Future<String> lavoroAdatto(Map<String, dynamic> data) async {
     final url = Uri.parse('http://127.0.0.1:5000/predict');
@@ -22,5 +35,4 @@ class LavoroAdattoAdapterImpl implements LavoroAdattoAdapter{
       throw Exception('Errore durante la comunicazione con il server: $e');
     }
   }
-
 }

@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import '../../../../lib/model/entity/alloggio_temporaneo_DTO.dart';
-import '../../../../lib/application/gestioneReintegrazione/service/reintegrazione/reintegrazione_service_impl.dart';
-import '../../../../lib/model/dao/alloggio_temporaneo/alloggio_temporaneo_DAO_impl.dart';
+import 'package:restart/model/entity/alloggio_temporaneo_DTO.dart';
+import 'package:restart/application/gestioneReintegrazione/service/reintegrazione/reintegrazione_service_impl.dart';
+import 'package:restart/model/dao/alloggio_temporaneo/alloggio_temporaneo_DAO_impl.dart';
 
 class MockReintegrazioneServiceImpl extends Mock
     implements AlloggioTemporaneoDAOImpl {}

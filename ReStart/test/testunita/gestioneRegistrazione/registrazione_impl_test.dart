@@ -1,9 +1,9 @@
 import 'package:intl/intl.dart';
 import 'package:test/test.dart';
 import 'package:mockito/mockito.dart';
-import '../../../lib/application/gestioneRegistrazione/service/registrazione_service_impl.dart';
-import '../../../lib/model/dao/autenticazione/utente/utente_DAO.dart';
-import '../../../lib/model/entity/utente_DTO.dart';
+import 'package:restart/application/gestioneRegistrazione/service/registrazione_service_impl.dart';
+import 'package:restart/model/dao/autenticazione/utente/utente_DAO.dart';
+import 'package:restart/model/entity/utente_DTO.dart';
 
 class MockRegistrazioneServiceImpl extends Mock
     implements RegistrazioneServiceImpl {}

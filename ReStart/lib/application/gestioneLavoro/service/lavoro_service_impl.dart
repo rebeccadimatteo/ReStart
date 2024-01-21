@@ -11,11 +11,21 @@ import '../../../model/entity/candidatura_DTO.dart';
 import '../../../model/entity/utente_DTO.dart';
 import 'lavoro_service.dart';
 
+/// Implementazione del service di gestione degli annunci di lavoro.
+///
+/// Fornisce l'implementazione concreta dei metodi definiti nell'interfaccia `LavoroService`.
+/// Interagisce con i DAO per l'accesso e la manipolazione dei dati relativi agli annunci di lavoro.
 class LavoroServiceImpl implements LavoroService {
+  /// DAO per la gestione degli annunci di lavoro.
   final AnnuncioDiLavoroDAO _lavoroDAO;
+
+  /// DAO per la gestione dei CA
   final CaDAO _caDAO;
+
+  /// DAO per la gestione degli utenti.
   final UtenteDAO _utenteDAO;
 
+  /// Costruttore che inizializza i DAO necessari per la gestione degli annunci di lavoro.
   LavoroServiceImpl()
       : _lavoroDAO = AnnuncioDiLavoroDAOImpl(),
         _caDAO = CaDAOImpl(),
@@ -27,11 +37,17 @@ class LavoroServiceImpl implements LavoroService {
 
   UtenteDAO get utenteDAO => _utenteDAO;
 
+  /// Aggiunge un nuovo annuncio di lavoro al sistema.
+  ///
+  /// Accetta un oggetto [AnnuncioDiLavoroDTO] contenente i dettagli dell'annuncio da aggiungere.
   @override
   Future<bool> addLavoro(AnnuncioDiLavoroDTO annuncio) {
     return _lavoroDAO.add(annuncio);
   }
 
+  /// Approva un annuncio di lavoro specificato dal suo ID.
+  ///
+  /// Verifica l'esistenza dell'annuncio e, in caso affermativo, lo segna come approvato.
   @override
   Future<String> approveLavoro(int idAnnuncio) async {
     if (await _lavoroDAO.existById(idAnnuncio) == false) {
@@ -48,26 +64,41 @@ class LavoroServiceImpl implements LavoroService {
     return "fallito";
   }
 
+  /// Elimina un annuncio di lavoro specificato dal suo ID.
+  ///
+  /// Accetta l'ID dell'annuncio da eliminare.
   @override
   Future<bool> deleteLavoro(int id) {
     return _lavoroDAO.removeById(id);
   }
 
+  /// Modifica un annuncio di lavoro esistente.
+  ///
+  /// Prende in input un oggetto [AnnuncioDiLavoroDTO] aggiornato e applica le modifiche.
   @override
   Future<bool> modifyLavoro(AnnuncioDiLavoroDTO annuncio) {
     return _lavoroDAO.update(annuncio);
   }
 
+  /// Restituisce un elenco di tutte le offerte di lavoro disponibili.
+  ///
+  /// Recupera e restituisce un elenco completo di annunci di lavoro attivi.
   @override
   Future<List<AnnuncioDiLavoroDTO>> offerteLavoro() {
     return _lavoroDAO.findAll();
   }
 
+  /// Restituisce un elenco di offerte di lavoro pubblicate da un CA specifico.
+  ///
+  /// Filtra gli annunci in base al nome utente del CA.
   @override
   Future<List<AnnuncioDiLavoroDTO>> offertePubblicate(String usernameCA) {
     return _lavoroDAO.findByApprovato(usernameCA);
   }
 
+  /// Restituisce un elenco di annunci di lavoro che sono stati approvati.
+  ///
+  /// Filtra gli annunci in base allo stato di approvazione.
   @override
   Future<List<AnnuncioDiLavoroDTO>> annunciApprovati() async {
     List<AnnuncioDiLavoroDTO> list = await _lavoroDAO.findAll();
@@ -84,6 +115,9 @@ class LavoroServiceImpl implements LavoroService {
     return list;
   }
 
+  /// Rifiuta un annuncio di lavoro specificato dal suo ID.
+  ///
+  /// Verifica l'esistenza dell'annuncio e, in caso affermativo, lo rimuove.
   @override
   Future<String> rejectLavoro(int idAnnuncio) async {
     if (await _lavoroDAO.existById(idAnnuncio) == false) {
@@ -95,6 +129,9 @@ class LavoroServiceImpl implements LavoroService {
     return "fallito";
   }
 
+  /// Restituisce un elenco di utenti che si sono candidati per un annuncio di lavoro specifico.
+  ///
+  /// Prende un oggetto [AnnuncioDiLavoroDTO] e restituisce gli utenti candidati.
   @override
   Future<List<UtenteDTO?>?> utentiCandidati(
       AnnuncioDiLavoroDTO annuncio) async {
@@ -109,6 +146,9 @@ class LavoroServiceImpl implements LavoroService {
     return userCandidati;
   }
 
+  /// Restituisce un elenco di richieste di annunci di lavoro in attesa di approvazione.
+  ///
+  /// Recupera gli annunci di lavoro che sono ancora in attesa di approvazione.
   @override
   Future<List<AnnuncioDiLavoroDTO>> richiesteAnnunci() {
     return lavoroDAO.findByNotApprovato();

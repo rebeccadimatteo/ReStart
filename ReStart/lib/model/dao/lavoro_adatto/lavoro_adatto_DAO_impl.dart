@@ -5,9 +5,15 @@ import '../../entity/utente_DTO.dart';
 import 'lavoro_adatto_DAO.dart';
 import 'dart:developer' as developer;
 
+/// Implementazione di [LavoroAdattoDAO] per interagire con un database PostgreSQL.
 class LavoroAdattoDAOImpl implements LavoroAdattoDAO {
   Connector connector = Connector();
 
+  /// Aggiorna il lavoro adatto per un utente specifico nel database.
+  ///
+  /// Aggiorna il campo [lavoro_adatto] dell'utente identificato da [UtenteDTO.id] con la stringa [lavoroAdatto].
+  /// Aggiorna anche i campi associati all'utente nelle tabelle correlate (es. Contatti, Indirizzo, Immagine).
+  /// Restituisce [true] se l'aggiornamento è andato a buon fine, altrimenti [false].
   @override
   Future<bool> update(String lavoroAdatto, UtenteDTO u) async {
     try {

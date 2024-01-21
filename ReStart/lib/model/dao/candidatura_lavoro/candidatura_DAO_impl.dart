@@ -7,9 +7,16 @@ import '../../entity/candidatura_DTO.dart';
 import '../../entity/utente_DTO.dart';
 import 'candidatura_DAO.dart';
 
+/// Implementazione del Data Access Object (DAO) per la gestione delle candidature.
+///
+/// Fornisce metodi per interagire con il database per la gestione delle candidature agli annunci di lavoro.
 class CandidaturaDAOImpl implements CandidaturaDAO {
   Connector connector = Connector();
 
+  /// Aggiunge una nuova candidatura al database.
+  ///
+  /// Prende un oggetto [CandidaturaDTO] che rappresenta la candidatura da aggiungere.
+  /// Restituisce [true] se l'inserimento è andato a buon fine, altrimenti [false].
   @override
   Future<bool> add(CandidaturaDTO ca) async {
     try {
@@ -34,6 +41,9 @@ class CandidaturaDAOImpl implements CandidaturaDAO {
     }
   }
 
+  /// Verifica l'esistenza di una candidatura in base all'ID dell'utente.
+  ///
+  /// Restituisce [true] se esiste una candidatura per l'ID utente specificato, altrimenti [false].
   @override
   Future<bool> existByIdUtente(int idUtente) async {
     try {
@@ -57,6 +67,9 @@ class CandidaturaDAOImpl implements CandidaturaDAO {
     }
   }
 
+  /// Verifica l'esistenza di una candidatura in base all'ID del lavoro.
+  ///
+  /// Restituisce [true] se esiste una candidatura per l'ID lavoro specificato, altrimenti [false].
   @override
   Future<bool> existByIdLavoro(int idLavoro) async {
     try {
@@ -80,6 +93,9 @@ class CandidaturaDAOImpl implements CandidaturaDAO {
     }
   }
 
+  /// Recupera tutte le candidature dal database.
+  ///
+  /// Restituisce una lista di oggetti [CandidaturaDTO] rappresentanti tutte le candidature.
   @override
   Future<List<CandidaturaDTO>> findAll() async {
     try {
@@ -101,6 +117,9 @@ class CandidaturaDAOImpl implements CandidaturaDAO {
     }
   }
 
+  /// Trova una candidatura specifica in base all'ID dell'utente.
+  ///
+  /// Restituisce un oggetto [CandidaturaDTO] se trovato, altrimenti `null`.
   @override
   Future<CandidaturaDTO?> findByIdUtente(int idUtente) async {
     try {
@@ -122,6 +141,9 @@ class CandidaturaDAOImpl implements CandidaturaDAO {
     return null;
   }
 
+  /// Trova una candidatura specifica in base all'ID del lavoro.
+  ///
+  /// Restituisce un oggetto [CandidaturaDTO] se trovato, altrimenti `null`.
   @override
   Future<CandidaturaDTO?> findByIdLavoro(int idLavoro) async {
     try {
@@ -143,6 +165,10 @@ class CandidaturaDAOImpl implements CandidaturaDAO {
     return null;
   }
 
+  /// Rimuove una candidatura specifica dal database.
+  ///
+  /// Prende gli ID utente e lavoro per identificare la candidatura da rimuovere.
+  /// Restituisce [true] se la rimozione è andata a buon fine, altrimenti [false].
   @override
   Future<bool> removeById(int idUtente, int idLavoro) async {
     try {
@@ -167,6 +193,10 @@ class CandidaturaDAOImpl implements CandidaturaDAO {
     }
   }
 
+  /// Verifica l'esistenza di una candidatura specifica.
+  ///
+  /// Prende gli ID opzionali dell'utente e del lavoro.
+  /// Restituisce [true] se la candidatura esiste, altrimenti [false].
   @override
   Future<bool> existCandidatura(int? idUtente, int? idLavoro) async {
     try {
@@ -192,6 +222,9 @@ class CandidaturaDAOImpl implements CandidaturaDAO {
     }
   }
 
+  /// Trova tutti i candidati per un lavoro specifico.
+  ///
+  /// Prende l'ID del lavoro e restituisce una lista di oggetti [UtenteDTO] rappresentanti i candidati.
   @override
   Future<List<UtenteDTO>> findCandidati(int idLavoro) async {
     try {

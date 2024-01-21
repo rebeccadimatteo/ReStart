@@ -11,8 +11,14 @@ import 'package:shelf_router/shelf_router.dart' as shelf_router;
 
 import '../service/registrazione_service_impl.dart';
 
+/// Controller per la gestione della registrazione degli utenti.
+///
+/// Gestisce le richieste HTTP relative alla registrazione degli utenti, inclusa l'aggiunta di immagini.
 class RegistrazioneController {
+  /// Service per gestire le operazioni relative alla registrazione.
   late final RegistrazioneService _service;
+
+  /// Router per la gestione dei percorsi HTTP
   late final shelf_router.Router _router;
 
   RegistrazioneController() {
@@ -28,8 +34,10 @@ class RegistrazioneController {
 
   shelf_router.Router get router => _router;
 
+  /// Gestisce la richiesta di registrazione di un nuovo utente.
+  ///
+  /// Decodifica i dati dell'utente dalla richiesta e li invia al servizio di registrazione.
   Future<Response> _signup(Request request) async {
-
     try {
       final String requestBody = await request.readAsString();
       final Map<String, dynamic> params = jsonDecode(requestBody);
@@ -95,6 +103,9 @@ class RegistrazioneController {
     }
   }
 
+  /// Gestisce il caricamento dell'immagine per un utente.
+  ///
+  /// Riceve e salva l'immagine caricata dall'utente.
   Future<Response> _uploadImage(Request request) async {
     try {
       if (!request.isMultipartForm) {
@@ -108,7 +119,7 @@ class RegistrazioneController {
       await for (final part in parts) {
         if (part.headers.containsKey('content-disposition')) {
           final contentDisposition =
-          HeaderValue.parse(part.headers['content-disposition']!);
+              HeaderValue.parse(part.headers['content-disposition']!);
           final name = contentDisposition.parameters['name'];
 
           if (name == 'nome') {
@@ -141,13 +152,17 @@ class RegistrazioneController {
     }
   }
 
-  // Gestisci le richieste non corrispondenti
+  /// Gestisce le richieste a percorsi non definiti.
+  ///
+  /// Restituisce una risposta di 'not found' per le richieste a percorsi non mappati.
   Future<Response> _notFound(Request request) async {
     return Response.notFound('Endpoint non trovato',
         headers: {'Content-Type': 'text/plain'});
   }
 
-  // Funzione per il parsing dei dati di form
+  /// Funzione ausiliaria per il parsing dei dati di form.
+  ///
+  /// Decodifica i dati di form inviati con la richiesta.
   Map<String, dynamic> parseFormBody(String body) {
     final Map<String, dynamic> formData = {};
     final List<String> pairs = body.split("&");

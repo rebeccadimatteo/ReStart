@@ -4,6 +4,10 @@ import 'package:shelf_router/shelf_router.dart' as shelf_router;
 import '../../../model/entity/annuncio_di_lavoro_DTO.dart';
 import '../service/lavoro_service_impl.dart';
 
+/// Controller per la gestione degli annunci di lavoro.
+///
+/// Gestisce le richieste HTTP relative agli annunci di lavoro, includendo operazioni come
+/// la visualizzazione, l'aggiunta, la modifica, l'approvazione, e la cancellazione degli annunci.
 class GestioneLavoroController {
   late final LavoroServiceImpl _service;
   late final shelf_router.Router _router;
@@ -12,6 +16,7 @@ class GestioneLavoroController {
     _service = LavoroServiceImpl();
     _router = shelf_router.Router();
 
+    // Associazione dei metodi ai percorsi.
     _router.post('/visualizzaLavori', _visualizzaLavori);
     _router.post('/annunciApprovati', _annunciApprovati);
     _router.post('/addLavoro', _addLavoro);
@@ -27,6 +32,9 @@ class GestioneLavoroController {
 
   shelf_router.Router get router => _router;
 
+  /// Gestisce la richiesta per visualizzare tutti gli annunci di lavoro.
+  ///
+  /// Decodifica la richiesta e invoca il service per ottenere un elenco di annunci di lavoro.
   Future<Response> _visualizzaLavori(Request request) async {
     try {
       final List<AnnuncioDiLavoroDTO> listaLavori =
@@ -40,6 +48,9 @@ class GestioneLavoroController {
     }
   }
 
+  /// Gestisce la richiesta per aggiungere un nuovo annuncio di lavoro.
+  ///
+  /// Decodifica la richiesta e invoca il service per aggiungere un nuovo annuncio di lavoro.
   Future<Response> _addLavoro(Request request) async {
     try {
       final String requestBody = await request.readAsString();
@@ -80,12 +91,15 @@ class GestioneLavoroController {
             body: responseBody, headers: {'Content-Type': 'application/json'});
       }
     } catch (e) {
-      // Gestione degli errori durante la chiamata al servizio
+      // Gestione degli errori durante la chiamata al Service
       return Response.internalServerError(
           body: 'Errore durante la visualizzazione dei supporti medici: $e');
     }
   }
 
+  /// Gestisce la richiesta per eliminare un annuncio di lavoro.
+  ///
+  /// Decodifica l'ID dell'annuncio dalla richiesta e invoca il service per eliminarlo.
   Future<Response> _deleteLavoro(Request request) async {
     try {
       final String requestBody = await request.readAsString();
@@ -103,12 +117,15 @@ class GestioneLavoroController {
             body: responseBody, headers: {'Content-Type': 'application/json'});
       }
     } catch (e) {
-      // Gestione degli errori durante la chiamata al servizio
+      // Gestione degli errori durante la chiamata al Service
       return Response.internalServerError(
           body: 'Errore durante l\'eliminazione del lavoro: $e');
     }
   }
 
+  /// Gestisce la richiesta per ottenere gli annunci di lavoro approvati.
+  ///
+  /// Invoca il Service per ottenere un elenco di annunci di lavoro approvati.
   Future<Response> _annunciApprovati(Request request) async {
     try {
       final List<AnnuncioDiLavoroDTO> listaAnnunci =
@@ -123,6 +140,9 @@ class GestioneLavoroController {
     }
   }
 
+  /// Gestisce la richiesta per modificare un annuncio di lavoro esistente.
+  ///
+  /// Decodifica i dettagli dell'annuncio dalla richiesta e invoca il service per modificarlo.
   Future<Response> _modifyLavoro(Request request) async {
     try {
       final String requestBody = await request.readAsString();
@@ -165,12 +185,15 @@ class GestioneLavoroController {
             body: responseBody, headers: {'Content-Type': 'application/json'});
       }
     } catch (e) {
-      // Gestione degli errori durante la chiamata al servizio
+      // Gestione degli errori durante la chiamata al Service
       return Response.internalServerError(
           body: 'Errore durante la modifica del lavoro: $e');
     }
   }
 
+  /// Gestisce la richiesta per approvare un annuncio di lavoro.
+  ///
+  /// Decodifica l'ID dell'annuncio dalla richiesta e invoca il Service per approvarlo.
   Future<Response> _approveLavoro(Request request) async {
     try {
       final String requestBody = await request.readAsString();
@@ -198,12 +221,15 @@ class GestioneLavoroController {
           }
       }
     } catch (e) {
-      // Gestione degli errori durante la chiamata al servizio
+      // Gestione degli errori durante la chiamata al Service
       return Response.internalServerError(
           body: 'Errore durante l\'inserimento della Candidatura: $e');
     }
   }
 
+  /// Gestisce la richiesta per rifiutare un annuncio di lavoro.
+  ///
+  /// Decodifica l'ID dell'annuncio dalla richiesta e invoca il Service per rifiutarlo.
   Future<Response> _rejectLavoro(Request request) async {
     try {
       final String requestBody = await request.readAsString();
@@ -231,12 +257,15 @@ class GestioneLavoroController {
           }
       }
     } catch (e) {
-      // Gestione degli errori durante la chiamata al servizio
+      // Gestione degli errori durante la chiamata al Service
       return Response.internalServerError(
           body: 'Errore durante il rifiuto dell\'annuncio: $e');
     }
   }
 
+  /// Gestisce la richiesta per ottenere gli annunci di lavoro pubblicati da un CA specifico.
+  ///
+  /// Decodifica lo username del ca dalla richiesta e invoca il Service per ottenere gli annunci pubblicati.
   Future<Response> _annunciPubblicati(Request request) async {
     try {
       final String requestBody = await request.readAsString();
@@ -255,6 +284,9 @@ class GestioneLavoroController {
     }
   }
 
+  /// Gestisce la richiesta per ottenere gli annunci di lavoro pubblicati da un CA specifico.
+  ///
+  /// Decodifica lo username del ca dalla richiesta e invoca il Service per ottenere gli annunci pubblicati.
   Future<Response> _richiesteAnnunci(Request request) async {
     try {
       final List<AnnuncioDiLavoroDTO> listaAnnunci =
@@ -276,6 +308,9 @@ class GestioneLavoroController {
         headers: {'Content-Type': 'text/plain'});
   }
 
+  /// Gestisce le richieste a percorsi non definiti.
+  ///
+  /// Restituisce una risposta di 'not found' per le richieste a percorsi non mappati.
   Map<String, dynamic> parseFormBody(String body) {
     final Map<String, dynamic> formData = {};
     final List<String> pairs = body.split("&");

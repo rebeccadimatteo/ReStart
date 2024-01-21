@@ -10,6 +10,9 @@ class AlloggioTemporaneoDTO {
   late String _sito;
   late String _immagine;
 
+  /// Costruttore di [AlloggioTemporaneoDTO].
+  ///
+  /// Inizializza un'istanza di [AlloggioTemporaneoDTO] con valori per tutte le proprietà richieste.
   AlloggioTemporaneoDTO({
     int? id,
     required String nome,
@@ -88,7 +91,9 @@ class AlloggioTemporaneoDTO {
 
   int? get id => _id;
 
-  // Metodo factory per creare un'istanza del DTO da un JSON
+  /// Metodo factory per creare un'istanza di [AlloggioTemporaneoDTO] da un JSON.
+  ///
+  /// Prende in input un [Map<String, dynamic>] e restituisce un'istanza di [AlloggioTemporaneoDTO].
   factory AlloggioTemporaneoDTO.fromJson(Map<String, dynamic> json) {
     return AlloggioTemporaneoDTO(
       id: json['id'],
@@ -109,7 +114,9 @@ class AlloggioTemporaneoDTO {
     );
   }
 
-  // Metodo per convertire il DTO in una mappa
+  /// Metodo factory per creare un'istanza di [AlloggioTemporaneoDTO] da una mappa.
+  ///
+  /// Prende in input un [Map<String, dynamic>] e restituisce un'istanza di [AlloggioTemporaneoDTO].
   Map<String, dynamic> toJson() {
     return {
       'id': _id,
@@ -125,7 +132,9 @@ class AlloggioTemporaneoDTO {
     };
   }
 
-  // Metodo factory per creare un'istanza del DTO da una mappa
+  /// Metodo factory per creare un'istanza di [AlloggioTemporaneoDTO] da una mappa.
+  ///
+  /// Prende in input un [Map<String, dynamic>] e restituisce un'istanza di [AlloggioTemporaneoDTO].
   factory AlloggioTemporaneoDTO.fromMap(Map<String, dynamic> map) {
     return AlloggioTemporaneoDTO(
       id: map['id'] as int,
@@ -141,6 +150,9 @@ class AlloggioTemporaneoDTO {
     );
   }
 
+  /// Metodo per convertire l'istanza corrente in una mappa.
+  ///
+  /// Restituisce un [Map<String, dynamic>] rappresentante l'istanza corrente.
   Map<String, dynamic> toMap() {
     return {
       'id': _id,
@@ -156,6 +168,9 @@ class AlloggioTemporaneoDTO {
     };
   }
 
+  /// Metodo per rappresentare l'istanza come stringa.
+  ///
+  /// Restituisce una stringa che rappresenta l'istanza corrente.
   @override
   String toString() {
     return 'AlloggioTemporaneoDTO{id: $_id, nome: $_nome, descrizione: $_descrizione, tipo: $_tipo, citta: $_citta, provincia: $_provincia, via: $_via, email: $_email, sito: $_sito, immagine: $_immagine}';

@@ -1,65 +1,71 @@
 import 'package:intl/intl.dart';
 import 'package:mockito/mockito.dart';
-import '../../../lib/model/entity/evento_DTO.dart';
+import 'package:restart/model/entity/evento_DTO.dart';
 import 'package:test/test.dart';
-import '../../../lib/application/gestioneEvento/service/evento_service_impl.dart';
-import '../../../lib/model/dao/evento/evento_DAO_impl.dart';
+import 'package:restart/application/gestioneEvento/service/evento_service_impl.dart';
+import 'package:restart/model/dao/evento/evento_DAO_impl.dart';
 
+/// Classe Mock per simulare il comportamento dell'implementazione del servizio evento.
 class MockitoEventoImp extends Mock implements EventoServiceImpl {}
 
+/// Classe Mock per simulare il comportamento dell'implementazione del DAO evento.
 class MockitoEvento extends Mock implements EventoDAOImpl {}
 
+/// Valida il nome dell'evento.
 bool validateNomeEvento(String nome) {
-  if (nome.length >= 50)
+  if (nome.length >= 50) {
     return false;
-  else
+  } else {
     return true;
+  }
 }
 
+/// Valida la data dell'evento.
 bool validateData(DateTime data) {
   String dataString = DateFormat('yyyy-MM-dd HH:mm:ss').format(data);
   RegExp regex = RegExp(r'^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$');
-  if(data.isBefore(DateTime.now())){
+  if (data.isBefore(DateTime.now())) {
     return false;
   } else {
     return regex.hasMatch(dataString);
   }
 }
 
-// bool validateData(DateTime data) {
-//   String dataString = DateFormat('yyyy-MM-dd').format(data);
-//   RegExp regex = RegExp(r'^\d{4}-\d{2}-\d{2}$');
-//   return regex.hasMatch(dataString);
-// }
-
+/// Valida la descrizione dell'evento.
 bool validateDescrizione(String descrizione) {
-  if (descrizione.length >= 200)
+  if (descrizione.length >= 200) {
     return false;
-  else
+  } else {
     return true;
+  }
 }
 
+/// Valida l'indirizzo dell'evento.
 bool validateVia(String via) {
   RegExp regex = RegExp(r'^[0-9A-z À-ù‘-]{2,30}$');
   return regex.hasMatch(via);
 }
 
+/// Valida l'email associata all'evento.
 bool validateEmail(String email) {
   RegExp regex = RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$');
   return regex.hasMatch(email);
 }
 
+/// Valida la città dell'evento.
 bool validateCitta(String citta) {
   RegExp regex = RegExp(r'^[A-z À-ù‘-]{2,50}$');
   return regex.hasMatch(citta);
 }
 
+/// Valida la provincia dell'evento.
 bool validateProvincia(String provincia) {
   RegExp regex = RegExp(r'^[A-Z]{2}');
   if (provincia.length > 2) return false;
   return regex.hasMatch(provincia);
 }
 
+/// Valida l'immagine dell'evento.
 bool validateImmagine(String immagine) {
   RegExp regex = RegExp(r'^.+\.jpe?g$');
   return regex.hasMatch(immagine);
@@ -68,11 +74,18 @@ bool validateImmagine(String immagine) {
 void main() {
   late EventoServiceImpl service;
 
+  /// Inizializza il servizio evento prima di ogni test.
   setUp(() {
     service = EventoServiceImpl();
   });
 
+  /// Raggruppamento di test per la validazione dell'aggiunta di eventi.
   group('Aggiunta Evento', () {
+    /// Serie di test che validano vari aspetti dell'aggiunta di un evento.
+
+    /// I test seguono il pattern: verifica la validazione dei vari campi dell'evento e
+    /// si aspetta un risultato specifico basato sulla validità dei dati inseriti.
+    /// Ogni test è commentato per chiarire il suo scopo e l'aspettativa del risultato.
     test('Aggiunta evento non va a buon fine, lunghezza nome errata', () async {
       dynamic result;
       EventoDTO e = EventoDTO(
@@ -152,11 +165,11 @@ void main() {
         print('Aggiunta evento andata a buon fine: TEST NON SUPERATO 7.1_2');
       } else {
         expect(result, null);
-        print(
-            'Aggiunta evento non andata a buon fine: TEST SUPERATO 7.1_2');
+        print('Aggiunta evento non andata a buon fine: TEST SUPERATO 7.1_2');
       }
     });
-    test('Aggiunta evento non va a buon fine, formato immagine errata', () async {
+    test('Aggiunta evento non va a buon fine, formato immagine errata',
+        () async {
       dynamic result;
       EventoDTO e = EventoDTO(
           id_ca: 1,
@@ -193,11 +206,10 @@ void main() {
         print('Aggiunta evento andata a buon fine: TEST NON SUPERATO 7.1_3');
       } else {
         expect(result, null);
-        print(
-            'Aggiunta evento non andata a buon fine: TEST SUPERATO 7.1_3');
+        print('Aggiunta evento non andata a buon fine: TEST SUPERATO 7.1_3');
       }
     });
-    test('Aggiunta evento non va a buon fine, formato data errata', () async{
+    test('Aggiunta evento non va a buon fine, formato data errata', () async {
       dynamic result;
       EventoDTO e = EventoDTO(
           id_ca: 1,
@@ -234,8 +246,7 @@ void main() {
         print('Aggiunta evento andata a buon fine: TEST NON SUPERATO 7.1_4');
       } else {
         expect(result, null);
-        print(
-            'Aggiunta evento non andata a buon fine: TEST SUPERATO 7.1_4');
+        print('Aggiunta evento non andata a buon fine: TEST SUPERATO 7.1_4');
       }
     });
     test('Aggiunta evento non va a buon fine, formato email errata', () async {
@@ -275,11 +286,10 @@ void main() {
         print('Aggiunta evento andata a buon fine: TEST NON SUPERATO 7.1_5');
       } else {
         expect(result, null);
-        print(
-            'Aggiunta evento non andata a buon fine: TEST SUPERATO 7.1_5');
+        print('Aggiunta evento non andata a buon fine: TEST SUPERATO 7.1_5');
       }
     });
-    test('Aggiunta evento non va a buon fine, formato via errata', () async{
+    test('Aggiunta evento non va a buon fine, formato via errata', () async {
       dynamic result;
       EventoDTO e = EventoDTO(
           id_ca: 1,
@@ -316,8 +326,7 @@ void main() {
         print('Aggiunta evento andata a buon fine: TEST NON SUPERATO 7.1_6');
       } else {
         expect(result, null);
-        print(
-            'Aggiunta evento non andata a buon fine: TEST SUPERATO 7.1_6');
+        print('Aggiunta evento non andata a buon fine: TEST SUPERATO 7.1_6');
       }
     });
     test('Aggiunta evento non va a buon fine, formato citta errata', () async {
@@ -357,11 +366,11 @@ void main() {
         print('Aggiunta evento andata a buon fine: TEST NON SUPERATO 7.1_7');
       } else {
         expect(result, null);
-        print(
-            'Aggiunta evento non andata a buon fine: TEST SUPERATO 7.1_7');
+        print('Aggiunta evento non andata a buon fine: TEST SUPERATO 7.1_7');
       }
     });
-    test('Aggiunta evento non va a buon fine, formato provincia errata', () async {
+    test('Aggiunta evento non va a buon fine, formato provincia errata',
+        () async {
       dynamic result;
       EventoDTO e = EventoDTO(
           id_ca: 1,
@@ -398,8 +407,7 @@ void main() {
         print('Aggiunta evento andata a buon fine: TEST NON SUPERATO 7.1_9');
       } else {
         expect(result, null);
-        print(
-            'Aggiunta evento non andata a buon fine: TEST SUPERATO 7.1_9');
+        print('Aggiunta evento non andata a buon fine: TEST SUPERATO 7.1_9');
       }
     });
     test('Aggiunta evento va a buon fine', () async {

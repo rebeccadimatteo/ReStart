@@ -6,6 +6,9 @@ import '../service/lavoro_adatto_service.dart';
 import '../service/lavoro_adatto_service_impl.dart';
 import 'package:shelf_router/shelf_router.dart' as shelf_router;
 
+/// Controller per la gestione delle richieste relative al Lavoro Adatto.
+///
+/// Gestisce le richieste HTTP relative alla determinazione del lavoro più adatto per un utente.
 class LavoroAdattoController {
   late final LavoroAdattoService _service;
   late final shelf_router.Router _router;
@@ -21,6 +24,10 @@ class LavoroAdattoController {
     _router.all('/<ignored|.*>', _notFound);
   }
 
+  /// Gestisce la richiesta per trovare il lavoro più adatto in base ai dati forniti.
+  ///
+  /// Decodifica i dati dall'utente dalla richiesta e li invia al servizio di Lavoro Adatto.
+  /// Restituisce il titolo del lavoro adatto calcolato o un messaggio di errore.
   Future<Response> _findLavoroAdatto(Request request) async {
     try {
       final String requestBody = await request.readAsString();
@@ -46,7 +53,9 @@ class LavoroAdattoController {
     }
   }
 
-  /// Metodo per la gestione delle richieste non corrispondenti
+  /// Gestisce le richieste a percorsi non definiti.
+  ///
+  /// Restituisce una risposta di 'not found' per le richieste a percorsi non mappati.
   Future<Response> _notFound(Request request) async {
     return Response.notFound('Endpoint not found',
         headers: {'Content-Type': 'text/plain'});
@@ -54,7 +63,7 @@ class LavoroAdattoController {
 
   shelf_router.Router get router => _router;
 
-// Funzione per il parsing dei dati di form
+  /// Funzione ausiliaria per il parsing dei dati di form.
   Map<String, dynamic> parseFormBody(String body) {
     final Map<String, dynamic> formData = {};
     final List<String> pairs = body.split("&");

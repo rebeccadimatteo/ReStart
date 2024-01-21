@@ -1,22 +1,24 @@
-import '../../../lib/model/entity/annuncio_di_lavoro_DTO.dart';
+import 'package:restart/model/entity/annuncio_di_lavoro_DTO.dart';
 import 'package:test/test.dart';
 import 'package:mockito/mockito.dart';
-import '../../../lib/application/gestioneLavoro/service/lavoro_service_impl.dart';
+import 'package:restart/application/gestioneLavoro/service/lavoro_service_impl.dart';
 
 class MockLavoroServiceImp extends Mock implements LavoroServiceImpl {}
 
 bool validateNomeOfferta(String nomeOfferta) {
-  if (nomeOfferta.length >= 80)
+  if (nomeOfferta.length >= 80) {
     return false;
-  else
+  } else {
     return true;
+  }
 }
 
 bool validateDescrizione(String descrizione) {
-  if (descrizione.length > 255)
+  if (descrizione.length > 255) {
     return false;
-  else
+  } else {
     return true;
+  }
 }
 
 bool validateVia(String via) {

@@ -10,6 +10,10 @@ import '../../../model/entity/corso_di_formazione_DTO.dart';
 import '../../../model/entity/supporto_medico_DTO.dart';
 import '../service/reintegrazione/reintegrazione_service_impl.dart';
 
+/// Controller per la gestione dei servizi di reintegrazione.
+///
+/// Gestisce le richieste HTTP relative ai corsi di formazione, alloggi temporanei
+/// e supporti medici, inclusa l'aggiunta e la rimozione di tali elementi.
 class ReintegrazioneController {
   late final ReintegrazioneServiceImpl _service;
   late final shelf_router.Router _router;
@@ -36,6 +40,7 @@ class ReintegrazioneController {
 
   shelf_router.Router get router => _router;
 
+  /// Gestisce la richiesta per visualizzare tutti i corsi di formazione.
   Future<Response> _visualizzaCorsi(Request request) async {
     try {
       // Chiamata al servizio per ottenere la lista di corsi
@@ -52,6 +57,7 @@ class ReintegrazioneController {
     }
   }
 
+  /// Gestisce la richiesta per visualizzare tutti i supporti medici.
   Future<Response> _visualizzaSupporti(Request request) async {
     try {
       // Chiamata al servizio per ottenere la lista di alloggi
@@ -69,6 +75,7 @@ class ReintegrazioneController {
     }
   }
 
+  /// Gestisce la richiesta per visualizzare tutti gli alloggi temporanei.
   Future<Response> _visualizzaAlloggi(Request request) async {
     try {
       // Chiamata al servizio per ottenere la lista di alloggi
@@ -85,6 +92,7 @@ class ReintegrazioneController {
     }
   }
 
+  /// Gestisce la richiesta per aggiungere un nuovo corso di formazione.
   Future<Response> _addCorso(Request request) async {
     try {
       final String requestBody = await request.readAsString();
@@ -120,6 +128,8 @@ class ReintegrazioneController {
           body: 'Errore durante l\'inserimento del corso di formazione: $e');
     }
   }
+
+  /// Gestisce la richiesta per aggiungere un nuovo alloggio temporaneo.
   Future<Response> _addAlloggio(Request request) async {
     try {
       final String requestBody = await request.readAsString();
@@ -152,7 +162,7 @@ class ReintegrazioneController {
             headers: {'Content-Type': 'application/json'});
       } else {
         final responseBody =
-        jsonEncode({'result': 'Inserimento non effettuato'});
+            jsonEncode({'result': 'Inserimento non effettuato'});
         return Response.badRequest(
             body: responseBody, headers: {'Content-Type': 'application/json'});
       }
@@ -162,6 +172,8 @@ class ReintegrazioneController {
           body: 'Errore durante l\'inserimento del corso di formazione: $e');
     }
   }
+
+  /// Gestisce la richiesta per caricare un'immagine.
   Future<Response> _uploadImage(Request request) async {
     try {
       if (!request.isMultipartForm) {
@@ -208,6 +220,7 @@ class ReintegrazioneController {
     }
   }
 
+  /// Gestisce la richiesta per aggiungere un nuovo supporto medico.
   Future<Response> _addSupporto(Request request) async {
     try {
       final String requestBody = await request.readAsString();
@@ -253,6 +266,7 @@ class ReintegrazioneController {
     }
   }
 
+  /// Gestisce la richiesta per eliminare un corso di formazione.
   Future<Response> _deleteCorso(Request request) async {
     try {
       final String requestBody = await request.readAsString();
@@ -278,6 +292,7 @@ class ReintegrazioneController {
     }
   }
 
+  /// Gestisce la richiesta per eliminare un alloggio temporaneo.
   Future<Response> _deleteAlloggio(Request request) async {
     try {
       final String requestBody = await request.readAsString();
@@ -303,6 +318,7 @@ class ReintegrazioneController {
     }
   }
 
+  /// Gestisce la richiesta per eliminare un supporto medico.
   Future<Response> _deleteSupporto(Request request) async {
     try {
       final String requestBody = await request.readAsString();
@@ -334,7 +350,7 @@ class ReintegrazioneController {
         headers: {'Content-Type': 'text/plain'});
   }
 
-// Funzione per il parsing dei dati di form
+// Funzione ausiliaria per il parsing dei dati di form.
   Map<String, dynamic> parseFormBody(String body) {
     final Map<String, dynamic> formData = {};
     final List<String> pairs = body.split("&");
