@@ -1,7 +1,7 @@
 import 'package:flutter_driver/driver_extension.dart';
 import 'package:restart/presentation/screens/login_signup/start.dart' as app;
 
-
+/// Main del login test
 void main() {
   enableFlutterDriverExtension();
   // Avvia l'app principale

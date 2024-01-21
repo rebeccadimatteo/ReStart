@@ -1,33 +1,43 @@
 import 'package:flutter_driver/flutter_driver.dart';
 import 'package:test/test.dart';
 
+/// Funzione principale per eseguire i test dell'app Flutter.
 void main() {
   group('App Flutter', () {
     late FlutterDriver driver;
 
-    // Connettiti al driver prima dei test.
+    /// Imposta il driver Flutter prima dell'esecuzione dei test.
+    ///
+    /// Questa funzione viene eseguita una volta all'inizio dell'esecuzione del gruppo di test.
     setUpAll(() async {
+      // Stabilisce una connessione con il driver Flutter.
       driver = await FlutterDriver.connect();
     });
 
-    // Chiudi la connessione al driver dopo i test.
+    /// Chiude la connessione con il driver Flutter dopo i test.
+    ///
+    /// Questa funzione viene eseguita una volta alla fine dell'esecuzione del gruppo di test.
     tearDownAll(() async {
+      // Chiude la connessione se esiste.
       driver.close();
-        });
+    });
 
+    /// Test per verificare la navigazione alla pagina di registrazione.
+    ///
+    /// Verifica che il pulsante di registrazione sia presente e cliccabile,
+    /// e che il campo nome sia visibile dopo il clic.
     test('navigazione alla pagina di signup', () async {
-      // Trova e clicca sul pulsante di login
       final signUpButtonFinder = find.byValueKey('signUpButton');
       await driver.tap(signUpButtonFinder);
 
-      // Cerca il campo email nella pagina di login
       final nomeFieldFinder = find.byValueKey('nomeField');
 
-      // Verifica che il campo email e password esistano
       await driver.waitFor(nomeFieldFinder);
     });
 
-    //aggiungere test per la registrazione
+    /// Test per inserimento e verifica del processo di registrazione.
+    ///
+    /// Verifica che l'inserimento dei dati per la registrazione funzioni correttamente.
     test('Inserimento e test di registrazione', () async {
       // Trova i campi di testo e il pulsante
       final scrollable = find.byValueKey('signUpPage');
@@ -58,9 +68,10 @@ void main() {
       await driver.enterText('Roma');
       await driver.scroll(
         scrollable,
-        0.0,      // Distanza di scroll sull'asse X
-        -900.0,   // Distanza di scroll sull'asse Y (negativo per scroll verso il basso)
-        Duration(milliseconds: 900), // Durata dello scroll
+        0.0, // Distanza di scroll sull'asse X
+        -900.0,
+        // Distanza di scroll sull'asse Y (negativo per scroll verso il basso)
+        const Duration(milliseconds: 900), // Durata dello scroll
       );
       await driver.tap(cfFieldFinder);
       await driver.enterText('RSSMRA90A01H501A');
@@ -76,9 +87,10 @@ void main() {
       await driver.enterText('+393333333333');
       await driver.scroll(
         scrollable,
-        0.0,      // Distanza di scroll sull'asse X
-        -900.0,   // Distanza di scroll sull'asse Y (negativo per scroll verso il basso)
-        Duration(milliseconds: 900), // Durata dello scroll
+        0.0, // Distanza di scroll sull'asse X
+        -900.0,
+        // Distanza di scroll sull'asse Y (negativo per scroll verso il basso)
+        const Duration(milliseconds: 900), // Durata dello scroll
       );
       await driver.tap(emailFieldFinder);
       await driver.enterText('mariorossi@gmail.com');
@@ -98,7 +110,6 @@ void main() {
       final passwordFieldFinder = find.byValueKey('passwordField');
       final loginButtonFinder = find.byValueKey('loginButton');
       final eventoFinder = find.byValueKey('eventoItem');
-
 
       // Inserisci l'username e la password
       await driver.tap(usernameFieldFinder);
