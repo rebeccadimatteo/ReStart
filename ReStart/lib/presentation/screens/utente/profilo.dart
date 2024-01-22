@@ -540,13 +540,46 @@ class _ProfiloEditState extends State<ProfiloEdit> {
 
       final imageResponse = await imageRequest.send();
       if (imageResponse.statusCode == 200) {
-        // L'immagine è stata caricata con successo
-        print("Immagine caricata con successo.");
+        Navigator.pushNamed(
+          context,
+          AppRoutes.profilo,
+        );
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+              'Profilo modificato con successo',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+              ),
+            ),
+            backgroundColor: Colors.lightBlue,
+            duration: Duration(seconds: 3),
+          ),
+        );
       } else {
         // Si è verificato un errore nell'upload dell'immagine
         print(
             "Errore durante l'upload dell'immagine: ${imageResponse.statusCode}");
       }
+    } else if (response.statusCode == 200) {
+      Navigator.pushNamed(
+        context,
+        AppRoutes.profilo,
+      );
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Profilo modificato con successo',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+            ),
+          ),
+          backgroundColor: Colors.lightBlue,
+          duration: Duration(seconds: 3),
+        ),
+      );
     }
   }
 
@@ -1032,23 +1065,6 @@ class _ProfiloEditState extends State<ProfiloEdit> {
               ElevatedButton(
                 onPressed: () {
                   submitForm();
-                  Navigator.pushNamed(
-                    context,
-                    AppRoutes.profilo,
-                  );
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text(
-                        'Profilo modificato con successo',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                        ),
-                      ),
-                      backgroundColor: Colors.lightBlue,
-                      duration: Duration(seconds: 3),
-                    ),
-                  );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.transparent,
