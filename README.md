@@ -93,3 +93,10 @@ Installare un qualsiasi DBMS e configurarlo in base alle proprie esigenze.
 ## Documentazione Ufficiale
 
 Le informazioni complete sono consultabili nel [Manuale D'Installazione di ReStart](https://github.com/rebeccadimatteo/ReStart/blob/main/Documents/Prodotto/Manuali/2023_C08_MI_V.1.0.pdf).
+
+## Contributors
+
+<a href="https://github.com/rebeccadimatteo/ReStart/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=rebeccadimatteo/ReStart" />
+</a>
+
