@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the buildDrawer method from the AdsAppBar class, for the Dart programming language.">
+  <title>buildDrawer method - AdsAppBar class - app_bar_ads library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../../static-assets/styles.css?v1">
+  <link rel="icon" href="../../static-assets/favicon.png?v1">
+
+  
+</head>
+
+
+<body data-base-href="../../" data-using-base-href="false" class="light-theme">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../../index.html">restart</a></li>
+    <li><a href="../../presentation_components_app_bar_ads/presentation_components_app_bar_ads-library.html">app_bar_ads</a></li>
+    <li><a href="../../presentation_components_app_bar_ads/AdsAppBar-class.html">AdsAppBar</a></li>
+    <li class="self-crumb">buildDrawer static method</li>
+  </ol>
+  <div class="self-name">buildDrawer</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+  <div class="toggle" id="theme-button">
+    <label for="theme">
+      <input type="checkbox" id="theme" value="light-theme">
+      <span id="dark-theme-button" class="material-symbols-outlined">
+        brightness_4
+      </span>
+      <span id="light-theme-button" class="material-symbols-outlined">
+        brightness_5
+      </span>
+    </label>
+  </div>
+</header>
+<main>
+
+  <div
+      id="dartdoc-main-content"
+      class="main-content"
+      data-above-sidebar="presentation_components_app_bar_ads&#47;AdsAppBar-class-sidebar.html"
+      data-below-sidebar="">
+      <div>
+<h1><span class="kind-method">buildDrawer</span> static method 
+</h1></div>
+
+    <section class="multi-line-signature">
+      
+
+<span class="returntype"><a href="https://api.flutter.dev/flutter/widgets/Widget-class.html">Widget</a></span>
+<span class="name ">buildDrawer</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="buildDrawer-param-context"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/widgets/BuildContext-class.html">BuildContext</a></span> <span class="parameter-name">context</span></span></li>
+</ol>)
+
+      
+
+    </section>
+    
+<section class="desc markdown">
+  <p>Costruisce un <a href="https://api.flutter.dev/flutter/material/Drawer-class.html">Drawer</a> che contiene varie opzioni di navigazione.</p>
+</section>
+
+
+    
+<section class="summary source-code" id="source">
+  <h2><span>Implementation</span></h2>
+  <pre class="language-dart"><code class="language-dart">static Widget buildDrawer(BuildContext context) {
+   return Drawer(
+    child: Container(
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.bottomRight,
+          end: Alignment.topLeft,
+          colors: [
+            Color(0xFFCE93D8),
+            Color(0xFF80DEEA),
+          ],
+        ),
+      ),
+      child: Column(
+        children: &lt;Widget&gt;[
+          const SizedBox(height: 40),
+          const Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Text(
+              &#39;SCEGLI IL SERVIZIO CHE FA PER TE&#39;,
+              style: TextStyle(
+                shadows: &lt;Shadow&gt;[
+                  Shadow(
+                    offset: Offset(1, 1),
+                    blurRadius: 2.0,
+                    color: Color(0xFFB4B1B1),
+                  ),
+                ],
+                fontFamily: &#39;Poppins&#39;,
+                color: Colors.black,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          const SizedBox(height: 50),
+          Expanded(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: &lt;Widget&gt;[
+              ListTile(
+                title: const Text(
+                  &#39;Home&#39;,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: &#39;Poppins&#39;,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    AppRoutes.homeADS,
+                  );
+                },
+              ),
+              ListTile(
+                title: const Text(
+                  &#39;Community Events&#39;,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: &#39;Poppins&#39;,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    AppRoutes.eventiAds,
+                  );
+                },
+              ),
+              ListTile(
+                title: const Text(
+                  &#39;Annunci di lavoro&#39;,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: &#39;Poppins&#39;,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    AppRoutes.annunciAds,
+                  );
+                },
+              ),
+              ListTile(
+                title: const Text(
+                  &#39;Alloggi temporanei&#39;,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: &#39;Poppins&#39;,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    AppRoutes.alloggiAds,
+                  );
+                },
+              ),
+              ListTile(
+                title: const Text(
+                  &#39;Supporto medico&#39;,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: &#39;Poppins&#39;,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    AppRoutes.supportiAds,
+                  );
+                },
+              ),
+              ListTile(
+                title: const Text(
+                  &#39;Corsi di formazione&#39;,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: &#39;Poppins&#39;,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    AppRoutes.corsiAds,
+                  );
+                },
+              ),
+                ListTile(
+                  title: const Text(
+                    &#39;Inserisci corso di formazione&#39;,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: &#39;Poppins&#39;,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      AppRoutes.inserisciCorso,
+                    );
+                  },
+                ),
+                ListTile(
+                  title: const Text(
+                    &#39;Inserisci alloggio temporaneo&#39;,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: &#39;Poppins&#39;,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      AppRoutes.inserisciAlloggio,
+                    );
+                  },
+                ),
+                ListTile(
+                  title: const Text(
+                    &#39;Inserisci supporto medico&#39;,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: &#39;Poppins&#39;,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      AppRoutes.inserisciSupporto,
+                    );
+                  },
+                ),
+                ListTile(
+                  title: const Text(
+                    &#39;Lista utenti&#39;,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: &#39;Poppins&#39;,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      AppRoutes.listaUtenti,
+                    );
+                  },
+                ),
+              ListTile(
+                title: const Text(
+                  &#39;Gestione Richieste&#39;,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: &#39;Poppins&#39;,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    AppRoutes.richiesteAds,
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
+        &#47;&#47; Two additional ListTiles at the bottom
+        Container(
+          margin: const EdgeInsets.only(bottom: 20),
+          child: ListTile(
+            title: const Text(
+              &#39;Logout&#39;,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontFamily: &#39;PoppinsMedium&#39;,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+
+            &#47;&#47;&#47;metodo onTap gestisce il logout dall&#39;applicazione.
+            onTap: () {
+              SessionManager().remove(&quot;token&quot;);
+              SessionManager().destroy();
+              Navigator.pushNamed(
+                context,
+                AppRoutes.home,
+              );
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text(
+                    &#39;Logout effettuato&#39;,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                    ),
+                  ),
+                  backgroundColor: Colors.lightBlue,
+                  duration: Duration(seconds: 3),
+                ),
+              );
+            },
+          ),
+        ),
+      ],
+    ),
+    ),
+  );
+}</code></pre>
+</section>
+
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <!-- The search input and breadcrumbs below are only responsively visible at low resolutions. -->
+<header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+    <li><a href="../../index.html">restart</a></li>
+    <li><a href="../../presentation_components_app_bar_ads/presentation_components_app_bar_ads-library.html">app_bar_ads</a></li>
+    <li><a href="../../presentation_components_app_bar_ads/AdsAppBar-class.html">AdsAppBar</a></li>
+    <li class="self-crumb">buildDrawer static method</li>
+</ol>
+
+
+    <h5>AdsAppBar class</h5>
+    <div id="dartdoc-sidebar-left-content"></div>
+  </div><!--/.sidebar-offcanvas-->
+
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div><!--/.sidebar-offcanvas-->
+
+</main>
+
+<footer>
+  <span class="no-break">
+    restart
+      1.0.0+1
+  </span>
+
+  
+</footer>
+
+
+
+<script src="../../static-assets/highlight.pack.js?v1"></script>
+<script src="../../static-assets/docs.dart.js"></script>
+
+
+
+</body>
+
+</html>
+
