@@ -322,7 +322,7 @@ class _DetailsLavoroAdsState extends State<DetailsLavoroAds> {
                           style: const TextStyle(
                               fontSize: 15,
                               fontFamily: 'Poppins',
-                              fontWeight: FontWeight.bold),
+                          ),
                         ),
                         const SizedBox(width: 8),
                         Text(
@@ -330,7 +330,6 @@ class _DetailsLavoroAdsState extends State<DetailsLavoroAds> {
                           style: const TextStyle(
                             fontSize: 15,
                             fontFamily: 'Poppins',
-                            fontWeight: FontWeight.bold,
                           ),
                         ),
                         const SizedBox(height: 15),
@@ -346,7 +345,6 @@ class _DetailsLavoroAdsState extends State<DetailsLavoroAds> {
                           style: const TextStyle(
                             fontSize: 15,
                             fontFamily: 'Poppins',
-                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ],

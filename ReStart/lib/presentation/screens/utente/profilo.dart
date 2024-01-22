@@ -493,7 +493,10 @@ class _ProfiloEditState extends State<ProfiloEdit> {
       String via = viaController!.text;
       String citta = cittaController!.text;
       String provincia = provinciaController!.text;
-      String imagePath = 'images/image_$username.jpg';
+      String imagePath = u.immagine;
+      if(_image != null) {
+        imagePath = 'images/image_$username.jpg';
+      }
 
       UtenteDTO utenteEdit = UtenteDTO(
         id: u.id,

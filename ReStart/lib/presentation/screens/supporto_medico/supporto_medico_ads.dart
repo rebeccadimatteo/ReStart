@@ -307,7 +307,6 @@ class _DetailsSupportoAdsState extends State<DetailsSupportoAds> {
                           style: const TextStyle(
                             fontFamily: 'Poppins',
                             fontSize: 15,
-                            fontWeight: FontWeight.bold,
                           ),
                         ),
                         const SizedBox(width: 8),
@@ -316,7 +315,6 @@ class _DetailsSupportoAdsState extends State<DetailsSupportoAds> {
                           style: const TextStyle(
                             fontFamily: 'Poppins',
                             fontSize: 13,
-                            fontWeight: FontWeight.bold,
                           ),
                         ),
                         const SizedBox(width: 8),
@@ -325,7 +323,6 @@ class _DetailsSupportoAdsState extends State<DetailsSupportoAds> {
                           style: const TextStyle(
                             fontFamily: 'Poppins',
                             fontSize: 15,
-                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ],

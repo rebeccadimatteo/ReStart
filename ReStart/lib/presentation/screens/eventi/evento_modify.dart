@@ -111,8 +111,10 @@ class _ModifyEventoState extends State<ModifyEvento> {
       String via = viaController!.text;
       String provincia = provinciaController!.text;
       String email = emailController!.text;
-      String imagePath = 'images/image_$nome.jpg';
-
+      String imagePath = event.immagine;
+      if(_image != null) {
+        imagePath = 'images/image_$nome.jpg';
+      }
       EventoDTO evento = EventoDTO(
         id: event.id,
         nomeEvento: nome,
@@ -142,7 +144,6 @@ class _ModifyEventoState extends State<ModifyEvento> {
     );
 
     if (response.statusCode == 200 && _image != null) {
-      print(response);
       final imageUrl =
           Uri.parse('http://10.0.2.2:8080/gestioneReintegrazione/addImage');
       final imageRequest = http.MultipartRequest('POST', imageUrl);
@@ -155,11 +156,39 @@ class _ModifyEventoState extends State<ModifyEvento> {
       final imageResponse = await imageRequest.send();
       if (imageResponse.statusCode == 200) {
         print("Immagine caricata con successo.");
-        Navigator.pushNamed(context, AppRoutes.eventipubblicati);
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+              'Evento modificato con successo.',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+              ),
+            ),
+            backgroundColor: Colors.lightBlue,
+            duration: Duration(seconds: 3),
+          ),
+        );
+        Navigator.pushNamed(context, AppRoutes.homeCA);
       } else {
         print(
             "Errore durante l'upload dell'immagine: ${imageResponse.statusCode}");
       }
+    }else if (response.statusCode == 200){
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Evento modificato con successo.',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+            ),
+          ),
+          backgroundColor: Colors.lightBlue,
+          duration: Duration(seconds: 3),
+        ),
+      );
+      Navigator.pushNamed(context, AppRoutes.homeCA);
     }
   }
 

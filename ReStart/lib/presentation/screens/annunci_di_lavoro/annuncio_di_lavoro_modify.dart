@@ -111,7 +111,11 @@ class _ModifyLavoroState extends State<ModifyLavoro> {
       String provincia = provinciaController!.text;
       String email = emailController!.text;
       String numTelefono = numTelefonoController!.text;
-      String imagePath = 'images/image_$nome.jpg';
+      String imagePath = lavoro.immagine;
+      if (_image != null) {
+        imagePath = 'images/image_$nome.jpg';
+      }
+
 
       // Crea il DTO con il percorso dell'immagine
       AnnuncioDiLavoroDTO annuncio = AnnuncioDiLavoroDTO(
@@ -201,10 +205,41 @@ class _ModifyLavoroState extends State<ModifyLavoro> {
       final imageResponse = await imageRequest.send();
       if (imageResponse.statusCode == 200) {
         print("Immagine caricata con successo.");
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+              'Lavoro modificato con successo.',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+              ),
+            ),
+            backgroundColor: Colors.lightBlue,
+            duration: Duration(seconds: 3),
+          ),
+        );
+        Navigator.pushNamed(context, AppRoutes.homeCA);
       } else {
         print(
             "Errore durante l'upload dell'immagine: ${imageResponse.statusCode}");
       }
+    }else if(response.statusCode == 200){
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Lavoro modificato con successo.',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+            ),
+          ),
+          backgroundColor: Colors.lightBlue,
+          duration: Duration(seconds: 3),
+        ),
+      );
+      Navigator.pushNamed(context, AppRoutes.homeCA);
+    } else {
+      print("Errore durante la modifica del lavoro: ${response.statusCode}");
     }
   }
 
@@ -260,25 +295,25 @@ class _ModifyLavoroState extends State<ModifyLavoro> {
                     ],
                   ),
                   TextFormField(
-                    //initialValue: evento.nomeEvento,
-                    controller: nomeController,
-                    onChanged: (value) {
-                      setState(() {
-                        _isNomeValid = validateNome(value);
-                      });
-                    },
-                    decoration: InputDecoration(
-                      errorText: _isNomeValid
-                          ? null
-                          : 'Formato nome non corretto (ex. Programmatore C \n    [max. 50 caratteri])',
-                      errorStyle: const TextStyle(color: Colors.red),
-                      labelText: 'Nome Annuncio di Lavoro',
-                      labelStyle: const TextStyle(
-                        fontSize: 20,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.bold,
+                      //initialValue: evento.nomeEvento,
+                      controller: nomeController,
+                      onChanged: (value) {
+                        setState(() {
+                          _isNomeValid = validateNome(value);
+                        });
+                      },
+                      decoration: InputDecoration(
+                        errorText: _isNomeValid
+                            ? null
+                            : 'Formato nome non corretto (ex. Programmatore C \n    [max. 50 caratteri])',
+                        errorStyle: const TextStyle(color: Colors.red),
+                        labelText: 'Nome Annuncio di Lavoro',
+                        labelStyle: const TextStyle(
+                          fontSize: 15,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Inserisci il nome dell\'annuncio';
@@ -387,6 +422,7 @@ class _ModifyLavoroState extends State<ModifyLavoro> {
                             ? null
                             : 'Formato città non corretto (ex: Napoli)',
                         errorStyle: const TextStyle(color: Colors.red),
+                        labelText: 'Città',
                         labelStyle: const TextStyle(
                           fontSize: 15,
                           fontFamily: 'Poppins',
@@ -454,7 +490,6 @@ class _ModifyLavoroState extends State<ModifyLavoro> {
                   ElevatedButton(
                     onPressed: () {
                       submitForm(annuncio);
-                      Navigator.pushNamed(context, AppRoutes.homeADS);
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                           content: Text(

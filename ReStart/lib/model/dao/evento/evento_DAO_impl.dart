@@ -68,7 +68,6 @@ class EventoDAOImpl implements EventoDAO {
         }
         return false;
       } catch (e) {
-        print(e);
         developer.log(e.toString());
         return false;
       } finally {

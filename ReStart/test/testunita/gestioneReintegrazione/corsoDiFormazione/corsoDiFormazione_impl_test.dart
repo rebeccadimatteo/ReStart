@@ -4,11 +4,14 @@ import 'package:test/test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:restart/application/gestioneReintegrazione/service/reintegrazione/reintegrazione_service_impl.dart';
 
+/// Classe Mock per simulare il comportamento dell'implementazione del servizio di reintegrazione.
 class MockReintegrazioneServiceImp extends Mock
     implements ReintegrazioneServiceImpl {}
 
+/// Classe Mock per simulare il comportamento del DAO di Corso di Formazione.
 class MockCorsoDiFormazione extends Mock implements CorsoDiFormazioneDAOImpl {}
 
+/// Valida il nome del corso di formazione.
 bool validateNomeCorso(String nome) {
   if (nome.length >= 50)
     return false;
@@ -16,16 +19,19 @@ bool validateNomeCorso(String nome) {
     return true;
 }
 
+/// Valida il nome del responsabile del corso di formazione.
 bool validateNome(String nome) {
   RegExp regex = RegExp(r'^[A-z À-ù‘-]{2,20}$');
   return regex.hasMatch(nome);
 }
 
+/// Valida il cognome del responsabile del corso di formazione.
 bool validateCognome(String cognome) {
   RegExp regex = RegExp(r'^[A-z À-ù‘-]{2,20}$');
   return regex.hasMatch(cognome);
 }
 
+/// Valida la descrizione del corso di formazione.
 bool validateDescrizione(String descrizione) {
   if (descrizione.length >= 200)
     return false;
@@ -33,32 +39,38 @@ bool validateDescrizione(String descrizione) {
     return true;
 }
 
+/// Valida la via del responsabile del corso di formazione.
 bool validateVia(String via) {
   RegExp regex = RegExp(r'^[0-9A-z À-ù‘-]{2,30}$');
   return regex.hasMatch(via);
 }
 
+/// Valida l'email del responsabile del corso di formazione.
 bool validateEmail(String email) {
   RegExp regex = RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$');
   return regex.hasMatch(email);
 }
 
+/// Valida la città del responsabile del corso di formazione.
 bool validateCitta(String citta) {
   RegExp regex = RegExp(r'^[A-z À-ù‘-]{2,50}$');
   return regex.hasMatch(citta);
 }
 
+/// Valida la provincia del responsabile del corso di formazione.
 bool validateProvincia(String provincia) {
   RegExp regex = RegExp(r'^[A-Z]{2}');
   if (provincia.length > 2) return false;
   return regex.hasMatch(provincia);
 }
 
+/// Valida il telefono del responsabile del corso di formazione.
 bool validateTelefono(String telefono) {
   RegExp regex = RegExp(r'^\+\d{10,13}$');
   return regex.hasMatch(telefono);
 }
 
+/// Valida l'immagine del corso di formazione.
 bool validateImmagine(String immagine) {
   RegExp regex = RegExp(r'^.+\.jpe?g$');
   return regex.hasMatch(immagine);
@@ -67,11 +79,16 @@ bool validateImmagine(String immagine) {
 void main() {
   late ReintegrazioneServiceImpl service;
 
+  /// Inizializza il servizio reintegrazione prima di ogni test.
   setUp(() {
     service = ReintegrazioneServiceImpl();
   });
 
+  /// Raggruppamento di test per la validazione dell'aggiunta di un corso di formazione.
   group('Test Aggiunta Corso di formazione', () {
+    /// I test seguono il pattern: verifica la validazione dei vari campi del corso di formazione e
+    /// si aspetta un risultato specifico basato sulla validità dei dati inseriti.
+    /// Ogni test è commentato per chiarire il suo scopo e l'aspettativa del risultato.
     test(
         'Aggiunta del corso di formazione non va a buon fine, lunghezza nome corso errata',
         () async {

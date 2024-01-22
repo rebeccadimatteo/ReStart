@@ -1026,7 +1026,6 @@ class _DetailsEventoAdsState extends State<DetailsEventoR> {
                       style: const TextStyle(
                         fontSize: 15,
                         fontFamily: 'Poppins',
-                        fontWeight: FontWeight.bold,
                       ),
                     ),
                     const SizedBox(height: 20),
@@ -1043,7 +1042,6 @@ class _DetailsEventoAdsState extends State<DetailsEventoR> {
                       style: const TextStyle(
                         fontSize: 15,
                         fontFamily: 'Poppins',
-                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ],

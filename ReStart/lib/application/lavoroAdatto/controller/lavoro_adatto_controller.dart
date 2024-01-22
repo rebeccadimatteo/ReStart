@@ -34,7 +34,6 @@ class LavoroAdattoController {
       final Map<String, dynamic> params = jsonDecode(requestBody);
       int id = params['id'];
       Map<String, dynamic> data = params['form'];
-
       String lavoroAdatto = await _service.lavoroAdatto(data, id);
       if (lavoroAdatto != '') {
         final responseBody = jsonEncode({'result': lavoroAdatto});

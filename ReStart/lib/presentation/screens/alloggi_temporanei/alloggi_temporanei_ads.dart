@@ -319,7 +319,6 @@ class _DetailsAlloggioAdsState extends State<DetailsAlloggioAds> {
                   alloggio.email,
                   style: const TextStyle(
                     fontFamily: 'Poppins',
-                    fontWeight: FontWeight.bold,
                     fontSize: 15,
                   ),
                 ),
@@ -327,7 +326,6 @@ class _DetailsAlloggioAdsState extends State<DetailsAlloggioAds> {
                   alloggio.sito,
                   style: const TextStyle(
                     fontFamily: 'Poppins',
-                    fontWeight: FontWeight.bold,
                     fontSize: 16,
                   ),
                 ),

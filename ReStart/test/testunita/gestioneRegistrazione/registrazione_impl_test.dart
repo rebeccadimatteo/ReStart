@@ -5,85 +5,103 @@ import 'package:restart/application/gestioneRegistrazione/service/registrazione_
 import 'package:restart/model/dao/autenticazione/utente/utente_DAO.dart';
 import 'package:restart/model/entity/utente_DTO.dart';
 
+/// Classe Mock per simulare il comportamento dell'implementazione del servizio di registrazione.
 class MockRegistrazioneServiceImpl extends Mock
     implements RegistrazioneServiceImpl {}
 
+/// Classe Mock per simulare il comportamento del DAO dell'utente.
 class MockUtenteDAO extends Mock implements UtenteDAO {}
 
+/// Validazione del codice fiscale.
 bool validateCodiceFiscale(String codiceFiscale) {
   RegExp regex = RegExp(r'^[A-Z]{6}\d{2}[A-Z]\d{2}[A-Z]\d{3}[A-Z]$');
   return regex.hasMatch(codiceFiscale);
 }
 
+/// Validazione dell'email.
 bool validateEmail(String email) {
   RegExp regex = RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$');
   return regex.hasMatch(email);
 }
 
+/// Validazione dell'username.
 bool validateUsername(String username) {
   RegExp regex = RegExp(r'^[a-zA-Z0-9_.@]{3,15}$');
   return regex.hasMatch(username);
 }
 
+/// Validazione della via.
 bool validateVia(String via) {
   RegExp regex = RegExp(r'^[0-9A-z À-ù‘-]{2,30}$');
   return regex.hasMatch(via);
 }
 
+/// Validazione della città.
 bool validateCitta(String citta) {
   RegExp regex = RegExp(r'^[A-z À-ù‘-]{2,50}$');
   return regex.hasMatch(citta);
 }
 
+/// Validazione della provincia.
 bool validateProvincia(String provincia) {
   RegExp regex = RegExp(r'^[A-Z]{2}');
   if (provincia.length > 2) return false;
   return regex.hasMatch(provincia);
 }
 
+/// Validazione del numero di telefono.
 bool validateTelefono(String telefono) {
   RegExp regex = RegExp(r'^\+\d{10,13}$');
   return regex.hasMatch(telefono);
 }
 
+/// Validazione dell'immagine.
 bool validateImmagine(String immagine) {
   RegExp regex = RegExp(r'^.+\.jpe?g$');
   return regex.hasMatch(immagine);
 }
 
+/// Validazione del nome.
 bool validateNome(String nome) {
   RegExp regex = RegExp(r'^[A-z À-ù‘-]{2,20}$');
   return regex.hasMatch(nome);
 }
 
+/// Validazione del cognome.
 bool validateCognome(String cognome) {
   RegExp regex = RegExp(r'^[A-z À-ù‘-]{2,20}$');
   return regex.hasMatch(cognome);
 }
 
+/// Validazione della password.
 bool validatePassword(String password) {
   return password.length <= 15 && password.length >= 3;
 }
 
+/// Validazione del luogo di nascita.
 bool validateLuogoNascita(String luogo_nascita) {
   RegExp regex = RegExp(r'^[0-9A-z À-ù‘-]{3,20}$');
   return regex.hasMatch(luogo_nascita);
 }
 
+/// Validazione della data di nascita.
 bool validateData(DateTime data) {
   String dataString = DateFormat('yyyy-MM-dd').format(data);
   RegExp regex = RegExp(r'^\d{4}-\d{2}-\d{2}$');
   return regex.hasMatch(dataString);
 }
 
+/// Test per la validazione della registrazione.
 void main() {
   late RegistrazioneServiceImpl service;
 
+  ///setUp viene eseguito prima di ogni test.
   setUp(() {
     service = RegistrazioneServiceImpl();
   });
-
   group('Test Registrazione', () {
+    ///tuttii test vengono eseguiti in ordine. e verificano che la registrazione non vada a buon fine perche' i dati inseriti non sono corretti.
+    /// Se la registrazione va a buon fine il test fallisce. l'ultimo test verifica che la registrazione vada a buon fine.
     test(
         'La Registrazione non va a buon fine perchè il formato del nome è errato',
         () async {

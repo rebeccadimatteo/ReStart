@@ -323,7 +323,7 @@ class _DetailsEventoAdsState extends State<DetailsEventoAds> {
                           style: const TextStyle(
                               fontSize: 15,
                               fontFamily: 'Poppins',
-                              fontWeight: FontWeight.bold),
+                          ),
                         ),
                         const SizedBox(height: 20),
                         const Text(
@@ -337,8 +337,7 @@ class _DetailsEventoAdsState extends State<DetailsEventoAds> {
                           data,
                           style: const TextStyle(
                               fontSize: 15,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.bold),
+                              fontFamily: 'Poppins',),
                         ),
                       ],
                     ),

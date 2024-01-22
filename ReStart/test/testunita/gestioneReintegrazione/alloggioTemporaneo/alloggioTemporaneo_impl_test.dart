@@ -4,9 +4,11 @@ import 'package:restart/model/entity/alloggio_temporaneo_DTO.dart';
 import 'package:restart/application/gestioneReintegrazione/service/reintegrazione/reintegrazione_service_impl.dart';
 import 'package:restart/model/dao/alloggio_temporaneo/alloggio_temporaneo_DAO_impl.dart';
 
+///Test per la classe AlloggioTemporaneoServiceImpl
 class MockReintegrazioneServiceImpl extends Mock
     implements AlloggioTemporaneoDAOImpl {}
 
+///validazione nome
 bool validateNome(String nome) {
   if (nome.length >= 30)
     return false;
@@ -14,6 +16,7 @@ bool validateNome(String nome) {
     return true;
 }
 
+///validazione descrizione
 bool validateDescrizione(String descirzione) {
   if (descirzione.length >= 200)
     return false;
@@ -21,6 +24,7 @@ bool validateDescrizione(String descirzione) {
     return true;
 }
 
+///validazione tipo
 bool validateTipo(String tipo) {
   if (tipo.length >= 40)
     return false;
@@ -28,27 +32,32 @@ bool validateTipo(String tipo) {
     return true;
 }
 
+///validazione citta
 bool validateCItta(String citta) {
   RegExp regex = RegExp(r'^[A-z À-ù‘-]{2,50}$');
   return regex.hasMatch(citta);
 }
 
+///validazione provincia
 bool validateProvincia(String provincia) {
   RegExp regex = RegExp(r'^[A-Z]{2}');
   if (provincia.length > 2) return false;
   return regex.hasMatch(provincia);
 }
 
+///validazione via
 bool validateVia(String via) {
   RegExp regex = RegExp(r'^[0-9A-z À-ù‘-]{2,30}$');
   return regex.hasMatch(via);
 }
 
+///validazione email
 bool validateEmail(String email) {
   RegExp regex = RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$');
   return regex.hasMatch(email);
 }
 
+///validazione sito
 bool validateSito(String sito) {
   RegExp regex = RegExp(r'^(?:(?:https?|ftp):\/\/)?' // Protocollo (opzionale)
       r'(?:www\.)?' // Prefisso "www" (opzionale)
@@ -58,18 +67,24 @@ bool validateSito(String sito) {
   return regex.hasMatch(sito);
 }
 
+///validazione immagine
 bool validateImmagine(String immagine) {
   RegExp regex = RegExp(r'^.+\.jpe?g$');
   return regex.hasMatch(immagine);
 }
 
+///Test per la classe AlloggioTemporaneoServiceImpl
 void main() {
   late ReintegrazioneServiceImpl service;
+
+  ///setup del test per la classe AlloggioTemporaneoServiceImpl
   setUp(() {
     service = ReintegrazioneServiceImpl();
   });
 
   group('Test aggiunta alloggio temporaneo', () {
+    ///verifica che l'aggiunta dell'alloggio temporaneo non vada a buon fine se i dati sono errati.
+    ///l'ultimo test verifica che l'aggiunta vada a buon fine se i dati sono corretti.
     test(
         'aggiunta dell alloggio temporaneo non va a buon fine,lunghezza nome errata',
         () async {
@@ -469,9 +484,7 @@ void main() {
             'Aggiunta alloggio temporaneo non avvenuta :TEST SUPERATO TC_6.1_9');
       }
     });
-    test(
-        'aggiunta dell alloggio temporaneo va a buon fine',
-        () async {
+    test('aggiunta dell alloggio temporaneo va a buon fine', () async {
       dynamic result;
       AlloggioTemporaneoDTO at = AlloggioTemporaneoDTO(
         nome: 'Casa Valeria',
