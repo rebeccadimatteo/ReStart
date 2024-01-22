@@ -22,7 +22,6 @@ migrate_working_dir/
 #.vscode/
 
 # Flutter/Dart/Pub related
-**/doc/api/
 **/ios/Flutter/.last_build_id
 .dart_tool/
 .fvm/flutter_sdk
@@ -97,7 +96,7 @@ pubspec.lock
 
 # Directory created by dartdoc
 # If you don't generate documentation locally you can remove this line.
-doc/api/
+dart_doc/api/
 
 # Symbolication related
 app.*.symbols
