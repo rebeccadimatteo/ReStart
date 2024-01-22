@@ -26,8 +26,8 @@ Progetto realizzato per i corsi di Gestione dei Progetti Software e Ingegneria d
 - IOS SDK
 - Android SDK v.21
 - [PostgreSQL](https://www.postgresql.org/docs/)
-- Python
-- Flask
+- [Python] (https://www.python.org/downloads/)
+- Flask (https://flask.palletsprojects.com/en/3.0.x/installation/#install-flask)
 
 ## Installazione consigliata
 
