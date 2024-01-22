@@ -119,12 +119,12 @@ CREATE TABLE public."Candidatura"
         REFERENCES public.utente (id) MATCH SIMPLE
         ON UPDATE CASCADE
         ON DELETE CASCADE
-        NOT VALID,
+        DEFERRABLE INITIALLY IMMEDIATE,
     CONSTRAINT id_annuncio FOREIGN KEY (id_annuncio)
         REFERENCES public."AnnuncioDiLavoro" (id) MATCH SIMPLE
         ON UPDATE CASCADE
         ON DELETE CASCADE
-        NOT VALID
+        DEFERRABLE INITIALLY IMMEDIATE
 );
 
 ALTER TABLE IF EXISTS public."Candidatura"
@@ -145,32 +145,32 @@ CREATE TABLE public."Immagine"
         REFERENCES public.utente (id) MATCH SIMPLE
         ON UPDATE CASCADE
         ON DELETE CASCADE
-        NOT VALID,
+        DEFERRABLE INITIALLY IMMEDIATE,
     FOREIGN KEY (id_evento)
         REFERENCES public."Evento" (id) MATCH SIMPLE
         ON UPDATE CASCADE
         ON DELETE CASCADE
-        NOT VALID,
+        DEFERRABLE INITIALLY IMMEDIATE,
     FOREIGN KEY (id_annuncio)
         REFERENCES public."AnnuncioDiLavoro" (id) MATCH SIMPLE
         ON UPDATE CASCADE
         ON DELETE CASCADE
-        NOT VALID,
+        DEFERRABLE INITIALLY IMMEDIATE,
     FOREIGN KEY (id_supporto)
         REFERENCES public."SupportoMedico" (id) MATCH SIMPLE
         ON UPDATE CASCADE
         ON DELETE CASCADE
-        NOT VALID,
+        DEFERRABLE INITIALLY IMMEDIATE,
     FOREIGN KEY (id_alloggio)
         REFERENCES public."AlloggioTemporaneo" (id) MATCH SIMPLE
         ON UPDATE CASCADE
         ON DELETE CASCADE
-        NOT VALID,
+        DEFERRABLE INITIALLY IMMEDIATE,
     FOREIGN KEY (id_corso)
         REFERENCES public."CorsoDiFormazione" (id) MATCH SIMPLE
         ON UPDATE CASCADE
         ON DELETE CASCADE
-        NOT VALID
+        DEFERRABLE INITIALLY IMMEDIATE
 );
 
 ALTER TABLE IF EXISTS public."Immagine"
@@ -194,42 +194,42 @@ CREATE TABLE public."Contatti"
         REFERENCES public.utente (id) MATCH SIMPLE
         ON UPDATE CASCADE
         ON DELETE CASCADE
-        NOT VALID,
+        DEFERRABLE INITIALLY IMMEDIATE,
     FOREIGN KEY (id_ca)
         REFERENCES public."CA" (id) MATCH SIMPLE
         ON UPDATE CASCADE
         ON DELETE CASCADE
-        NOT VALID,
+        DEFERRABLE INITIALLY IMMEDIATE,
     FOREIGN KEY (id_ca)
         REFERENCES public."CA" (id) MATCH SIMPLE
         ON UPDATE CASCADE
         ON DELETE CASCADE
-        NOT VALID,
+        DEFERRABLE INITIALLY IMMEDIATE,
     FOREIGN KEY (id_ads)
         REFERENCES public."ADS" (id) MATCH SIMPLE
         ON UPDATE CASCADE
         ON DELETE CASCADE
-        NOT VALID,
+        DEFERRABLE INITIALLY IMMEDIATE,
     FOREIGN KEY (id_evento)
         REFERENCES public."Evento" (id) MATCH SIMPLE
         ON UPDATE CASCADE
         ON DELETE CASCADE
-        NOT VALID,
+        DEFERRABLE INITIALLY IMMEDIATE,
     FOREIGN KEY (id_annuncio)
         REFERENCES public."AnnuncioDiLavoro" (id) MATCH SIMPLE
         ON UPDATE CASCADE
         ON DELETE CASCADE
-        NOT VALID,
+        DEFERRABLE INITIALLY IMMEDIATE,
     FOREIGN KEY (id_supporto)
         REFERENCES public."SupportoMedico" (id) MATCH SIMPLE
         ON UPDATE CASCADE
         ON DELETE CASCADE
-        NOT VALID,
+        DEFERRABLE INITIALLY IMMEDIATE,
     FOREIGN KEY (id_alloggio)
         REFERENCES public."AlloggioTemporaneo" (id) MATCH SIMPLE
         ON UPDATE CASCADE
         ON DELETE CASCADE
-        NOT VALID
+        DEFERRABLE INITIALLY IMMEDIATE
 );
 
 ALTER TABLE IF EXISTS public."Contatti"
@@ -253,37 +253,37 @@ CREATE TABLE public."Indirizzo"
         REFERENCES public.utente (id) MATCH SIMPLE
         ON UPDATE CASCADE
         ON DELETE CASCADE
-        NOT VALID,
+        DEFERRABLE INITIALLY IMMEDIATE,
     CONSTRAINT fk_ca FOREIGN KEY (id_ca)
         REFERENCES public."CA" (id) MATCH SIMPLE
         ON UPDATE CASCADE
         ON DELETE CASCADE
-        NOT VALID,
+        DEFERRABLE INITIALLY IMMEDIATE,
     CONSTRAINT fk_ads FOREIGN KEY (id_ads)
         REFERENCES public."ADS" (id) MATCH SIMPLE
         ON UPDATE CASCADE
         ON DELETE CASCADE
-        NOT VALID,
+        DEFERRABLE INITIALLY IMMEDIATE,
     CONSTRAINT fk_evento FOREIGN KEY (id_evento)
         REFERENCES public."Evento" (id) MATCH SIMPLE
         ON UPDATE CASCADE
         ON DELETE CASCADE
-        NOT VALID,
+        DEFERRABLE INITIALLY IMMEDIATE,
     CONSTRAINT fk_annuncio FOREIGN KEY (id_annuncio)
         REFERENCES public."AnnuncioDiLavoro" (id) MATCH SIMPLE
         ON UPDATE CASCADE
         ON DELETE CASCADE
-        NOT VALID,
+        DEFERRABLE INITIALLY IMMEDIATE,
     CONSTRAINT fk_supporto FOREIGN KEY (id_supporto)
         REFERENCES public."SupportoMedico" (id) MATCH SIMPLE
         ON UPDATE CASCADE
         ON DELETE CASCADE
-        NOT VALID,
+        DEFERRABLE INITIALLY IMMEDIATE,
     CONSTRAINT fk_alloggio FOREIGN KEY (id_alloggio)
         REFERENCES public."AlloggioTemporaneo" (id) MATCH SIMPLE
         ON UPDATE CASCADE
         ON DELETE CASCADE
-        NOT VALID
+        DEFERRABLE INITIALLY IMMEDIATE
 );
 
 ALTER TABLE IF EXISTS public."Indirizzo"
@@ -431,26 +431,26 @@ ALTER TABLE IF EXISTS public."Evento"
     ADD COLUMN id_ca integer;
 ALTER TABLE IF EXISTS public."Evento"
     ADD FOREIGN KEY (id_ca)
-    REFERENCES public."CA" (id) MATCH SIMPLE
-    ON UPDATE CASCADE
-    ON DELETE CASCADE
-    NOT VALID;
+        REFERENCES public."CA" (id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+        NOT VALID;
 ALTER TABLE IF EXISTS public."AnnuncioDiLavoro"
     ADD COLUMN id_ca integer;
 ALTER TABLE IF EXISTS public."AnnuncioDiLavoro"
     ADD FOREIGN KEY (id_ca)
-    REFERENCES public."CA" (id) MATCH SIMPLE
-    ON UPDATE CASCADE
-    ON DELETE CASCADE
-    NOT VALID; 
-ALTER TABLE public."Evento"     
-ALTER COLUMN data TYPE timestamp without time zone ;
+        REFERENCES public."CA" (id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+        NOT VALID;
+ALTER TABLE public."Evento"
+    ALTER COLUMN data TYPE timestamp without time zone ;
 
 ALTER TABLE IF EXISTS public."Indirizzo"
     ADD COLUMN id_corso integer;
 ALTER TABLE IF EXISTS public."Indirizzo"
     ADD CONSTRAINT fk_corso FOREIGN KEY (id_corso)
-    REFERENCES public."CorsoDiFormazione" (id) MATCH SIMPLE
-    ON UPDATE CASCADE
-    ON DELETE CASCADE
-    NOT VALID;
+        REFERENCES public."CorsoDiFormazione" (id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+        NOT VALID;
