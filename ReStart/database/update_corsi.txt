@@ -1,0 +1,27 @@
+UPDATE public."CorsoDiFormazione"  
+SET descrizione='Impara a programmare in Python dal livello base a quello avanzato. Un corso completo che copre tutti gli aspetti del linguaggio, dalla sintassi alle funzioni avanzate, con esempi pratici e progetti reali.' WHERE id=1
+
+UPDATE public."CorsoDiFormazione"  
+SET descrizione='Strategie e tecniche avanzate di marketing online per promuovere efficacemente il tuo business. 
+Scopri come utilizzare SEO, social media, email marketing e molto altro per raggiungere e coinvolgere il tuo pubblico.' 
+WHERE id=2;
+
+UPDATE public."CorsoDiFormazione"  
+SET descrizione='Sviluppa le tue abilità fotografiche con questo corso avanzato. Impara tecniche di composizione, illuminazione e post-produzione per catturare immagini mozzafiato e migliorare il tuo portfolio fotografico.' 
+WHERE id=3;
+
+UPDATE public."CorsoDiFormazione"  
+SET descrizione='Impara la lingua spagnola con lezioni interattive e coinvolgenti. Questo corso ti aiuterà a sviluppare competenze linguistiche avanzate, comprendendo grammatica, conversazione e comprensione culturale.' 
+WHERE id=4;
+
+UPDATE public."CorsoDiFormazione"  
+SET descrizione='Apprendi le competenze necessarie per diventare uno sviluppatore web full-stack. Dal front-end al back-end, questo corso copre HTML, CSS, JavaScript, React, Node.js e altro, con progetti pratici per costruire il tuo portfolio.' 
+WHERE id=5;
+
+UPDATE public."CorsoDiFormazione"  
+SET descrizione='Sviluppa abilità di leadership e gestione aziendale. Questo corso ti insegna a guidare efficacemente un team, gestire progetti, prendere decisioni strategiche e migliorare la tua capacità di comunicazione e negoziazione.' 
+WHERE id=6;
+
+UPDATE public."CorsoDiFormazione"  
+SET descrizione='Scopri i segreti della cucina italiana con questo corso interattivo. Apprendi ricette tradizionali, tecniche di cucina e presentazione dei piatti, e diventa un esperto della gastronomia italiana.' 
+WHERE id=7;

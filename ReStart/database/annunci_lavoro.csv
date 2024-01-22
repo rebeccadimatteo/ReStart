@@ -1,0 +1,10 @@
+1,Operaio di Magazzino,"Carico e scarico merci, gestione inventario. Nessuna esperienza richiesta. Lavoro dal lunedì al venerdì, 6 ore al giorno.",true,3
+2,Addetto alle Pulizie,"Pulizia e manutenzione di uffici e spazi comuni. Richiesta affidabilità. Orario part-time, 5 ore al giorno, dal lunedì al venerdì.",true,2
+3,Giardiniere,"Manutenzione del verde, potatura e irrigazione. Formazione sul posto. Orario flessibile, 4 ore al giorno, da lunedì a venerdì.",true,1
+4,Lavapiatti,"Lavaggio stoviglie e supporto in cucina. Richiesta resistenza allo stress. 6 ore al giorno, weekend inclusi.",true,1
+5,Manutentore,"Piccole riparazioni e manutenzioni. Richiesta manualità. Lavoro dal lunedì al venerdì, 5 ore al giorno.",true,1
+6,Autista,"Trasporto merci e persone, patente B richiesta. Lavoro 6 ore al giorno, dal lunedì al venerdì.",true,3
+7,Operaio di Produzione,"Lavoro in linea di produzione, assemblaggio e imballaggio. Nessuna esperienza richiesta. Turni di 6 ore, 5 giorni a settimana.",false,1
+8,Facchino,"Trasporto bagagli e merci, richiesta buona forma fisica. 5 ore al giorno, da lunedì a venerdì.",true,2
+9,Custode,"Sorveglianza e manutenzione di proprietà, richiesta discrezione. Lavoro part-time, 4 ore al giorno, tutti i giorni.",false,2
+10,Addetto alla Consegna,"Consegna di pacchi e corrispondenza, patente B richiesta. Orario flessibile, 5 ore al giorno, 6 giorni a settimana.",false,1
