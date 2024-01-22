@@ -169,7 +169,7 @@ class _InserisciAlloggioState extends State<InserisciAlloggio> {
 
       final imageResponse = await imageRequest.send();
       if (imageResponse.statusCode == 200) {
-        Navigator.pushNamed(context, AppRoutes.homeCA);
+        Navigator.pushNamed(context, AppRoutes.homeADS);
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text(
@@ -200,7 +200,7 @@ class _InserisciAlloggioState extends State<InserisciAlloggio> {
         );
       }
     } else if (response.statusCode == 200) {
-      Navigator.pushNamed(context, AppRoutes.homeCA);
+      Navigator.pushNamed(context, AppRoutes.homeADS);
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text(

@@ -203,7 +203,7 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
         );
       }
     } else if (response.statusCode == 200) {
-      Navigator.pushNamed(context, AppRoutes.homeCA);
+      Navigator.pushNamed(context, AppRoutes.homeADS);
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text(
