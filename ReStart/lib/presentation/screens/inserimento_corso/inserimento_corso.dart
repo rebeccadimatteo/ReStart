@@ -120,7 +120,7 @@ class _InserisciCorsoState extends State<InserisciCorso> {
       String cognomeResponsabile = cognomeResponsabileController.text;
       String descrizione = descrizioneController.text;
       String urlCorso = urlCorsoController.text;
-      String imagePath = 'images/image_$nomeCorso.jpg';
+      String imagePath = 'images/corsodiformazione11.jpg';
 
       CorsoDiFormazioneDTO corso = CorsoDiFormazioneDTO(
         nomeCorso: nomeCorso,

@@ -162,7 +162,7 @@ class _SignUpState extends State<SignUpPage> {
       String via = viaController.text;
       String citta = cittaController.text;
       String provincia = provinciaController.text;
-      String imagePath = 'images/image_$username.jpg';
+      String imagePath = 'images/utente6.jpg';
 
       UtenteDTO utente = UtenteDTO(
         email: email,
@@ -203,11 +203,14 @@ class _SignUpState extends State<SignUpPage> {
 
       final imageResponse = await imageRequest.send();
       if (imageResponse.statusCode == 200) {
+        Navigator.pushNamed(context, AppRoutes.login);
         print("Immagine caricata con successo.");
       } else {
         print(
             "Errore durante l'upload dell'immagine: ${imageResponse.statusCode}");
       }
+    } else if (response.statusCode == 200) {
+      Navigator.pushNamed(context, AppRoutes.login);
     }
   }
 
@@ -902,7 +905,6 @@ class _SignUpState extends State<SignUpPage> {
                   key: const Key('signUpButton'),
                   onPressed: () {
                     submitForm();
-                    Navigator.pushNamed(context, AppRoutes.login);
                   },
                   child: const Text(
                     'REGISTRATI',

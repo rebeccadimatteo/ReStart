@@ -132,7 +132,7 @@ class _InserisciSupportoState extends State<InserisciSupporto> {
       String citta = cittaController.text;
       String via = viaController.text;
       String provincia = provinciaController.text;
-      String imagePath = 'images/image_$nomeMedico.jpg';
+      String imagePath = 'images/supportomedico11.jpg';
 
       SupportoMedicoDTO supporto = SupportoMedicoDTO(
           immagine: imagePath,

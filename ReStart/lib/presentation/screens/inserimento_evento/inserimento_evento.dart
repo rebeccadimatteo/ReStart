@@ -150,7 +150,7 @@ class _InserisciEventoState extends State<InserisciEvento> {
       String via = viaController.text;
       String provincia = provinciaController.text;
       String email = emailController.text;
-      String imagePath = 'images/image_$nome.jpg';
+      String imagePath = 'images/corsodiformazione11.jpg';
 
       EventoDTO evento = EventoDTO(
           nomeEvento: nome,

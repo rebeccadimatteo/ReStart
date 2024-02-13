@@ -129,7 +129,7 @@ class _InserisciAlloggioState extends State<InserisciAlloggio> {
       String provincia = provinciaController.text;
       String email = emailController.text;
       String sito = sitoController.text;
-      String imagePath = 'images/image_$nome.jpg';
+      String imagePath = 'images/alloggiotemporaneo11.jpg';
 
       AlloggioTemporaneoDTO alloggio = AlloggioTemporaneoDTO(
         nome: nome,

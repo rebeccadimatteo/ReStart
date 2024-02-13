@@ -8,6 +8,7 @@ import "../routes/routes.dart";
 void main() {
   runApp(MaterialApp(
     routes: AppRoutes.getRoutes(),
+    theme: ThemeData(scaffoldBackgroundColor: const Color(0xFFE0F7FA)), // Azzurro cielo chiaro
     initialRoute: AppRoutes.home,
   ));
 }

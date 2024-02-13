@@ -855,6 +855,7 @@ class _DetailsEventoAdsState extends State<DetailsEventoR> {
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseBody = jsonDecode(response.body);
       if (responseBody.containsKey('result')) {
+        Navigator.pushNamed(context, AppRoutes.homeADS);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
@@ -876,6 +877,7 @@ class _DetailsEventoAdsState extends State<DetailsEventoR> {
     } else {
       final Map<String, dynamic> responseBody = jsonDecode(response.body);
       if (responseBody.containsKey('result')) {
+        Navigator.pushNamed(context, AppRoutes.homeADS);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
@@ -906,6 +908,7 @@ class _DetailsEventoAdsState extends State<DetailsEventoR> {
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseBody = jsonDecode(response.body);
       if (responseBody.containsKey('result')) {
+        Navigator.pushNamed(context, AppRoutes.homeADS);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
@@ -927,6 +930,7 @@ class _DetailsEventoAdsState extends State<DetailsEventoR> {
     } else {
       final Map<String, dynamic> responseBody = jsonDecode(response.body);
       if (responseBody.containsKey('result')) {
+        Navigator.pushNamed(context, AppRoutes.homeADS);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(

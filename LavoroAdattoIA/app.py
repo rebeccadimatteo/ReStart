@@ -10,6 +10,7 @@ model = joblib.load('C:\\Users\\tulli\\IdeaProjects\\ReStart\\LavoroAdattoIA\\Mo
 label_encoder = joblib.load('C:\\Users\\tulli\\IdeaProjects\\ReStart\\LavoroAdattoIA\\Model\\label_encoder.joblib')
 model_columns = joblib.load('C:\\Users\\tulli\\IdeaProjects\\ReStart\\LavoroAdattoIA\\Model\\model_columns.joblib')
 
+
 @app.route('/predict', methods=['POST'])
 def predict():
     """
@@ -44,6 +45,7 @@ def predict():
 
     # Return the decoded job title
     return jsonify({'predicted_job_title': decoded_job_title[0]})
+
 
 # Run the Flask app
 if __name__ == '__main__':

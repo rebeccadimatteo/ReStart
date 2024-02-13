@@ -121,7 +121,7 @@ class _InserisciLavoroState extends State<InserisciLavoro> {
       String provincia = provinciaController.text;
       String email = emailController.text;
       String numTelefono = numTelefonoController.text;
-      String imagePath = 'images/image_$nome.jpg';
+      String imagePath = 'images/annunciodilavoro10.jpg';
 
       AnnuncioDiLavoroDTO annuncio = AnnuncioDiLavoroDTO(
         nomeLavoro: nome,
